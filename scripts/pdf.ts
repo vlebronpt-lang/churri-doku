@@ -112,6 +112,8 @@ async function main() {
   ].join('\n'));
   const zipBytes = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 6 } });
   writeFileSync(join(OUT, ZIP_ALL), zipBytes);
+  // Tamaños para mostrarlos en la página de descargas.
+  writeFileSync(join(OUT, 'tamanos.json'), JSON.stringify({ libro: bookBytes.length, zip: zipBytes.length }));
   console.log(`✔ libro (${(bookBytes.length / 1e6).toFixed(1)} MB) y zip (${(zipBytes.length / 1e6).toFixed(1)} MB)`);
 
   await browser.close();

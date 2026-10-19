@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { LEVELS, PUZZLES } from '../data/puzzles';
 import { BOOK_PDF, downloadName, PDF_KINDS, ZIP_ALL } from '../downloads';
 import { CaseCover } from './CaseCard';
@@ -5,7 +6,13 @@ import { Icon } from './Icon';
 
 const BASE = import.meta.env.BASE_URL;
 
+const mb = (n?: number) => (n ? ` · ${(n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 })} MB` : '');
+
 export function Downloads() {
+  const [sizes, setSizes] = useState<{ libro?: number; zip?: number }>({});
+  useEffect(() => {
+    fetch(`${BASE}downloads/tamanos.json`).then((r) => (r.ok ? r.json() : {})).then(setSizes).catch(() => {});
+  }, []);
   return (
     <div className="downloads">
       <section className="dl-hero">
@@ -20,11 +27,11 @@ export function Downloads() {
         <div className="dl-all">
           <a className="dl-big" href={`${BASE}downloads/${BOOK_PDF}`} download>
             <Icon name="book" size={30} />
-            <span><strong>Libro completo (PDF)</strong><span>Los {PUZZLES.length} casos con portada, reglas y soluciones al final.</span></span>
+            <span><strong>Libro completo (PDF)</strong><span>Los {PUZZLES.length} casos con portada, reglas y soluciones al final{mb(sizes.libro)}.</span></span>
           </a>
           <a className="dl-big" href={`${BASE}downloads/${ZIP_ALL}`} download>
             <Icon name="download" size={30} />
-            <span><strong>Todos los casos (ZIP)</strong><span>Los {PUZZLES.length * 3} PDF sueltos (color, B/N y solución), ordenados por nivel.</span></span>
+            <span><strong>Todos los casos (ZIP)</strong><span>Los {PUZZLES.length * 3} PDF sueltos (color, B/N y solución), ordenados por nivel{mb(sizes.zip)}.</span></span>
           </a>
         </div>
       </section>

@@ -349,7 +349,7 @@ kbd {
   position: absolute;
   left: -6%;
   right: -6%;
-  bottom: 30px;
+  bottom: 27%; /* cruza las fotos, no los nombres */
   transform: rotate(-4deg);
   background: repeating-linear-gradient(-45deg, var(--tape) 0 26px, #251a37 26px 30px, var(--tape) 30px 56px);
   border-block: 3px solid #251a37;
@@ -1045,7 +1045,10 @@ kbd {
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; gap: 10px; padding-top: 6px; }
-  .hero__art { height: 330px; order: -1; }
+  .hero__art { height: auto; aspect-ratio: 1.12; width: min(100%, 560px); margin: 0 auto; order: -1; }
+  .fan { padding-bottom: 34px; }
+  .fan__label { font-size: .8rem; bottom: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+  .hero__tape { bottom: 30%; font-size: .85rem; }
   .dossier__grid, .result__grid { grid-template-columns: 1fr; }
   .dossier__photo .polaroid { width: 150px; }
   .result__photo .polaroid { max-width: 200px; }
@@ -1115,7 +1118,7 @@ kbd {
 
 @media (max-width: 380px) {
   .suspect__photo { width: 72px; }
-  .hero__art { height: 280px; }
+  .fan__label { font-size: .7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
