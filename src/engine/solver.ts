@@ -137,11 +137,18 @@ export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_0
     }
     let best = -1;
     let bestC: number[] | null = null;
+    // Cada fila y cada columna libre necesita a alguien que aún pueda ocuparla.
+    const rc = new Uint8Array(s), cc = new Uint8Array(s);
     for (let k = 0; k < n; k++) {
       if (pos[k] >= 0) continue;
       const c = cands(k);
       if (c.length === 0) return false;
-      if (!bestC || c.length < bestC.length) { best = k; bestC = c; if (c.length === 1) break; }
+      for (const i of c) { rc[Math.floor(i / s)] = 1; cc[i % s] = 1; }
+      if (!bestC || c.length < bestC.length) { best = k; bestC = c; }
+    }
+    if (n === s) {
+      for (let r = 0; r < s; r++) if (!rowUsed[r] && !rc[r]) return false;
+      for (let c = 0; c < s; c++) if (!colUsed[c] && !cc[c]) return false;
     }
     for (const i of bestC!) {
       pos[best] = i;

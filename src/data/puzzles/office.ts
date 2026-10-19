@@ -61,12 +61,12 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "M": [5, 1], "D": [1, 4], "J": [2, 6], "P": [3, 3], "A": [0, 5], "K": [4, 2], "T": [6, 0] },
   clues: {
-    "M": [{"t":"offset","axis":"row","n":1,"dir":"S","of":"K"}],
-    "D": [{"t":"on","obj":"sillon"}],
-    "J": [{"t":"beside","obj":"mostrador"}],
-    "P": [{"t":"on","obj":"silla"}],
-    "A": [{"t":"offset","axis":"col","n":1,"dir":"W","of":"J"}],
-    "K": [{"t":"inRoom","room":"V"},{"t":"not","c":{"t":"beside","obj":"silla"}}],
+    "M": [{"t":"offset","axis":"col","n":3,"dir":"W","of":"D"}],
+    "D": [{"t":"sameRoom","of":"A"}],
+    "J": [{"t":"dir","dir":"NE","of":"P"}],
+    "P": [{"t":"onlyOn","obj":"silla"}],
+    "A": [{"t":"col","cols":[5]}],
+    "K": [{"t":"beside","obj":"escritorio"}],
   },
   // </gen>
   wantMurderer: 'M',

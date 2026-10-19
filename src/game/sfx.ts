@@ -75,5 +75,7 @@ export const sfx = {
   error() { tone(160, 0.22, { type: 'sawtooth', gain: 0.05, slide: 0.8 }); buzz([30, 40, 30]); },
   ring(k: number) { tone(523 * Math.pow(1.122, k), 0.16, { gain: 0.07, type: 'triangle' }); },
   stamp() { tone(90, 0.25, { slide: 0.5, gain: 0.3 }); noise(0.15, 0.12, 0, 300); buzz([20, 60, 40]); },
+  pickup() { tone(600, 0.06, { type: 'triangle', gain: 0.06, slide: 1.3 }); buzz(8); },
+  badge() { [880, 1175, 1568].forEach((f, i) => tone(f, 0.14, { gain: 0.06, delay: i * 0.07, type: 'triangle' })); buzz([10, 30, 10]); },
   win() { [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.25, { gain: 0.09, delay: i * 0.09, type: 'triangle' })); },
 };

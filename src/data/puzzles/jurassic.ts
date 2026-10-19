@@ -38,7 +38,7 @@ const puzzle: PuzzleInput = {
     s: 'silla',
     h: 'huevo',
     j: 'jaula',
-    a: { base: 'orbe', key: 'ambar', name: 'ámbar del mosquito', plural: 'ámbares del mosquito', unique: true, fem: false, tint: '#e39b2d' },
+    a: { base: 'orbe', key: 'ambar', name: 'ámbar del mosquito', plural: 'ámbares del mosquito', unique: true, fem: false, tint: '#e39b2d', icon: 'amber' },
     T: 'mesa',
     J: { base: 'coche', key: 'jeep', name: 'jeep', plural: 'jeeps', unique: true, fem: false, tint: '#4f8a3c' },
     v: 'valla',
@@ -57,12 +57,12 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "A": [4, 3], "E": [2, 2], "I": [5, 0], "H": [0, 1], "M": [1, 4], "D": [3, 5], "N": [6, 6] },
   clues: {
-    "A": [{"t":"aloneWith","of":"E"}],
-    "E": [{"t":"inRoom","room":"R"},{"t":"corner"}],
+    "A": [{"t":"beside","obj":"mesa"}],
+    "E": [{"t":"aloneWith","of":"A"}],
     "I": [{"t":"on","obj":"jeep"}],
-    "H": [{"t":"inRoom","room":"C"},{"t":"not","c":{"t":"beside","obj":"consola"}}],
-    "M": [{"t":"dir","dir":"W","of":"D"}],
-    "D": [{"t":"beside","obj":"arbusto"}],
+    "H": [{"t":"offset","axis":"row","n":3,"dir":"N","of":"D"}],
+    "M": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"E","cond":{"t":"beside","obj":"arbol"}}],
+    "D": [{"t":"dir","dir":"N","of":"A"}],
   },
   // </gen>
   wantMurderer: 'D',

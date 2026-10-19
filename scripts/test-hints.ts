@@ -21,7 +21,15 @@ async function main() {
     // Resolver solo con pistas partiendo de una casilla ocupada correcta: debe llegar al final.
     const board = { placed: {} as Record<number, string>, notes: {}, xs: {} as Record<number, 'm' | 'a'>, occ: { [right]: true } as Record<number, true> };
     let steps = 0, res = computeHint(p, board);
-    while (res.kind === 'step' && steps < 400) {
+    let reveals = 0;
+    while ((res.kind === 'step' || res.kind === 'reveal') && steps < 400) {
+      if (res.kind === 'reveal') {
+        reveals++;
+        board.placed[res.cell] = res.id;
+        steps++;
+        res = computeHint(p, board);
+        continue;
+      }
       const r = res;
       r.xCells.forEach((c) => { if (board.placed[c] === undefined) board.xs[c] = 'm'; });
       const target = r.d.place ? { id: p.cast[r.d.place.k].id, cell: r.d.place.i } : r.leadsTo;
@@ -36,6 +44,7 @@ async function main() {
     const pass = good.kind === 'step' && bad.kind === 'errors' && bad.wrongOcc.includes(wrong) && res.kind === 'solved';
     if (pass) ok++;
     else console.log('✘', id, good.kind, bad.kind, res.kind, steps);
+    if (reveals) console.log(`  · ${id}: ${reveals} veces hubo que revelar una posición`);
   }
   console.log(`${ok}/${ids.length} casos: pistas con casillas ocupadas correctas`);
 }

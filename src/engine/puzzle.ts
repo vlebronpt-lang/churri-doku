@@ -189,7 +189,7 @@ export function compilePuzzle(input: PuzzleInput, opts: { draft?: boolean } = {}
     return {
       id: input.id, num: input.num, level: input.level, franchise: input.franchise, title: input.title, size: s,
       rooms, roomByKey, cells, objects, cast: input.cast, victim, murderer: '', solution, story: input.story,
-      cover: input.cover, accent: input.accent,
+      cover: input.cover, accent: input.accent, art: input.art, meta: input.meta,
     };
   }
   const rowsUsed = new Set<number>();
@@ -230,6 +230,8 @@ export function compilePuzzle(input: PuzzleInput, opts: { draft?: boolean } = {}
     murderer: withVictim[0].id,
     solution,
     story: input.story,
+    art: input.art,
+    meta: input.meta,
     cover: input.cover,
     accent: input.accent,
   };

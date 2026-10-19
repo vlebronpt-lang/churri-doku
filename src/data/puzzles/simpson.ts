@@ -63,11 +63,11 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "H": [1, 1], "M": [2, 4], "B": [3, 2], "L": [0, 3], "G": [5, 5], "V": [4, 0] },
   clues: {
-    "H": [{"t":"on","obj":"alfombra"}],
-    "M": [{"t":"beside","obj":"jarron"}],
-    "B": [{"t":"row","rows":[3]}],
-    "L": [{"t":"inRoom","room":"D"},{"t":"not","c":{"t":"beside","obj":"planta"}}],
-    "G": [{"t":"dir","dir":"E","of":"M"}],
+    "H": [{"t":"dir","dir":"W","of":"G"}],
+    "M": [{"t":"beside","obj":"silla"}],
+    "B": [{"t":"on","obj":"silla"}],
+    "L": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"W","cond":{"t":"on","obj":"alfombra"}}],
+    "G": [{"t":"inRoom","room":"J"},{"t":"not","c":{"t":"beside","obj":"arbusto"}}],
   },
   // </gen>
   wantMurderer: 'G',

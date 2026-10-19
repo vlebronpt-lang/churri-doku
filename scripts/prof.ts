@@ -30,7 +30,7 @@ const p = compilePuzzle({ ...input, solution: Object.fromEntries(draft.cast.map(
 const facts = p.cast.map((ch, k) => ch.victim ? [] : factsFor(p, k, pos!));
 console.log('facts per char', facts.map(f => f.length).join(','));
 // todas las unarias más fuertes: elegir inRoom + algo
-let C: Clue[][] = p.cast.map((ch, k) => ch.victim ? [{ t: 'victim' } as Clue] : facts[k][Math.floor(rng() * facts[k].length)].clue);
+const C: Clue[][] = p.cast.map((ch, k) => ch.victim ? [{ t: 'victim' } as Clue] : facts[k][Math.floor(rng() * facts[k].length)].clue);
 let t0 = Date.now();
 let r = solve(p, 30, C, 400000);
 console.log('initial solve', r.count, r.nodes, r.aborted, Date.now() - t0, 'ms');

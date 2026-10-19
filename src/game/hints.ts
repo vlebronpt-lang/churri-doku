@@ -7,7 +7,9 @@ export type HintResult =
   | { kind: 'errors'; wrongPlaced: number[]; wrongX: number[]; wrongOcc: number[] }
   | { kind: 'step'; d: Deduction; /** Celdas que la deducción descarta para todos (aplicables como X). */ xCells: number[]; /** Colocación a la que lleva la cadena. */ leadsTo: { id: string; cell: number } | null }
   | { kind: 'solved' }
-  | { kind: 'stuck' };
+  | { kind: 'stuck' }
+  /** Sin un paso razonable desde aquí: se revela dónde estaba alguien. */
+  | { kind: 'reveal'; id: string; cell: number };
 
 /** Errores objetivos del tablero respecto a la solución. */
 export function findErrors(p: Puzzle, board: BoardState) {
@@ -61,10 +63,11 @@ export function computeHint(p: Puzzle, board: BoardState): HintResult {
   const st = stateFromBoard(p, board);
   if (st.placed.every((x) => x >= 0)) return { kind: 'solved' };
   if (contradiction(p, st)) return { kind: 'stuck' };
-  const d = nextDeduction(p, st, true);
-  if (!d) return { kind: 'stuck' };
-  // Casillas que quedan descartadas para todas las personas sin colocar.
   const free = p.cast.map((_, k) => k).filter((k) => st.placed[k] < 0);
+  // Si el paso no aparece con la búsqueda normal, se prueban todas las suposiciones posibles.
+  const d = nextDeduction(p, st, true) ?? nextDeduction(p, st, true, Infinity);
+  if (!d) return reveal(p, st, free);
+  // Casillas que quedan descartadas para todas las personas sin colocar.
   const byCell = new Map<number, Set<number>>();
   for (const [k, i] of d.elim) {
     if (!byCell.has(i)) byCell.set(i, new Set());
@@ -80,12 +83,25 @@ export function computeHint(p: Puzzle, board: BoardState): HintResult {
   if (!leadsTo) {
     const sim: LState = { cand: st.cand.map((a) => a.slice()), placed: st.placed.slice() };
     applyDeduction(p, sim, d);
-    for (let it = 0; it < 60 && !leadsTo; it++) {
-      const nd = nextDeduction(p, sim, true);
+    for (let it = 0; it < 400 && !leadsTo; it++) {
+      const nd = nextDeduction(p, sim, true) ?? nextDeduction(p, sim, true, Infinity);
       if (!nd) break;
       applyDeduction(p, sim, nd);
       if (nd.place) leadsTo = { id: p.cast[nd.place.k].id, cell: nd.place.i };
     }
   }
+  // Último recurso para que «Hazlo por mí» siempre avance: la persona con menos opciones, en su sitio.
+  if (!leadsTo) {
+    const r = reveal(p, st, free);
+    leadsTo = { id: r.id, cell: r.cell };
+  }
   return { kind: 'step', d, xCells, leadsTo };
+}
+
+/** La persona sin colocar con menos opciones, en su casilla de la solución. */
+function reveal(p: Puzzle, st: LState, free: number[]): { kind: 'reveal'; id: string; cell: number } {
+  const count = (k: number) => st.cand[k].reduce((a, v) => a + v, 0);
+  const k = free.slice().sort((a, b) => count(a) - count(b))[0];
+  const id = p.cast[k].id;
+  return { kind: 'reveal', id, cell: p.solution[id] };
 }

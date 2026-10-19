@@ -26,10 +26,18 @@ export interface CaseProgress {
   mistakes: number;
   solved: boolean;
   solvedAt?: number;
+  /** Primera vez que se resolvió (no cambia al volver a jugar): cuenta para las rachas. */
+  firstSolvedAt?: number;
   bestTime?: number;
   stars?: number;
   /** Reto recibido por enlace («X lo resolvió en 3:12»). */
   challenge?: Challenge;
+  /** Registro para mejorar los casos: cuándo se pidió cada pista y qué técnica explicaba. */
+  hintLog?: { t: number; tech: string; placed: number }[];
+  /** Segundo de juego de la primera colocación. */
+  firstMoveAt?: number;
+  /** Veces que se ha abierto el caso. */
+  visits?: number;
 }
 
 type Store = Record<string, CaseProgress>;
@@ -57,7 +65,7 @@ export function updateProgress(id: string, patch: Partial<CaseProgress> | ((p: C
 
 export function resetCase(id: string) {
   const cur = getProgress(id);
-  store = { ...store, [id]: { ...emptyProgress(), opened: true, bestTime: cur.bestTime, stars: cur.stars, challenge: cur.challenge, solved: false } };
+  store = { ...store, [id]: { ...emptyProgress(), opened: true, bestTime: cur.bestTime, stars: cur.stars, challenge: cur.challenge, firstSolvedAt: cur.firstSolvedAt, solved: false } };
   emit();
 }
 

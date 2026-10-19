@@ -84,15 +84,15 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "G": [7, 2], "A": [9, 1], "L": [6, 7], "Gi": [0, 9], "T": [5, 0], "M": [8, 8], "P": [1, 3], "B": [2, 4], "Gr": [4, 6], "S": [3, 5] },
   clues: {
-    "G": [{"t":"beside","obj":"arbusto"}],
+    "G": [{"t":"col","cols":[1,2]}],
     "A": [{"t":"inRoom","room":"J"},{"t":"not","c":{"t":"beside","obj":"arbusto"}}],
     "L": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"N","cond":{"t":"beside","obj":"estanteria"}}],
-    "Gi": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"W","cond":{"t":"on","obj":"caballo"}}],
-    "T": [{"t":"offset","axis":"col","n":2,"dir":"W","of":"G"}],
-    "M": [{"t":"dir","dir":"E","of":"L"}],
-    "P": [{"t":"beside","obj":"arbol"}],
-    "B": [{"t":"offset","axis":"row","n":3,"dir":"N","of":"T"}],
-    "Gr": [{"t":"diagonal","of":"A"}],
+    "Gi": [{"t":"inRoom","room":"F"}],
+    "T": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"beside","obj":"arbusto"}}],
+    "M": [{"t":"on","obj":"caballo"}],
+    "P": [{"t":"diagonal","of":"B"}],
+    "B": [{"t":"offset","axis":"col","n":2,"dir":"W","of":"Gr"}],
+    "Gr": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"L"}],
   },
   // </gen>
   wantMurderer: 'Gr',

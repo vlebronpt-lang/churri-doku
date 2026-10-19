@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 import App from './App';
 import { SettingsProvider } from './state/settings';
+import { setupPwa } from './state/install';
+
+setupPwa();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

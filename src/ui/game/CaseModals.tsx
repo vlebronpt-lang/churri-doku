@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import type { Puzzle } from '../../engine/types';
+import { resultText } from '../../game/result';
+import { shareOrCopy } from '../../share';
 import { displayName, withPrep } from '../../engine/text';
 import { levelInfo } from '../../data/puzzles';
 import type { CaseProgress } from '../../state/progress';
@@ -11,6 +14,9 @@ import { downloadName } from '../../downloads';
 import type { Challenge } from '../../share';
 import { ChallengeIntro, ChallengeResult } from '../ShareDialogs';
 import { ObjectLegend } from './ObjectLegend';
+import { caseTag } from '../../data/labels';
+import { getLesson } from '../../data/academy';
+import { longDate } from '../../data/daily';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -18,9 +24,11 @@ export function IntroModal({ p, challenge, onStart, onHelp }: { p: Puzzle; chall
   const lvl = levelInfo(p.level);
   const victim = p.cast.find((c) => c.victim)!;
   const suspects = p.cast.filter((c) => !c.victim);
+  const lesson = p.meta?.kind === 'lesson' ? getLesson(p.meta.lesson) : undefined;
+  const daily = p.meta?.kind === 'daily' ? p.meta : undefined;
   return (
     <Modal onClose={onStart} className="dossier" labelledBy="dossier-title">
-      <div className="dossier__tab">Expediente Nº {String(p.num).padStart(2, '0')}</div>
+      <div className="dossier__tab">{p.meta ? caseTag(p) : `Expediente ${caseTag(p)}`}</div>
       <div className="dossier__grid">
         <div className="dossier__photo">
           <div className="polaroid polaroid--tilt">
@@ -30,9 +38,21 @@ export function IntroModal({ p, challenge, onStart, onHelp }: { p: Puzzle; chall
           <span className="tag tag--victim">Víctima</span>
         </div>
         <div className="dossier__text">
-          <p className="eyebrow"><span className="lvl-chip" style={{ background: lvl.color }}>{lvl.name}</span> {p.franchise} · {p.size}×{p.size}</p>
-          <h2 id="dossier-title" className="dossier__title">{p.title}</h2>
-          <p className="typewriter">{p.story.intro}</p>
+          {lesson ? (
+            <>
+              <p className="eyebrow">Lección · {lesson.skill}</p>
+              <h2 id="dossier-title" className="dossier__title">{lesson.title}</h2>
+              {lesson.explain.map((t, k) => <p key={k} className="lesson-explain">{t}</p>)}
+              <p className="typewriter">{p.story.intro}</p>
+            </>
+          ) : (
+            <>
+              <p className="eyebrow"><span className="lvl-chip" style={{ background: lvl.color }}>{lvl.name}</span> {daily ? `Caso del día · ${longDate(daily.date)} · ` : ''}{p.franchise} · {p.size}×{p.size}</p>
+              <h2 id="dossier-title" className="dossier__title">{p.title}</h2>
+              <p className="typewriter">{p.story.intro}</p>
+              {daily && <p className="daily-note">Mismo plano que el caso «{p.title}»{daily.mirror ? ', pero en espejo' : ''}. Hoy la colocación y las pistas son otras: el culpable puede ser cualquiera.</p>}
+            </>
+          )}
           <p className="dossier__suspects"><strong>Sospechosos:</strong> {suspects.map((c) => withPrep('', c)).join(', ')}.</p>
           {challenge && <ChallengeIntro challenge={challenge} />}
         </div>
@@ -42,7 +62,7 @@ export function IntroModal({ p, challenge, onStart, onHelp }: { p: Puzzle; chall
         <ObjectLegend p={p} compact />
       </section>
       <div className="row gap wrap dossier__actions">
-        <button className="btn btn--primary btn--lg" onClick={onStart}><Icon name="search" size={20} /> Abrir el caso</button>
+        <button className="btn btn--primary btn--lg" onClick={onStart}><Icon name="search" size={20} /> {lesson ? 'Empezar la práctica' : daily ? 'Abrir el caso del día' : p.meta?.kind === 'tutorial' ? 'Empezar el tutorial' : 'Abrir el caso'}</button>
         <button className="btn btn--ghost" onClick={() => { onStart(); onHelp(); }}><Icon name="help" size={18} /> Cómo se juega</button>
       </div>
     </Modal>
@@ -65,14 +85,21 @@ export function AccuseModal({ p, onAccuse, onClose }: { p: Puzzle; onAccuse: (id
   );
 }
 
-export function ResultModal({ p, progress, next, onClose, onReplay, onChallenge }: {
+export function ResultModal({ p, progress, primary, streak = 0, onClose, onReplay, onChallenge }: {
   p: Puzzle;
   progress: CaseProgress;
-  next: Puzzle | null;
+  /** Botón principal: siguiente caso, archivo del caso del día… */
+  primary: { label: string; route: string };
+  streak?: number;
   onClose: () => void;
   onReplay: () => void;
   onChallenge: () => void;
 }) {
+  const [shared, setShared] = useState<'shared' | 'copied' | 'failed' | null>(null);
+  const share = async () => {
+    const { text, url } = resultText(p, progress, streak);
+    setShared(await shareOrCopy(text, url));
+  };
   const murderer = p.cast.find((c) => c.id === p.murderer)!;
   const victim = p.cast.find((c) => c.victim)!;
   const stars = progress.stars ?? 1;
@@ -88,7 +115,7 @@ export function ResultModal({ p, progress, next, onClose, onReplay, onChallenge 
           </div>
         </div>
         <div className="result__text">
-          <p className="eyebrow">Caso cerrado · Nº {String(p.num).padStart(2, '0')}</p>
+          <p className="eyebrow">Caso cerrado · {caseTag(p)}</p>
           <h2 id="result-title" className="result__title">¡{displayName(murderer)} mató {withPrep('a', victim)}!</h2>
           <p className="typewriter">{p.story.epilogue}</p>
           <dl className="stats">
@@ -98,18 +125,20 @@ export function ResultModal({ p, progress, next, onClose, onReplay, onChallenge 
             <div><dt>Nota</dt><dd className="stars" aria-label={`${stars} de 3 estrellas`}>{[1, 2, 3].map((k) => <Icon key={k} name="star" size={20} className={k <= stars ? 'on' : ''} />)}</dd></div>
           </dl>
           {progress.challenge && <ChallengeResult challenge={progress.challenge} myTime={time} />}
+          {p.meta?.kind === 'daily' && streak > 0 && (
+            <p className="streak-line"><span aria-hidden="true">🔥</span> {streak === 1 ? 'Empiezas racha: 1 día.' : `Llevas ${streak} días seguidos resolviendo el caso del día.`}</p>
+          )}
         </div>
       </div>
       <div className="row gap wrap result__actions">
-        {next ? (
-          <button className="btn btn--primary" onClick={() => { onClose(); navigate(`/caso/${next.id}`); }}>Siguiente caso <Icon name="next" size={18} /></button>
-        ) : (
-          <button className="btn btn--primary" onClick={() => { onClose(); navigate('/'); }}>Ver todos los casos</button>
-        )}
+        <button className="btn btn--primary" onClick={() => { onClose(); navigate(primary.route); }}>{primary.label} <Icon name="next" size={18} /></button>
         <button className="btn" onClick={onChallenge}><span aria-hidden="true">💘</span> {progress.challenge ? 'Responder al reto' : 'Retar a mi churri'}</button>
-        <a className="btn btn--ghost" href={`${BASE}downloads/${downloadName(p, 'color')}`} download><Icon name="download" size={18} /> PDF</a>
+        <button className="btn" onClick={share}><Icon name="share" size={18} /> Compartir resultado</button>
+        {!p.meta && <a className="btn btn--ghost" href={`${BASE}downloads/${downloadName(p, 'color')}`} download><Icon name="download" size={18} /> PDF</a>}
         <button className="btn btn--ghost" onClick={onReplay}><Icon name="refresh" size={18} /> Volver a jugar</button>
       </div>
+      {shared === 'copied' && <p className="share-ok" role="status">Resultado copiado: pégalo donde quieras.</p>}
+      {shared === 'failed' && <p className="share-ok share-ok--warn" role="status">No se ha podido compartir.</p>}
     </Modal>
   );
 }

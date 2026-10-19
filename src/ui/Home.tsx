@@ -6,11 +6,14 @@ import { Icon } from './Icon';
 import { navigate } from '../router';
 import type { Level } from '../engine/types';
 import { InviteButton } from './ShareDialogs';
+import { DailyCard } from './daily/DailyCard';
+import { useEvents } from '../state/achievements';
 
 const FEATURED = ['tronos', 'friends', 'marvel', 'titanes', 'simpson', 'vikingos', 'potter'];
 
 export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: () => void }) {
   const store = useProgressStore();
+  const events = useEvents();
   const [filter, setFilter] = useState<Level | 0>(0);
   const prog = (id: string) => store[id] ?? emptyProgress();
   const solvedCount = PUZZLES.filter((p) => wasSolved(prog(p.id))).length;
@@ -44,7 +47,11 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
                 <Icon name="play" size={18} /> {solvedCount ? `Jugar el caso ${firstOpen.num}` : 'Empezar el primer caso'}
               </button>
             )}
-            <button className="btn btn--lg" onClick={onHelp}><Icon name="help" size={20} /> Cómo se juega</button>
+            {!solvedCount && !events.tutorialDone ? (
+              <button className="btn btn--lg" onClick={() => navigate('/tutorial')}><Icon name="hand" size={20} /> Aprende en 3 minutos</button>
+            ) : (
+              <button className="btn btn--lg" onClick={onHelp}><Icon name="help" size={20} /> Cómo se juega</button>
+            )}
           </div>
           <div className="progress" aria-label={`${solvedCount} de ${PUZZLES.length} casos resueltos`}>
             <div className="progress__bars">
@@ -71,6 +78,8 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
           <span className="hero__tape">Escena del crimen · no pasar</span>
         </div>
       </section>
+
+      <DailyCard />
 
       <section className="cases" id="casos">
         <div className="cases__head">

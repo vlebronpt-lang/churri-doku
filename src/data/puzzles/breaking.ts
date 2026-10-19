@@ -69,13 +69,13 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "W": [6, 6], "J": [4, 7], "Sk": [7, 0], "Ha": [2, 4], "Sa": [5, 5], "M": [3, 3], "He": [1, 2], "G": [0, 1] },
   clues: {
-    "W": [{"t":"sameRoom","of":"J"}],
-    "J": [{"t":"on","obj":"autocaravana_bb"}],
-    "Sk": [{"t":"offset","axis":"row","n":3,"dir":"S","of":"J"}],
-    "Ha": [{"t":"offset","axis":"row","n":1,"dir":"N","of":"M"}],
-    "Sa": [{"t":"beside","obj":"silla_comedor"}],
-    "M": [{"t":"offset","axis":"col","n":2,"dir":"E","of":"G"}],
-    "He": [{"t":"on","obj":"silla_hector"}],
+    "W": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"E","cond":{"t":"on","obj":"autocaravana_bb"}}],
+    "J": [{"t":"dir","dir":"S","of":"He"}],
+    "Sk": [{"t":"on","obj":"sillon"}],
+    "Ha": [{"t":"inRoom","room":"S"},{"t":"not","c":{"t":"beside","obj":"sofa"}}],
+    "Sa": [{"t":"beside","obj":"planta"}],
+    "M": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"beside","obj":"planta"}}],
+    "He": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"M"}],
   },
   // </gen>
   wantMurderer: 'He',

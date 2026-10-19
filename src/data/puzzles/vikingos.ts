@@ -47,7 +47,7 @@ const puzzle: PuzzleInput = {
   ],
   legend: {
     e: 'estatua',
-    O: { base: 'estatua', key: 'idolo_odin', name: 'ídolo de Odín', plural: 'ídolos de Odín', unique: true, fem: false, tint: '#d4a843' },
+    O: { base: 'estatua', key: 'idolo_odin', name: 'ídolo de Odín', plural: 'ídolos de Odín', unique: true, fem: false, tint: '#d4a843', icon: 'idol' },
     z: 'brasero',
     b: 'banco',
     m: 'mesa',
@@ -76,13 +76,13 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "R": [4, 4], "L": [3, 6], "Ro": [0, 7], "F": [1, 2], "B": [7, 0], "A": [5, 3], "I": [6, 5], "At": [2, 1] },
   clues: {
-    "R": [{"t":"aloneWith","of":"A"}],
-    "L": [{"t":"offset","axis":"col","n":2,"dir":"E","of":"R"}],
-    "Ro": [{"t":"inRoom","room":"G"},{"t":"not","c":{"t":"on","obj":"silla_jarl"}}],
-    "F": [{"t":"offset","axis":"col","n":2,"dir":"E","of":"B"}],
+    "R": [{"t":"dir","dir":"E","of":"A"}],
+    "L": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"A"}],
+    "Ro": [{"t":"beside","obj":"silla_jarl"}],
+    "F": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"L"}],
     "B": [{"t":"inRoom","room":"P"},{"t":"corner"}],
-    "A": [{"t":"row","rows":[5]}],
-    "I": [{"t":"beside","obj":"barril"}],
+    "A": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"E","cond":{"t":"beside","obj":"yunque"}}],
+    "I": [{"t":"dir","dir":"SE","of":"A"}],
   },
   // </gen>
   wantMurderer: 'F',

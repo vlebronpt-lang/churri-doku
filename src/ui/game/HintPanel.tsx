@@ -16,12 +16,14 @@ const TECH_NAME: Record<string, string> = {
   trial: 'Suposición descartada',
 };
 
-export function HintPanel({ p, hint, onMore, onApply, onClose }: {
+export function HintPanel({ p, hint, onMore, onApply, onClose, onFeedback }: {
   p: Puzzle;
   hint: { res: HintResult; level: number };
   onMore: () => void;
   onApply: () => void;
   onClose: () => void;
+  /** «No entiendo esta explicación». */
+  onFeedback?: (text: string) => void;
 }) {
   const { res, level } = hint;
   let title = 'Pista';
@@ -50,6 +52,12 @@ export function HintPanel({ p, hint, onMore, onApply, onClose }: {
   } else if (res.kind === 'stuck') {
     title = 'Pista';
     body = <p>No encuentro una deducción desde aquí. Repasa tus marcas o usa «Revisar».</p>;
+  } else if (res.kind === 'reveal') {
+    const who = p.cast.find((c) => c.id === res.id)!;
+    const c = p.cells[res.cell];
+    title = 'Una ayudita extra';
+    body = <p>Desde aquí haría falta un razonamiento larguísimo. Te desvelo dónde estaba {withPrep('', who)}: fila {c.r + 1}, columna {c.c + 1} ({p.rooms[c.room].name}).</p>;
+    apply = `Colocar ${withPrep('a', who)}`;
   } else {
     const d = res.d;
     title = level === 1 ? 'Un empujoncito' : TECH_NAME[d.tech] ?? 'Pista';
@@ -72,6 +80,9 @@ export function HintPanel({ p, hint, onMore, onApply, onClose }: {
         {more && <button className="btn btn--sm" onClick={onMore}>{more}</button>}
         {apply && <button className="btn btn--sm btn--ghost" onClick={onApply}>{apply}</button>}
         {!more && !apply && <button className="btn btn--sm" onClick={onClose}>Entendido</button>}
+        {onFeedback && res.kind === 'step' && (
+          <button className="linkish hint__fb" onClick={() => onFeedback(level === 1 ? res.d.nudge : res.d.text)}>¿No se entiende?</button>
+        )}
       </div>
     </div>
   );

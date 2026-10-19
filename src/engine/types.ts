@@ -163,7 +163,16 @@ export interface PuzzleInput {
   pins?: Record<string, { rooms?: string[]; objs?: string[]; cells?: [number, number][] }>;
   /** Solo para el generador: id del asesino deseado. */
   wantMurderer?: string;
+  /** Caso cuyas ilustraciones (retratos y portada) se usan; por defecto, el propio id. */
+  art?: string;
+  /** Tipo de partida especial (caso del día, lección de la academia, tutorial). */
+  meta?: PuzzleMeta;
 }
+
+export type PuzzleMeta =
+  | { kind: 'daily'; date: string; base: string; mirror: boolean }
+  | { kind: 'lesson'; lesson: string }
+  | { kind: 'tutorial' };
 
 export interface Puzzle {
   id: string;
@@ -183,4 +192,6 @@ export interface Puzzle {
   story: { intro: string; epilogue: string };
   cover?: string;
   accent?: string;
+  art?: string;
+  meta?: PuzzleMeta;
 }

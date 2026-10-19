@@ -77,15 +77,15 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "M": [5, 6], "V": [3, 7], "S": [6, 2], "F": [2, 3], "T": [9, 9], "K": [1, 8], "C": [8, 4], "Cl": [0, 1], "Mc": [4, 0], "So": [7, 5] },
   clues: {
-    "M": [{"t":"diagonal","of":"Cl"}],
-    "V": [{"t":"dir","dir":"N","of":"S"}],
-    "S": [{"t":"sameRoom","of":"Mc"}],
-    "F": [{"t":"inRoom","room":"D"},{"t":"not","c":{"t":"beside","obj":"barril"}}],
-    "T": [{"t":"inRoom","room":"J"},{"t":"corner"}],
+    "M": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"W","cond":{"t":"beside","obj":"silla"}}],
+    "V": [{"t":"dir","dir":"N","of":"T"}],
+    "S": [{"t":"beside","obj":"taburete"}],
+    "F": [{"t":"diagonal","of":"Cl"}],
+    "T": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"W","cond":{"t":"beside","obj":"inodoro"}}],
     "K": [{"t":"beside","obj":"fogon"}],
-    "C": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"W","cond":{"t":"beside","obj":"caja_fuerte"}}],
-    "Cl": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"S","cond":{"t":"beside","obj":"inodoro"}}],
-    "Mc": [{"t":"beside","obj":"estanteria"}],
+    "C": [{"t":"offset","axis":"row","n":3,"dir":"S","of":"M"}],
+    "Cl": [{"t":"on","obj":"sillon"}],
+    "Mc": [{"t":"dir","dir":"NW","of":"S"}],
   },
   // </gen>
   wantMurderer: 'M',

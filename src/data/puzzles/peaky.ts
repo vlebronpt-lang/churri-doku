@@ -61,11 +61,11 @@ const puzzle: PuzzleInput = {
   solution: { "T": [3, 6], "A": [6, 5], "P": [5, 1], "J": [2, 2], "G": [1, 4], "Al": [0, 3], "C": [4, 0] },
   clues: {
     "T": [{"t":"on","obj":"banco"}],
-    "A": [{"t":"inRoom","room":"W"},{"t":"not","c":{"t":"beside","obj":"caja"}}],
-    "P": [{"t":"offset","axis":"col","n":1,"dir":"E","of":"C"}],
-    "J": [{"t":"inRoom","room":"S"},{"t":"corner"}],
-    "G": [{"t":"on","obj":"taburete"}],
-    "Al": [{"t":"inRoom","room":"B"},{"t":"not","c":{"t":"beside","obj":"taburete"}}],
+    "A": [{"t":"dir","dir":"E","of":"J"}],
+    "P": [{"t":"offset","axis":"row","n":2,"dir":"S","of":"T"}],
+    "J": [{"t":"someoneAtOffset","axis":"row","n":2,"dir":"S","cond":{"t":"beside","obj":"farola"}}],
+    "G": [{"t":"onlyOn","obj":"taburete"}],
+    "Al": [{"t":"beside","obj":"barra"}],
   },
   // </gen>
   wantMurderer: 'P',

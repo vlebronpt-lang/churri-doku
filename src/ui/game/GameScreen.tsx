@@ -2,7 +2,9 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { Puzzle } from '../../engine/types';
 import { displayName, withPrep } from '../../engine/text';
 import { useSettings } from '../../state/settings';
-import { getProgress, resetCase, updateProgress, useCaseProgress } from '../../state/progress';
+import { getProgress, getStore, resetCase, updateProgress, useCaseProgress } from '../../state/progress';
+import { streakInfo } from '../../state/streak';
+import { LessonDone } from '../academy/LessonDone';
 import { formatTime, useGame } from '../../game/useGame';
 import { computeHint, findErrors, type HintResult } from '../../game/hints';
 import { configureFx, sfx } from '../../game/sfx';
@@ -15,10 +17,14 @@ import { Portrait } from '../Portrait';
 import { HintPanel } from './HintPanel';
 import { EraseDialog, erasableItems } from './EraseDialog';
 import { ObjectsModal } from './ObjectLegend';
+import { FeedbackDialog } from './FeedbackDialog';
+import { clueText } from '../../engine/text';
 import { AccuseModal, IntroModal, ResultModal } from './CaseModals';
 import { navigate } from '../../router';
 import { decodeChallenge } from '../../share';
+import { caseRoute, caseTag } from '../../data/labels';
 import { ChallengeDialog } from '../ShareDialogs';
+import { DragGhost, useSuspectDrag } from './drag';
 
 type Tool = 'place' | 'note' | 'x' | 'occ' | 'erase';
 /** Tamaños del panel de sospechosos, de más grande a más compacto: se usa el mayor que quepa sin desplazarse. */
@@ -27,10 +33,40 @@ const DENSITIES: Density[] = ['lg', 'c2', 'c1', 'c2xs', 'c1xs'];
 const suspectsClass = (d: Density) => `suspects d-${d}${d === 'lg' ? '' : ' is-compact'}`;
 type Outcome = { kind: 'wrong'; count: number } | { kind: 'wrongAccuse'; name: string } | null;
 
-export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: string | null; onHelp: () => void; onSettings: () => void }) {
+/** Acciones del jugador que el tutorial guiado puede permitir, bloquear y seguir. */
+export type CoachEvent =
+  | { t: 'intro' }
+  | { t: 'select'; id: string }
+  | { t: 'tool'; tool: Tool }
+  | { t: 'place'; id: string; cell: number }
+  | { t: 'note'; id: string; cell: number }
+  | { t: 'x'; cell: number }
+  | { t: 'occ'; cell: number }
+  | { t: 'hint' }
+  | { t: 'accuse'; id: string }
+  | { t: 'solved' };
+export interface Coach {
+  /** true para dejar hacerlo; un texto para impedirlo y explicar por qué. */
+  allow: (e: CoachEvent) => true | string;
+  notify: (e: CoachEvent) => void;
+}
+export type { Tool };
+
+export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
+  p: Puzzle;
+  reto?: string | null;
+  onHelp: () => void;
+  onSettings: () => void;
+  /** Tutorial guiado: controla qué se puede hacer en cada paso. */
+  coach?: Coach;
+  /** Si se indica, sustituye a la pantalla final (lo usa el tutorial). */
+  onFinished?: () => void;
+}) {
   const { settings } = useSettings();
   const progress = useCaseProgress(p.id);
-  const game = useGame(p, { autoX: settings.autoX, noXOnBlocked: settings.noXOnBlocked });
+  // En el tutorial, las X automáticas y «tocar = colocar» siempre activos, para que lo que se explica sea lo que se ve.
+  const game = useGame(p, { autoX: coach ? true : settings.autoX, noXOnBlocked: settings.noXOnBlocked });
+  const tapAction = coach ? 'place' : settings.tapAction;
   const { board, posOf } = game;
   const [selected, setSelected] = useState<string | null>(null);
   const [tool, setTool] = useState<Tool>('place');
@@ -48,6 +84,9 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   const [challengeFrom, setChallengeFrom] = useState<'result' | 'banner' | null>(null);
   const [eraseTarget, setEraseTarget] = useState<{ cells: number[]; lineKey?: string; where: string } | null>(null);
   const [showObjects, setShowObjects] = useState(false);
+  const [feedbackFor, setFeedbackFor] = useState<{ charId?: string; who: string; text: string } | null>(null);
+  const [zoom, setZoom] = useState(false);
+  const boardWrap = useRef<HTMLDivElement>(null);
   const paint = useRef<{ value: boolean } | null>(null);
   const suspectsPanel = useRef<HTMLElement>(null);
   const suspectsList = useRef<HTMLDivElement>(null);
@@ -55,13 +94,25 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   const toastTimer = useRef<number>(0);
   const solved = progress.solved;
   const challenge = incoming ?? progress.challenge;
+  const guard = (e: CoachEvent) => {
+    if (!coach) return true;
+    const r = coach.allow(e);
+    if (r === true) return true;
+    say(r);
+    sfx.error();
+    return false;
+  };
+  const tell = (e: CoachEvent) => coach?.notify(e);
+
+  // Registro de visitas (para el informe de juego).
+  useEffect(() => { updateProgress(p.id, (c) => ({ visits: (c.visits ?? 0) + 1 })); }, [p.id]);
 
   // Reto recibido por enlace: se guarda y se limpia la dirección.
   useEffect(() => {
     if (!reto) return;
     if (incoming) updateProgress(p.id, { challenge: incoming });
-    history.replaceState(null, '', `${location.pathname}${location.search}#/caso/${p.id}`);
-  }, [reto, incoming, p.id]);
+    history.replaceState(null, '', `${location.pathname}${location.search}#${caseRoute(p)}`);
+  }, [reto, incoming, p]);
 
   useEffect(() => configureFx(settings.sound, settings.haptics), [settings.sound, settings.haptics]);
 
@@ -116,9 +167,18 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   const allMarks = useMemo<BoardMarks>(() => ({ ...marks, conflicts }), [marks, conflicts]);
 
   const selectChar = (id: string | null) => {
+    if (id && selected !== id && !guard({ t: 'select', id })) return;
+    if (coach && id === selected) return;
     setSelected((cur) => (cur === id ? null : id));
     if (tool === 'x' || tool === 'occ' || tool === 'erase') setTool('place');
     sfx.select();
+    if (id && selected !== id) tell({ t: 'select', id });
+  };
+  const pickTool = (tl: Tool) => {
+    const next = tool === tl ? 'place' : tl;
+    if (!guard({ t: 'tool', tool: next })) return;
+    setTool(next);
+    tell({ t: 'tool', tool: next });
   };
 
   const onTap = useCallback((cell: number, long: boolean) => {
@@ -128,15 +188,19 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
     if (tool === 'x') {
       if (occupant) return;
       if (settings.noXOnBlocked && !p.cells[cell].occupiable) return say('Esa casilla tiene un objeto: ahí no puede haber nadie.');
+      if (!guard({ t: 'x', cell })) return;
       game.toggleX(cell);
       sfx.x();
+      tell({ t: 'x', cell });
       return;
     }
     if (tool === 'occ') {
       if (occupant) return say('Ahí ya has colocado a alguien.');
       if (!p.cells[cell].occupiable) return say('Esa casilla tiene un objeto: ahí no puede haber nadie.');
+      if (!guard({ t: 'occ', cell })) return;
       game.toggleOcc(cell);
       sfx.note();
+      tell({ t: 'occ', cell });
       return;
     }
     if (tool === 'erase') {
@@ -150,26 +214,96 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       if (items.length === 1) { game.clearCell(cell); sfx.erase(); }
       return;
     }
-    const wantNote = tool === 'note' ? !long : (settings.tapAction === 'note' ? !long : long);
+    const wantNote = tool === 'note' ? !long : (tapAction === 'note' ? !long : long);
     if (!selected) {
-      if (occupant) { setSelected(occupant); sfx.select(); return; }
+      if (occupant) {
+        if (!guard({ t: 'select', id: occupant })) return;
+        setSelected(occupant);
+        sfx.select();
+        tell({ t: 'select', id: occupant });
+        return;
+      }
       return say('Primero elige a un sospechoso (toca su foto).');
     }
     if (!p.cells[cell].occupiable) return say(`Ahí hay ${p.cells[cell].obj ? `un objeto (${p.objects[p.cells[cell].obj!].name})` : 'un obstáculo'}: no se puede ocupar.`);
     if (wantNote) {
       if (occupant) return;
+      if (!guard({ t: 'note', id: selected, cell })) return;
       game.toggleNote(cell, selected);
       sfx.note();
+      tell({ t: 'note', id: selected, cell });
       return;
     }
     if (occupant === selected) {
+      if (coach) return;
       game.unplace(selected);
       sfx.undo();
       return;
     }
-    game.place(selected, cell);
+    if (!guard({ t: 'place', id: selected, cell })) return;
+    placeAt(selected, cell);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board, game, p, say, selected, settings.noXOnBlocked, tapAction, solved, revealing, tool, coach]);
+
+  /** Coloca a alguien (también al arrastrarlo) y apunta el primer movimiento para el informe. */
+  const placeAt = (id: string, cell: number) => {
+    game.place(id, cell);
     sfx.place();
-  }, [board, game, p, say, selected, settings.noXOnBlocked, settings.tapAction, solved, revealing, tool]);
+    if (getProgress(p.id).firstMoveAt === undefined) updateProgress(p.id, { firstMoveAt: game.seconds });
+    tell({ t: 'place', id, cell });
+  };
+
+  // Arrastrar a alguien desde su foto hasta una casilla.
+  const dropOn = (id: string, cell: number) => {
+    if (solved || revealing) return;
+    clearTransient();
+    if (!p.cells[cell].occupiable) { sfx.error(); return say(`Ahí hay ${p.cells[cell].obj ? `un objeto (${p.objects[p.cells[cell].obj!].name})` : 'un obstáculo'}: no se puede ocupar.`); }
+    if (board.placed[cell] === id) return;
+    if (!guard({ t: 'place', id, cell })) return;
+    setSelected(id);
+    if (tool !== 'place' && tool !== 'note') setTool('place');
+    placeAt(id, cell);
+  };
+  const { drag, start: startDrag, justDropped } = useSuspectDrag(dropOn, !solved && !revealing);
+  useEffect(() => {
+    document.body.classList.toggle('is-dragging', !!drag);
+    return () => document.body.classList.remove('is-dragging');
+  }, [drag]);
+  const dragChar = drag ? p.cast.find((c) => c.id === drag.id) : undefined;
+
+  // Mover una ficha arrastrándola por el plano (si cae sobre otra, se intercambian).
+  const moveToken = (from: number, to: number) => {
+    const id = board.placed[from];
+    if (!id || solved || revealing) return;
+    clearTransient();
+    if (!p.cells[to].occupiable) { sfx.error(); return say('Ahí hay un objeto: no se puede ocupar.'); }
+    const other = board.placed[to];
+    game.apply((b) => {
+      delete b.placed[from];
+      if (other) b.placed[from] = other;
+      b.placed[to] = id;
+      delete b.xs[to];
+      if (other) delete b.xs[from];
+    });
+    sfx.place();
+  };
+
+  // El zoom solo existe en pantallas estrechas: si la pantalla crece (o se gira), se quita.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 760px)');
+    const off = () => { if (!mq.matches) setZoom(false); };
+    mq.addEventListener?.('change', off);
+    return () => mq.removeEventListener?.('change', off);
+  }, []);
+
+  // Plano ampliado (móvil, planos grandes): se centra al ampliar.
+  const toggleZoom = () => {
+    setZoom((z) => !z);
+    window.requestAnimationFrame(() => {
+      const w = boardWrap.current;
+      if (w) w.scrollLeft = (w.scrollWidth - w.clientWidth) / 2;
+    });
+  };
 
   // Toque en la cabecera de una fila o columna: la herramienta se aplica a toda la línea.
   const lineCells = (axis: 'r' | 'c', i: number) => Array.from({ length: p.size }, (_, k) => (axis === 'r' ? i * p.size + k : k * p.size + i));
@@ -231,10 +365,10 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
     });
     sfx.note();
   };
-  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = solved || revealing ? null
+  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = solved || revealing || coach ? null
     : tool === 'x' ? 'x' : tool === 'occ' ? 'occ' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
-  const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
+  const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' || coach ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
   const onPaintStart = (cell: number) => {
     game.beginBatch();
@@ -257,18 +391,23 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   // Atajos de teclado
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (showIntro || accusing || showResult || challengeFrom || eraseTarget || showObjects) return;
+      if (showIntro || accusing || showResult || challengeFrom || eraseTarget || showObjects || feedbackFor) return;
       const t = e.target as HTMLElement;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
       const k = e.key.toLowerCase();
-      if ((e.metaKey || e.ctrlKey) && k === 'z') { e.preventDefault(); if (e.shiftKey) game.redo(); else game.undo(); return; }
-      if ((e.metaKey || e.ctrlKey) && k === 'y') { e.preventDefault(); game.redo(); return; }
+      if ((e.metaKey || e.ctrlKey) && (k === 'z' || k === 'y')) {
+        e.preventDefault();
+        if (coach) return;
+        if (k === 'y' || e.shiftKey) game.redo(); else game.undo();
+        return;
+      }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
-      if (k === 'escape') { setSelected(null); setHint(null); clearTransient(); return; }
-      if (k === 'x') { setTool((tl) => (tl === 'x' ? 'place' : 'x')); return; }
-      if (k === 'o') { setTool((tl) => (tl === 'occ' ? 'place' : 'occ')); return; }
-      if (k === 'n' || k === 'l') { setTool((tl) => (tl === 'note' ? 'place' : 'note')); return; }
-      if (k === 'b' || k === 'backspace' || k === 'delete') { if (k === 'b') setTool((tl) => (tl === 'erase' ? 'place' : 'erase')); return; }
+      if (k === 'escape') { if (!coach) setSelected(null); setHint(null); clearTransient(); return; }
+      if (k === 'x') { pickTool('x'); return; }
+      if (k === 'o') { pickTool('occ'); return; }
+      if (k === 'n' || k === 'l') { pickTool('note'); return; }
+      if (k === 'b') { pickTool('erase'); return; }
+      if (k === 'backspace' || k === 'delete') return;
       if (k === 'h' || k === '?') { askHint(); return; }
       const byTag = p.cast.find((c) => c.tag.toLowerCase() === k) ?? p.cast.find((c) => c.tag[0].toLowerCase() === k);
       if (byTag && k.length === 1 && /[a-zñ]/.test(k)) { selectChar(byTag.id); }
@@ -280,11 +419,16 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   // ------------------------------------------------------------- pistas
   const askHint = () => {
     if (solved) return;
+    if (!guard({ t: 'hint' })) return;
     const res = computeHint(p, board);
     sfx.hint();
     setHint({ res, level: 1 });
     applyHintMarks(res, 1);
-    if (res.kind === 'step' || res.kind === 'errors') updateProgress(p.id, (c) => ({ hints: c.hints + 1 }));
+    if (res.kind === 'step' || res.kind === 'errors' || res.kind === 'reveal') {
+      const entry = { t: game.seconds, tech: res.kind === 'step' ? res.d.tech : res.kind === 'reveal' ? 'revelar' : 'errores', placed: Object.keys(board.placed).length };
+      updateProgress(p.id, (c) => ({ hints: c.hints + 1, hintLog: [...(c.hintLog ?? []), entry].slice(-60) }));
+    }
+    tell({ t: 'hint' });
   };
 
   const applyHintMarks = (res: HintResult, level: number) => {
@@ -295,6 +439,8 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
         res.wrongX.forEach((c) => m.wrongX.add(c));
         res.wrongOcc.forEach((c) => m.wrongOcc.add(c));
       }
+    } else if (res.kind === 'reveal') {
+      m.hintCells.add(res.cell);
     } else if (res.kind === 'step') {
       const f = res.d.focus;
       f.rows.forEach((r) => m.hintRows.add(r));
@@ -341,6 +487,13 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       });
       sfx.place();
       updateProgress(p.id, (c) => ({ hints: c.hints + 1 }));
+    } else if (res.kind === 'reveal') {
+      game.apply((b) => {
+        for (const [k, v] of Object.entries(b.placed)) if (v === res.id) delete b.placed[Number(k)];
+        b.placed[res.cell] = res.id;
+        delete b.xs[res.cell];
+      });
+      sfx.place();
     }
     setHint(null);
     setMarks(noMarks());
@@ -374,6 +527,8 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
 
   // ------------------------------------------------------------- acusación
   const accuse = (id: string) => {
+    if (!guard({ t: 'accuse', id })) return;
+    tell({ t: 'accuse', id });
     setAccusing(false);
     const { wrongPlaced } = findErrors(p, board);
     if (wrongPlaced.length) {
@@ -404,13 +559,15 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       const cur = getProgress(p.id);
       const stars = cur.hints === 0 && cur.mistakes === 0 && cur.checks === 0 ? 3 : cur.hints <= 2 && cur.mistakes <= 1 ? 2 : 1;
       updateProgress(p.id, {
-        solved: true, solvedAt: Date.now(), time: game.seconds,
+        solved: true, solvedAt: Date.now(), firstSolvedAt: cur.firstSolvedAt ?? Date.now(), time: game.seconds,
         bestTime: cur.bestTime ? Math.min(cur.bestTime, game.seconds) : game.seconds,
         stars: Math.max(stars, cur.stars ?? 0),
       });
       sfx.win();
       setRevealing(false);
-      setShowResult(true);
+      tell({ t: 'solved' });
+      if (onFinished) onFinished();
+      else setShowResult(true);
     }, t + 1100);
   };
 
@@ -430,25 +587,25 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
 
   const tools = (
     <div className="tools" role="toolbar" aria-label="Herramientas">
-      <button className={`tool${tool === 'note' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'note' ? 'place' : 'note')} aria-pressed={tool === 'note'} title="Lápiz: anotar posibilidades (N)">
+      <button className={`tool tool--note${tool === 'note' ? ' is-on' : ''}`} onClick={() => pickTool('note')} aria-pressed={tool === 'note'} title="Lápiz: anotar posibilidades (N)">
         <Icon name="pencil" /><span>Lápiz</span>
       </button>
-      <button className={`tool${tool === 'x' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'x' ? 'place' : 'x')} aria-pressed={tool === 'x'} title="Tachar casillas donde no hay nadie (X)">
+      <button className={`tool tool--x${tool === 'x' ? ' is-on' : ''}`} onClick={() => pickTool('x')} aria-pressed={tool === 'x'} title="Tachar casillas donde no hay nadie (X)">
         <Icon name="x" sw={3} /><span>Tachar</span>
       </button>
-      <button className={`tool tool--occ${tool === 'occ' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'occ' ? 'place' : 'occ')} aria-pressed={tool === 'occ'} title="Marcar que en una casilla hay alguien, aunque aún no sepas quién (O)">
+      <button className={`tool tool--occ${tool === 'occ' ? ' is-on' : ''}`} onClick={() => pickTool('occ')} aria-pressed={tool === 'occ'} title="Marcar que en una casilla hay alguien, aunque aún no sepas quién (O)">
         <Icon name="occupied" sw={2.4} /><span>Ocupada</span>
       </button>
-      <button className={`tool${tool === 'erase' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'erase' ? 'place' : 'erase')} aria-pressed={tool === 'erase'} title="Borrar casilla (B)">
+      <button className={`tool tool--erase${tool === 'erase' ? ' is-on' : ''}`} onClick={() => pickTool('erase')} aria-pressed={tool === 'erase'} title="Borrar casilla (B)">
         <Icon name="eraser" /><span>Borrar</span>
       </button>
-      <button className="tool tool--undo" onClick={() => { game.undo(); sfx.undo(); }} disabled={!game.canUndo || solved} title="Deshacer (Ctrl+Z)" aria-label="Deshacer">
+      <button className="tool tool--undo" onClick={() => { game.undo(); sfx.undo(); }} disabled={!game.canUndo || solved || !!coach} title="Deshacer (Ctrl+Z)" aria-label="Deshacer">
         <Icon name="undo" /><span>Deshacer</span>
       </button>
-      <button className="tool tool--redo" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || solved} title="Rehacer (Ctrl+Shift+Z)">
+      <button className="tool tool--redo" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || solved || !!coach} title="Rehacer (Ctrl+Shift+Z)">
         <Icon name="redo" /><span>Rehacer</span>
       </button>
-      <button className="tool" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length} title="Revisar si hay errores">
+      <button className="tool tool--check" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length} title="Revisar si hay errores">
         <Icon name="check" /><span>Revisar</span>
       </button>
       <button className="tool tool--hint" onClick={askHint} disabled={solved} title="Pista (H)">
@@ -467,7 +624,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
           <Icon name="back" size={18} /> <span className="hide-sm">Casos</span>
         </button>
         <div className="game__title">
-          <span className="game__meta"><span className="lvl-dot" />Nº {String(p.num).padStart(2, '0')} · {p.franchise} · {lvl.name}</span>
+          <span className="game__meta"><span className="lvl-dot" />{caseTag(p)} · {p.franchise} · {lvl.name}</span>
           <h1>{p.title}</h1>
         </div>
         <div className="game__actions">
@@ -487,7 +644,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
         <aside ref={suspectsPanel} className="game__suspects" aria-label="Sospechosos">
           <div className="panel-head">
             <h2>Sospechosos</h2>
-            <span className="muted small">{settings.tapAction === 'place' ? 'Toca una foto y luego una casilla' : 'Toca una foto; mantén pulsada la casilla para colocar'}</span>
+            <span className="muted small">{tapAction === 'place' ? 'Toca una foto y luego una casilla, o arrástrala al plano' : 'Toca una foto; mantén pulsada la casilla para colocar'}</span>
           </div>
           <div ref={suspectsList} className={suspectsClass(density)}>
             {p.cast.map((ch, k) => (
@@ -500,15 +657,18 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
                 placed={posOf[ch.id] !== undefined}
                 simple={settings.simpleDirections}
                 genderSymbols={settings.genderSymbols}
-                onSelect={() => selectChar(ch.id)}
+                onSelect={() => { if (!justDropped()) selectChar(ch.id); }}
+                onDragStart={startDrag(ch.id)}
                 onHighlight={settings.keywordHighlights ? setHighlight : () => {}}
+                onFeedback={coach ? undefined : () => setFeedbackFor({ charId: ch.id, who: `Pista ${withPrep('de', ch)}`, text: clueText(p, ch) })}
               />
             ))}
           </div>
         </aside>
 
         <main className="game__main">
-          <div className="board-wrap">
+          <div className={`board-zone${zoom ? ' is-zoomed' : ''}`}>
+          <div className="board-wrap" ref={boardWrap}>
             <Board
               p={p}
               board={board}
@@ -527,7 +687,21 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
               onPaint={onPaint}
               onPaintEnd={onPaintEnd}
               stamp={stamp}
+              onMove={coach ? undefined : moveToken}
+              dropCell={drag?.cell ?? null}
+              zoomed={zoom}
             />
+          </div>
+          </div>
+          <div className="board-under">
+            <button className="objects-link" onClick={() => setShowObjects(true)}>
+              <Icon name="objects" size={18} /> ¿Qué hay en el plano?
+            </button>
+            {p.size >= 8 && (
+              <button className={`zoom-btn${zoom ? ' is-on' : ''}`} onClick={toggleZoom} aria-pressed={zoom}>
+                <Icon name={zoom ? 'zoomOut' : 'zoomIn'} size={18} /> {zoom ? 'Ver entero' : 'Ampliar plano'}
+              </button>
+            )}
           </div>
 
           {/* Tira móvil de sospechosos */}
@@ -538,7 +712,9 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
                 role="option"
                 aria-selected={selected === ch.id}
                 className={`chip${selected === ch.id ? ' is-selected' : ''}${posOf[ch.id] !== undefined ? ' is-placed' : ''}${ch.victim ? ' is-victim' : ''}`}
-                onClick={() => selectChar(ch.id)}
+                onClick={() => { if (!justDropped()) selectChar(ch.id); }}
+                onPointerDown={startDrag(ch.id)}
+                onContextMenu={(e) => e.preventDefault()}
               >
                 <Portrait p={p} ch={ch} className="chip__img" />
                 <span className="chip__tag">{ch.tag}</span>
@@ -551,14 +727,12 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
               <div>
                 <strong>{displayName(selChar)}</strong>
                 <ClueText p={p} ch={selChar} simple={settings.simpleDirections} onHighlight={settings.keywordHighlights ? setHighlight : undefined} />
+                {!coach && !selChar.victim && <button className="linkish selected-clue__fb" onClick={() => setFeedbackFor({ charId: selChar.id, who: `Pista ${withPrep('de', selChar)}`, text: clueText(p, selChar) })}>¿Te confunde esta pista?</button>}
               </div>
-              <button className="icon-btn icon-btn--sm" onClick={() => setSelected(null)} aria-label="Deseleccionar"><Icon name="close" size={18} /></button>
+              {!coach && <button className="icon-btn icon-btn--sm" onClick={() => setSelected(null)} aria-label="Deseleccionar"><Icon name="close" size={18} /></button>}
             </div>
           )}
           <div className="tools-bar">{tools}</div>
-          <button className="objects-link" onClick={() => setShowObjects(true)}>
-            <Icon name="objects" size={18} /> ¿Qué hay en el plano? Ver los objetos
-          </button>
 
           {solved && !showResult && (
             <div className="solved-banner">
@@ -584,10 +758,12 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
         </aside>
       </div>
 
-      {hint && <HintPanel p={p} hint={hint} onMore={hintLevelUp} onApply={hintApply} onClose={closeHint} />}
+      {hint && <HintPanel p={p} hint={hint} onMore={hintLevelUp} onApply={hintApply} onClose={closeHint} onFeedback={coach ? undefined : (text) => setFeedbackFor({ who: 'Explicación de una pista', text })} />}
+      {feedbackFor && <FeedbackDialog caseId={p.id} charId={feedbackFor.charId} who={feedbackFor.who} text={feedbackFor.text} onClose={() => setFeedbackFor(null)} />}
       {toast && <div className="toast" role="status">{toast}</div>}
+      {drag && dragChar && <DragGhost p={p} ch={dragChar} x={drag.x} y={drag.y} touch={drag.touch} ok={drag.cell !== null && p.cells[drag.cell].occupiable} />}
 
-      {showIntro && <IntroModal p={p} challenge={challenge} onStart={() => setShowIntro(false)} onHelp={onHelp} />}
+      {showIntro && <IntroModal p={p} challenge={challenge} onStart={() => { setShowIntro(false); tell({ t: 'intro' }); }} onHelp={onHelp} />}
       {accusing && <AccuseModal p={p} onAccuse={accuse} onClose={() => setAccusing(false)} />}
       {outcome && (
         <div className="outcome" role="alert">
@@ -605,11 +781,15 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
           </div>
         </div>
       )}
-      {showResult && (
+      {showResult && p.meta?.kind === 'lesson' && (
+        <LessonDone p={p} progress={getProgress(p.id)} onClose={() => setShowResult(false)} onReplay={replay} />
+      )}
+      {showResult && p.meta?.kind !== 'lesson' && (
         <ResultModal
           p={p}
           progress={getProgress(p.id)}
-          next={next}
+          primary={p.meta?.kind === 'daily' ? { label: 'Ver el archivo', route: '/archivo' } : next ? { label: 'Siguiente caso', route: `/caso/${next.id}` } : { label: 'Ver todos los casos', route: '/' }}
+          streak={p.meta?.kind === 'daily' ? streakInfo(getStore()).current : 0}
           onClose={() => setShowResult(false)}
           onReplay={replay}
           onChallenge={() => { setShowResult(false); setChallengeFrom('result'); }}

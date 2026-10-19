@@ -11,6 +11,7 @@ import { solveLogically } from '../src/engine/logic';
 import { clueText, displayName } from '../src/engine/text';
 import { assignmentValid } from '../src/engine/clues';
 import type { PuzzleInput } from '../src/engine/types';
+import { PROFILE } from '../src/engine/difficulty';
 
 const LEVEL = ['', 'Muy fácil', 'Fácil', 'Medio', 'Difícil', 'Experto'];
 
@@ -32,16 +33,19 @@ async function main() {
       const p = compilePuzzle(input);
       const sol = p.cast.map((ch) => p.solution[ch.id]);
       if (!assignmentValid(p, sol)) errs.push('la solución declarada NO cumple las pistas');
-      const r = solve(p, 3);
+      const r = solve(p, 3, undefined, 60_000_000);
       if (r.aborted) errs.push('el solver abortó (demasiados nodos)');
       if (r.count !== 1) errs.push(`tiene ${r.count} soluciones`);
       else if (r.solutions[0].some((i, k) => i !== sol[k])) errs.push('la solución única no coincide con la declarada');
       const L = solveLogically(p, { allowTrial: true });
       if (!L.sound) errs.push('¡el motor lógico hizo una deducción incorrecta!');
       if (!L.solved) errs.push('el motor lógico no lo resuelve');
-      if (p.level < 5 && L.techCount.trial > (p.level === 4 ? 1 : 0)) errs.push(`requiere suponer (${L.techCount.trial} veces) para su nivel`);
-      const MAX_LEVEL = [0, 2, 3, 4, 6, 6];
-      if (L.maxLevel > MAX_LEVEL[p.level]) errs.push(`usa técnicas de nivel ${L.maxLevel}, demasiado difíciles para ${LEVEL[p.level]} (máx. ${MAX_LEVEL[p.level]})`);
+      const prof = PROFILE[p.level];
+      if (L.techCount.trial > prof.maxTrial) errs.push(`requiere suponer ${L.techCount.trial} veces (máx. ${prof.maxTrial} en ${LEVEL[p.level]})`);
+      if (L.techCount.trial < prof.minTrial) errs.push(`solo requiere suponer ${L.techCount.trial} veces (mín. ${prof.minTrial} en ${LEVEL[p.level]})`);
+      if (L.maxLevel > prof.maxLevel) errs.push(`usa técnicas de nivel ${L.maxLevel}, demasiado difíciles para ${LEVEL[p.level]} (máx. ${prof.maxLevel})`);
+      const sc = L.score / p.cast.length;
+      if (sc < prof.band[0] - 0.05) warns.push(`más fácil de lo previsto para ${LEVEL[p.level]} (${sc.toFixed(2)} < ${prof.band[0]})`);
       // Nombres de objetos ambiguos: «sofá» y «sofá naranja» en el mismo caso.
       const names = Object.values(p.objects).map((o) => o.name.toLowerCase());
       for (const a of names) for (const b of names) {

@@ -86,14 +86,14 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "P": [4, 6], "T": [0, 7], "B": [3, 0], "N": [8, 1], "R": [7, 8], "D": [6, 5], "M": [5, 2], "E": [1, 3], "A": [2, 4] },
   clues: {
-    "P": [{"t":"someoneAtOffset","axis":"row","n":2,"dir":"N","cond":{"t":"on","obj":"alfombra"}}],
+    "P": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"N","cond":{"t":"beside","obj":"alfombra"}}],
     "T": [{"t":"beside","obj":"caja_fuerte_gobernador"}],
-    "B": [{"t":"inRoom","room":"I"}],
-    "N": [{"t":"offset","axis":"col","n":1,"dir":"W","of":"M"}],
-    "R": [{"t":"dir","dir":"SE","of":"T"}],
-    "D": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"E","cond":{"t":"beside","obj":"inodoro"}}],
-    "M": [{"t":"roomEmpty","room":"P"}],
-    "E": [{"t":"beside","obj":"estatua"}],
+    "B": [{"t":"dir","dir":"NW","of":"M"}],
+    "N": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"E","cond":{"t":"on","obj":"alfombra"}}],
+    "R": [{"t":"inRoom","room":"A"},{"t":"not","c":{"t":"beside","obj":"lavabo"}}],
+    "D": [{"t":"dir","dir":"E","of":"E"}],
+    "M": [{"t":"aloneWith","of":"D"}],
+    "E": [{"t":"beside","obj":"alfombra"}],
   },
   // </gen>
   wantMurderer: 'E',

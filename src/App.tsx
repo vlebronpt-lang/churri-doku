@@ -1,13 +1,21 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useRoute, navigate } from './router';
 import { getPuzzle } from './data/puzzles';
-import { SiteFooter, SiteHeader } from './ui/SiteHeader';
+import { getLesson, lessonPuzzle } from './data/academy';
+import { SiteFooter, SiteHeader, type Section } from './ui/SiteHeader';
 import { Home } from './ui/Home';
 import { GameScreen } from './ui/game/GameScreen';
 import { HowTo } from './ui/HowTo';
 import { SettingsPanel } from './ui/SettingsPanel';
 import { Downloads } from './ui/Downloads';
 import { ImportProgressModal } from './ui/ShareDialogs';
+import { DailyScreen } from './ui/daily/DailyScreen';
+import { Archive } from './ui/daily/Archive';
+import { Stats } from './ui/Stats';
+import { Academy } from './ui/academy/Academy';
+import { Tutorial } from './ui/tutorial/Tutorial';
+import { Panel, ImportReportModal } from './ui/panel/Panel';
+import { AchievementToasts } from './ui/AchievementToasts';
 
 const PrintPage = lazy(() => import('./ui/print/PrintPage'));
 
@@ -36,34 +44,57 @@ export default function App() {
     );
   }
 
-  const modals = (
+  const openHelp = () => setHelp(true);
+  const openSettings = () => setSettingsOpen(true);
+  const overlays = (
     <>
       {help && <HowTo onClose={() => setHelp(false)} />}
       {settingsOpen && <SettingsPanel onClose={() => setSettingsOpen(false)} />}
+      <AchievementToasts />
     </>
   );
 
+  // Pantallas de juego (sin la cabecera del sitio)
+  let game: React.ReactNode = null;
   if (page === 'caso') {
     const p = getPuzzle(parts[1] ?? '');
-    if (p) {
-      return (
-        <>
-          <GameScreen key={p.id} p={p} reto={query.get('reto')} onHelp={() => setHelp(true)} onSettings={() => setSettingsOpen(true)} />
-          {modals}
-        </>
-      );
+    if (p) game = <GameScreen key={p.id} p={p} reto={query.get('reto')} onHelp={openHelp} onSettings={openSettings} />;
+  } else if (page === 'diario') {
+    game = <DailyScreen key={parts[1] ?? 'hoy'} date={parts[1]} reto={query.get('reto')} onHelp={openHelp} onSettings={openSettings} />;
+  } else if (page === 'academia' && parts[1]) {
+    const l = getLesson(parts[1]);
+    if (l) {
+      const p = lessonPuzzle(l);
+      game = <GameScreen key={p.id} p={p} reto={null} onHelp={openHelp} onSettings={openSettings} />;
     }
+  } else if (page === 'tutorial') {
+    game = <Tutorial onHelp={openHelp} onSettings={openSettings} />;
+  }
+  if (game) {
+    return (
+      <>
+        {game}
+        {overlays}
+      </>
+    );
   }
 
+  const section: Section | null = page === 'descargas' ? 'downloads' : page === 'archivo' ? 'daily' : page === 'logros' ? 'stats' : page === 'academia' ? 'academy' : page === 'panel' ? null : 'home';
   return (
     <div className="site">
-      <SiteHeader current={page === 'descargas' ? 'downloads' : 'home'} onHelp={() => setHelp(true)} onSettings={() => setSettingsOpen(true)} />
+      <SiteHeader current={section} onHelp={openHelp} onSettings={openSettings} />
       <main className="site-main">
-        {page === 'descargas' ? <Downloads /> : <Home onHelp={() => setHelp(true)} onSettings={() => setSettingsOpen(true)} />}
+        {page === 'descargas' ? <Downloads />
+          : page === 'archivo' ? <Archive />
+          : page === 'logros' ? <Stats />
+          : page === 'academia' ? <Academy />
+          : page === 'panel' ? <Panel />
+          : <Home onHelp={openHelp} onSettings={openSettings} />}
       </main>
       <SiteFooter />
-      {modals}
+      {overlays}
       {page === 'progreso' && parts[1] && <ImportProgressModal payload={parts[1]} />}
+      {page === 'informe' && parts[1] && <ImportReportModal payload={parts[1]} />}
     </div>
   );
 }

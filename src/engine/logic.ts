@@ -706,8 +706,12 @@ function basicDeduction(ctx: Ctx, st: LState, maxSubset = 4): Deduction | null {
   );
 }
 
-/** Propaga técnicas básicas hasta el punto fijo. Devuelve la contradicción encontrada (si la hay). */
-function propagate(ctx: Ctx, st: LState, maxSteps = 200): { contra: string | null; steps: Deduction[] } {
+/**
+ * Propaga técnicas básicas hasta el punto fijo. Devuelve la contradicción encontrada (si la hay).
+ * La cadena se limita a lo que una persona puede seguir de cabeza al suponer algo.
+ */
+export const TRIAL_CHAIN = 24;
+function propagate(ctx: Ctx, st: LState, maxSteps = TRIAL_CHAIN): { contra: string | null; steps: Deduction[] } {
   const steps: Deduction[] = [];
   for (let it = 0; it < maxSteps; it++) {
     const c = contradiction(ctx, st);
@@ -722,14 +726,14 @@ function propagate(ctx: Ctx, st: LState, maxSteps = 200): { contra: string | nul
   return { contra: contradiction(ctx, st), steps };
 }
 
-function techTrial(ctx: Ctx, st: LState, budget = 140): Deduction | null {
+function techTrial(ctx: Ctx, st: LState, budget = 140, deadline = Infinity): Deduction | null {
   const free = Array.from({ length: ctx.n }, (_, k) => k)
     .filter((k) => st.placed[k] < 0)
     .sort((a, b) => count(st.cand[a]) - count(st.cand[b]));
   let tried = 0;
   for (const k of free) {
     for (const i of list(st.cand[k])) {
-      if (++tried > budget) return null;
+      if (++tried > budget || Date.now() > deadline) return null;
       const sim = cloneState(st);
       applyPlace(ctx, sim, k, i);
       const { contra, steps } = propagate(ctx, sim);
@@ -747,9 +751,9 @@ function techTrial(ctx: Ctx, st: LState, budget = 140): Deduction | null {
   return null;
 }
 
-export function nextDeduction(p: Puzzle, st: LState, allowTrial = true): Deduction | null {
+export function nextDeduction(p: Puzzle, st: LState, allowTrial = true, trialBudget = 140): Deduction | null {
   const ctx = makeCtx(p);
-  const d = basicDeduction(ctx, st) ?? (allowTrial ? techTrial(ctx, st) : null);
+  const d = basicDeduction(ctx, st) ?? (allowTrial ? techTrial(ctx, st, trialBudget) : null);
   return d && { ...d, text: tidy(d.text), nudge: d.nudge && tidy(d.nudge) };
 }
 
@@ -768,7 +772,8 @@ export interface LogicReport {
 }
 
 /** Resuelve el puzzle "como un humano" y devuelve el recorrido completo. */
-export function solveLogically(p: Puzzle, opts: { allowTrial?: boolean; maxSteps?: number } = {}): LogicReport {
+export function solveLogically(p: Puzzle, opts: { allowTrial?: boolean; maxSteps?: number; deadline?: number } = {}): LogicReport {
+  const deadline = opts.deadline ?? Infinity;
   const ctx = makeCtx(p);
   const st = initialState(p);
   const steps: Deduction[] = [];
@@ -778,7 +783,8 @@ export function solveLogically(p: Puzzle, opts: { allowTrial?: boolean; maxSteps
   const maxSteps = opts.maxSteps ?? 400;
   for (let it = 0; it < maxSteps; it++) {
     if (st.placed.every((x) => x >= 0)) break;
-    const d = basicDeduction(ctx, st) ?? (opts.allowTrial !== false ? techTrial(ctx, st) : null);
+    if (Date.now() > deadline) break;
+    const d = basicDeduction(ctx, st) ?? (opts.allowTrial !== false ? techTrial(ctx, st, 140, deadline) : null);
     if (!d) break;
     for (const [k, i] of d.elim) {
       if (sol[k] === i) sound = false;

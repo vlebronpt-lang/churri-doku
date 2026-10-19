@@ -3,7 +3,7 @@ import { displayName, withPrep } from '../../engine/text';
 import { Portrait } from '../Portrait';
 import { ClueText, type Highlight } from './ClueText';
 
-export function SuspectCard({ p, ch, selected, placed, simple, genderSymbols, onSelect, onHighlight, onDragStart, index }: {
+export function SuspectCard({ p, ch, selected, placed, simple, genderSymbols, onSelect, onHighlight, onDragStart, onFeedback, index }: {
   p: Puzzle;
   ch: CharacterDef;
   selected: boolean;
@@ -13,6 +13,8 @@ export function SuspectCard({ p, ch, selected, placed, simple, genderSymbols, on
   onSelect: () => void;
   onHighlight: (h: Highlight | null) => void;
   onDragStart?: (e: React.PointerEvent) => void;
+  /** «Esta pista me confunde». */
+  onFeedback?: () => void;
   index: number;
 }) {
   const tilt = ((index * 37) % 5) - 2;
@@ -40,6 +42,9 @@ export function SuspectCard({ p, ch, selected, placed, simple, genderSymbols, on
         <span className="suspect__cname" aria-hidden="true">{displayName(ch)}</span>
         {ch.victim && <span className="suspect__victim">Víctima</span>}
         <ClueText p={p} ch={ch} simple={simple} onHighlight={onHighlight} />
+        {onFeedback && !ch.victim && (
+          <button className="clue-flag" onClick={(e) => { e.stopPropagation(); onFeedback(); }} aria-label={`La pista ${withPrep('de', ch)} me confunde`} title="¿Esta pista te confunde? Avísanos">?</button>
+        )}
       </div>
     </div>
   );

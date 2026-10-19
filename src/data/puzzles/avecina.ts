@@ -74,13 +74,13 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "E": [7, 4], "Am": [2, 1], "M": [1, 3], "B": [5, 6], "C": [4, 0], "J": [0, 7], "V": [3, 5], "AR": [6, 2] },
   clues: {
-    "E": [{"t":"offset","axis":"col","n":3,"dir":"W","of":"J"}],
-    "Am": [{"t":"beside","obj":"sofa"}],
+    "E": [{"t":"dir","dir":"E","of":"M"}],
+    "Am": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"S","cond":{"t":"on","obj":"agua"}}],
     "M": [{"t":"withGender","g":"f"}],
     "B": [{"t":"on","obj":"agua"}],
     "C": [{"t":"inRoom","room":"P"},{"t":"not","c":{"t":"beside","obj":"barra"}}],
-    "J": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"Am"}],
-    "V": [{"t":"onlyOn","obj":"banco"}],
+    "J": [{"t":"dir","dir":"NE","of":"E"}],
+    "V": [{"t":"offset","axis":"row","n":2,"dir":"S","of":"M"}],
   },
   // </gen>
   wantMurderer: 'E',

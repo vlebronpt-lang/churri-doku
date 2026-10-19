@@ -3,6 +3,8 @@ import { Modal } from './Modal';
 import { useSettings, type Settings } from '../state/settings';
 import { resetAll } from '../state/progress';
 import { ProgressLinkButton } from './ShareDialogs';
+import { AppSettings, HelpImprove, PasteProgress } from './SettingsExtras';
+import { resetAchievements } from '../state/achievements';
 
 function Toggle({ k, label, hint }: { k: keyof Settings; label: string; hint?: string }) {
   const { settings, set } = useSettings();
@@ -73,6 +75,13 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
       <h3 className="settings__group">En pareja</h3>
       <NameField />
       <ProgressLinkButton />
+      <PasteProgress />
+
+      <h3 className="settings__group">App y recordatorios</h3>
+      <AppSettings />
+
+      <h3 className="settings__group">Ayudar a mejorar</h3>
+      <HelpImprove />
 
       <h3 className="settings__group">Sonido</h3>
       <Toggle k="sound" label="Efectos de sonido" />
@@ -85,7 +94,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         ) : (
           <span className="row gap">
             <span className="small">¿Seguro? Se borran todos los casos.</span>
-            <button className="btn btn--danger btn--sm" onClick={() => { resetAll(); setConfirm(false); }}>Sí, borrar</button>
+            <button className="btn btn--danger btn--sm" onClick={() => { resetAll(); resetAchievements(); setConfirm(false); }}>Sí, borrar</button>
             <button className="btn btn--ghost btn--sm" onClick={() => setConfirm(false)}>Cancelar</button>
           </span>
         )}

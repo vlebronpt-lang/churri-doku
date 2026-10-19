@@ -6,9 +6,10 @@ const BASE = import.meta.env.BASE_URL;
 const PALETTE = ['#f4a3b5', '#9fc5f8', '#ffd27a', '#a6e3c5', '#c9b6f2', '#ffb48a', '#8fd3d6', '#f7c6e0', '#b8d98f', '#e8b8a0'];
 
 export function portraitUrl(p: Puzzle, ch: CharacterDef, variant: 'web' | 'print' | 'print-bn' = 'web') {
-  if (variant === 'print') return `${BASE}img/print/${p.id}/${ch.id}.jpg`;
-  if (variant === 'print-bn') return `${BASE}img/print/${p.id}/${ch.id}-bn.jpg`;
-  return `${BASE}img/portraits/${p.id}/${ch.id}.webp`;
+  const art = p.art ?? p.id;
+  if (variant === 'print') return `${BASE}img/print/${art}/${ch.id}.jpg`;
+  if (variant === 'print-bn') return `${BASE}img/print/${art}/${ch.id}-bn.jpg`;
+  return `${BASE}img/portraits/${art}/${ch.id}.webp`;
 }
 
 export function charColor(p: Puzzle, ch: CharacterDef) {

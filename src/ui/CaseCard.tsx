@@ -12,7 +12,7 @@ export function CaseCover({ p, className = '' }: { p: Puzzle; className?: string
   const [failed, setFailed] = useState(false);
   const svg = useMemo(() => (failed ? renderBoard(p, { labels: false, idp: `cv-${p.id}` }) : ''), [failed, p]);
   if (!failed) {
-    return <img className={`cover ${className}`} src={`${BASE}img/covers/${p.id}.webp`} alt="" loading="lazy" onError={() => setFailed(true)} />;
+    return <img className={`cover ${className}`} src={`${BASE}img/covers/${p.art ?? p.id}.webp`} alt="" loading="lazy" onError={() => setFailed(true)} />;
   }
   return <div className={`cover cover--board ${className}`} dangerouslySetInnerHTML={{ __html: svg }} />;
 }

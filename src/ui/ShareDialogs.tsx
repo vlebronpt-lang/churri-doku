@@ -7,6 +7,8 @@ import { getStore, importProgress, summarize, type CaseProgress } from '../state
 import { challengeUrl, decodeProgress, progressUrl, shareOrCopy, siteUrl, type Challenge } from '../share';
 import { formatTime } from '../game/useGame';
 import { navigate } from '../router';
+import { caseRoute } from '../data/labels';
+import { recordEvent } from '../state/achievements';
 
 const stars = (n: number) => '⭐'.repeat(Math.max(1, Math.min(3, n)));
 
@@ -17,11 +19,13 @@ export function ChallengeDialog({ p, progress, onClose }: { p: Puzzle; progress:
   const [done, setDone] = useState<'shared' | 'copied' | 'failed' | null>(null);
   const time = progress.bestTime ?? progress.time;
   const c: Challenge = { n: name.trim() || 'Alguien', t: time, s: progress.stars ?? 1, h: progress.hints };
-  const url = challengeUrl(p.id, c);
+  const url = challengeUrl(caseRoute(p), c);
   const text = `💘 ${c.n} te reta en Churri-doku: «${p.title}» (${p.franchise}) resuelto en ${formatTime(time)} ${stars(c.s)}. ¿Lo superas?`;
   const send = async () => {
     if (name.trim()) set('playerName', name.trim());
-    setDone(await shareOrCopy(text, url));
+    const r = await shareOrCopy(text, url);
+    if (r !== 'failed') recordEvent((e) => ({ challengesSent: (e.challengesSent ?? 0) + 1 }));
+    setDone(r);
   };
   return (
     <Modal title="Retar a mi churri" onClose={onClose} labelledBy="challenge-title" className="share-dialog">

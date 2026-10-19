@@ -100,7 +100,7 @@ export function HowTo({ onClose }: { onClose: () => void }) {
 
       {tab === 'Controles' && (
         <div className="howto-list">
-          <p><strong>Elige un sospechoso</strong> tocando su foto (o pulsando su letra en el teclado). Luego <strong>toca una casilla</strong> para colocarlo; tócala otra vez para quitarlo.</p>
+          <p><strong>Elige un sospechoso</strong> tocando su foto (o pulsando su letra en el teclado). Luego <strong>toca una casilla</strong> para colocarlo; tócala otra vez para quitarlo. También puedes <strong>arrastrar su foto</strong> hasta la casilla (en el móvil, mantén el dedo un instante sobre la foto y arrastra) y <strong>mover una ficha</strong> arrastrándola a otra casilla; si cae sobre otra persona, se intercambian.</p>
           <p><strong>Lápiz:</strong> anota posibilidades con letras pequeñas. Sin cambiar de herramienta, también puedes <strong>mantener pulsada</strong> una casilla para anotar. Arrastra para anotar en varias.</p>
           <p><strong>Tachar (X):</strong> marca casillas donde no puede haber nadie. Arrastra para tachar muchas de una vez. Las X más marcadas son automáticas y definitivas: salen al colocar a alguien (o al marcar una casilla como ocupada) en toda su fila y su columna.</p>
           <p><strong>Ocupada:</strong> marca una casilla en la que sabes que hay alguien aunque aún no sepas quién (por ejemplo, porque es la única libre de su fila). Se ve como un hueco amarillo con una silueta y, como solo cabe una persona por fila y columna, también tacha el resto de su fila y su columna.</p>
@@ -110,6 +110,7 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <p><strong>Pista:</strong> primero un empujoncito, luego la explicación completa y, si quieres, la aplica por ti. Las pistas se calculan a partir de tu tablero.</p>
           <p><strong>Revisar</strong> marca en rojo lo que esté mal. Usar pistas o revisar baja la nota final (las estrellas).</p>
           <p><strong>Al pasar el ratón</strong> por una pista, el tablero resalta lo que menciona y aparece la definición de las palabras clave.</p>
+          <p><strong>En el móvil:</strong> en los planos grandes, <strong>Ampliar plano</strong> lo agranda y te mueves por él con el dedo (mientras está ampliado, arrastrar desplaza el plano en vez de pintar). Si giras el móvil, el plano y las herramientas se colocan uno al lado del otro.</p>
           <p className="kbd-help"><kbd>←↑→↓</kbd> moverse · <kbd>Intro</kbd> colocar · <kbd>Mayús</kbd>+<kbd>Intro</kbd> anotar · <kbd>N</kbd> lápiz · <kbd>X</kbd> tachar · <kbd>O</kbd> ocupada · <kbd>B</kbd> borrar · <kbd>H</kbd> pista · <kbd>Ctrl</kbd>+<kbd>Z</kbd> deshacer · <kbd>Esc</kbd> soltar</p>
         </div>
       )}
@@ -135,7 +136,8 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <Card title="Filas o columnas reservadas" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'a', '0,1': 'a', '1,0': 'b', '1,1': 'b', '2,0': 'x', '2,1': 'x' }} />}>Si A solo puede estar en dos casillas de las columnas 1 y 2, y B también, esas dos columnas son para ellos: nadie más puede ocuparlas.</Card>
           <Card title="Casillas alineadas" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'a', '2,2': 'a', '0,2': 'x', '2,0': 'x' }} />}>Si alguien solo puede estar en dos casillas, nadie más podrá ocupar las casillas que comparten fila o columna con ambas.</Card>
           <Card title="¿Quién acompaña a la víctima?">En la zona de la víctima hay exactamente otra persona. Si solo una puede llegar ahí, es el asesino.</Card>
-          <Card title="Supón y busca la contradicción">En los casos Experto, a veces conviene suponer: «si X estuviera aquí…». Si eso deja a alguien sin sitio, puedes descartar esa casilla.</Card>
+          <Card title="Supón y busca la contradicción">A partir de Medio hay que suponer: «si X estuviera aquí…». Sigue las consecuencias unos pocos pasos; si alguien se queda sin sitio (o dos personas acaban en la misma fila), esa casilla queda descartada.</Card>
+          <Card title="Practícalas en la Academia">En <strong>Academia</strong> tienes un tutorial guiado de 3 minutos y una lección por técnica, cada una con su minicaso para practicarla.</Card>
         </div>
       )}
 
@@ -148,7 +150,11 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <details><summary>¿Se puede estar en el agua?</summary><p>Sí: el agua y las alfombras se pueden ocupar, salvo que encima haya algo que no se pueda ocupar (una mesa, una roca…). Ojo: quien va en una barca está «en la barca», no «en el agua». En cambio, quien está en una silla puesta sobre una alfombra sí está «sobre una alfombra».</p></details>
           <details><summary>¿Los objetos grandes ocupan varias casillas?</summary><p>Sí (mesas, camas, coches…), pero una persona solo ocupa una casilla.</p></details>
           <details><summary>¿Siempre hay una sola solución?</summary><p>Sí, y todos los casos se han verificado con un programa que lo comprueba. Si te sale otra cosa, repasa una palabra clave: es fácil pasar por alto un «no» o un «exactamente».</p></details>
-          <details><summary>¿Se guarda mi progreso?</summary><p>Sí, automáticamente en este navegador, incluido el tiempo. Puedes cerrar y seguir otro día. Para seguir en otro ordenador o en el móvil, abre <strong>Ajustes → Pasar mi progreso a otro dispositivo</strong> y abre ese enlace allí.</p></details>
+          <details><summary>¿Por qué son tan difíciles?</summary><p>Porque así lo pidieron quienes los probaron. Incluso «Muy fácil» exige encadenar deducciones, y desde «Medio» hay que hacer suposiciones. Si te atascas, empieza por el tutorial y la Academia, y recuerda que las pistas te explican el siguiente paso sin destripar el caso.</p></details>
+          <details><summary>¿Qué es el caso del día?</summary><p>Cada día hay un caso nuevo: el lunes, muy fácil; el sábado, experto. Usa el plano de uno de los 25 casos, pero con otra colocación, otras pistas y otro culpable. Si lo resuelves ese mismo día, sumas un día a tu <strong>racha</strong> 🔥. Los de días anteriores están en el <strong>Archivo</strong>.</p></details>
+          <details><summary>¿Se guarda mi progreso?</summary><p>Sí, automáticamente en este navegador, incluido el tiempo. Puedes cerrar y seguir otro día. Para seguir en otro ordenador o en el móvil, abre <strong>Ajustes → Pasar mi progreso a otro dispositivo</strong> y abre ese enlace allí (o pégalo en <strong>Traer progreso desde un enlace</strong>).</p></details>
+          <details><summary>¿Puedo instalarlo como una app y jugar sin conexión?</summary><p>Sí. En <strong>Ajustes → App y recordatorios</strong> puedes instalarlo (en iPhone: botón Compartir de Safari → «Añadir a pantalla de inicio») y pulsar <strong>Descargar todo</strong> para jugar sin internet. También puedes añadir a tu calendario un recordatorio diario del caso del día.</p></details>
+          <details><summary>¿Y si una pista me confunde?</summary><p>Pulsa el <strong>?</strong> que aparece junto a la pista (en el móvil, «¿Te confunde esta pista?») y cuéntanos qué pasa. Se guarda en tu informe de juego (<strong>Ajustes → Ayudar a mejorar</strong>), que puedes mandar a quien crea los casos para mejorarlos.</p></details>
           <details><summary>¿Cómo juego con mi pareja si usa otro dispositivo?</summary><p>Cada uno abre esta misma página en su móvil u ordenador. Cuando resuelvas un caso, pulsa <strong>«Retar a mi churri»</strong> y mándale el enlace por WhatsApp o por donde queráis: verá tu tiempo antes de empezar y, al terminar, quién ha ganado. Luego puede devolverte el reto.</p></details>
           <details><summary>¿Puedo jugar en papel?</summary><p>Sí. En <strong>Descargas</strong> tienes cada caso en PDF (color, blanco y negro y solución) o todos juntos en un libro.</p></details>
         </div>

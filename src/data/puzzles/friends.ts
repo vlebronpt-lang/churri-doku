@@ -61,12 +61,12 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "Ra": [2, 3], "M": [4, 4], "P": [3, 0], "Ro": [1, 5], "C": [6, 2], "J": [0, 6], "H": [5, 1] },
   clues: {
-    "Ra": [{"t":"offset","axis":"row","n":1,"dir":"N","of":"P"}],
+    "Ra": [{"t":"offset","axis":"row","n":2,"dir":"S","of":"J"}],
     "M": [{"t":"on","obj":"butaca"}],
     "P": [{"t":"beside","obj":"fogon"}],
-    "Ro": [{"t":"on","obj":"reclinable"}],
-    "C": [{"t":"corner"}],
-    "J": [{"t":"aloneWith","of":"Ro"}],
+    "Ro": [{"t":"sameRoom","of":"J"}],
+    "C": [{"t":"diagonal","of":"M"}],
+    "J": [{"t":"dir","dir":"NE","of":"Ro"}],
   },
   // </gen>
   wantMurderer: 'C',

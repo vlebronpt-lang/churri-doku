@@ -76,13 +76,13 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "M": [2, 1], "E": [4, 2], "T": [3, 7], "X": [5, 5], "B": [1, 4], "W": [0, 6], "C": [7, 0], "R": [6, 3] },
   clues: {
-    "M": [{"t":"beside","obj":"chelo_miercoles"}],
-    "E": [{"t":"col","cols":[1,2]}],
-    "T": [{"t":"offset","axis":"row","n":1,"dir":"S","of":"M"}],
-    "X": [{"t":"on","obj":"banco"}],
-    "B": [{"t":"dir","dir":"N","of":"T"}],
-    "W": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"M"}],
-    "C": [{"t":"beside","obj":"lapida"}],
+    "M": [{"t":"dir","dir":"W","of":"B"}],
+    "E": [{"t":"sameRoom","of":"X"}],
+    "T": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"X"}],
+    "X": [{"t":"onlyOn","obj":"banco"}],
+    "B": [{"t":"beside","obj":"estanteria"}],
+    "W": [{"t":"dir","dir":"NE","of":"E"}],
+    "C": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"E","cond":{"t":"beside","obj":"chelo_miercoles"}}],
   },
   // </gen>
   wantMurderer: 'T',

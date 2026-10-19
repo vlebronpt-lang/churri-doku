@@ -8,6 +8,7 @@ import { displayName } from '../../engine/text';
 import { Icon } from '../Icon';
 import { FloatingTip } from '../Tooltip';
 import { occupancyText } from '../../render/legend';
+import { DragGhost } from './drag';
 
 export interface BoardMarks {
   conflicts: Set<number>;
@@ -47,11 +48,17 @@ interface Props {
   onPaint: (cell: number) => void;
   onPaintEnd: () => void;
   stamp?: string | null;
+  /** Mover fichas arrastrándolas de una casilla a otra. */
+  onMove?: (from: number, to: number) => void;
+  /** Casilla sobre la que se está soltando a alguien desde fuera del plano. */
+  dropCell?: number | null;
+  /** Plano ampliado (móvil): un dedo desplaza el plano en vez de pintar. */
+  zoomed?: boolean;
 }
 
 const LONG_MS = 430;
 
-function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp }: Props) {
+function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp, onMove, dropCell = null, zoomed = false }: Props) {
   const svg = useMemo(() => renderBoard(p, { shade, shadow: true, idp: `bd-${p.id}` }), [p, shade]);
   const { w: W, h: H, off } = boardSize(p, false);
   const s = p.size;
@@ -67,7 +74,10 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     const t = window.setTimeout(() => setInfoCell(hover), 650);
     return () => window.clearTimeout(t);
   }, [hover]);
-  const press = useRef<{ cell: number; timer: number; long: boolean; painting: boolean; last: number; x: number; y: number } | null>(null);
+  const press = useRef<{ cell: number; timer: number; long: boolean; painting: boolean; last: number; x: number; y: number; token?: string; moving?: boolean } | null>(null);
+  // Ficha que se está moviendo de casilla.
+  const [moving, setMoving] = useState<{ id: string; from: number; x: number; y: number; cell: number | null; touch: boolean } | null>(null);
+  const paint = zoomed ? null : paintMode;
 
   const cellAt = useCallback((x: number, y: number): number | null => {
     const el = overlay.current;
@@ -86,12 +96,13 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     if (cell === null) return;
     overlay.current?.setPointerCapture(e.pointerId);
     const timer = window.setTimeout(() => {
-      if (press.current && !press.current.painting) {
+      if (press.current && !press.current.painting && !press.current.moving) {
         press.current.long = true;
         onTap(press.current.cell, true);
       }
     }, LONG_MS);
-    press.current = { cell, timer, long: false, painting: false, last: cell, x: e.clientX, y: e.clientY };
+    const token = onMove && !zoomed && paint !== 'x' && paint !== 'erase' ? board.placed[cell] : undefined;
+    press.current = { cell, timer, long: false, painting: false, last: cell, x: e.clientX, y: e.clientY, token };
     setCursor(cell);
   };
 
@@ -99,10 +110,17 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     const cell = cellAt(e.clientX, e.clientY);
     if (e.pointerType === 'mouse') setHover(cell);
     const pr = press.current;
+    // Arrastrar una ficha: sigue al puntero hasta que se suelta en otra casilla.
+    if (pr?.token && (pr.moving || (cell !== pr.cell && Math.hypot(e.clientX - pr.x, e.clientY - pr.y) > 6))) {
+      window.clearTimeout(pr.timer);
+      pr.moving = true;
+      setMoving({ id: pr.token, from: pr.cell, x: e.clientX, y: e.clientY, cell, touch: e.pointerType !== 'mouse' });
+      return;
+    }
     if (!pr || cell === null) return;
     if (cell !== pr.last) {
       window.clearTimeout(pr.timer);
-      if (paintMode && !pr.long) {
+      if (paint && !pr.long && !pr.token) {
         if (!pr.painting) {
           pr.painting = true;
           onPaintStart(pr.cell);
@@ -113,11 +131,15 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     }
   };
 
-  const onPointerUp = () => {
+  const onPointerUp = (e: React.PointerEvent) => {
     const pr = press.current;
     if (!pr) return;
     window.clearTimeout(pr.timer);
-    if (pr.painting) onPaintEnd();
+    if (pr.moving) {
+      const to = cellAt(e.clientX, e.clientY);
+      if (to !== null && to !== pr.cell) onMove?.(pr.cell, to);
+      setMoving(null);
+    } else if (pr.painting) onPaintEnd();
     else if (!pr.long) onTap(pr.cell, false);
     press.current = null;
   };
@@ -128,6 +150,7 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
       window.clearTimeout(pr.timer);
       if (pr.painting) onPaintEnd();
     }
+    setMoving(null);
     press.current = null;
   };
 
@@ -191,6 +214,9 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     if (persons && notes?.some((n) => persons.has(n))) cls.push('hl-note');
     if (!ch && selected && notes?.includes(selected)) cls.push('hl-selnote');
     if (!ch && lineOcc.has(i)) cls.push(lineOcc.get(i) ? 'is-lineocc is-lineocc-one' : 'is-lineocc');
+    const dropping = moving ? moving.cell : dropCell;
+    if (dropping === i && (!moving || moving.from !== i)) cls.push(cell.occupiable ? 'is-drop' : 'is-drop is-drop-bad');
+    if (moving?.from === i) cls.push('is-moving');
     const label = `Fila ${cell.r + 1}, columna ${cell.c + 1}, ${p.rooms[cell.room].name}${cell.obj ? `, ${p.objects[cell.obj].name}` : ''}${cell.floor ? `, ${p.objects[cell.floor].name}` : ''}${ch ? `: ${displayName(ch)}` : ''}${!ch && occ ? ', ocupada por alguien' : ''}${!ch && lineOcc.has(i) ? ', aquí puede estar la persona de su fila o columna' : ''}${x ? ', descartada' : ''}`;
     cells.push(
       <div key={i} className={cls.join(' ')} role="gridcell" aria-label={label}>
@@ -287,7 +313,7 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
       <div className="board__svg" dangerouslySetInnerHTML={{ __html: svg }} />
       <div
         ref={overlay}
-        className={`board__grid${paintMode ? ` mode-${paintMode}` : ''}`}
+        className={`board__grid${paint ? ` mode-${paint}` : ''}${zoomed ? ' is-zoomed' : ''}`}
         role="grid"
         aria-label="Escena del crimen"
         tabIndex={0}
@@ -314,6 +340,10 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
       {stamp && <div className="board__stamp" aria-live="polite"><span>{stamp}</span></div>}
     </div>
       {info}
+      {moving && (() => {
+        const ch = p.cast.find((c) => c.id === moving.id);
+        return ch ? <DragGhost p={p} ch={ch} x={moving.x} y={moving.y} touch={moving.touch} ok={moving.cell !== null && p.cells[moving.cell].occupiable} /> : null;
+      })()}
     </div>
   );
 }

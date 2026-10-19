@@ -47,8 +47,9 @@ export function siteUrl(): string {
   return `${location.origin}${location.pathname}`;
 }
 
-export function challengeUrl(caseId: string, c: Challenge): string {
-  return `${siteUrl()}#/caso/${caseId}?reto=${encodeChallenge(c)}`;
+/** `route` es la ruta del caso: «/caso/friends», «/diario/2026-10-20»… */
+export function challengeUrl(route: string, c: Challenge): string {
+  return `${siteUrl()}#${route}?reto=${encodeChallenge(c)}`;
 }
 
 // --------------------------------------------------------------- progreso
@@ -64,11 +65,19 @@ async function inflate(bytes: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(await new Response(ds).arrayBuffer());
 }
 
-/** Enlace que contiene todo el progreso (comprimido si el navegador lo permite). */
-export async function progressUrl(store: unknown): Promise<string> {
-  const { data, z } = await deflate(enc.encode(JSON.stringify(store)));
-  return `${siteUrl()}#/progreso/${z ? 'z' : 'j'}${toB64Url(data)}`;
+/** Enlace con datos comprimidos (si el navegador lo permite) en la ruta indicada. */
+export async function packUrl(route: string, value: unknown): Promise<string> {
+  const { data, z } = await deflate(enc.encode(JSON.stringify(value)));
+  return `${siteUrl()}#${route}/${z ? 'z' : 'j'}${toB64Url(data)}`;
 }
+
+/** Enlace que contiene todo el progreso. */
+export async function progressUrl(store: unknown): Promise<string> {
+  return packUrl('/progreso', store);
+}
+
+/** Lee el contenido de un enlace hecho con packUrl/progressUrl. */
+export const decodePacked = (payload: string) => decodeProgress(payload);
 
 export async function decodeProgress(payload: string): Promise<Record<string, unknown> | null> {
   try {

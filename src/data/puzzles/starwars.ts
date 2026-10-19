@@ -82,14 +82,14 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "L": [4, 2], "H": [1, 8], "Lu": [7, 4], "C": [0, 7], "3P": [8, 3], "R2": [3, 0], "B": [5, 1], "La": [6, 6], "J": [2, 5] },
   clues: {
-    "L": [{"t":"offset","axis":"row","n":3,"dir":"S","of":"H"}],
-    "H": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"W","cond":{"t":"beside","obj":"banco"}}],
-    "Lu": [{"t":"col","cols":[4]}],
-    "C": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"S","cond":{"t":"beside","obj":"fogon"}}],
-    "3P": [{"t":"inRoom","room":"E"},{"t":"not","c":{"t":"beside","obj":"roca"}}],
-    "R2": [{"t":"on","obj":"taburete"}],
-    "B": [{"t":"inRoom","room":"C"},{"t":"corner"}],
-    "La": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"3P"}],
+    "L": [{"t":"offset","axis":"row","n":3,"dir":"N","of":"Lu"}],
+    "H": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"W","cond":{"t":"beside","obj":"esclavo_i"}}],
+    "Lu": [{"t":"sameRoom","of":"3P"}],
+    "C": [{"t":"col","cols":[7,8]}],
+    "3P": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"beside","obj":"foso_rancor"}}],
+    "R2": [{"t":"dir","dir":"W","of":"B"}],
+    "B": [{"t":"withSomeoneBeside","obj":"fogon"}],
+    "La": [{"t":"beside","obj":"banco"}],
   },
   // </gen>
   wantMurderer: 'L',

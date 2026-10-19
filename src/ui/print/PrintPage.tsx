@@ -198,6 +198,7 @@ export function PrintRules() {
             <li><b>Una persona por fila y por columna.</b> Hay tantas personas como filas.</li>
             <li>Solo se puede estar en casillas libres o en objetos ocupables: sillas, sillones, bancos, camas, alfombras, barcas… Nunca sobre mesas, estanterías, plantas, árboles, estatuas…</li>
             <li>Las pistas siempre dicen la verdad. Cada caso tiene una única solución y se resuelve sin adivinar.</li>
+            <li>Desde el nivel Medio hay que <b>suponer y descartar</b>: «si X estuviera aquí…»; si eso lleva a algo imposible, esa casilla queda descartada.</li>
           </ul>
         </div>
         <div>

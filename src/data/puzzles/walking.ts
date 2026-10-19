@@ -66,13 +66,13 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "R": [3, 1], "M": [6, 4], "D": [1, 7], "C": [7, 6], "G": [0, 3], "Ma": [2, 2], "H": [4, 0], "Go": [5, 5] },
   clues: {
-    "R": [{"t":"on","obj":"camilla"}],
-    "M": [{"t":"offset","axis":"col","n":1,"dir":"E","of":"G"}],
-    "D": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"R"}],
-    "C": [{"t":"beside","obj":"planta"}],
-    "G": [{"t":"inRoom","room":"B"},{"t":"not","c":{"t":"beside","obj":"inodoro"}}],
-    "Ma": [{"t":"withSomeoneOn","obj":"litera"}],
-    "H": [{"t":"dir","dir":"SW","of":"R"}],
+    "R": [{"t":"offset","axis":"col","n":1,"dir":"W","of":"Ma"}],
+    "M": [{"t":"offset","axis":"col","n":3,"dir":"W","of":"D"}],
+    "D": [{"t":"someoneAtOffset","axis":"row","n":2,"dir":"S","cond":{"t":"beside","obj":"armario"}}],
+    "C": [{"t":"roomEmpty","room":"T"}],
+    "G": [{"t":"onlyOn","obj":"litera"}],
+    "Ma": [{"t":"aloneWith","of":"G"}],
+    "H": [{"t":"inRoom","room":"E"},{"t":"not","c":{"t":"beside","obj":"armario"}}],
   },
   // </gen>
   wantMurderer: 'M',

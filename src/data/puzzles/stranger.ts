@@ -63,9 +63,9 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "N": [0, 2], "S": [1, 0], "J": [3, 1], "T": [2, 5], "D": [4, 4], "B": [5, 3] },
   clues: {
-    "N": [{"t":"dir","dir":"N","of":"S"}],
-    "S": [{"t":"on","obj":"cama"}],
-    "J": [{"t":"beside","obj":"farola"}],
+    "N": [{"t":"aloneWith","of":"S"}],
+    "S": [{"t":"dir","dir":"W","of":"J"}],
+    "J": [{"t":"someoneAtOffset","axis":"row","n":2,"dir":"N","cond":{"t":"on","obj":"cama"}}],
     "T": [{"t":"beside","obj":"barril_cerveza"}],
     "D": [{"t":"on","obj":"agua"}],
   },

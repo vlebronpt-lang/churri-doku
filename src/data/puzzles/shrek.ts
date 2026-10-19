@@ -55,10 +55,10 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "S": [4, 4], "A": [1, 2], "F": [0, 3], "D": [3, 0], "LF": [2, 1] },
   clues: {
-    "S": [{"t":"on","obj":"agua"}],
-    "A": [{"t":"beside","obj":"armadura"}],
-    "F": [{"t":"inRoom","room":"T"}],
-    "D": [{"t":"col","cols":[0]}],
+    "S": [{"t":"inRoom","room":"P"}],
+    "A": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"on","obj":"agua"}}],
+    "F": [{"t":"alone"}],
+    "D": [{"t":"on","obj":"banco"}],
   },
   // </gen>
   wantMurderer: 'D',

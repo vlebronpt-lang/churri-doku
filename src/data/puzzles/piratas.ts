@@ -40,7 +40,7 @@ const puzzle: PuzzleInput = {
   legend: {
     r: 'roca',
     X: { base: 'cofre', key: 'cofre_azteca', name: 'cofre del oro azteca', plural: 'cofres del oro azteca', unique: true, fem: false, tint: '#7a4a2c' },
-    o: { base: 'oro', key: 'monton_oro', name: 'montón de oro', plural: 'montones de oro', fem: false },
+    o: { base: 'oro', key: 'monton_oro', name: 'montón de oro', plural: 'montones de oro', fem: false, icon: 'treasure' },
     b: 'barca',
     p: 'palmera',
     T: { base: 'timon', key: 'timon_perla', name: 'timón de la Perla Negra', plural: 'timones de la Perla Negra', unique: true, fem: false },
@@ -59,11 +59,11 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "J": [1, 2], "W": [2, 5], "E": [3, 3], "G": [4, 1], "N": [5, 4], "B": [0, 0] },
   clues: {
-    "J": [{"t":"beside","obj":"monton_oro"}],
-    "W": [{"t":"dir","dir":"E","of":"N"}],
-    "E": [{"t":"inRoom","room":"P"},{"t":"not","c":{"t":"beside","obj":"barril"}}],
-    "G": [{"t":"beside","obj":"timon_perla"}],
-    "N": [{"t":"inRoom","room":"P"}],
+    "J": [{"t":"beside","obj":"cofre_azteca"}],
+    "W": [{"t":"on","obj":"barca"}],
+    "E": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"N"}],
+    "G": [{"t":"dir","dir":"W","of":"J"}],
+    "N": [{"t":"aloneWith","of":"E"}],
   },
   // </gen>
   wantMurderer: 'J',

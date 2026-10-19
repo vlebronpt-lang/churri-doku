@@ -66,10 +66,10 @@ const puzzle: PuzzleInput = {
   solution: { "W": [3, 1], "B": [2, 0], "J": [1, 4], "K": [0, 3], "Bb": [5, 2], "L": [4, 5] },
   clues: {
     "W": [{"t":"beside","obj":"maquina_expendedora"}],
-    "B": [{"t":"inRoom","room":"M"},{"t":"not","c":{"t":"beside","obj":"bloques"}}],
-    "J": [{"t":"on","obj":"caballito"}],
-    "K": [{"t":"beside","obj":"muneca"}],
-    "Bb": [{"t":"dir","dir":"W","of":"K"}],
+    "B": [{"t":"on","obj":"sillita"}],
+    "J": [{"t":"sameRoom","of":"K"}],
+    "K": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"E","cond":{"t":"beside","obj":"muneca"}}],
+    "Bb": [{"t":"inRoom","room":"P"},{"t":"not","c":{"t":"beside","obj":"bicicleta"}}],
   },
   // </gen>
   wantMurderer: 'Bb',

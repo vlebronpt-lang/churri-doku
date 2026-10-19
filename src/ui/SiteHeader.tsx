@@ -3,7 +3,17 @@ import { Icon } from './Icon';
 import { navigate } from '../router';
 import { useSettings } from '../state/settings';
 
-export function SiteHeader({ current, onHelp, onSettings }: { current: string; onHelp: () => void; onSettings: () => void }) {
+export type Section = 'home' | 'daily' | 'academy' | 'stats' | 'downloads';
+
+const NAV: { id: Section; label: string; route: string }[] = [
+  { id: 'home', label: 'Casos', route: '/' },
+  { id: 'daily', label: 'Hoy', route: '/diario' },
+  { id: 'academy', label: 'Academia', route: '/academia' },
+  { id: 'stats', label: 'Logros', route: '/logros' },
+  { id: 'downloads', label: 'Descargas', route: '/descargas' },
+];
+
+export function SiteHeader({ current, onHelp, onSettings }: { current: Section | null; onHelp: () => void; onSettings: () => void }) {
   const { settings, set } = useSettings();
   const dark = settings.theme === 'dark' || (settings.theme === 'auto' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
   return (
@@ -12,11 +22,14 @@ export function SiteHeader({ current, onHelp, onSettings }: { current: string; o
         <Logo />
       </a>
       <nav className="site-nav" aria-label="Principal">
-        <a href="#/" className={current === 'home' ? 'is-on' : ''} onClick={(e) => { e.preventDefault(); navigate('/'); }}>Casos</a>
-        <button onClick={onHelp}>Cómo jugar</button>
-        <a href="#/descargas" className={current === 'downloads' ? 'is-on' : ''} onClick={(e) => { e.preventDefault(); navigate('/descargas'); }}>Descargas</a>
+        {NAV.map((n) => (
+          <a key={n.id} href={`#${n.route}`} className={current === n.id ? 'is-on' : ''} aria-current={current === n.id ? 'page' : undefined} onClick={(e) => { e.preventDefault(); navigate(n.route); }}>
+            {n.label}
+          </a>
+        ))}
       </nav>
       <div className="site-head__tools">
+        <button className="icon-btn" onClick={onHelp} aria-label="Cómo se juega" title="Cómo se juega"><Icon name="help" /></button>
         <button className="icon-btn" onClick={() => set('theme', dark ? 'light' : 'dark')} aria-label={dark ? 'Usar tema claro' : 'Usar tema oscuro'} title={dark ? 'Tema claro' : 'Tema oscuro'}>
           <Icon name={dark ? 'sun' : 'moon'} />
         </button>

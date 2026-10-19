@@ -41,7 +41,7 @@ const puzzle: PuzzleInput = {
     y: 'palmera',
     o: 'roca',
     r: 'roca',
-    N: { base: 'nave', key: 'nave_freezer', name: 'nave de Freezer', plural: 'naves de Freezer', unique: true, fem: true, tint: '#c9c3d9' },
+    N: { base: 'nave', key: 'nave_freezer', name: 'nave de Freezer', plural: 'naves de Freezer', unique: true, fem: true, tint: '#c9c3d9', icon: 'saucer' },
     U: 'tumbona',
     A: 'barca',
   },
@@ -57,11 +57,11 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "G": [6, 0], "V": [5, 4], "B": [4, 2], "P": [0, 6], "F": [2, 3], "M": [1, 1], "K": [3, 5] },
   clues: {
-    "G": [{"t":"inRoom","room":"Z"},{"t":"not","c":{"t":"beside","obj":"bola"}}],
+    "G": [{"t":"dir","dir":"SW","of":"V"}],
     "V": [{"t":"on","obj":"barca"}],
-    "B": [{"t":"beside","obj":"nave_freezer"}],
-    "P": [{"t":"inRoom","room":"K"},{"t":"not","c":{"t":"beside","obj":"sofa"}}],
-    "F": [{"t":"offset","axis":"row","n":1,"dir":"S","of":"M"}],
+    "B": [{"t":"offset","axis":"col","n":1,"dir":"W","of":"F"}],
+    "P": [{"t":"dir","dir":"N","of":"F"}],
+    "F": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"beside","obj":"palmera"}}],
     "M": [{"t":"beside","obj":"estanteria"}],
   },
   // </gen>

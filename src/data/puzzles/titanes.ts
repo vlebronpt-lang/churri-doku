@@ -72,14 +72,14 @@ const puzzle: PuzzleInput = {
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
   solution: { "E": [6, 8], "M": [1, 6], "A": [3, 4], "L": [5, 7], "J": [0, 3], "R": [4, 0], "B": [8, 2], "An": [2, 5], "Ma": [7, 1] },
   clues: {
-    "E": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"W","cond":{"t":"beside","obj":"barril_gas"}}],
-    "M": [{"t":"offset","axis":"row","n":1,"dir":"S","of":"J"}],
-    "A": [{"t":"col","cols":[4]}],
-    "L": [{"t":"on","obj":"camilla"}],
-    "J": [{"t":"offset","axis":"col","n":3,"dir":"W","of":"M"}],
-    "R": [{"t":"row","rows":[4,5]}],
-    "B": [{"t":"inRoom","room":"Q"},{"t":"corner"}],
-    "An": [{"t":"aloneWith","of":"A"}],
+    "E": [{"t":"dir","dir":"SE","of":"L"}],
+    "M": [{"t":"offset","axis":"col","n":1,"dir":"E","of":"An"}],
+    "A": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"W","cond":{"t":"beside","obj":"silla"}}],
+    "L": [{"t":"dir","dir":"SE","of":"M"}],
+    "J": [{"t":"offset","axis":"row","n":1,"dir":"N","of":"M"}],
+    "R": [{"t":"beside","obj":"caja"}],
+    "B": [{"t":"corner"}],
+    "An": [{"t":"inRoom","room":"P"},{"t":"corner"}],
   },
   // </gen>
   wantMurderer: 'R',

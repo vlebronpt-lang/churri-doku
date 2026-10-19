@@ -1,12 +1,12 @@
 /**
  * Prueba de las herramientas del tablero: X automáticas, marca «Ocupada» y ventana de borrar.
- *   npx tsx scripts/e2e-tools.ts <prefijo-capturas> [--mobile]   (con el servidor de desarrollo en marcha)
+ *   npx tsx scripts/e2e-tools.ts [prefijo-capturas] [--mobile]   (con el servidor de desarrollo en marcha; E2E_BASE para otra web)
  */
 import { chromium } from 'playwright-core';
 import { compilePuzzle } from '../src/engine/puzzle';
 import type { PuzzleInput } from '../src/engine/types';
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const OUT = process.argv[2];
+const OUT = process.argv.slice(2).find((a) => !a.startsWith('--')) ?? `${process.env.TMPDIR ?? '/tmp'}/e2e-tools`;
 const mobile = process.argv.includes('--mobile');
 async function main() {
   const p = compilePuzzle((await import('../src/data/puzzles/friends.ts')).default as PuzzleInput);
