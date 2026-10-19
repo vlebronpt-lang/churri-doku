@@ -14,7 +14,7 @@ async function main() {
   const ctx = await browser.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true } : { viewport: { width: 1366, height: 860 } });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => console.error('pageerror', e.message));
-  await page.goto('http://127.0.0.1:5173/#/caso/friends', { waitUntil: 'networkidle' });
+  await page.goto((process.env.E2E_BASE ?? 'http://127.0.0.1:5173/') + '#/caso/friends', { waitUntil: 'networkidle' });
   await page.click('.dossier__actions .btn--primary');
   const cell = (i: number) => page.locator('.board__grid [role="gridcell"]').nth(i);
   const pick = async (k: number) => mobile ? page.locator('.strip .chip').nth(k).click() : page.locator('.suspects .suspect').nth(k).locator('.suspect__photo').click();
