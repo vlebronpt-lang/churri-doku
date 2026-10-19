@@ -82,24 +82,24 @@ const puzzle: PuzzleInput = {
     { id: 'S', tag: 'S', name: 'Saruman', gender: 'm', victim: true, clues: [] },
   ],
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
-  solution: { "G": [7, 2], "A": [9, 1], "L": [6, 7], "Gi": [0, 9], "T": [5, 0], "M": [8, 8], "P": [1, 3], "B": [2, 4], "Gr": [4, 6], "S": [3, 5] },
+  solution: { "G": [6, 0], "A": [3, 9], "L": [2, 3], "Gi": [8, 4], "T": [0, 2], "M": [1, 1], "P": [9, 7], "B": [7, 8], "Gr": [4, 6], "S": [5, 5] },
   clues: {
-    "G": [{"t":"col","cols":[1,2]}],
-    "A": [{"t":"inRoom","room":"J"},{"t":"not","c":{"t":"beside","obj":"arbusto"}}],
-    "L": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"N","cond":{"t":"beside","obj":"estanteria"}}],
-    "Gi": [{"t":"inRoom","room":"F"}],
-    "T": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"beside","obj":"arbusto"}}],
-    "M": [{"t":"on","obj":"caballo"}],
-    "P": [{"t":"diagonal","of":"B"}],
-    "B": [{"t":"offset","axis":"col","n":2,"dir":"W","of":"Gr"}],
-    "Gr": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"L"}],
+    "G": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"S","cond":{"t":"beside","obj":"roca"}}],
+    "A": [{"t":"offset","axis":"col","n":2,"dir":"E","of":"P"}],
+    "L": [{"t":"beside","obj":"foso"}],
+    "Gi": [{"t":"beside","obj":"caja"}],
+    "T": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"S","cond":{"t":"on","obj":"agua"}}],
+    "M": [{"t":"besideN","obj":"arbol","n":3}],
+    "P": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"W","cond":{"t":"beside","obj":"estanteria"}}],
+    "B": [{"t":"beside","obj":"caballo"}],
+    "Gr": [{"t":"someoneAtOffset","axis":"row","n":2,"dir":"N","cond":{"t":"beside","obj":"foso"}}],
   },
   // </gen>
   wantMurderer: 'Gr',
   pins: { S: { rooms: ['O'] } },
   story: {
     intro: 'Los ents han pasado por Isengard como un vendaval: el Isen anega los fosos y las forjas se han apagado para siempre. Cuando Gandalf y sus compañeros llegan para parlamentar con el mago, se lo encuentran muerto en lo alto de Orthanc. Los hobbits solo piensan en la hierba para pipa del almacén y Bárbol se toma su tiempo para opinar. ¿Quién mató a Saruman?',
-    epilogue: 'Fue Gríma Lengua de Serpiente. Llevaba años aguantando a un amo que lo trataba peor que a un orco, y cuando Saruman, repantigado en su trono y sin apartar la vista del palantír, volvió a llamarlo gusano, Gríma sacó el cuchillo y se lo clavó. Luego intentó echarle la culpa a los hobbits, pero Bárbol, que no tiene prisa para nada salvo para hacer justicia, no se dejó engatusar.',
+    epilogue: 'Fue Gríma Lengua de Serpiente. Llevaba años aguantando a un amo que lo trataba peor que a un orco, y cuando Saruman, plantado junto al palantír y sin apartar la vista de la piedra, volvió a llamarlo gusano, Gríma sacó el cuchillo y se lo clavó. Luego intentó echarle la culpa a los hobbits, pero Bárbol, que no tiene prisa para nada salvo para hacer justicia, no se dejó engatusar.',
   },
 };
 

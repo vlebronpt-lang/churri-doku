@@ -52,7 +52,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'diez-perfectos', icon: '🌟', title: 'Diez de diez', desc: 'Consigue 3 estrellas en 10 casos.', test: (c) => c.solved.filter((p) => (p.stars ?? 0) >= 3).length >= 10 },
   { id: 'experto-solo', icon: '🦉', title: 'Experto sin pistas', desc: 'Resuelve un caso Experto sin pedir pistas.', test: (c) => c.regular.some((r) => r.level === 5 && r.p?.solved && r.p.hints === 0) },
   { id: 'pulso-firme', icon: '🎯', title: 'Pulso firme', desc: 'Resuelve un caso Difícil sin errores y sin revisar.', test: (c) => c.regular.some((r) => r.level === 4 && r.p?.solved && r.p.mistakes === 0 && r.p.checks === 0) },
-  { id: 'relampago', icon: '⚡', title: 'Relámpago', desc: 'Resuelve un caso Muy fácil en menos de 3 minutos.', test: (c) => c.regular.some((r) => r.level === 1 && (r.p?.bestTime ?? Infinity) < 180) },
+  { id: 'relampago', icon: '⚡', title: 'Relámpago', desc: 'Resuelve un caso Muy fácil en menos de 10 minutos.', test: (c) => c.regular.some((r) => r.level === 1 && (r.p?.bestTime ?? Infinity) < 600) },
   { id: 'maraton', icon: '🏃', title: 'Maratón', desc: 'Resuelve 3 casos en un mismo día.', test: (c) => {
     const byDay = new Map<string, number>();
     for (const p of c.solved) if (p.firstSolvedAt) { const d = todayIso(new Date(p.firstSolvedAt)); byDay.set(d, (byDay.get(d) ?? 0) + 1); }

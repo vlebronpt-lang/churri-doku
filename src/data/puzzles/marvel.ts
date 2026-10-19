@@ -89,24 +89,24 @@ const puzzle: PuzzleInput = {
     { id: 'Th', tag: 'Th', name: 'Thanos', gender: 'm', victim: true, clues: [] },
   ],
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
-  solution: { "I": [5, 5], "C": [7, 3], "T": [3, 9], "H": [2, 1], "V": [0, 7], "O": [1, 6], "S": [9, 0], "D": [6, 2], "L": [8, 4], "Th": [4, 8] },
+  solution: { "I": [8, 3], "C": [6, 1], "T": [4, 8], "H": [1, 9], "V": [2, 6], "O": [9, 2], "S": [0, 5], "D": [5, 0], "L": [7, 4], "Th": [3, 7] },
   clues: {
-    "I": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"E","cond":{"t":"beside","obj":"quinjet"}}],
-    "C": [{"t":"withSomeoneOn","obj":"silla"}],
-    "T": [{"t":"beside","obj":"guantelete"}],
-    "H": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"E","cond":{"t":"on","obj":"tatami"}}],
-    "V": [{"t":"offset","axis":"row","n":3,"dir":"N","of":"T"}],
-    "O": [{"t":"on","obj":"quinjet"}],
-    "S": [{"t":"beside","obj":"maquina_pesas"}],
-    "D": [{"t":"offset","axis":"row","n":1,"dir":"S","of":"I"}],
-    "L": [{"t":"sameRoom","of":"D"}],
+    "I": [{"t":"dir","dir":"S","of":"S"}],
+    "C": [{"t":"dir","dir":"S","of":"D"}],
+    "T": [{"t":"someoneAtOffset","axis":"row","n":1,"dir":"S","cond":{"t":"beside","obj":"ordenador"}}],
+    "H": [{"t":"offset","axis":"col","n":1,"dir":"E","of":"T"}],
+    "V": [{"t":"inRoom","room":"B"},{"t":"corner"}],
+    "O": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"N","cond":{"t":"beside","obj":"diana"}}],
+    "S": [{"t":"someoneAtOffset","axis":"col","n":2,"dir":"W","cond":{"t":"on","obj":"tatami"}}],
+    "D": [{"t":"offset","axis":"col","n":3,"dir":"W","of":"I"}],
+    "L": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"E","cond":{"t":"beside","obj":"guantelete"}}],
   },
   // </gen>
   wantMurderer: 'T',
   pins: { Th: { rooms: ['G'] } },
   story: {
     intro: 'Los Vengadores celebran en su torre de Nueva York que por fin tienen a Thanos bajo llave y las Gemas del Infinito a buen recaudo: hay shawarma, música a todo volumen y apuestas para ver quién levanta el martillo de Thor. A medianoche, Thanos aparece fulminado en la cámara acorazada donde guardan el Guantelete del Infinito. Nueve sospechosos, casi todos con superpoderes, y ninguna cámara de seguridad encendida. ¿Quién acabó con Thanos?',
-    epilogue: 'Fue Thor. Desde Wakanda arrastraba una espinita: aquel golpe en el pecho no bastó y medio universo pagó las consecuencias. Esta vez se coló en la cámara con su hacha nueva y no repitió el error: fue directo a la cabeza. Mientras tanto, Ojo de Halcón dormitaba en el Quinjet y el Mjolnir seguía en el bar, ganando todas las apuestas.',
+    epilogue: 'Fue Thor. Desde Wakanda arrastraba una espinita: aquel golpe en el pecho no bastó y medio universo pagó las consecuencias. Esta vez se coló en la cámara con su hacha nueva y no repitió el error: fue directo a la cabeza. Mientras tanto, Ojo de Halcón entrenaba con Iron Man y el Capitán América, Hulk dormitaba junto al Quinjet y el Mjolnir seguía en el bar, ganando todas las apuestas.',
   },
 };
 

@@ -87,24 +87,24 @@ const puzzle: PuzzleInput = {
     { id: 'Du', tag: 'Du', name: 'Dumbledore', gender: 'm', victim: true, clues: [] },
   ],
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
-  solution: { "H": [5, 0], "He": [6, 3], "R": [4, 9], "S": [1, 2], "D": [7, 6], "B": [9, 5], "M": [0, 4], "Hg": [3, 8], "V": [8, 7], "Du": [2, 1] },
+  solution: { "H": [6, 9], "He": [4, 0], "R": [3, 5], "S": [0, 1], "D": [8, 8], "B": [9, 4], "M": [5, 7], "Hg": [1, 3], "V": [7, 6], "Du": [2, 2] },
   clues: {
-    "H": [{"t":"offset","axis":"col","n":2,"dir":"W","of":"S"}],
-    "He": [{"t":"someoneAtOffset","axis":"row","n":3,"dir":"N","cond":{"t":"beside","obj":"alfombra"}}],
-    "R": [{"t":"dir","dir":"SE","of":"Hg"}],
-    "S": [{"t":"roomEmpty","room":"P"}],
-    "D": [{"t":"offset","axis":"row","n":2,"dir":"S","of":"H"}],
-    "B": [{"t":"aloneWith","of":"V"}],
-    "M": [{"t":"on","obj":"sillon"}],
-    "Hg": [{"t":"someoneAtOffset","axis":"col","n":3,"dir":"W","cond":{"t":"on","obj":"agua"}}],
-    "V": [{"t":"beside","obj":"arbol"}],
+    "H": [{"t":"someoneAtOffset","axis":"col","n":1,"dir":"W","cond":{"t":"beside","obj":"roca"}}],
+    "He": [{"t":"offset","axis":"col","n":1,"dir":"W","of":"S"}],
+    "R": [{"t":"offset","axis":"col","n":2,"dir":"E","of":"Hg"}],
+    "S": [{"t":"offset","axis":"row","n":2,"dir":"N","of":"Du"}],
+    "D": [{"t":"dir","dir":"E","of":"V"}],
+    "B": [{"t":"beside","obj":"agua"}],
+    "M": [{"t":"beside","obj":"mandragora"}],
+    "Hg": [{"t":"diagonal","of":"R"}],
+    "V": [{"t":"inRoom","room":"G"},{"t":"corner"}],
   },
   // </gen>
   wantMurderer: 'S',
   pins: { Du: { rooms: ['T'] } },
   story: {
     intro: 'Noche sin luna en Hogwarts y la Marca Tenebrosa flota sobre el castillo. En lo alto de la Torre de Astronomía yace Albus Dumbledore, y por los pasillos corretean mortífagos, profesores y alumnos que hace horas deberían estar en la cama. ¿Quién mató a Dumbledore?',
-    epilogue: 'Fue Severus Snape. Había hecho un Juramento Inquebrantable con Narcissa Malfoy: si Draco no era capaz de cumplir su misión, la cumpliría él. Y Draco, que seguía en el Gran Comedor sin atreverse a subir a la torre, no fue capaz, así que Snape subió solo y lanzó la maldición asesina. Lo que nadie sabía aún es que el propio Dumbledore se lo había pedido: el Príncipe Mestizo guardaba más secretos que su viejo libro de Pociones.',
+    epilogue: 'Fue Severus Snape. Había hecho un Juramento Inquebrantable con Narcissa Malfoy: si Draco no era capaz de cumplir su misión, la cumpliría él. Y Draco, que se había escondido junto al Lago Negro sin atreverse a subir a la torre, no fue capaz, así que Snape subió solo y lanzó la maldición asesina. Lo que nadie sabía aún es que el propio Dumbledore se lo había pedido: el Príncipe Mestizo guardaba más secretos que su viejo libro de Pociones.',
   },
 };
 

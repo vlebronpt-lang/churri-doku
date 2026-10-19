@@ -8,6 +8,10 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     A: 'Farquaad lo llamó «bestia de carga» delante de toda la boda, y Asno decidió demostrarle que también sabe dar coces.',
     F: 'No pensaba pasarse la vida casada con un hombre que solo la quería para ser rey, así que zanjó la boda por la vía rápida.',
     D: 'Llevaba años vigilando a Fiona en la torre y no iba a dejar que se casara con un tipo tan bajito, así que se lo zampó de un bocado.',
+    'G': 'Alguien le pagó una bolsa de oro por quitar de en medio al novio, y el Gato con Botas nunca deja un encargo a medias.',
+    'J': 'Farquaad lo torturó en la mazmorra hasta romperle las piernas, y la galleta más valiente del reino le tenía guardada una buena.',
+    'P': 'Farquaad lo vendió a sus guardias por cinco chelines, y Pinocho se vengó... y esta vez la nariz no le creció ni un milímetro.',
+    'H': 'Tenía reservada a Fiona para su hijo, el Príncipe Encantador, y no iba a permitir que un lord tan bajito le estropeara el plan.',
   },
   simpson: {
     H: 'Burns volvió a olvidar su nombre en plena cena («¿y usted es…?») y Homer, tras diez años en el sector 7G, perdió los nervios.',
@@ -15,6 +19,9 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     B: 'Burns le confiscó el tirachinas, y Bart juró venganza: «¡Multiplícate por cero, viejales!».',
     L: 'Burns presumía de verter residuos nucleares en el lago de Springfield, y Lisa no pudo soportar tanta injusticia.',
     G: 'Burns intentó quitarle la piruleta («es tan fácil como robarle un caramelo a un bebé») y Maggie le demostró que no lo es.',
+    'S': 'Llevaba media vida adorando al Sr. Burns, pero esa noche su jefe lo despidió delante de todos para contratar a un mono que le salía más barato.',
+    'Mo': 'Burns le debía años de copas y respondió a la factura soltándole los perros; Moe decidió cobrar de otra manera.',
+    'W': 'Burns le recortó el sueldo por quinta vez y le mandó limpiar la perrera con un cepillo de dientes, y Willie perdió los estribos.',
   },
   toystory: {
     W: 'Lotso había convertido Sunnyside en una cárcel para juguetes, y el sheriff decidió que ya era hora de impartir justicia.',
@@ -22,6 +29,9 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     J: 'Lotso amenazó con meterla en una caja, y Jessie, que no soporta las cajas desde que la abandonaron, se defendió con uñas y dientes.',
     K: 'Lotso le prohibió ver a Barbie y le arrugó la colección de chalecos, y Ken no perdona una ofensa a la moda.',
     Bb: 'Descubrió que Lotso le había mentido sobre su antigua dueña y, harto de obedecer, lanzó a su jefe al contenedor.',
+    'Ba': 'Lotso la tuvo encerrada lejos de sus amigos y se burló de que «solo era una muñeca más», y Barbie le demostró que de tonta no tiene un pelo.',
+    'R': 'Lotso lo dejó a merced de los niños de la Sala Oruga, y hasta el dinosaurio más miedoso del mundo tiene un límite.',
+    'P': 'Lotso lo castigó toda la noche en el arenero, y el Sr. Potato salió de allí con la cara (y el resto de piezas) llena de rencor.',
   },
   stranger: {
     N: 'Barb no paraba de reprocharle que la dejara tirada por Steve, y aquella noche la discusión se les fue de las manos.',
@@ -29,6 +39,9 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     J: 'Barb lo pilló haciendo fotos a escondidas desde los arbustos y amenazó con contarlo en todo el instituto.',
     T: 'Barb se negó a reírle las gracias en la fiesta, y Tommy H. no soporta que alguien no le haga caso.',
     D: 'Olió la sangre del corte que se hizo Barb junto a la piscina y no pudo resistirse: salió del Mundo del Revés y se la llevó.',
+    'O': 'Barb la vio salir del bosque con la cabeza rapada y quiso llamar a la policía; asustada, Once la hizo callar con sus poderes antes de pensarlo dos veces.',
+    'H': 'Barb lo pilló husmeando en la fiesta sin orden judicial y amenazó con denunciarlo, y el jefe Hopper no estaba para más papeleo.',
+    'Jo': 'Convencida de que Barb sabía algo de la desaparición de Will, Joyce la interrogó junto a la piscina... y la cosa se le fue de las manos.',
   },
   piratas: {
     J: 'Barbossa le robó la Perla Negra con un motín, y Jack llevaba diez años guardando una bala para él.',
@@ -36,6 +49,9 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     E: 'Barbossa la secuestró para romper la maldición y la obligó a cenar con él; Elizabeth le devolvió la invitación a su manera.',
     G: 'Barbossa amenazó con quedarse con todo el ron de la tripulación, y Gibbs no podía permitirlo.',
     N: 'Como comodoro de la Marina Real tenía orden de acabar con el pirata más buscado del Caribe, y aprovechó la ocasión.',
+    'T': 'Barbossa le debía el precio de un hechizo y se negó a pagarlo; con Tia Dalma, las deudas se cobran siempre.',
+    'D': 'Barbossa se burló de su órgano y de su corazón guardado en un cofre, y el capitán del Holandés Errante no perdona una ofensa en cien años.',
+    'A': 'Barbossa le había arrebatado el barco de su padre, Barbanegra, y Angélica no es de las que olvidan.',
   },
   friends: {
     Ra: 'Heckles se quejaba del ruido hasta cuando Rachel andaba por casa en calcetines, y aquella noche le agotó la paciencia.',
@@ -44,6 +60,8 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     Ro: 'Heckles juró que los dinosaurios eran un invento para vender museos, y Ross no tolera que se metan con la paleontología.',
     C: 'Heckles le aseguró que acabaría solo y amargado como él, y Chandler no quiso darle la razón.',
     J: 'Heckles se comió a escondidas el sándwich de albóndigas de Joey. Y Joey no comparte la comida.',
+    'G': 'Heckles se pasaba el día en el Central Perk quejándose del café y espantando a Rachel, y Gunther no soporta que nadie moleste a Rachel.',
+    'Ja': 'Heckles se quejó de su risa por décima vez esa noche, y Janice le soltó su último «¡Oh. Dios. Mío!».',
   },
   office: {
     M: 'Michael odia a Toby más que a nada en el mundo y, por fin, se le presentó la ocasión de librarse de él.',
@@ -52,6 +70,8 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     P: 'Toby le tocó la rodilla en el coche y le declaró su amor en la fiesta de Navidad; Pam ya no aguantaba más incomodidad.',
     A: 'Toby se llevó a una protectora a uno de sus gatos «por su bienestar», y Angela jamás perdona algo así.',
     K: 'Toby pisó la olla de su famoso chili casero y lo esparció por toda la moqueta. Kevin llevaba toda la noche cocinándolo.',
+    'C': 'Toby estaba a punto de descubrir que «Creed Bratton» no es su nombre real, y Creed no podía permitirlo.',
+    'Ke': 'Toby le prohibió hablar de famosos en horario laboral, y Kelly no lo superó.',
   },
   dragonball: {
     G: 'Krilin le escondió la última alubia mágica para gastarle una broma, y Goku, muerto de hambre, no le vio la gracia.',
@@ -60,6 +80,8 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     P: 'Krilin le interrumpió la meditación tres veces seguidas, y Piccolo no tiene tanta paciencia como aparenta.',
     F: 'Krilin ya se le había escapado una vez en Namek, y Freezer nunca deja un trabajo a medias.',
     M: 'Krilin le tiró a la basura su colección de revistas «educativas», y el maestro Tortuga no se lo perdonó.',
+    'Gh': 'Krilin se burló de su traje de Gran Saiyaman delante de todos, y a Gohan es mejor no hacerle enfadar.',
+    'N': 'Krilin volvió a gastarse el dinero del premio del torneo en las revistas de Mutenroshi, y Número 18 tiene muy poca paciencia.',
   },
   jurassic: {
     A: 'Nedry apagó las vallas eléctricas con los niños dentro del parque, y Alan Grant no se lo perdonó.',
@@ -68,6 +90,8 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     H: 'Nedry le robó los embriones para vendérselos a la competencia, y Hammond, por una vez, sí reparó en gastos.',
     M: 'Nedry dejó suelta a la manada de velocirraptores que Muldoon llevaba años vigilando, y el cazador perdió la calma.',
     D: 'Nedry le tiró un palo para que fuera a buscarlo y le llamó estúpido. El dilofosaurio escupió su veneno y no fue a por el palo.',
+    'L': 'Nedry apagó el sistema y dejó a su hermano encerrado con los dinosaurios; Lex, que sabe de ordenadores, le tenía preparada una sorpresa.',
+    'G': 'Nedry amenazó con contar a los inversores que el parque era un desastre, y el abogado Gennaro no iba a perder su comisión.',
   },
   peaky: {
     T: 'Campbell llevaba años persiguiendo a los Peaky Blinders y chantajeando a Tommy, que le tenía reservada una orden muy especial.',
@@ -76,6 +100,8 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     J: 'Campbell detuvo a John por una pelea de bar y le confiscó la gorra, y nadie toca la gorra de un Peaky Blinder.',
     G: 'Campbell la obligó a espiar a los Shelby y la acosó durante meses, y Grace decidió liberarse por su cuenta.',
     Al: 'Campbell le reventó un cargamento de ron en Camden y Alfie, con su calma habitual, le explicó que eso no se hace.',
+    'Ad': 'Campbell amenazó con encerrar a Freddie, su marido, por comunista, y Ada defendió a su familia como una Shelby.',
+    'M': 'Campbell humilló a su madre, Polly, y Michael Gray se estrenó en el negocio familiar sin pedir permiso.',
   },
   breaking: {
     W: 'Gus amenazó con acabar con toda su familia si se metía en medio, y Heisenberg decidió adelantarse.',
@@ -85,6 +111,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     Sa: 'Gus amenazó con retirarle del negocio para siempre, y Saul encontró una salida legal… más o menos.',
     M: 'Gus le prohibió despedirse de su nieta Kaylee antes de un trabajo, y Mike no perdona que se metan con su familia.',
     He: 'Gus había acabado con su familia y lo había dejado en silla de ruedas, y Héctor lo esperó con la campanilla preparada.',
+    'Mr': 'Gus estuvo a punto de matar a Hank, y Marie, que roba cucharillas cuando está nerviosa, decidió que esta vez se llevaba algo más.',
   },
   vikingos: {
     R: 'Athelstan le confesó que pensaba volver a Inglaterra con su Dios cristiano, y Ragnar no soporta que sus amigos le abandonen.',
@@ -94,6 +121,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     B: 'Athelstan le contó a Ragnar que Bjorn se había unido a una expedición sin permiso, y Bjorn no perdonó al chivato.',
     A: 'Aslaug tenía celos de lo mucho que Ragnar confiaba en el monje, y decidió quitárselo de en medio.',
     I: 'Athelstan dijo delante de todos que Ivar nunca sería un gran guerrero, y Ivar lleva toda la vida demostrando lo contrario.',
+    'E': 'Athelstan se negó a volver a Wessex para quedarse con los paganos, y el rey Ecbert, que no acepta un no por respuesta, decidió que si no era suyo no sería de nadie.',
   },
   miercoles: {
     M: 'Rowan intentó matarla primero por culpa de una profecía, y Miércoles nunca deja una afrenta sin respuesta.',
@@ -103,6 +131,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     B: 'Rowan amenazó con contar en la Sociedad Nightshade el secreto de su familia, y Bianca lo atrajo a la trampa con su canto de sirena.',
     W: 'La directora sabía que Rowan era un peligro para la academia y quiso protegerla a toda costa.',
     C: 'Rowan intentó aplastar a Cosa con un tomo de la biblioteca, y la mano le devolvió el golpe.',
+    'Th': 'Rowan había descubierto quién controlaba al monstruo de Nevermore, y la profesora Thornhill no podía permitir que se lo contara a nadie.',
   },
   avecina: {
     E: 'Recio llevaba años llamándole inútil en cada junta, y aquella noche el presidente por fin tuvo la última palabra.',
@@ -112,6 +141,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     C: 'Recio le llamaba «el chupóptero de la portería» y le hacía bajar cada noche sus cajas de marisco, y Coque perdió la paciencia.',
     J: 'Recio se opuso a su propuesta en la junta solo porque era de ella, y Judith no está acostumbrada a que le lleven la contraria.',
     V: 'Recio le vendió unas cigalas «fresquísimas» que llevaban una semana en la cámara, y Vicente pasó la peor noche de su vida.',
+    'Es': 'Recio la llamó «actriz de tercera» en plena junta, y Estela Reynolds no tolera las críticas, y menos de un mayorista de pescado.',
   },
   walking: {
     R: 'El Gobernador atacó la prisión y amenazó a Carl y a Judith, y Rick hizo lo necesario para proteger a los suyos.',
@@ -121,6 +151,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     G: 'El Gobernador lo torturó junto a Maggie en Woodbury, y Glenn no pensaba dejar que volviera a tocarla.',
     Ma: 'El Gobernador la humilló en Woodbury, y Maggie se juró que nunca volvería a pasarle.',
     H: 'Hershel, el hombre más pacífico de la prisión, vio al Gobernador apuntar a sus hijas y, por una vez, se olvidó del perdón.',
+    'An': 'Había sido su pareja en Woodbury y descubrió todos sus crímenes, así que Andrea decidió acabar con el Gobernador antes de que él acabara con la prisión.',
   },
   papel: {
     P: 'Arturito estuvo a punto de arruinar el plan perfecto con sus motines, y el Profesor no deja nada al azar.',
@@ -131,6 +162,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     D: 'Arturito no dejaba en paz a Mónica, y Denver se encargó de él entre carcajadas de foca asmática.',
     M: 'Arturito intentó que la policía cargara las culpas a su hijo Denver, y Moscú, el más pacífico de la banda, no pudo soportarlo.',
     E: 'Arturito volvió a presumir de ser el padre de «su» bebé, y Mónica se tomó la revancha con todos los intereses.',
+    'H': 'Arturito se burló de Oslo, su primo, y Helsinki, que es un osito hasta que deja de serlo, le dio un abrazo serbio que lo dejó sin aire.',
   },
   starwars: {
     L: 'Jabba la tuvo encadenada a su lado como un trofeo, y Leia lo estranguló con la misma cadena en cuanto tuvo ocasión.',
@@ -141,6 +173,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     R2: 'Jabba lo puso a servir bebidas en su barcaza, y R2 tenía preparada una pequeña sorpresa eléctrica.',
     B: 'Jabba le pagó la recompensa por Han Solo con créditos falsos, y Boba Fett no trabaja gratis.',
     La: 'Lando se infiltró en el palacio para rescatar a Han y aprovechó la confusión para saldar viejas deudas con Jabba.',
+    'Bf': 'Llevaba años sirviendo a Jabba y soñaba con quedarse con su palacio; aquella noche decidió ascender por la vía rápida.',
   },
   batman: {
     B: 'El Joker había llevado Gotham al límite demasiadas veces, y esa noche Batman rompió su única regla.',
@@ -151,6 +184,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     P: 'El Joker le quemó el Iceberg Lounge por pura diversión, y el Pingüino no perdona que le toquen el negocio.',
     E: 'El Joker resolvió en un minuto el acertijo que Enigma había tardado meses en preparar, y eso no se lo perdona.',
     Hi: 'El Joker pisoteó sus rosas favoritas del invernadero de Arkham, y Hiedra Venenosa le dio un beso envenenado.',
+    'DC': 'Lanzó su moneda al aire para decidir el destino del Joker. Salió cruz.',
   },
   calamar: {
     Gi: 'Deok-su empujó a otros jugadores al vacío en el puente de cristal, y Gi-hun no pudo quedarse de brazos cruzados.',
@@ -161,6 +195,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     Mn: 'Deok-su la traicionó después de prometerle protección, y Mi-nyeo juró que caerían juntos.',
     Jy: 'Deok-su le hizo trampas en las canicas, y Ji-yeong, que ya no tenía nada que perder, le hizo pagar.',
     Li: 'Deok-su se saltó las normas del juego, y el Líder no tolera que nadie rompa las reglas.',
+    'Re': 'Deok-su perdió una partida de ddakji y se negó a pagar con la bofetada de rigor, y el Reclutador siempre cobra.',
   },
   titanes: {
     E: 'Marco le reprochó que se dejara llevar por la rabia, y Eren, fuera de sí, no supo frenarse.',
@@ -171,6 +206,7 @@ export const MOTIVES: Record<string, Record<string, string>> = {
     R: 'Marco le oyó hablar con Bertolt de su secreto de titán, y Reiner no podía dejar testigos.',
     B: 'Marco descubrió que Bertolt era el Titán Colosal, y el chico tímido tuvo que elegir entre su misión y su amigo.',
     An: 'Marco reconoció el equipo de maniobras de Annie, y ella no podía arriesgarse a que hablara.',
+    'Sa': 'Marco la sorprendió robando patatas del comedor y amenazó con contárselo al instructor; Sasha no iba a quedarse sin cena.',
   },
   tronos: {
     T: 'Joffrey le vació una copa de vino en la cabeza y lo nombró su copero en plena boda, y Tyrion decidió servirle la última.',

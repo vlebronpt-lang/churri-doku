@@ -18,6 +18,7 @@ import { solveLogically } from '../src/engine/logic';
 import { dailyInput, mirrorInput, type DailyEntry } from '../src/engine/variant';
 import type { Level, PuzzleInput } from '../src/engine/types';
 import { generate, makeRng, PROFILE, type Profile } from './genlib';
+import { hardSteps, REFERENCE } from '../src/engine/difficulty';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const GEN_DIR = `${ROOT}.gen/daily`;
@@ -32,11 +33,11 @@ function dailyProfile(level: Level): Profile {
 }
 
 const TIME: Record<Level, { total: number; attempt: number; tries: number }> = {
-  1: { total: 120, attempt: 40, tries: 200 },
-  2: { total: 240, attempt: 80, tries: 120 },
-  3: { total: 420, attempt: 150, tries: 60 },
-  4: { total: 600, attempt: 220, tries: 40 },
-  5: { total: 720, attempt: 260, tries: 30 },
+  1: { total: 300, attempt: 150, tries: 400 },
+  2: { total: 420, attempt: 200, tries: 400 },
+  3: { total: 600, attempt: 260, tries: 400 },
+  4: { total: 900, attempt: 360, tries: 400 },
+  5: { total: 1200, attempt: 480, tries: 400 },
 };
 
 function hash(s: string): number {
@@ -113,7 +114,14 @@ function validate(base: PuzzleInput, e: DailyEntry): string | null {
     if (!L.solved || !L.sound) return 'la lógica no lo resuelve';
     if (L.maxLevel > prof.maxLevel) return `técnica de nivel ${L.maxLevel}`;
     if (L.techCount.trial > prof.maxTrial || L.techCount.trial < prof.minTrial) return `suposiciones: ${L.techCount.trial}`;
-    const r = solve(p, 2, undefined, 60_000_000);
+    const sc = L.score / p.cast.length;
+    if (sc < prof.band[0] || sc > prof.band[1]) return `puntuación ${sc.toFixed(2)} fuera de la banda ${prof.band.join('–')}`;
+    if (hardSteps(L.techCount) < prof.minHard) return `pocos pasos difíciles (${hardSteps(L.techCount)})`;
+    if (sc < REFERENCE.perChar || L.techCount.trial < REFERENCE.trials) return `más fácil que «${REFERENCE.title}»`;
+    // Solución única: el solver exhaustivo explora lo que deja el motor lógico sin suponer (sus deducciones son válidas).
+    const L0 = solveLogically(p, { allowTrial: false });
+    if (!L0.sound) return 'deducción incorrecta del motor';
+    const r = L0.solved ? { count: 1, aborted: false } : solve(p, 2, undefined, 60_000_000, L0.stuckState?.cand);
     if (r.aborted || r.count !== 1) return `soluciones: ${r.count}${r.aborted ? ' (abortado)' : ''}`;
     const victim = base.cast.find((c) => c.victim)!.id;
     const want = (e.mirror ? mirrorInput(base) : base).solution[victim];
@@ -133,6 +141,8 @@ async function genCmd(from: string, days: number, shard: number, shards: number)
     const file = `${GEN_DIR}/${slot.date}.json`;
     if (existsSync(file)) continue;
     const base = byId.get(slot.base)!;
+    // Plano aún sin generar: ese día se rellena en otra pasada (los ya hechos se saltan).
+    if (!base.solution) { console.log(`… ${slot.date} ${slot.base}: plano pendiente`); continue; }
     const src = slot.mirror ? mirrorInput(base) : base;
     const victim = base.cast.find((c) => c.victim)!.id;
     const [vr, vc] = src.solution[victim];
@@ -148,7 +158,7 @@ async function genCmd(from: string, days: number, shard: number, shards: number)
         tries: TIME[lv].tries,
         timeMs: TIME[lv].total * 1000,
         attemptMs: TIME[lv].attempt * 1000,
-        stopAfter: 2,
+        stopAfter: 1,
       });
       for (const r of results) {
         const s = r.p.size;

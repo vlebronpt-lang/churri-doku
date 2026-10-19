@@ -117,7 +117,8 @@ export type Clue =
   | { t: 'withSomeoneOn'; obj: string }
   | { t: 'withSomeoneBeside'; obj: string }
   | { t: 'roomEmpty'; room: string }
-  | { t: 'someoneAtOffset'; axis: 'row' | 'col'; n: number; dir: Card; cond: UnaryClue }
+  /** Alguien (que cumple `cond`, o que es mujer/hombre si hay `g`) está a n filas/columnas en esa dirección. */
+  | { t: 'someoneAtOffset'; axis: 'row' | 'col'; n: number; dir: Card; cond?: UnaryClue; g?: Gender }
   | { t: 'victim' };
 
 // ---------------------------------------------------------------------------

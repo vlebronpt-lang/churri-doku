@@ -638,7 +638,7 @@ kbd {
 
 /* Panel compacto (muchos sospechosos o pantalla baja): tarjetas pequeñas para verlos todos sin desplazarse. */
 .suspects.is-compact { gap: 7px; }
-.suspects.d-c2, .suspects.d-c2xs { grid-template-columns: 1fr 1fr; }
+.suspects.d-c2, .suspects.d-c2xs, .suspects.d-c2xxs { grid-template-columns: 1fr 1fr; }
 .suspects.d-c1, .suspects.d-c1xs { grid-template-columns: 1fr; }
 .suspects.is-compact .suspect {
   position: relative;
@@ -704,6 +704,13 @@ kbd {
 .suspects.d-c2xs .suspect__name, .suspects.d-c1xs .suspect__cname { font-size: .9rem; }
 .suspects.d-c2xs .suspect__clue, .suspects.d-c1xs .suspect__clue { font-size: calc(var(--clue) * .8); line-height: 1.25; }
 .suspects.d-c2xs .suspect__check { left: 16px; top: 15px; }
+/* Último recurso (pantallas bajas con nueve o diez sospechosos y pistas largas). */
+.suspects.d-c2xxs { gap: 5px; }
+.suspects.d-c2xxs .suspect { padding: 4px 6px 5px; }
+.suspects.d-c2xxs .suspect__photo .portrait { width: 24px; height: 24px; }
+.suspects.d-c2xxs .suspect__name { font-size: .84rem; }
+.suspects.d-c2xxs .suspect__clue { font-size: calc(var(--clue) * .74); line-height: 1.2; }
+.suspects.d-c2xxs .suspect__check { left: 14px; top: 13px; }
 
 .clue { display: inline; }
 .clue__kw { font-weight: 800; position: relative; border-radius: 4px; }

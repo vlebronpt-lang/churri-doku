@@ -13,8 +13,10 @@ export interface SolveResult {
 /**
  * Solver exhaustivo: cuenta las soluciones (hasta `limit`).
  * `clues` permite probar juegos de pistas alternativos sin recompilar el puzzle.
+ * `initCand` (opcional) limita las casillas de partida de cada personaje; debe contener todas las
+ * soluciones (por ejemplo, las candidatas que deja el motor lógico, cuyas deducciones son válidas).
  */
-export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_000): SolveResult {
+export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_000, initCand?: ArrayLike<number>[]): SolveResult {
   const n = p.cast.length;
   const s = p.size;
   const g = geo(p);
@@ -38,6 +40,7 @@ export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_0
     const d: number[] = [];
     for (const cell of p.cells) {
       if (!cell.occupiable || emptyRooms.has(cell.room)) continue;
+      if (initCand && !initCand[k][cell.i]) continue;
       let ok = true;
       for (const o of onlyOnBy) {
         const has = cellHas(p, cell.i, o.obj);

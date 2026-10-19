@@ -1,7 +1,7 @@
 /**
  * Generador de pistas para Churri-doku.
  *
- *   npx tsx scripts/gen.ts <id> [--tries 60] [--seed 1] [--time 240] [--band 1.0-1.7] [--keep-solution] [--top 4] [--write N]
+ *   npx tsx scripts/gen.ts <id> [--tries 60] [--seed 1] [--time 240] [--band 1.0-1.7] [--keep-solution] [--top 4] [--write N] [--stop N]
  *
  * Lee src/data/puzzles/<id>.ts (mapa, reparto y, opcionalmente, solución) y busca juegos de pistas
  * que el motor lógico resuelva sin adivinar (o con suposiciones, solo en Difícil/Experto) y con la
@@ -38,6 +38,7 @@ async function main() {
     timeMs: Number(opt('time', '240')) * 1000,
     attemptMs: Number(opt('attempt', '0')) * 1000 || undefined,
     keepSolution: flag('keep-solution'),
+    stopAfter: Number(opt('stop', '0')) || undefined,
     onCandidate: (res, ms) => process.stdout.write(`· (${(ms / 1000).toFixed(0)}s, score/pj ${(res.rep.score / res.p.cast.length).toFixed(2)})\n`),
   });
   const uniq: GenResult[] = [];

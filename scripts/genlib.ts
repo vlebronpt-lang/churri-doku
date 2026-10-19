@@ -9,7 +9,7 @@ import { compilePuzzle } from '../src/engine/puzzle';
 import { solve } from '../src/engine/solver';
 import { solveLogically, type LogicReport } from '../src/engine/logic';
 import { factsFor, type Fact } from '../src/engine/facts';
-import { castIndex, cellHas, unaryDomain } from '../src/engine/clues';
+import { castIndex, cellHas, clueHolds } from '../src/engine/clues';
 import type { Clue, Level, Puzzle, PuzzleInput } from '../src/engine/types';
 import { PROFILE, hardSteps, type Profile } from '../src/engine/difficulty';
 
@@ -116,102 +116,234 @@ function evalSet(p: Puzzle, facts: (Fact | null)[], allowTrial: boolean) {
   return { rep, rem, perChar, solved: rep.solved && rep.sound, q };
 }
 
-/** Busca pistas para una colocación concreta. `deadline` (ms) corta el intento si se alarga. */
+/**
+ * Recuento rápido de soluciones: ¿es única? Si no, devuelve una solución distinta de la buscada.
+ * Primero deduce lo que pueda el motor lógico (sin suponer; sus deducciones nunca descartan una
+ * solución válida) y el solver exhaustivo solo explora las casillas que quedan.
+ */
+const QUICK_NODES = 1_500_000;
+function uniqueness(p: Puzzle, facts: (Fact | null)[], pos: number[], want = 1): { unique: boolean; alts: number[][] } {
+  const C = cluesFrom(p, facts);
+  const L = solveLogically(withClues(p, C), { allowTrial: false, maxSteps: 400 });
+  if (!L.sound) return { unique: false, alts: [] };
+  if (L.solved) return { unique: true, alts: [] };
+  const r = solve(p, want + 1, C, QUICK_NODES, L.stuckState?.cand);
+  const alts = r.solutions.filter((sol) => sol.some((x, k) => x !== pos[k]));
+  if (!r.aborted && r.count === 1) return { unique: true, alts: [] };
+  return { unique: false, alts };
+}
+
+/** Holgura de una pista: en cuántas casillas se cumpliría con los demás en su sitio (más holgura = pista más débil). */
+function looseness(p: Puzzle, k: number, f: Fact, pos: number[]): number {
+  const q = pos.slice();
+  let cnt = 0;
+  for (const c of p.cells) {
+    if (!c.occupiable) continue;
+    q[k] = c.i;
+    if (f.clue.every((cl) => clueHolds(p, cl, k, q))) cnt++;
+  }
+  return cnt;
+}
+
+/**
+ * Busca pistas para una colocación concreta. `deadline` (ms) corta el intento si se alarga.
+ *
+ * 1) Arranca con pistas flojas y las endurece de forma dirigida (con la solución alternativa que
+ *    encuentra el solver exhaustivo) hasta que la solución es única.
+ * 2) Si la lógica (con suposiciones, si el nivel las admite) no lo resuelve, endurece a quien más
+ *    dudas deja.
+ * 3) Ajusta la dificultad hacia la banda del nivel cambiando pistas por otras más flojas o más
+ *    fuertes (siempre con solución única) y se rinde si se estanca.
+ */
 export function searchClues(p: Puzzle, pos: number[], _level: Level, prof: Profile, rng: Rng, deadline = Infinity): GenResult | null {
   const n = p.cast.length;
   const W = KIND_WEIGHT[prof.clueLevel];
   const all = p.cast.map((ch, k) => (ch.victim ? [] : factsFor(p, k, pos).filter((f) => f.minLevel <= prof.clueLevel)));
   if (all.some((fs, k) => !p.cast[k].victim && fs.length === 0)) return null;
   const weightOf = (f: Fact) => f.flavor * (W[f.kind] ?? 0.4);
-  const weighted = (fs: Fact[]) => {
-    const total = fs.reduce((a, f) => a + weightOf(f), 0);
+  const loose = all.map((fs, k) => new Map(fs.map((f) => [f, looseness(p, k, f, pos)])));
+  const L = (k: number, f: Fact) => loose[k].get(f) ?? 0;
+  const weighted = (fs: Fact[], w: (f: Fact) => number) => {
+    const total = fs.reduce((acc, f) => acc + w(f), 0);
     let x = rng() * total;
     for (const f of fs) {
-      x -= weightOf(f);
+      x -= w(f);
       if (x <= 0) return f;
     }
     return fs[fs.length - 1];
   };
-  const facts: (Fact | null)[] = all.map((fs) => (fs.length ? weighted(fs) : null));
   const free = Array.from({ length: n }, (_, j) => j).filter((j) => !p.cast[j].victim);
-
+  const allowTrial = prof.maxTrial > 0;
   const T0 = Date.now();
-  // 1) Reforzar hasta que la deducción lógica (sin suposiciones) lo resuelva.
-  let ev = evalSet(p, facts, false);
-  for (let it = 0; it < 90 && !ev.solved; it++) {
+  const dbg = (m: string) => process.env.GEN_DEBUG && console.log(`  ${m} t=${((Date.now() - T0) / 1000).toFixed(1)}s`);
+
+  // 1) Pistas flojas y reparación dirigida hasta la solución única.
+  const facts: (Fact | null)[] = all.map((fs, k) => (fs.length ? weighted(fs, (f) => weightOf(f) * Math.sqrt(L(k, f))) : null));
+  let unique = false;
+  for (let it = 0; it < 120 && !unique; it++) {
     if (Date.now() > deadline) return null;
-    const weights = free.map((j) => ev.perChar[j] + 1);
-    let x = rng() * weights.reduce((a, b) => a + b, 0);
+    const u = uniqueness(p, facts, pos, 24);
+    if (process.env.GEN_DEBUG2) console.log(`    rep ${it} unique ${u.unique} alts ${u.alts.length}`);
+    if (u.unique) { unique = true; break; }
+    if (u.alts.length) {
+      // Candidatas: pistas verdaderas que descarten alguna solución alternativa; de ellas, la que
+      // deje menos posibilidades al motor lógico (medida global: cambiar una pista quita la anterior).
+      const alts = u.alts;
+      const cands: { k: number; f: Fact; x: number }[] = [];
+      for (const k of free) {
+        for (const f of all[k]) {
+          if (f === facts[k]) continue;
+          let x = 0;
+          for (const alt of alts) if (!f.clue.every((cl) => clueHolds(p, cl, k, alt))) x++;
+          if (x) cands.push({ k, f, x });
+        }
+      }
+      // Ninguna pista distingue las soluciones: esta colocación no sirve.
+      if (!cands.length) return null;
+      const maxX = Math.max(...cands.map((c) => c.x));
+      const pool = shuffleWith(rng, cands.filter((c) => c.x >= Math.max(1, Math.ceil(maxX * 0.5)))).slice(0, 24);
+      let best: { c: (typeof cands)[number]; rem: number } | null = null;
+      for (const c of pool) {
+        const trial = facts.slice();
+        trial[c.k] = c.f;
+        const e = evalSet(p, trial, false);
+        const score = e.rem - c.x * 0.01;
+        if (!best || score < best.rem || (score === best.rem && weightOf(c.f) > weightOf(best.c.f))) best = { c, rem: score };
+      }
+      facts[best!.c.k] = best!.c.f;
+    } else {
+      // El recuento se cortó sin otra solución a mano: endurecer a alguien al azar.
+      const k = pickWith(rng, free);
+      const cur = facts[k]!;
+      const opts = all[k].filter((f) => L(k, f) < L(k, cur));
+      if (opts.length) facts[k] = weighted(opts, (f) => weightOf(f) * Math.sqrt(L(k, f)));
+    }
+  }
+  dbg(`única: ${unique}`);
+  if (!unique) return null;
+
+  // 2) Que la lógica lo resuelva.
+  let ev = evalSet(p, facts, allowTrial);
+  for (let it = 0; it < 40 && !ev.solved; it++) {
+    if (Date.now() > deadline) return null;
+    const ev0 = evalSet(p, facts, false);
+    const weights = free.map((j) => ev0.perChar[j] + 0.5);
+    let x = rng() * weights.reduce((acc, v) => acc + v, 0);
     let k = free[0];
     for (let q = 0; q < free.length; q++) { x -= weights[q]; if (x <= 0) { k = free[q]; break; } }
-    let best: { f: Fact; e: ReturnType<typeof evalSet> } | null = null;
-    const sample = shuffleWith(rng, all[k]).slice(0, 14);
-    for (const f of sample) {
+    const cur = facts[k]!;
+    const cands = shuffleWith(rng, all[k].filter((f) => f !== cur && L(k, f) <= L(k, cur))).slice(0, 10);
+    let best: { f: Fact; rem: number } | null = null;
+    for (const f of cands) {
       const trial = facts.slice();
       trial[k] = f;
+      if (!uniqueness(p, trial, pos).unique) continue;
       const e = evalSet(p, trial, false);
-      if (!best || e.rem < best.e.rem || (e.rem === best.e.rem && weightOf(f) > weightOf(best.f))) best = { f, e };
+      if (!best || e.rem < best.rem || (e.rem === best.rem && weightOf(f) > weightOf(best.f))) best = { f, rem: e.rem };
     }
-    if (best && best.e.rem <= ev.rem) {
+    if (best) {
       facts[k] = best.f;
-      ev = best.e;
+      ev = evalSet(p, facts, allowTrial);
     }
   }
-  if (!ev.solved && prof.maxTrial > 0) ev = evalSet(p, facts, true);
-  if (process.env.GEN_DEBUG) console.log(`  base: solved ${ev.solved} rem ${ev.rem} t=${((Date.now() - T0) / 1000).toFixed(1)}s`);
+  dbg(`resoluble: ${ev.solved}`);
   if (!ev.solved) return null;
 
-  // 2) Ajustar la dificultad hacia la banda del nivel.
-  const allowTrial = prof.maxTrial > 0;
-  const okRep = (r: LogicReport) => r.solved && r.sound && r.maxLevel <= prof.maxLevel && r.techCount.trial <= prof.maxTrial;
-  // Demasiado fácil: por debajo de la banda, o sin las suposiciones o los pasos difíciles que pide el nivel.
-  const easy = (r: LogicReport) => r.score / n < prof.band[0] || r.techCount.trial < prof.minTrial || hardSteps(r.techCount) < prof.minHard;
-  let rep = evalSet(p, facts, allowTrial).rep;
-  const domSize = (f: Fact, k: number) => {
-    if (f.clue.length && f.clue.every((c) => ['inRoom', 'on', 'beside', 'row', 'col', 'corner', 'not', 'inRooms', 'onAny', 'besideN'].includes(c.t))) {
-      const q = withClues(p, p.cast.map((ch, j) => (j === k ? f.clue : ch.victim ? [{ t: 'victim' } as Clue] : [])));
-      return unaryDomain(q, k).length;
-    }
-    return 1000 + rng() * 100;
+  // 3) Ajustar la dificultad hacia la banda del nivel.
+  const badness = (r: LogicReport) => {
+    if (!(r.solved && r.sound)) return 1e9;
+    const sc = r.score / n;
+    let b = 0;
+    if (r.maxLevel > prof.maxLevel) b += 100;
+    if (r.techCount.trial > prof.maxTrial) b += 2 * (r.techCount.trial - prof.maxTrial);
+    if (sc > prof.band[1]) b += (sc - prof.band[1]) * 4;
+    if (sc < prof.band[0]) b += (prof.band[0] - sc) * 4;
+    if (r.techCount.trial < prof.minTrial) b += prof.minTrial - r.techCount.trial;
+    const h = hardSteps(r.techCount);
+    if (h < prof.minHard) b += (prof.minHard - h) * 0.5;
+    return b;
   };
-  const rounds = prof.minTrial > 0 ? 90 : 60;
-  for (let it = 0; it < rounds; it++) {
+  let rep = ev.rep;
+  let bad = badness(rep);
+  let stagn = 0;
+  type Move = { changes: [number, Fact][]; rep: LogicReport; bad: number };
+  const tryMove = (changes: [number, Fact][], acc: { best: Move | null }) => {
+    const trial = facts.slice();
+    for (const [k, f] of changes) trial[k] = f;
+    const e = evalSet(p, trial, allowTrial);
+    if (!e.solved) return;
+    const b = badness(e.rep);
+    if (!acc.best || b < acc.best.bad) acc.best = { changes, rep: e.rep, bad: b };
+  };
+  for (let it = 0; it < 200 && bad > 0 && stagn < 12; it++) {
     if (Date.now() > deadline) return null;
     const sc = rep.score / n;
-    const tooEasy = okRep(rep) && easy(rep);
-    const tooHard = !okRep(rep) || sc > prof.band[1];
-    if (process.env.GEN_DEBUG) console.log(`  it ${it} sc ${sc.toFixed(2)} trial ${rep.techCount.trial} hard ${hardSteps(rep.techCount)} ok ${okRep(rep)} easy ${tooEasy} hard? ${tooHard} t=${((Date.now() - T0) / 1000).toFixed(1)}s`);
-    if (!tooEasy && !tooHard) break;
-    const k = pickWith(rng, free);
-    let cands = shuffleWith(rng, all[k]).slice(0, 12);
-    if (tooEasy) cands = cands.sort((a, b) => domSize(b, k) - domSize(a, k));
-    for (const f of cands) {
-      if (f === facts[k]) continue;
-      const trial = facts.slice();
-      trial[k] = f;
-      const e = evalSet(p, trial, allowTrial);
-      if (!e.solved) continue;
-      const better = tooHard
-        ? okRep(e.rep) && (!okRep(rep) || e.rep.score < rep.score)
-        : okRep(e.rep) && e.rep.score / n <= prof.band[1] && (e.rep.score > rep.score || e.rep.techCount.trial > rep.techCount.trial);
-      if (better) {
-        facts[k] = f;
-        rep = e.rep;
-        break;
+    const harder = sc < prof.band[0] || rep.techCount.trial < prof.minTrial || hardSteps(rep.techCount) < prof.minHard;
+    const acc: { best: Move | null } = { best: null };
+    // Movimiento simple: cambiar la pista de alguien por otra más floja (o más fuerte) con solución única.
+    for (const k of shuffleWith(rng, free).slice(0, 4)) {
+      const cur = facts[k]!;
+      const cands = shuffleWith(rng, all[k].filter((f) => f !== cur && (harder ? L(k, f) >= L(k, cur) : L(k, f) <= L(k, cur)))).slice(0, 6);
+      for (const f of cands) {
+        const trial = facts.slice();
+        trial[k] = f;
+        if (!uniqueness(p, trial, pos).unique) continue;
+        tryMove([[k, f]], acc);
+        if (acc.best?.bad === 0) break;
+      }
+      if (acc.best?.bad === 0) break;
+    }
+    // Intercambio: aflojar la pista de alguien (rompe la unicidad) y compensarlo con la de otro.
+    if (harder && (!acc.best || acc.best.bad >= bad)) {
+      for (let t = 0; t < 3 + Math.min(stagn, 5) && acc.best?.bad !== 0; t++) {
+        const k = pickWith(rng, free);
+        const cur = facts[k]!;
+        const looser = all[k].filter((f) => f !== cur && L(k, f) > L(k, cur));
+        if (!looser.length) continue;
+        const f = weighted(looser, (x) => weightOf(x) * Math.sqrt(L(k, x)));
+        const trial = facts.slice();
+        trial[k] = f;
+        const u = uniqueness(p, trial, pos, 24);
+        if (u.unique) { tryMove([[k, f]], acc); continue; }
+        if (!u.alts.length) continue;
+        const fixes: { j: number; g: Fact; x: number }[] = [];
+        for (const j of free) {
+          if (j === k) continue;
+          for (const g of all[j]) {
+            if (g === facts[j]) continue;
+            let x = 0;
+            for (const alt of u.alts) if (!g.clue.every((cl) => clueHolds(p, cl, j, alt))) x++;
+            if (x === u.alts.length) fixes.push({ j, g, x });
+          }
+        }
+        for (const fx of shuffleWith(rng, fixes).sort((a, b) => L(b.j, b.g) - L(a.j, a.g)).slice(0, 5)) {
+          const trial2 = trial.slice();
+          trial2[fx.j] = fx.g;
+          if (!uniqueness(p, trial2, pos).unique) continue;
+          tryMove([[k, f], [fx.j, fx.g]], acc);
+        }
       }
     }
+    const best = acc.best;
+    if (best && (best.bad < bad || (best.bad === bad && rng() < 0.3))) {
+      stagn = best.bad < bad ? 0 : stagn + 1;
+      for (const [k, f] of best.changes) facts[k] = f;
+      rep = best.rep;
+      bad = best.bad;
+    } else stagn++;
+    dbg(`it ${it} sc ${(rep.score / n).toFixed(2)} trial ${rep.techCount.trial} hard ${hardSteps(rep.techCount)} bad ${bad.toFixed(2)} stagn ${stagn}${best && best.changes.length > 1 ? ' (intercambio)' : ''}`);
   }
-  if (!okRep(rep)) return null;
+  if (bad > 0) return null;
   const sc = rep.score / n;
-  if (hardSteps(rep.techCount) < prof.minHard || rep.techCount.trial < prof.minTrial) return null;
   const C = cluesFrom(p, facts);
   // Verificación independiente de solución única.
   const tc0 = Date.now();
-  const check = solve(p, 2, C, 40_000_000);
-  if (process.env.GEN_DEBUG) console.log(`  unique? count ${check.count} aborted ${check.aborted} (${((Date.now() - tc0) / 1000).toFixed(1)}s)`);
+  const L0 = solveLogically(withClues(p, C), { allowTrial: false, maxSteps: 400 });
+  const check = L0.solved && L0.sound ? { count: 1, aborted: false } : solve(p, 2, C, 40_000_000, L0.sound ? L0.stuckState?.cand : undefined);
+  dbg(`unique? count ${check.count} aborted ${check.aborted} (${((Date.now() - tc0) / 1000).toFixed(1)}s)`);
   if (check.aborted || check.count !== 1) return null;
   const inBand = sc >= prof.band[0] && sc <= prof.band[1];
-  const flavor = facts.reduce((a, f) => a + (f ? f.flavor : 0), 0) / free.length;
+  const flavor = facts.reduce((acc, f) => acc + (f ? f.flavor : 0), 0) / free.length;
   const kinds = new Map<string, number>();
   facts.forEach((f) => f && kinds.set(f.kind, (kinds.get(f.kind) ?? 0) + 1));
   const maxShare = Math.max(...kinds.values()) / free.length;

@@ -14,7 +14,7 @@ export function Academy() {
       <section className="academy__head">
         <p className="eyebrow">Aprende jugando</p>
         <h1 className="section-title">Academia de detectives</h1>
-        <p className="lede">Empieza por el tutorial guiado. Después, cada lección explica una técnica y la practicas en un minicaso. Las necesitarás todas: desde «Muy fácil» hay que encadenar deducciones, y desde «Medio», suponer y descartar.</p>
+        <p className="lede">Empieza por el tutorial guiado. Después, cada lección explica una técnica y la practicas en un minicaso. Las necesitarás todas: desde «Muy fácil» hay que encadenar deducciones y también suponer y descartar.</p>
       </section>
       <button className={`lesson-card lesson-card--tutorial${events.tutorialDone ? ' is-done' : ''}`} onClick={() => navigate('/tutorial')}>
         <span className="lesson-card__num" aria-hidden="true">{events.tutorialDone ? '✓' : '★'}</span>

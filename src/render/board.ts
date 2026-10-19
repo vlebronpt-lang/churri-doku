@@ -309,7 +309,7 @@ export function renderBoard(p: Puzzle, opts: BoardOpts = {}): string {
   // los mejores evitando que dos etiquetas queden pegadas a ambos lados del mismo muro.
   if (labels) {
     type Box = { x0: number; y0: number; x1: number; y1: number };
-    type Cand = { score: number; lines: string[]; size: number; cx: number; firstY: number; lh: number; box: Box };
+    type Cand = { score: number; lines: string[]; size: number; cx: number; firstY: number; lh: number; box: Box; rot?: { x: number; y: number } };
     const layout = (room: (typeof p.rooms)[number]): Cand[] => {
       const cells = g.roomCells[room.id];
       if (!cells.length) return [];
@@ -355,6 +355,30 @@ export function renderBoard(p: Puzzle, opts: BoardOpts = {}): string {
       };
       scan(maxR, true);
       if (minR !== maxR) scan(minR, false);
+      // Zonas estrechas y altas (una o dos columnas): rótulo en vertical, pegado al muro derecho.
+      const colsOf = cells.map((i) => i % s);
+      const maxC = Math.max(...colsOf), minC = Math.min(...colsOf);
+      if (maxC - minC <= 1) {
+        const colCells = cells.filter((i) => i % s === maxC).map((i) => Math.floor(i / s)).sort((a, b) => a - b);
+        let start = colCells[0];
+        for (let k = 1; k <= colCells.length; k++) {
+          if (k !== colCells.length && colCells[k] === colCells[k - 1] + 1) continue;
+          const r0 = start, r1 = colCells[k - 1];
+          start = colCells[k];
+          const len = r1 - r0 + 1;
+          if (len < 3) continue;
+          let objs = 0;
+          for (let r = r0; r <= r1; r++) if (p.cells[r * s + maxC].obj) objs++;
+          const span = len * CELL - 14;
+          const size = Math.max(11, Math.min(24, span / (Math.max(3, text.length) * 0.8)));
+          const x = X(maxC) + CELL - 9, cy = Y(r0) + (len * CELL) / 2;
+          const tw = text.length * size * 0.8;
+          // Coordenadas sin rotar: la caja ocupa la franja derecha de la columna.
+          const box = { x0: x - size * 0.8, x1: x + 2, y0: cy - tw / 2, y1: cy + tw / 2 };
+          const score = len * 10 - (objs / len) * 14 - 6;
+          out.push({ score, lines: [text], size, cx: 0, firstY: 0, lh: size, box, rot: { x, y: cy } });
+        }
+      }
       return out.sort((a, b) => b.score - a.score);
     };
     const near = (a: Box, b: Box) => a.x0 < b.x1 + 8 && b.x0 < a.x1 + 8 && a.y0 < b.y1 + 26 && b.y0 < a.y1 + 26;
@@ -367,6 +391,11 @@ export function renderBoard(p: Puzzle, opts: BoardOpts = {}): string {
       placed.push(pick);
     }
     for (const c of placed) {
+      if (c.rot) {
+        const { x, y } = c.rot;
+        parts.push(`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" transform="rotate(-90 ${x.toFixed(1)} ${y.toFixed(1)})" text-anchor="middle" font-family="'Archivo Black','Arial Black',Arial,sans-serif" font-size="${c.size.toFixed(1)}" letter-spacing="0.4" fill="#fff" stroke="${INK}" stroke-width="5.5" stroke-linejoin="round" paint-order="stroke">${escapeXml(c.lines[0])}</text>`);
+        continue;
+      }
       const tspans = c.lines.map((ln, k) => `<tspan x="${c.cx}" y="${(c.firstY + k * c.lh).toFixed(1)}">${escapeXml(ln)}</tspan>`).join('');
       parts.push(`<text text-anchor="middle" font-family="'Archivo Black','Arial Black',Arial,sans-serif" font-size="${c.size.toFixed(1)}" letter-spacing="0.4" fill="#fff" stroke="${INK}" stroke-width="5.5" stroke-linejoin="round" paint-order="stroke">${tspans}</text>`);
     }

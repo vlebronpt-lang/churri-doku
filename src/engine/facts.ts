@@ -136,6 +136,8 @@ export function factsFor(p: Puzzle, k: number, pos: number[]): Fact[] {
             if (cq.floor) conds.push({ t: 'on', obj: cq.floor });
             for (const o of Object.keys(p.objects)) if (besideGroups(p, g, q, o).size) conds.push({ t: 'beside', obj: o });
             for (const cond of conds) add([{ t: 'someoneAtOffset', axis, n, dir, cond }], 4, 3, 'someoneAtOffset');
+            // «Estaba exactamente dos columnas al este de una mujer.»
+            if (humans && p.cast[j].gender) add([{ t: 'someoneAtOffset', axis, n, dir, g: p.cast[j].gender }], 4, 4, 'genderAtOffset');
           });
         }
       }

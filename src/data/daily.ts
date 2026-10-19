@@ -72,14 +72,23 @@ function dailyEpilogue(p: Puzzle): string {
   return `¡Fue ${withPrep('', murderer)}! ${motive}${recap}`;
 }
 
-const compiled = new Map<string, Puzzle>();
-/** Caso del día listo para jugar (o null si el caso base no existe). */
+const compiled = new Map<string, Puzzle | null>();
+/**
+ * Caso del día listo para jugar (o null si el caso base no existe o el dato no encaja con su plano,
+ * por ejemplo una copia antigua guardada sin conexión: mejor «sin caso» que romper la web).
+ */
 export function dailyPuzzle(e: DailyEntry): Puzzle | null {
   if (compiled.has(e.date)) return compiled.get(e.date)!;
   const base = INPUTS[e.base];
   if (!base) return null;
-  const p = compilePuzzle(dailyInput(base, e));
-  p.story = { intro: base.story.intro, epilogue: dailyEpilogue(p) };
+  let p: Puzzle | null = null;
+  try {
+    p = compilePuzzle(dailyInput(base, e));
+    p.story = { intro: base.story.intro, epilogue: dailyEpilogue(p) };
+  } catch (err) {
+    console.warn(`Caso del día ${e.date} no válido: ${(err as Error).message}`);
+    p = null;
+  }
   compiled.set(e.date, p);
   return p;
 }

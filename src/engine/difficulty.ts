@@ -4,9 +4,13 @@ import type { Level } from './types';
  * Qué se exige a cada nivel. La «puntuación» es la del motor lógico (suma del nivel de cada
  * deducción; las eliminaciones cuentan 0,6) dividida entre el número de personajes.
  *
- * Escala rehecha tras las pruebas con jugadores: el nuevo «Muy fácil» tiene la dificultad del
- * antiguo «Difícil» y el «Fácil», la del antiguo «Experto». A partir de «Medio» hay que hacer
- * suposiciones (descartar una casilla porque lleva a una contradicción).
+ * Calibrada con Murdoku (scripts/murdoku-ref.ts traduce sus casos y los mide con este motor):
+ * «Acaparadores» (Fácil) 1,3 · «La lección de equitación» (Fácil) 3,5 · «La residencia» (Medio) 5,7 ·
+ * «La habitación del pánico» (Difícil, 10×10) 8,4 por personaje, 83,8 en total y 11 suposiciones.
+ *
+ * El «Muy fácil» de Churri-doku tiene la dificultad de «La habitación del pánico» (al menos su
+ * puntuación por personaje y su número de suposiciones, y casi el mismo total en 9×9) y cada nivel
+ * de los siguientes es más difícil que el anterior, sin solaparse.
  */
 export interface Profile {
   band: [number, number];
@@ -22,12 +26,15 @@ export interface Profile {
 }
 
 export const PROFILE: Record<Level, Profile> = {
-  1: { band: [3.2, 4.6], maxLevel: 4, maxTrial: 0, minTrial: 0, minHard: 4, clueLevel: 4 },
-  2: { band: [4.4, 6.0], maxLevel: 6, maxTrial: 1, minTrial: 0, minHard: 8, clueLevel: 5 },
-  3: { band: [5.2, 7.2], maxLevel: 6, maxTrial: 3, minTrial: 1, minHard: 12, clueLevel: 5 },
-  4: { band: [6.0, 9.0], maxLevel: 6, maxTrial: 5, minTrial: 2, minHard: 16, clueLevel: 5 },
-  5: { band: [7.0, 11.0], maxLevel: 6, maxTrial: 8, minTrial: 3, minHard: 22, clueLevel: 5 },
+  1: { band: [9.0, 10.2], maxLevel: 6, maxTrial: 20, minTrial: 11, minHard: 28, clueLevel: 5 },
+  2: { band: [10.4, 11.6], maxLevel: 6, maxTrial: 24, minTrial: 12, minHard: 32, clueLevel: 5 },
+  3: { band: [11.8, 13.0], maxLevel: 6, maxTrial: 28, minTrial: 14, minHard: 36, clueLevel: 5 },
+  4: { band: [13.2, 14.6], maxLevel: 6, maxTrial: 32, minTrial: 16, minHard: 42, clueLevel: 5 },
+  5: { band: [14.8, 16.8], maxLevel: 6, maxTrial: 40, minTrial: 19, minHard: 48, clueLevel: 5 },
 };
+
+/** Referencia: «La habitación del pánico» de Murdoku medida con este motor. */
+export const REFERENCE = { title: 'La habitación del pánico', source: 'Murdoku (Difícil, 10×10)', perChar: 8.38, total: 83.8, trials: 11 };
 
 /** Pasos que cuentan como «difíciles». */
 export const hardSteps = (t: Record<string, number>) => (t.room ?? 0) + (t.subset ?? 0) + (t.trial ?? 0) + (t.relation ?? 0) + (t.pointing ?? 0);

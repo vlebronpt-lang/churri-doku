@@ -33,3 +33,14 @@ Cuadrículas: 2×3 → 3:2 · 2×4 → 16:9 · 3×3 → 1:1 · 2×5 → 21:9. Ca
 | marvel | 2×5 | I,C,T,H,V,O,S,D,L,Th |
 | anillos | 2×5 | G,A,L,Gi,T,M,P,B,Gr,S |
 | padrino | 2×5 | M,V,S,F,T,K,C,Cl,Mc,So |
+
+## Retratos sueltos (octubre 2026, ampliación a 9×9 y 10×10)
+
+Uno por imagen, Seedream 4.5 · 2K · 1:1 · 1/4 · Unlimited, descargados en `art/singles/<caso>-<id>.png`
+y procesados con `python3 scripts/singles.py` + `python3 scripts/print_images.py`. Plantilla:
+
+> Head-and-shoulders portrait of {personaje y rasgos}. Centered and facing the viewer, with some space above the head. Cute flat vector cartoon illustration style like a set of board-game character portraits: bold dark outlines, simple rounded shapes, simple black dot eyes, rosy cheeks, flat colors with subtle cel shading. The illustration fills the entire square edge to edge with a solid pastel {color} background: NO border, NO frame, NO card outline, NO white margin. No text, no letters, no names, no logos.
+
+Los Simpson con «drawn exactly like in the classic TV episodes… bright YELLOW skin…»; Número 18 y Sasha en estilo anime.
+Aprovechados de casillas sobrantes de hojas antiguas (`scripts/slice.py` con «-» en las demás): Jengi (shrek), Gunther (friends),
+Creed (office), Gohan (dragonball), Lex (jurassic), Ada (peaky).

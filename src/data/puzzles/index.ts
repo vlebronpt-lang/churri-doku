@@ -28,11 +28,11 @@ export interface LevelInfo {
 }
 
 export const LEVELS: LevelInfo[] = [
-  { level: 1, name: 'Muy fácil', season: 'Temporada 1', color: '#47c2a2', blurb: 'Para calentar, pero sin regalos: ya hay que encadenar deducciones. Tableros de 5×5 y 6×6.' },
-  { level: 2, name: 'Fácil', season: 'Temporada 2', color: '#6fa8f5', blurb: 'Pistas indirectas y relaciones entre sospechosos. Tableros de 7×7.' },
-  { level: 3, name: 'Medio', season: 'Temporada 3', color: '#f3b53f', blurb: 'Aquí ya toca suponer y descartar lo que lleva a una contradicción. Tableros de 8×8.' },
-  { level: 4, name: 'Difícil', season: 'Temporada 4', color: '#f07b3f', blurb: 'Varias suposiciones encadenadas y pistas mínimas en tableros de 9×9.' },
-  { level: 5, name: 'Experto', season: 'Temporada 5', color: '#e23d6b', blurb: 'Diez sospechosos y pistas mínimas: solo para mentes muy frías.' },
+  { level: 1, name: 'Muy fácil', season: 'Temporada 1', color: '#47c2a2', blurb: 'Ya de entrada, la dificultad de un caso «Difícil» de Murdoku: hay que encadenar deducciones y suponer. Tableros de 9×9.' },
+  { level: 2, name: 'Fácil', season: 'Temporada 2', color: '#6fa8f5', blurb: 'Más suposiciones y pistas más indirectas que en Muy fácil. Tableros de 9×9.' },
+  { level: 3, name: 'Medio', season: 'Temporada 3', color: '#f3b53f', blurb: 'Cadenas largas de suposiciones y pocas pistas directas. Tableros de 9×9.' },
+  { level: 4, name: 'Difícil', season: 'Temporada 4', color: '#f07b3f', blurb: 'Diez sospechosos y pistas mínimas en tableros de 10×10.' },
+  { level: 5, name: 'Experto', season: 'Temporada 5', color: '#e23d6b', blurb: 'Lo más difícil: diez sospechosos, 10×10 y suposición tras suposición. Solo para mentes muy frías.' },
 ];
 
 export const levelInfo = (l: Level) => LEVELS[l - 1];

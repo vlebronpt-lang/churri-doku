@@ -522,7 +522,7 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
             if (j === k) continue;
             for (const q of list(st.cand[j])) {
               if (conflicts(ctx, i, q)) continue;
-              if (offsetOk(clue.axis, clue.n, clue.dir, ctx.rowOf(q), ctx.colOf(q), ri, ci) && unaryOk(p, g, clue.cond, q)) { any = true; break; }
+              if (offsetOk(clue.axis, clue.n, clue.dir, ctx.rowOf(q), ctx.colOf(q), ri, ci) && (!clue.cond || unaryOk(p, g, clue.cond, q)) && (!clue.g || p.cast[j].gender === clue.g)) { any = true; break; }
             }
           }
           if (!any) { bad = true; reasons.add('nadie podría estar donde indica su pista'); }
@@ -614,8 +614,8 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
       case 'someoneAtOffset': {
         if (pk < 0) break;
         const ri = ctx.rowOf(pk), ci = ctx.colOf(pk);
-        const match = (q: number) => offsetOk(clue.axis, clue.n, clue.dir, ctx.rowOf(q), ctx.colOf(q), ri, ci) && unaryOk(p, g, clue.cond, q);
-        const possible = others.filter((j) => list(st.cand[j]).some((q) => match(q) && !conflicts(ctx, pk, q)));
+        const match = (q: number) => offsetOk(clue.axis, clue.n, clue.dir, ctx.rowOf(q), ctx.colOf(q), ri, ci) && (!clue.cond || unaryOk(p, g, clue.cond, q));
+        const possible = others.filter((j) => (!clue.g || p.cast[j].gender === clue.g) && list(st.cand[j]).some((q) => match(q) && !conflicts(ctx, pk, q)));
         if (possible.length === 1) {
           const j = possible[0];
           const e: [number, number][] = list(st.cand[j]).filter((q) => !match(q)).map((q) => [j, q]);

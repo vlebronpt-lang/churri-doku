@@ -223,10 +223,18 @@ function clueClauses(p: Puzzle, ch: CharacterDef, clue: Clue, o: TextOpts): Clau
     }
     case 'someoneAtOffset': {
       const noun = clue.axis === 'row' ? (clue.n === 1 ? 'fila' : 'filas') : (clue.n === 1 ? 'columna' : 'columnas');
+      if (clue.g && !clue.cond) {
+        // «Estaba exactamente dos columnas al este de una mujer» (la mujer está al oeste).
+        const opp: Record<Card, Card> = { N: 'S', S: 'N', E: 'W', W: 'E' };
+        const who = clue.g === 'f' ? 'una mujer' : 'un hombre';
+        const amount = `exactamente ${numF(clue.n)} ${noun}`;
+        const where = o.simple ? `${amount} ${CARD_SIMPLE[opp[clue.dir]].slice(0, -3)}` : `${amount} al ${DIR_WORD[opp[clue.dir]]}`;
+        return [{ verb: 'Estaba', body: [{ text: `${where} `, b: true, kw: 'offset' }, { text: 'de ' }, { text: who, b: true }] }];
+      }
       const pron = g === 'f' ? 'ella' : 'él';
       const dirTxt = o.simple ? `${CARD_SIMPLE[clue.dir]} ${pron}` : `al ${DIR_WORD[clue.dir]} de ${pron}`;
       // «alguien» va siempre en masculino genérico: «alguien estaba sentado en…», aunque la pista sea de una mujer.
-      const inner = unaryClause(p, { ...ch, gender: 'm' }, clue.cond);
+      const inner = unaryClause(p, { ...ch, gender: 'm' }, clue.cond!);
       const innerVerb = inner.verb.toLowerCase();
       return [{
         verb: 'Exactamente',

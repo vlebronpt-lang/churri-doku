@@ -20,17 +20,18 @@ async function main() {
   const pick = async (k: number) => mobile ? page.locator('.strip .chip').nth(k).click() : page.locator('.suspects .suspect').nth(k).locator('.suspect__photo').click();
   const tool = (name: string) => page.locator('.tool:visible', { hasText: name }).first().click();
   const occ = p.cells.filter((c) => c.occupiable).map((c) => c.i);
+  const S = p.size;
   // Rachel en su sitio (X automáticas fuertes)
   const r0 = p.solution[p.cast[0].id];
   await pick(0); await cell(r0).click();
-  const free = occ.filter((i) => Math.floor(i / 7) !== Math.floor(r0 / 7) && i % 7 !== r0 % 7);
+  const free = occ.filter((i) => Math.floor(i / S) !== Math.floor(r0 / S) && i % S !== r0 % S);
   // Una X manual
   await tool('Tachar'); await cell(free[free.length - 1]).click();
   // Casilla ocupada
   const target = free[Math.floor(free.length / 2)];
   await tool('Ocupada'); await cell(target).click();
   // Notas de dos personas + ocupada en otra casilla
-  const notesCell = free.find((i) => Math.floor(i / 7) !== Math.floor(target / 7) && i % 7 !== target % 7 && i !== free[free.length - 1])!;
+  const notesCell = free.find((i) => Math.floor(i / S) !== Math.floor(target / S) && i % S !== target % S && i !== free[free.length - 1])!;
   await tool('Lápiz'); await pick(1); await cell(notesCell).click(); await pick(2); await cell(notesCell).click();
   await tool('Ocupada'); await cell(notesCell).click();
   await page.waitForTimeout(400);
@@ -57,15 +58,15 @@ async function main() {
   await tool('Lápiz');
   await pick(3);
   const c = 5;
-  const openInCol = await page.evaluate((col) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].filter((el, i) => i % 7 === col && !el.classList.contains('is-blocked') && !el.querySelector('.token, .cell__x')).length, c);
+  const openInCol = await page.evaluate(([col, n]) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].filter((el, i) => i % n === col && !el.classList.contains('is-blocked') && !el.querySelector('.token, .cell__x')).length, [c, S]);
   await colH(c).click();
-  const notedInCol = await page.evaluate((col) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].filter((el, i) => i % 7 === col && el.classList.contains('hl-selnote')).length, c);
+  const notedInCol = await page.evaluate(([col, n]) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].filter((el, i) => i % n === col && el.classList.contains('hl-selnote')).length, [c, S]);
   if (notedInCol !== openInCol || !notedInCol) throw new Error(`anotar en toda la columna: ${notedInCol} de ${openInCol}`);
   await colH(c).click(); // otra vez: se quitan
   if (await page.locator('.cell.hl-selnote').count()) throw new Error('el segundo toque en la cabecera no quita las anotaciones');
   await tool('Tachar');
   await rowH(6).click();
-  const xRow = await page.evaluate(() => [...document.querySelectorAll('.board__grid [role="gridcell"]')].slice(42, 49).filter((el) => el.querySelector('.cell__x')).length);
+  const xRow = await page.evaluate((n) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].slice(6 * n, 7 * n).filter((el) => el.querySelector('.cell__x')).length, S);
   if (!xRow) throw new Error('tachar toda la fila no tachó nada');
   await tool('Ocupada');
   await rowH(5).click();

@@ -28,8 +28,8 @@ import { DragGhost, useSuspectDrag } from './drag';
 
 type Tool = 'place' | 'note' | 'x' | 'occ' | 'erase';
 /** Tamaños del panel de sospechosos, de más grande a más compacto: se usa el mayor que quepa sin desplazarse. */
-type Density = 'lg' | 'c2' | 'c1' | 'c2xs' | 'c1xs';
-const DENSITIES: Density[] = ['lg', 'c2', 'c1', 'c2xs', 'c1xs'];
+type Density = 'lg' | 'c2' | 'c1' | 'c2xs' | 'c1xs' | 'c2xxs';
+const DENSITIES: Density[] = ['lg', 'c2', 'c1', 'c2xs', 'c1xs', 'c2xxs'];
 const suspectsClass = (d: Density) => `suspects d-${d}${d === 'lg' ? '' : ' is-compact'}`;
 type Outcome = { kind: 'wrong'; count: number } | { kind: 'wrongAccuse'; name: string } | null;
 

@@ -167,7 +167,7 @@ export function clueHolds(p: Puzzle, clue: Clue, self: number, pos: ArrayLike<nu
         const q = pos[k];
         const rq = Math.floor(q / s), cq = q % s;
         // "n filas al norte de ella, alguien..." → la otra persona está n filas al norte.
-        if (offsetOk(clue.axis, clue.n, clue.dir, rq, cq, r, c) && unaryOk(p, g, clue.cond, q)) return true;
+        if (offsetOk(clue.axis, clue.n, clue.dir, rq, cq, r, c) && (!clue.cond || unaryOk(p, g, clue.cond, q)) && (!clue.g || p.cast[k].gender === clue.g)) return true;
       }
       return false;
     }
