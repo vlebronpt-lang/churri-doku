@@ -58,7 +58,6 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
       <Choice k="tokenStyle" label="Fichas en el tablero" options={[{ value: 'portrait', label: 'Retrato' }, { value: 'letter', label: 'Letra' }]} />
       <Choice k="clueSize" label="Tamaño del texto de las pistas" options={[{ value: 'sm', label: 'A' }, { value: 'md', label: 'A+' }, { value: 'lg', label: 'A++' }]} />
       <Toggle k="genderSymbols" label="Símbolos ♀ / ♂" hint="Útiles cuando una pista habla de «una mujer» o «un hombre»." />
-      <Toggle k="coords" label="Números de fila y columna" hint="Siempre visibles alrededor del tablero." />
       <Toggle k="shadeBlocked" label="Oscurecer casillas no ocupables" />
       <Toggle k="animations" label="Animaciones" />
 

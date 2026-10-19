@@ -14,6 +14,7 @@ import { Icon } from '../Icon';
 import { Portrait } from '../Portrait';
 import { HintPanel } from './HintPanel';
 import { EraseDialog, erasableItems } from './EraseDialog';
+import { ObjectsModal } from './ObjectLegend';
 import { AccuseModal, IntroModal, ResultModal } from './CaseModals';
 import { navigate } from '../../router';
 import { decodeChallenge } from '../../share';
@@ -45,7 +46,8 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   const [toast, setToast] = useState<string | null>(null);
   const [revealing, setRevealing] = useState(false);
   const [challengeFrom, setChallengeFrom] = useState<'result' | 'banner' | null>(null);
-  const [eraseCell, setEraseCell] = useState<number | null>(null);
+  const [eraseTarget, setEraseTarget] = useState<{ cells: number[]; lineKey?: string; where: string } | null>(null);
+  const [showObjects, setShowObjects] = useState(false);
   const paint = useRef<{ value: boolean } | null>(null);
   const suspectsPanel = useRef<HTMLElement>(null);
   const suspectsList = useRef<HTMLDivElement>(null);
@@ -139,8 +141,12 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
     }
     if (tool === 'erase') {
       // Si hay varias cosas (personas o marcas), se pregunta qué borrar.
-      const items = erasableItems(board, cell);
-      if (items.length > 1) { setEraseCell(cell); return; }
+      const items = erasableItems(board, [cell]);
+      if (items.length > 1) {
+        const c = p.cells[cell];
+        setEraseTarget({ cells: [cell], where: `Fila ${c.r + 1}, columna ${c.c + 1} · ${p.rooms[c.room].name}` });
+        return;
+      }
       if (items.length === 1) { game.clearCell(cell); sfx.erase(); }
       return;
     }
@@ -165,6 +171,69 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
     sfx.place();
   }, [board, game, p, say, selected, settings.noXOnBlocked, settings.tapAction, solved, revealing, tool]);
 
+  // Toque en la cabecera de una fila o columna: la herramienta se aplica a toda la línea.
+  const lineCells = (axis: 'r' | 'c', i: number) => Array.from({ length: p.size }, (_, k) => (axis === 'r' ? i * p.size + k : k * p.size + i));
+  const onLine = (axis: 'r' | 'c', i: number) => {
+    if (solved || revealing) return;
+    clearTransient();
+    const cells = lineCells(axis, i);
+    const key = `${axis}${i}`;
+    const label = axis === 'r' ? `la fila ${i + 1}` : `la columna ${i + 1}`;
+    const occ = board.occ ?? {};
+    // Casillas donde todavía podría estar alguien.
+    const open = (c: number) => p.cells[c].occupiable && board.placed[c] === undefined && !board.xs[c] && !game.autoX.has(c);
+    if (tool === 'erase') {
+      if (!erasableItems(board, cells, key).length) return say(`En ${label} no hay nada que borrar.`);
+      setEraseTarget({ cells, lineKey: key, where: axis === 'r' ? `Toda la fila ${i + 1}` : `Toda la columna ${i + 1}` });
+      return;
+    }
+    if (tool === 'x') {
+      const targets = cells.filter((c) => board.placed[c] === undefined && !occ[c] && !game.autoX.has(c) && (!settings.noXOnBlocked || p.cells[c].occupiable));
+      if (!targets.length) return say(`En ${label} no queda nada por tachar.`);
+      const allOn = targets.every((c) => board.xs[c]);
+      game.apply((b) => {
+        for (const c of targets) {
+          if (allOn) delete b.xs[c];
+          else b.xs[c] = 'm';
+        }
+      });
+      sfx.x();
+      return;
+    }
+    if (tool === 'occ') {
+      if (board.lines?.[key]) { game.toggleLine(key, false); sfx.undo(); return; }
+      if (cells.some((c) => board.placed[c] !== undefined || occ[c])) return say(`En ${label} ya sabes dónde está su persona.`);
+      const poss = cells.filter(open);
+      if (!poss.length) return say(`En ${label} no queda ninguna casilla posible: repasa tus X.`);
+      if (poss.length === 1) {
+        game.toggleOcc(poss[0], true);
+        sfx.note();
+        return say(`Solo quedaba una casilla posible en ${label}: la he marcado como ocupada.`);
+      }
+      game.toggleLine(key, true);
+      sfx.note();
+      return;
+    }
+    // Lápiz (o colocar) con un sospechoso elegido: se anota en todas las casillas libres de la línea.
+    if (!selected) return say(`Elige primero a un sospechoso para anotarlo en toda ${label}.`);
+    const targets = cells.filter(open);
+    if (!targets.length) return say(`En ${label} no queda ninguna casilla libre.`);
+    const allOn = targets.every((c) => board.notes[c]?.includes(selected));
+    game.apply((b) => {
+      for (const c of targets) {
+        const list = b.notes[c] ?? [];
+        if (allOn) {
+          const nl = list.filter((x) => x !== selected);
+          if (nl.length) b.notes[c] = nl;
+          else delete b.notes[c];
+        } else if (!list.includes(selected)) b.notes[c] = [...list, selected];
+      }
+    });
+    sfx.note();
+  };
+  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = solved || revealing ? null
+    : tool === 'x' ? 'x' : tool === 'occ' ? 'occ' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
+
   const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
   const onPaintStart = (cell: number) => {
@@ -188,7 +257,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   // Atajos de teclado
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (showIntro || accusing || showResult || challengeFrom || eraseCell !== null) return;
+      if (showIntro || accusing || showResult || challengeFrom || eraseTarget || showObjects) return;
       const t = e.target as HTMLElement;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
       const k = e.key.toLowerCase();
@@ -408,7 +477,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
               {challenge && !solved && <span className="timer__duel" title={`Tiempo de ${challenge.n}`}><span aria-hidden="true">💘</span>{formatTime(challenge.t)}</span>}
             </span>
           )}
-          <button className="icon-btn" onClick={() => setShowIntro(true)} aria-label="Ver el expediente" title="Expediente"><Icon name="folder" /></button>
+          <button className="icon-btn" onClick={() => setShowIntro(true)} aria-label="Ver el expediente: historia, sospechosos y objetos del plano" title="Expediente (historia y objetos del plano)"><Icon name="folder" /></button>
           <button className="icon-btn" onClick={onHelp} aria-label="Cómo jugar" title="Cómo jugar"><Icon name="help" /></button>
           <button className="icon-btn" onClick={onSettings} aria-label="Ajustes" title="Ajustes"><Icon name="settings" /></button>
         </div>
@@ -448,7 +517,9 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
               highlight={highlight}
               marks={allMarks}
               tokenStyle={settings.tokenStyle}
-              coords={settings.coords || (hint !== null && hint.level >= 2)}
+              lineAction={lineAction}
+              selectedTag={selChar?.tag ?? null}
+              onLine={onLine}
               shade={settings.shadeBlocked}
               paintMode={paintMode}
               onTap={onTap}
@@ -485,6 +556,9 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
             </div>
           )}
           <div className="tools-bar">{tools}</div>
+          <button className="objects-link" onClick={() => setShowObjects(true)}>
+            <Icon name="objects" size={18} /> ¿Qué hay en el plano? Ver los objetos
+          </button>
 
           {solved && !showResult && (
             <div className="solved-banner">
@@ -504,6 +578,9 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
             <Portrait p={p} ch={victim} className="victim-mini__img" />
             <div><span className="eyebrow">Víctima</span><strong>{displayName(victim)}</strong></div>
           </div>
+          <button className="tool tool--objects" onClick={() => setShowObjects(true)} title="Qué objetos hay en el plano y si se puede estar en ellos">
+            <Icon name="objects" /><span>Objetos</span>
+          </button>
         </aside>
       </div>
 
@@ -538,13 +615,16 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
           onChallenge={() => { setShowResult(false); setChallengeFrom('result'); }}
         />
       )}
-      {eraseCell !== null && (
+      {showObjects && <ObjectsModal p={p} onClose={() => setShowObjects(false)} />}
+      {eraseTarget && (
         <EraseDialog
           p={p}
           board={board}
-          cell={eraseCell}
-          onClose={() => setEraseCell(null)}
-          onErase={(sel) => { game.erase(eraseCell, sel); sfx.erase(); setEraseCell(null); }}
+          cells={eraseTarget.cells}
+          lineKey={eraseTarget.lineKey}
+          where={eraseTarget.where}
+          onClose={() => setEraseTarget(null)}
+          onErase={(sel) => { game.erase(eraseTarget.cells, sel); sfx.erase(); setEraseTarget(null); }}
         />
       )}
       {challengeFrom && (

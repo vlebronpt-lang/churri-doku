@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { Puzzle } from '../../engine/types';
 import { boardSize, CELL, renderBoard } from '../../render/board';
 import { clueSentences, displayName, withPrep } from '../../engine/text';
@@ -6,6 +6,7 @@ import { solveLogically } from '../../engine/logic';
 import { levelInfo, PUZZLES, LEVELS } from '../../data/puzzles';
 import { Portrait, charColor } from '../Portrait';
 import { HeartLens, Logo } from '../Logo';
+import { legendIconSvg, objectLegend } from '../../render/legend';
 
 type Kind = 'color' | 'bn' | 'solucion';
 const SITE = 'vlebronpt-lang.github.io/churri-doku';
@@ -43,6 +44,19 @@ export function PrintSheet({ p, kind }: { p: Puzzle; kind: Kind }) {
   const svg = useMemo(() => renderBoard(p, { coords: true, bw, vectorFloors: true, idp: `pr-${p.id}-${kind}` }), [p, bw, kind]);
   const n = p.cast.length;
   const cols = n <= 6 ? 2 : 3;
+  // Si la leyenda no cabe bajo los sospechosos, pasa a ocupar todo el ancho de la hoja.
+  const [wideLegend, setWideLegend] = useState(false);
+  const legendRef = useRef<HTMLDivElement>(null);
+  const footRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    if (kind === 'solucion' || wideLegend) return;
+    const check = () => {
+      const leg = legendRef.current, foot = footRef.current;
+      if (leg && foot && leg.getBoundingClientRect().bottom > foot.getBoundingClientRect().top - 3) setWideLegend(true);
+    };
+    check();
+    document.fonts?.ready.then(check).catch(() => {});
+  }, [kind, wideLegend]);
 
   if (kind === 'solucion') {
     const L = solveLogically(p);
@@ -96,6 +110,7 @@ export function PrintSheet({ p, kind }: { p: Puzzle; kind: Kind }) {
         </div>
       </header>
       <div className="sheet__body">
+        <div className="sheet__left">
         <div className="sheet__suspects" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
           {p.cast.map((ch) => (
             <div key={ch.id} className={`ps${ch.victim ? ' ps--victim' : ''}`}>
@@ -111,16 +126,41 @@ export function PrintSheet({ p, kind }: { p: Puzzle; kind: Kind }) {
             </div>
           ))}
         </div>
+        {!wideLegend && <PrintLegend p={p} bw={bw} ref={legendRef} />}
+        </div>
         <div className="sheet__right">
           <div className="print-board" dangerouslySetInnerHTML={{ __html: svg }} />
           <div className="sheet__answer">El asesino es: <span className="sheet__blank" /></div>
         </div>
       </div>
-      <footer className="sheet__foot">
+      {wideLegend && <PrintLegend p={p} bw={bw} wide />}
+      <footer className="sheet__foot" ref={footRef}>
         <span>{p.story.intro}</span>
         <span className="sheet__url">Juega online con pistas: {SITE}</span>
       </footer>
     </section>
+  );
+}
+
+/** Leyenda de objetos para la hoja impresa: dibujo, nombre y si se puede estar. */
+function PrintLegend({ p, bw, wide = false, ref }: { p: Puzzle; bw: boolean; wide?: boolean; ref?: React.Ref<HTMLDivElement> }) {
+  const items = useMemo(() => objectLegend(p), [p]);
+  return (
+    <div className={`print-legend${wide ? ' print-legend--wide' : ''}`} ref={ref}>
+      <div className="print-legend__head">
+        <span className="print-legend__title">En el plano:</span>
+        <span className="print-legend__note">✓ se puede estar · ✕ no se puede estar</span>
+      </div>
+      <ul>
+        {items.map((it) => (
+          <li key={it.key} className={it.occupiable ? 'is-ok' : 'is-no'}>
+            <span className="print-legend__icon" dangerouslySetInnerHTML={{ __html: legendIconSvg(it.def, bw) }} />
+            <span className="print-legend__name">{it.name}</span>
+            <span className="print-legend__rule">{it.occupiable ? '✓' : '✕'}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

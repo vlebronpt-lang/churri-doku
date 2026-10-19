@@ -7,28 +7,38 @@ import { Modal } from '../Modal';
 import { Portrait } from '../Portrait';
 import { Icon } from '../Icon';
 
-type Item = { key: string; kind: 'placed' | 'note' | 'occ' | 'x'; id?: string };
+type Item = { key: string; kind: 'placed' | 'note' | 'occ' | 'x' | 'line'; id?: string; count?: number };
 
-/** Lo que se puede borrar en una casilla (persona colocada, anotaciones y marcas). */
-export function erasableItems(board: BoardState, cell: number): Item[] {
+/** Lo que se puede borrar en unas casillas (personas colocadas, anotaciones y marcas) y en su fila/columna. */
+export function erasableItems(board: BoardState, cells: number[], lineKey?: string): Item[] {
   const items: Item[] = [];
-  const placed = board.placed[cell];
-  if (placed) items.push({ key: `p-${placed}`, kind: 'placed', id: placed });
-  for (const id of board.notes[cell] ?? []) if (id !== placed) items.push({ key: `n-${id}`, kind: 'note', id });
-  if (board.occ?.[cell]) items.push({ key: 'occ', kind: 'occ' });
-  if (board.xs[cell]) items.push({ key: 'x', kind: 'x' });
+  const placed = cells.map((c) => board.placed[c]).filter(Boolean) as string[];
+  for (const id of placed) items.push({ key: `p-${id}`, kind: 'placed', id });
+  const noted = new Map<string, number>();
+  for (const c of cells) for (const id of board.notes[c] ?? []) if (board.placed[c] !== id) noted.set(id, (noted.get(id) ?? 0) + 1);
+  for (const [id, count] of noted) items.push({ key: `n-${id}`, kind: 'note', id, count });
+  const occ = cells.filter((c) => board.occ?.[c]).length;
+  if (occ) items.push({ key: 'occ', kind: 'occ', count: occ });
+  const xs = cells.filter((c) => board.xs[c]).length;
+  if (xs) items.push({ key: 'x', kind: 'x', count: xs });
+  if (lineKey && board.lines?.[lineKey]) items.push({ key: 'line', kind: 'line' });
   return items;
 }
 
-/** Ventana para elegir qué borrar cuando en una casilla hay varias cosas. */
-export function EraseDialog({ p, board, cell, onErase, onClose }: {
+const plural = (n: number, one: string, many: string) => (n === 1 ? one : many.replace('#', String(n)));
+
+/** Ventana para elegir qué borrar cuando en una casilla (o en una fila o columna) hay varias cosas. */
+export function EraseDialog({ p, board, cells, lineKey, where, onErase, onClose }: {
   p: Puzzle;
   board: BoardState;
-  cell: number;
+  cells: number[];
+  lineKey?: string;
+  /** Descripción del sitio: «Fila 1, columna 1 · Salón», «Toda la columna 3»… */
+  where: string;
   onErase: (sel: EraseSel) => void;
   onClose: () => void;
 }) {
-  const items = erasableItems(board, cell);
+  const items = erasableItems(board, cells, lineKey);
   const [picked, setPicked] = useState<Set<string>>(() => new Set());
   const toggle = (key: string) => setPicked((cur) => {
     const next = new Set(cur);
@@ -41,12 +51,25 @@ export function EraseDialog({ p, board, cell, onErase, onClose }: {
     notes: list.filter((it) => it.kind === 'note').map((it) => it.id!),
     occ: list.some((it) => it.kind === 'occ'),
     x: list.some((it) => it.kind === 'x'),
+    line: list.some((it) => it.kind === 'line') ? lineKey : undefined,
   });
-  const c = p.cells[cell];
+  const many = cells.length > 1;
   const n = picked.size;
+  const describe = (it: Item) => {
+    if (it.kind === 'placed') return 'Colocado aquí';
+    if (it.kind === 'note') return many ? `Anotado a lápiz en ${plural(it.count!, '1 casilla', '# casillas')}` : 'Anotado a lápiz';
+    if (it.kind === 'line') return lineKey?.startsWith('r') ? 'Marca de la fila' : 'Marca de la columna';
+    return many ? plural(it.count!, '1 casilla', '# casillas') : 'Marca';
+  };
+  const title = (it: Item, name?: string) => {
+    if (name) return name;
+    if (it.kind === 'occ') return many ? 'Casillas ocupadas' : 'Casilla ocupada';
+    if (it.kind === 'x') return many ? 'Casillas tachadas' : 'Casilla tachada';
+    return lineKey?.startsWith('r') ? 'Fila ocupada' : 'Columna ocupada';
+  };
   return (
     <Modal title="¿Qué quieres borrar?" onClose={onClose} labelledBy="erase-title" className="erase-dialog">
-      <p className="muted small">Fila {c.r + 1}, columna {c.c + 1} · {p.rooms[c.room].name}. Elige una o varias cosas, o bórralo todo.</p>
+      <p className="muted small">{where}. Elige una o varias cosas, o bórralo todo.</p>
       <div className="erase-list" role="group" aria-label="Qué borrar">
         {items.map((it) => {
           const ch = it.id ? p.cast.find((x) => x.id === it.id) : undefined;
@@ -56,11 +79,13 @@ export function EraseDialog({ p, board, cell, onErase, onClose }: {
               {ch ? (
                 <Portrait p={p} ch={ch} className="erase-item__img" />
               ) : (
-                <span className={`erase-item__mark erase-item__mark--${it.kind}`} aria-hidden="true">{it.kind === 'x' ? <Icon name="x" size={22} sw={3} /> : <Icon name="occupied" size={26} />}</span>
+                <span className={`erase-item__mark erase-item__mark--${it.kind}`} aria-hidden="true">
+                  {it.kind === 'x' ? <Icon name="x" size={22} sw={3} /> : <Icon name="occupied" size={26} />}
+                </span>
               )}
               <span className="erase-item__text">
-                <strong>{ch ? displayName(ch) : it.kind === 'occ' ? 'Casilla ocupada' : 'Casilla descartada'}</strong>
-                <span>{it.kind === 'placed' ? 'Colocado aquí' : it.kind === 'note' ? 'Anotado a lápiz' : 'Marca'}</span>
+                <strong>{title(it, ch ? displayName(ch) : undefined)}</strong>
+                <span>{describe(it)}</span>
               </span>
               <span className="erase-item__check" aria-hidden="true">{on ? '✓' : ''}</span>
             </button>

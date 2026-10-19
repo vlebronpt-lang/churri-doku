@@ -10,6 +10,7 @@ import { navigate } from '../../router';
 import { downloadName } from '../../downloads';
 import type { Challenge } from '../../share';
 import { ChallengeIntro, ChallengeResult } from '../ShareDialogs';
+import { ObjectLegend } from './ObjectLegend';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -36,6 +37,10 @@ export function IntroModal({ p, challenge, onStart, onHelp }: { p: Puzzle; chall
           {challenge && <ChallengeIntro challenge={challenge} />}
         </div>
       </div>
+      <section className="dossier__objects" aria-labelledby="dossier-objects">
+        <h3 id="dossier-objects" className="dossier__subtitle">En el plano hay…</h3>
+        <ObjectLegend p={p} compact />
+      </section>
       <div className="row gap wrap dossier__actions">
         <button className="btn btn--primary btn--lg" onClick={onStart}><Icon name="search" size={20} /> Abrir el caso</button>
         <button className="btn btn--ghost" onClick={() => { onStart(); onHelp(); }}><Icon name="help" size={18} /> Cómo se juega</button>

@@ -5,6 +5,9 @@ import type { BoardState } from '../../state/progress';
 import { Portrait } from '../Portrait';
 import type { Highlight } from './ClueText';
 import { displayName } from '../../engine/text';
+import { Icon } from '../Icon';
+import { FloatingTip } from '../Tooltip';
+import { occupancyText } from '../../render/legend';
 
 export interface BoardMarks {
   conflicts: Set<number>;
@@ -32,8 +35,11 @@ interface Props {
   highlight: Highlight | null;
   marks: BoardMarks;
   tokenStyle: 'portrait' | 'letter';
-  coords: boolean;
   shade: boolean;
+  /** Qué pasa al tocar la cabecera de una fila o columna (null: nada que hacer). */
+  lineAction: 'note' | 'x' | 'occ' | 'erase' | null;
+  selectedTag: string | null;
+  onLine: (axis: 'r' | 'c', i: number) => void;
   /** Pinta (arrastre) en modo X/nota/borrar (la marca «ocupada» va casilla a casilla). */
   paintMode: 'x' | 'note' | 'erase' | null;
   onTap: (cell: number, long: boolean) => void;
@@ -45,13 +51,22 @@ interface Props {
 
 const LONG_MS = 430;
 
-function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, coords, shade, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp }: Props) {
-  const svg = useMemo(() => renderBoard(p, { coords, shade, shadow: true, idp: `bd-${p.id}` }), [p, coords, shade]);
-  const { w: W, h: H, off } = boardSize(p, coords);
+function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp }: Props) {
+  const svg = useMemo(() => renderBoard(p, { shade, shadow: true, idp: `bd-${p.id}` }), [p, shade]);
+  const { w: W, h: H, off } = boardSize(p, false);
   const s = p.size;
   const overlay = useRef<HTMLDivElement>(null);
   const [cursor, setCursor] = useState<number | null>(null);
   const [hover, setHover] = useState<number | null>(null);
+  const [hoverLine, setHoverLine] = useState<{ axis: 'r' | 'c'; i: number } | null>(null);
+  // Ficha informativa de la casilla (qué objeto hay y si se puede estar) al dejar el ratón quieto.
+  const [infoCell, setInfoCell] = useState<number | null>(null);
+  useEffect(() => {
+    setInfoCell(null);
+    if (hover === null) return;
+    const t = window.setTimeout(() => setInfoCell(hover), 650);
+    return () => window.clearTimeout(t);
+  }, [hover]);
   const press = useRef<{ cell: number; timer: number; long: boolean; painting: boolean; last: number; x: number; y: number } | null>(null);
 
   const cellAt = useCallback((x: number, y: number): number | null => {
@@ -66,6 +81,7 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
+    setInfoCell(null);
     const cell = cellAt(e.clientX, e.clientY);
     if (cell === null) return;
     overlay.current?.setPointerCapture(e.pointerId);
@@ -141,6 +157,17 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
   const rooms = new Set([...(hl?.rooms ?? []), ...marks.hintRooms]);
   const rows = new Set([...(hl?.rows ?? []), ...marks.hintRows]);
   const cols = new Set([...(hl?.cols ?? []), ...marks.hintCols]);
+  if (hoverLine) (hoverLine.axis === 'r' ? rows : cols).add(hoverLine.i);
+
+  // Filas/columnas marcadas como «ocupadas»: se resaltan las casillas donde aún puede estar su persona.
+  const lineOcc = new Map<number, boolean>();
+  for (const key of Object.keys(board.lines ?? {})) {
+    const axis = key[0], li = Number(key.slice(1));
+    const line = Array.from({ length: s }, (_, k) => (axis === 'r' ? li * s + k : k * s + li));
+    if (line.some((c) => board.placed[c] !== undefined || board.occ?.[c])) continue; // ya resuelta
+    const poss = line.filter((c) => p.cells[c].occupiable && !board.xs[c] && !autoX.has(c));
+    for (const c of poss) lineOcc.set(c, lineOcc.get(c) || poss.length === 1);
+  }
   const hoverRoom = hover !== null ? p.cells[hover].room : null;
 
   const cells = [];
@@ -162,7 +189,9 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
     if (cursor === i) cls.push('is-cursor');
     if (hoverRoom !== null && hoverRoom === cell.room) cls.push('is-hover-room');
     if (persons && notes?.some((n) => persons.has(n))) cls.push('hl-note');
-    const label = `Fila ${cell.r + 1}, columna ${cell.c + 1}, ${p.rooms[cell.room].name}${cell.obj ? `, ${p.objects[cell.obj].name}` : ''}${cell.floor ? `, ${p.objects[cell.floor].name}` : ''}${ch ? `: ${displayName(ch)}` : ''}${!ch && occ ? ', ocupada por alguien' : ''}${x ? ', descartada' : ''}`;
+    if (!ch && selected && notes?.includes(selected)) cls.push('hl-selnote');
+    if (!ch && lineOcc.has(i)) cls.push(lineOcc.get(i) ? 'is-lineocc is-lineocc-one' : 'is-lineocc');
+    const label = `Fila ${cell.r + 1}, columna ${cell.c + 1}, ${p.rooms[cell.room].name}${cell.obj ? `, ${p.objects[cell.obj].name}` : ''}${cell.floor ? `, ${p.objects[cell.floor].name}` : ''}${ch ? `: ${displayName(ch)}` : ''}${!ch && occ ? ', ocupada por alguien' : ''}${!ch && lineOcc.has(i) ? ', aquí puede estar la persona de su fila o columna' : ''}${x ? ', descartada' : ''}`;
     cells.push(
       <div key={i} className={cls.join(' ')} role="gridcell" aria-label={label}>
         {!ch && occ && <span className={`cell__occ${marks.wrongOcc.has(i) ? ' is-wrong' : ''}${marks.conflicts.has(i) ? ' is-conflict' : ''}`} aria-hidden="true" />}
@@ -188,7 +217,72 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
     );
   }
 
+  const where = (axis: 'r' | 'c', i: number) => (axis === 'r' ? `la fila ${i + 1}` : `la columna ${i + 1}`);
+  const lineTitle = (axis: 'r' | 'c', i: number) => {
+    switch (lineAction) {
+      case 'note': return `Anotar a ${selectedTag} en toda ${where(axis, i)}`;
+      case 'x': return `Tachar toda ${where(axis, i)}`;
+      case 'occ': return board.lines?.[`${axis}${i}`] ? `Quitar la marca de ${where(axis, i)}` : `Marcar ${where(axis, i)}: su persona está en una de sus casillas libres`;
+      case 'erase': return `Borrar en toda ${where(axis, i)}`;
+      default: return `${axis === 'r' ? 'Fila' : 'Columna'} ${i + 1}: elige un sospechoso, Tachar, Ocupada o Borrar para usarla entera`;
+    }
+  };
+  const handles = (axis: 'r' | 'c') => Array.from({ length: s }, (_, i) => {
+    const key = `${axis}${i}`;
+    const marked = !!board.lines?.[key];
+    const hinted = axis === 'r' ? marks.hintRows.has(i) : marks.hintCols.has(i);
+    const t = lineTitle(axis, i);
+    return (
+      <button
+        key={key}
+        type="button"
+        className={`line-handle${marked ? ' is-marked' : ''}${hinted ? ' is-hint' : ''}`}
+        onClick={() => onLine(axis, i)}
+        onMouseEnter={() => setHoverLine({ axis, i })}
+        onMouseLeave={() => setHoverLine(null)}
+        onFocus={() => setHoverLine({ axis, i })}
+        onBlur={() => setHoverLine(null)}
+        title={t}
+        aria-label={t}
+      >
+        {marked && <Icon name="occupied" size={13} sw={2.6} />}
+        <span>{axis === 'r' ? `F${i + 1}` : `C${i + 1}`}</span>
+      </button>
+    );
+  });
+
+  // Ficha de la casilla bajo el ratón
+  let info: React.ReactNode = null;
+  if (infoCell !== null && overlay.current && !press.current) {
+    const r0 = overlay.current.getBoundingClientRect();
+    const c = p.cells[infoCell];
+    const cw = r0.width / s, chh = r0.height / s;
+    const rect = new DOMRect(r0.left + c.c * cw, r0.top + c.r * chh, cw, chh);
+    const obj = c.obj ? p.objects[c.obj] : null;
+    const floor = c.floor ? p.objects[c.floor] : null;
+    const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+    const what = obj
+      ? `${cap(obj.name)}${floor && obj.occupiable ? ` (sobre ${floor.name})` : ''}: ${occupancyText(obj)}`
+      : floor ? `${cap(floor.name)}: ${occupancyText(floor)}` : 'Suelo libre: se puede estar';
+    info = (
+      <FloatingTip anchor={rect} maxWidth={250}>
+        <strong>{p.rooms[c.room].name}</strong> · F{c.r + 1}·C{c.c + 1}<br />{what}
+      </FloatingTip>
+    );
+  }
+
   return (
+    <div className={`board-frame${lineAction ? ' has-line-action' : ''}`}>
+      <div className="board-frame__top">
+        <div className="line-handles line-handles--cols" style={{ left: `${(off / W) * 100}%`, width: `${((s * CELL) / W) * 100}%`, gridTemplateColumns: `repeat(${s}, minmax(0, 1fr))` }}>
+          {handles('c')}
+        </div>
+      </div>
+      <div className="board-frame__left">
+        <div className="line-handles line-handles--rows" style={{ top: `${(off / H) * 100}%`, height: `${((s * CELL) / H) * 100}%`, gridTemplateRows: `repeat(${s}, minmax(0, 1fr))` }}>
+          {handles('r')}
+        </div>
+      </div>
     <div className="board" style={{ aspectRatio: `${W} / ${H}` }}>
       <div className="board__svg" dangerouslySetInnerHTML={{ __html: svg }} />
       <div
@@ -218,6 +312,8 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
         {cells}
       </div>
       {stamp && <div className="board__stamp" aria-live="polite"><span>{stamp}</span></div>}
+    </div>
+      {info}
     </div>
   );
 }

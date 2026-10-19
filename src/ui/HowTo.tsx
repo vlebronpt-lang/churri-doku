@@ -87,7 +87,7 @@ export function HowTo({ onClose }: { onClose: () => void }) {
             Hay tantas personas como filas. Cada fila y cada columna tiene exactamente una. Al colocar a alguien, su fila y su columna quedan descartadas.
           </Card>
           <Card title="2 · Solo en casillas ocupables" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'blk', '1,2': 'plant', '2,1': 'chair', '1,1': 'a' }} />}>
-            Se puede estar en el suelo libre, en sillas, sillones, bancos, camas, alfombras, barcas… Pero no encima de mesas, estanterías, plantas, árboles o estatuas: esas casillas aparecen oscurecidas.
+            Se puede estar en el suelo libre, en sillas, sillones, bancos, camas, alfombras, barcas… Pero no encima de mesas, estanterías, plantas, árboles o estatuas: esas casillas aparecen oscurecidas. Cada caso trae su lista de objetos para que no haya dudas.
           </Card>
           <Card title="3 · Las pistas nunca mienten" fig={<Mini rooms={['AAB', 'AAB', 'CCB']} marks={{ '0,0': 'v', '1,1': 'a' }} />}>
             Cada caso tiene una única solución y se resuelve sin adivinar. La víctima estaba a solas con el asesino: en su zona había exactamente dos personas.
@@ -104,6 +104,8 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <p><strong>Lápiz:</strong> anota posibilidades con letras pequeñas. Sin cambiar de herramienta, también puedes <strong>mantener pulsada</strong> una casilla para anotar. Arrastra para anotar en varias.</p>
           <p><strong>Tachar (X):</strong> marca casillas donde no puede haber nadie. Arrastra para tachar muchas de una vez. Las X más marcadas son automáticas y definitivas: salen al colocar a alguien (o al marcar una casilla como ocupada) en toda su fila y su columna.</p>
           <p><strong>Ocupada:</strong> marca una casilla en la que sabes que hay alguien aunque aún no sepas quién (por ejemplo, porque es la única libre de su fila). Se ve como un hueco amarillo con una silueta y, como solo cabe una persona por fila y columna, también tacha el resto de su fila y su columna.</p>
+          <p><strong>Filas y columnas enteras:</strong> toca su cabecera (<strong>C1, C2…</strong> arriba y <strong>F1, F2…</strong> a la izquierda) para usar la herramienta en toda la línea de una vez. Con un sospechoso elegido, lo anota a lápiz en todas las casillas libres (por ejemplo, «A está en la columna 2»). Con <strong>Tachar</strong>, tacha la línea. Con <strong>Ocupada</strong>, resalta las casillas libres donde está su persona (si solo queda una, la marca como ocupada). Con <strong>Borrar</strong>, te pregunta qué quitar de toda la línea.</p>
+          <p><strong>Objetos:</strong> en el expediente y en el botón <strong>Objetos</strong> tienes la lista de lo que hay en el plano y si se puede estar en cada cosa. Si pasas el ratón por una casilla, te dice qué hay en ella.</p>
           <p><strong>Borrar</strong> limpia una casilla. Si en ella hay varias cosas (varias personas anotadas, una marca…), te pregunta si quieres borrarlo todo o solo lo que elijas. <strong>Deshacer</strong> y <strong>Rehacer</strong> no tienen límite.</p>
           <p><strong>Pista:</strong> primero un empujoncito, luego la explicación completa y, si quieres, la aplica por ti. Las pistas se calculan a partir de tu tablero.</p>
           <p><strong>Revisar</strong> marca en rojo lo que esté mal. Usar pistas o revisar baja la nota final (las estrellas).</p>

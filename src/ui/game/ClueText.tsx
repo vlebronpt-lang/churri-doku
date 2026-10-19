@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { FloatingTip } from '../Tooltip';
 import { clueSentences, type Keyword, type Seg } from '../../engine/text';
 import type { CharacterDef, Puzzle } from '../../engine/types';
 
@@ -48,7 +49,15 @@ export function ClueText({ p, ch, simple, onHighlight, interactive = true }: {
   interactive?: boolean;
 }) {
   const sentences = useMemo(() => clueSentences(p, ch, { simple }), [p, ch, simple]);
-  const [tip, setTip] = useState<{ text: string; key: string } | null>(null);
+  const [tip, setTip] = useState<{ text: string; rect: DOMRect } | null>(null);
+  // El bocadillo es fijo en pantalla: si se desplaza algo, se quita.
+  useEffect(() => {
+    if (!tip) return;
+    const hide = () => setTip(null);
+    window.addEventListener('scroll', hide, true);
+    window.addEventListener('resize', hide);
+    return () => { window.removeEventListener('scroll', hide, true); window.removeEventListener('resize', hide); };
+  }, [tip]);
   return (
     <span className="clue">
       {sentences.map((segs, i) => (
@@ -58,14 +67,13 @@ export function ClueText({ p, ch, simple, onHighlight, interactive = true }: {
               <b
                 key={j}
                 className={`clue__kw${s.kw ? ' clue__kw--key' : ''}${s.person ? ' clue__kw--person' : ''}`}
-                onMouseEnter={interactive ? () => {
+                onMouseEnter={interactive ? (e) => {
                   onHighlight?.(highlightForSentence(p, segs));
-                  if (s.kw && GLOSSARY[s.kw]) setTip({ text: GLOSSARY[s.kw]!, key: `${i}-${j}` });
+                  if (s.kw && GLOSSARY[s.kw]) setTip({ text: GLOSSARY[s.kw]!, rect: e.currentTarget.getBoundingClientRect() });
                 } : undefined}
                 onMouseLeave={interactive ? () => { onHighlight?.(null); setTip(null); } : undefined}
               >
                 {s.text}
-                {tip?.key === `${i}-${j}` && <span className="clue__tip" role="tooltip">{tip.text}</span>}
               </b>
             ) : (
               <span key={j}>{s.text}</span>
@@ -74,6 +82,7 @@ export function ClueText({ p, ch, simple, onHighlight, interactive = true }: {
           {i < sentences.length - 1 ? ' ' : ''}
         </span>
       ))}
+      {tip && <FloatingTip anchor={tip.rect}>{tip.text}</FloatingTip>}
     </span>
   );
 }

@@ -51,7 +51,33 @@ async function main() {
   await page.getByRole('button', { name: 'Borrar todo' }).click();
   await page.waitForTimeout(200);
   if ((await cell(notesCell).locator('.note, .cell__occ').count()) !== 0) throw new Error('«Borrar todo» no lo borró todo');
-  console.log('✔ herramientas: X automáticas, Ocupada, borrar seleccionadas y borrar todo');
+  // Filas y columnas enteras desde las cabeceras
+  const colH = (i: number) => page.locator('.line-handles--cols .line-handle').nth(i);
+  const rowH = (i: number) => page.locator('.line-handles--rows .line-handle').nth(i);
+  await tool('Lápiz');
+  await pick(3);
+  const c = 5;
+  const openInCol = await page.evaluate((col) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].filter((el, i) => i % 7 === col && !el.classList.contains('is-blocked') && !el.querySelector('.token, .cell__x')).length, c);
+  await colH(c).click();
+  const notedInCol = await page.evaluate((col) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].filter((el, i) => i % 7 === col && el.classList.contains('hl-selnote')).length, c);
+  if (notedInCol !== openInCol || !notedInCol) throw new Error(`anotar en toda la columna: ${notedInCol} de ${openInCol}`);
+  await colH(c).click(); // otra vez: se quitan
+  if (await page.locator('.cell.hl-selnote').count()) throw new Error('el segundo toque en la cabecera no quita las anotaciones');
+  await tool('Tachar');
+  await rowH(6).click();
+  const xRow = await page.evaluate(() => [...document.querySelectorAll('.board__grid [role="gridcell"]')].slice(42, 49).filter((el) => el.querySelector('.cell__x')).length);
+  if (!xRow) throw new Error('tachar toda la fila no tachó nada');
+  await tool('Ocupada');
+  await rowH(5).click();
+  const lineOcc = await page.locator('.cell.is-lineocc').count();
+  if (!lineOcc && !(await page.locator('.cell__occ').count())) throw new Error('marcar la fila como ocupada no resaltó nada');
+  await tool('Borrar');
+  await rowH(5).click();
+  await page.locator('.erase-dialog').waitFor();
+  await page.getByRole('button', { name: 'Borrar todo' }).click();
+  await page.waitForTimeout(200);
+  if (await page.locator('.cell.is-lineocc').count()) throw new Error('borrar la fila no quitó su marca');
+  console.log('✔ herramientas: X automáticas, Ocupada, borrar seleccionadas y borrar todo, filas y columnas enteras');
   await page.locator('.tools-bar').screenshot({ path: `${OUT}-tools.png` }).catch(() => {});
   await browser.close();
 }

@@ -12,6 +12,8 @@ export interface BoardState {
   xs: Record<number, 'm' | 'a'>;
   /** Casillas marcadas como «ocupadas»: ahí hay alguien, aunque aún no se sepa quién. */
   occ?: Record<number, true>;
+  /** Filas o columnas marcadas como «ocupadas» ('r3', 'c0'…): su persona está en una de sus casillas libres. */
+  lines?: Record<string, true>;
 }
 
 export interface CaseProgress {
