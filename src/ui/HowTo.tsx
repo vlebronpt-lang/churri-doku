@@ -1,0 +1,148 @@
+import { useState, type ReactNode } from 'react';
+import { Modal } from './Modal';
+
+type Mark = 'a' | 'b' | 'v' | 'x' | 'ok' | 'o' | 'blk' | 'chair' | 'plant' | 'hl';
+
+/** Mini tablero ilustrativo. rooms: filas de letras de zona; marks: casilla → marca. */
+function Mini({ rooms, marks = {}, size = 128 }: { rooms: string[]; marks?: Record<string, Mark>; size?: number }) {
+  const n = rooms.length;
+  const m = rooms[0].length;
+  const cs = 26;
+  const W = m * cs + 8, H = n * cs + 8;
+  const parts: ReactNode[] = [];
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < m; c++) {
+      const x = 4 + c * cs, y = 4 + r * cs;
+      const mark = marks[`${r},${c}`];
+      parts.push(<rect key={`b${r}${c}`} x={x} y={y} width={cs} height={cs} fill={mark === 'hl' ? '#ffe58a' : rooms[r][c] === 'A' ? '#dcd2f2' : rooms[r][c] === 'B' ? '#cfe8de' : '#f6d9c2'} />);
+      if (mark === 'blk' || mark === 'plant' || mark === 'chair') {
+        if (mark === 'blk') parts.push(<rect key={`k${r}${c}`} x={x + 5} y={y + 5} width={cs - 10} height={cs - 10} rx="3" fill="#9a8f80" stroke="#251a37" strokeWidth="1.6" />);
+        if (mark === 'plant') parts.push(<g key={`k${r}${c}`}><circle cx={x + cs / 2} cy={y + cs / 2 + 2} r="6" fill="#d2733f" stroke="#251a37" strokeWidth="1.5" /><circle cx={x + cs / 2} cy={y + cs / 2 - 4} r="6" fill="#5db55a" stroke="#251a37" strokeWidth="1.5" /></g>);
+        if (mark === 'chair') parts.push(<g key={`k${r}${c}`}><rect x={x + 7} y={y + 10} width={cs - 14} height={cs - 15} rx="2" fill="#c98a52" stroke="#251a37" strokeWidth="1.5" /><rect x={x + 6} y={y + 5} width={cs - 12} height="6" rx="2" fill="#9b6136" stroke="#251a37" strokeWidth="1.5" /></g>);
+      }
+      if (mark === 'a' || mark === 'b' || mark === 'v') {
+        parts.push(<circle key={`m${r}${c}`} cx={x + cs / 2} cy={y + cs / 2} r="9.5" fill={mark === 'v' ? '#e23d6b' : '#fff'} stroke="#251a37" strokeWidth="2" />);
+        parts.push(<text key={`t${r}${c}`} x={x + cs / 2} y={y + cs / 2 + 4.5} textAnchor="middle" fontFamily="Bungee" fontSize="12" fill={mark === 'v' ? '#fff' : '#251a37'}>{mark === 'v' ? 'V' : mark.toUpperCase()}</text>);
+      }
+      if (mark === 'x') parts.push(<path key={`x${r}${c}`} d={`M${x + 8} ${y + 8} L${x + cs - 8} ${y + cs - 8} M${x + cs - 8} ${y + 8} L${x + 8} ${y + cs - 8}`} stroke="#251a37" strokeWidth="3" strokeLinecap="round" />);
+      if (mark === 'ok') parts.push(<path key={`o${r}${c}`} d={`M${x + 7} ${y + 14} l5 5 l8 -10`} stroke="#1f8f6e" strokeWidth="3.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />);
+      if (mark === 'o') parts.push(<circle key={`c${r}${c}`} cx={x + cs / 2} cy={y + cs / 2} r="7" fill="none" stroke="#1f8f6e" strokeWidth="3" />);
+    }
+  }
+  // Muros entre zonas
+  const walls: string[] = [];
+  for (let r = 0; r < n; r++) for (let c = 0; c < m; c++) {
+    const x = 4 + c * cs, y = 4 + r * cs;
+    if (c < m - 1 && rooms[r][c] !== rooms[r][c + 1]) walls.push(`M${x + cs} ${y} V${y + cs}`);
+    if (r < n - 1 && rooms[r][c] !== rooms[r + 1][c]) walls.push(`M${x} ${y + cs} H${x + cs}`);
+  }
+  const grid: string[] = [];
+  for (let k = 1; k < m; k++) grid.push(`M${4 + k * cs} 4 V${4 + n * cs}`);
+  for (let k = 1; k < n; k++) grid.push(`M4 ${4 + k * cs} H${4 + m * cs}`);
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} width={size} height={(size * H) / W} className="mini" aria-hidden="true">
+      {parts}
+      <path d={grid.join(' ')} stroke="#251a37" strokeWidth="1" opacity=".25" />
+      <path d={walls.join(' ')} stroke="#251a37" strokeWidth="3.5" strokeLinecap="round" />
+      <rect x="4" y="4" width={m * cs} height={n * cs} fill="none" stroke="#251a37" strokeWidth="4" rx="2" />
+    </svg>
+  );
+}
+
+function Card({ title, children, fig }: { title: string; children: ReactNode; fig?: ReactNode }) {
+  return (
+    <div className="howto-card">
+      {fig && <div className="howto-card__fig">{fig}</div>}
+      <div>
+        <h4>{title}</h4>
+        <div className="howto-card__text">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+const TABS = ['Reglas', 'Controles', 'Palabras clave', 'Técnicas', 'Preguntas'] as const;
+
+export function HowTo({ onClose }: { onClose: () => void }) {
+  const [tab, setTab] = useState<(typeof TABS)[number]>('Reglas');
+  return (
+    <Modal title="Cómo se juega" onClose={onClose} wide labelledBy="howto-title" className="howto">
+      <div className="tabs tabs--modal" role="tablist">
+        {TABS.map((t) => (
+          <button key={t} role="tab" aria-selected={tab === t} className={tab === t ? 'is-on' : ''} onClick={() => setTab(t)}>{t}</button>
+        ))}
+      </div>
+
+      {tab === 'Reglas' && (
+        <div className="howto-grid">
+          <p className="howto-lede">Ha habido un asesinato. Coloca a todas las personas en el plano usando sus pistas y descubre al culpable: <strong>es la única persona que estaba a solas con la víctima en su zona.</strong></p>
+          <Card title="1 · Una persona por fila y por columna" fig={<Mini rooms={['AAAA', 'AAAA', 'AAAA', 'AAAA']} marks={{ '1,1': 'a', '1,0': 'x', '1,2': 'x', '1,3': 'x', '0,1': 'x', '2,1': 'x', '3,1': 'x' }} />}>
+            Hay tantas personas como filas. Cada fila y cada columna tiene exactamente una. Al colocar a alguien, su fila y su columna quedan descartadas.
+          </Card>
+          <Card title="2 · Solo en casillas ocupables" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'blk', '1,2': 'plant', '2,1': 'chair', '1,1': 'a' }} />}>
+            Se puede estar en el suelo libre, en sillas, sillones, bancos, camas, alfombras, barcas… Pero no encima de mesas, estanterías, plantas, árboles o estatuas: esas casillas aparecen oscurecidas.
+          </Card>
+          <Card title="3 · Las pistas nunca mienten" fig={<Mini rooms={['AAB', 'AAB', 'CCB']} marks={{ '0,0': 'v', '1,1': 'a' }} />}>
+            Cada caso tiene una única solución y se resuelve sin adivinar. La víctima estaba a solas con el asesino: en su zona había exactamente dos personas.
+          </Card>
+          <Card title="4 · Acusa al culpable">
+            Cuando todos estén colocados, pulsa <strong>Acusar</strong> y señala al asesino. Si algo no cuadra, te avisaremos.
+          </Card>
+        </div>
+      )}
+
+      {tab === 'Controles' && (
+        <div className="howto-list">
+          <p><strong>Elige un sospechoso</strong> tocando su foto (o pulsando su letra en el teclado). Luego <strong>toca una casilla</strong> para colocarlo; tócala otra vez para quitarlo.</p>
+          <p><strong>Lápiz:</strong> anota posibilidades con letras pequeñas. Sin cambiar de herramienta, también puedes <strong>mantener pulsada</strong> una casilla para anotar. Arrastra para anotar en varias.</p>
+          <p><strong>Descartar (X):</strong> marca casillas donde no puede haber nadie. Arrastra para marcar muchas de una vez. Las X claras son automáticas: salen al colocar a alguien.</p>
+          <p><strong>Borrar</strong> limpia una casilla. <strong>Deshacer</strong> y <strong>Rehacer</strong> no tienen límite.</p>
+          <p><strong>Pista:</strong> primero un empujoncito, luego la explicación completa y, si quieres, la aplica por ti. Las pistas se calculan a partir de tu tablero.</p>
+          <p><strong>Comprobar</strong> marca en rojo lo que esté mal. Usar pistas o comprobar baja la nota final (las estrellas).</p>
+          <p><strong>Al pasar el ratón</strong> por una pista, el tablero resalta lo que menciona y aparece la definición de las palabras clave.</p>
+          <p className="kbd-help"><kbd>←↑→↓</kbd> moverse · <kbd>Intro</kbd> colocar · <kbd>Mayús</kbd>+<kbd>Intro</kbd> anotar · <kbd>N</kbd> lápiz · <kbd>X</kbd> descartar · <kbd>B</kbd> borrar · <kbd>H</kbd> pista · <kbd>Ctrl</kbd>+<kbd>Z</kbd> deshacer · <kbd>Esc</kbd> soltar</p>
+        </div>
+      )}
+
+      {tab === 'Palabras clave' && (
+        <div className="howto-grid howto-grid--kw">
+          <Card title="junto a" fig={<Mini rooms={['AAB', 'AAB', 'AAB']} marks={{ '1,0': 'a', '0,0': 'ok', '2,0': 'ok', '1,1': 'ok', '1,2': 'x' }} />}>A la izquierda, derecha, arriba o abajo, <strong>y en la misma zona</strong>. Una pared lo impide. En diagonal no cuenta.</Card>
+          <Card title="solo / sola" fig={<Mini rooms={['AAB', 'AAB', 'CCB']} marks={{ '0,0': 'a', '0,1': 'x', '1,0': 'x', '1,1': 'x' }} />}>No había nadie más en su zona, ni siquiera la víctima.</Card>
+          <Card title="a solas con" fig={<Mini rooms={['AAB', 'AAB', 'CCB']} marks={{ '0,0': 'a', '1,1': 'b', '0,1': 'x', '1,0': 'x' }} />}>En su zona estaban esas dos personas y nadie más.</Card>
+          <Card title="con" fig={<Mini rooms={['AAB', 'AAB', 'CCB']} marks={{ '0,1': 'a', '1,0': 'b' }} />}>En la misma zona (no hace falta que estén juntos).</Card>
+          <Card title="esquina" fig={<Mini rooms={['AAAB', 'AAAB', 'CCCB']} marks={{ '0,0': 'o', '0,2': 'o', '1,0': 'o', '1,2': 'o' }} />}>Casilla donde se juntan dos paredes de su zona.</Card>
+          <Card title="misma diagonal" fig={<Mini rooms={['AAAA', 'AAAA', 'AAAA', 'AAAA']} marks={{ '1,1': 'a', '0,0': 'o', '2,2': 'o', '3,3': 'o', '0,2': 'o', '2,0': 'o' }} />}>En línea diagonal, a cualquier distancia.</Card>
+          <Card title="al norte / sur / este / oeste de" fig={<Mini rooms={['AAAA', 'AAAA', 'AAAA']} marks={{ '2,1': 'a', '0,0': 'hl', '0,1': 'hl', '0,2': 'hl', '0,3': 'hl', '1,0': 'hl', '1,1': 'hl', '1,2': 'hl', '1,3': 'hl' }} />}>Norte es arriba: <strong>cualquier fila por encima</strong>, en cualquier columna. Sur es abajo, este a la derecha y oeste a la izquierda. Si prefieres «encima de», actívalo en Ajustes.</Card>
+          <Card title="exactamente dos filas al norte" fig={<Mini rooms={['AAAA', 'AAAA', 'AAAA']} marks={{ '2,1': 'a', '0,0': 'hl', '0,1': 'hl', '0,2': 'hl', '0,3': 'hl' }} />}>La distancia exacta en esa dirección: ni una fila más ni una menos.</Card>
+          <Card title="alguien" >Cualquier persona, también la víctima.</Card>
+          <Card title="nadie estuvo en…">Esa zona estaba vacía: no había nadie, ni siquiera la víctima.</Card>
+        </div>
+      )}
+
+      {tab === 'Técnicas' && (
+        <div className="howto-grid">
+          <Card title="Busca filas o columnas con una sola casilla libre" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'blk', '2,0': 'blk', '1,0': 'o' }} />}>Si en una fila solo queda una casilla posible, ahí hay alguien aunque aún no sepas quién. Y nadie más podrá estar en su columna.</Card>
+          <Card title="Filas o columnas reservadas" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'a', '0,1': 'a', '1,0': 'b', '1,1': 'b', '2,0': 'x', '2,1': 'x' }} />}>Si A solo puede estar en dos casillas de las columnas 1 y 2, y B también, esas dos columnas son para ellos: nadie más puede ocuparlas.</Card>
+          <Card title="Casillas alineadas" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'a', '2,2': 'a', '0,2': 'x', '2,0': 'x' }} />}>Si alguien solo puede estar en dos casillas, nadie más podrá ocupar las casillas que comparten fila o columna con ambas.</Card>
+          <Card title="¿Quién acompaña a la víctima?">En la zona de la víctima hay exactamente otra persona. Si solo una puede llegar ahí, es el asesino.</Card>
+          <Card title="Supón y busca la contradicción">En los casos Experto, a veces conviene suponer: «si X estuviera aquí…». Si eso deja a alguien sin sitio, puedes descartar esa casilla.</Card>
+        </div>
+      )}
+
+      {tab === 'Preguntas' && (
+        <div className="faq">
+          <details open><summary>¿«Alguien» o «persona» incluye a la víctima?</summary><p>Sí. Piensa en dónde estaba cada uno justo antes del crimen.</p></details>
+          <details><summary>Si una pista dice «junto a una planta», ¿puede estar junto a dos?</summary><p>Sí. Cuando el número importa, la pista dice «exactamente».</p></details>
+          <details><summary>¿El objeto sobre el que está alguien cuenta como «junto a»?</summary><p>No. Quien está sentado en un sofá de dos casillas no está «junto a un sofá» por la otra mitad del mismo sofá.</p></details>
+          <details><summary>¿Los retratos dan pistas?</summary><p>No, son decorativos. Solo importa el símbolo ♀/♂ cuando una pista habla de «una mujer» o «un hombre».</p></details>
+          <details><summary>¿Se puede estar en el agua?</summary><p>Sí: el agua y las alfombras se pueden ocupar, salvo que encima haya algo que no se pueda ocupar (una mesa, una roca…). Ojo: quien va en una barca está «en la barca», no «en el agua». En cambio, quien está en una silla puesta sobre una alfombra sí está «sobre una alfombra».</p></details>
+          <details><summary>¿Los objetos grandes ocupan varias casillas?</summary><p>Sí (mesas, camas, coches…), pero una persona solo ocupa una casilla.</p></details>
+          <details><summary>¿Siempre hay una sola solución?</summary><p>Sí, y todos los casos se han verificado con un programa que lo comprueba. Si te sale otra cosa, repasa una palabra clave: es fácil pasar por alto un «no» o un «exactamente».</p></details>
+          <details><summary>¿Se guarda mi progreso?</summary><p>Sí, automáticamente en este navegador, incluido el tiempo. Puedes cerrar y seguir otro día. Para seguir en otro ordenador o en el móvil, abre <strong>Ajustes → Pasar mi progreso a otro dispositivo</strong> y abre ese enlace allí.</p></details>
+          <details><summary>¿Cómo juego con mi pareja si usa otro dispositivo?</summary><p>Cada uno abre esta misma página en su móvil u ordenador. Cuando resuelvas un caso, pulsa <strong>«Retar a mi churri»</strong> y mándale el enlace por WhatsApp o por donde queráis: verá tu tiempo antes de empezar y, al terminar, quién ha ganado. Luego puede devolverte el reto.</p></details>
+          <details><summary>¿Puedo jugar en papel?</summary><p>Sí. En <strong>Descargas</strong> tienes cada caso en PDF (color, blanco y negro y solución) o todos juntos en un libro.</p></details>
+        </div>
+      )}
+    </Modal>
+  );
+}

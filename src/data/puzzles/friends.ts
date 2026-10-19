@@ -1,0 +1,80 @@
+import type { PuzzleInput } from '../../engine/types';
+
+const puzzle: PuzzleInput = {
+  id: 'friends',
+  num: 6,
+  level: 2,
+  franchise: 'Friends',
+  title: '¿Quién mató al Sr. Heckles?',
+  size: 7,
+  rooms: {
+    M: { name: 'Apartamento de Monica', article: 'el', color: '#cdb4e6', floor: 'wood' },
+    R: { name: 'Rellano', article: 'el', color: '#e6dccb', floor: 'tiles' },
+    J: { name: 'Apartamento de Joey y Chandler', article: 'el', color: '#b7d3e8', floor: 'planks' },
+    H: { name: 'Piso del Sr. Heckles', article: 'el', color: '#c9c79a', floor: 'carpet' },
+    C: { name: 'Central Perk', article: 'el', color: '#f0c89a', floor: 'wood' },
+  },
+  layout: [
+    'MMMRJJJ',
+    'MMMRJJJ',
+    'MMMRJJJ',
+    'MMRRRJJ',
+    'HHHCCCC',
+    'HHHCCCC',
+    'HHHCCCC',
+  ],
+  objects: [
+    '.......',
+    'ns..RR.',
+    'fTs..t.',
+    'oo...Fd',
+    'ee..akB',
+    '.A.OT.B',
+    '...O...',
+  ],
+  legend: {
+    n: 'nevera',
+    f: 'fogon',
+    T: 'mesa',
+    s: 'silla',
+    o: { base: 'sofa', key: 'sofa_monica', name: 'sofá de Monica', plural: 'sofás de Monica', unique: true, fem: false, tint: '#6f8fc7' },
+    R: { base: 'sillon', key: 'reclinable', name: 'sillón reclinable', plural: 'sillones reclinables', tint: '#9a6a43' },
+    t: 'television',
+    F: { base: 'futbolin', unique: true },
+    d: { base: 'pato', unique: true },
+    e: 'estanteria',
+    A: { base: 'sillon', key: 'sillon_heckles', name: 'sillón del Sr. Heckles', plural: 'sillones del Sr. Heckles', unique: true, fem: false, tint: '#7d8b4f' },
+    a: { base: 'sillon', key: 'butaca', name: 'butaca', plural: 'butacas', fem: true, tint: '#b84a62' },
+    k: 'taburete',
+    B: { base: 'barra', unique: true },
+    O: { base: 'sofa', key: 'sofa_naranja', name: 'sofá naranja', plural: 'sofás naranjas', unique: true, fem: false, tint: '#e8833a' },
+  },
+  cast: [
+    { id: 'Ra', tag: 'Ra', name: 'Rachel', gender: 'f', clues: [] },
+    { id: 'M', tag: 'M', name: 'Monica', gender: 'f', clues: [] },
+    { id: 'P', tag: 'P', name: 'Phoebe', gender: 'f', clues: [] },
+    { id: 'Ro', tag: 'Ro', name: 'Ross', gender: 'm', clues: [] },
+    { id: 'C', tag: 'C', name: 'Chandler', gender: 'm', clues: [] },
+    { id: 'J', tag: 'J', name: 'Joey', gender: 'm', clues: [] },
+    { id: 'H', tag: 'H', name: 'Sr. Heckles', article: 'el', gender: 'm', victim: true, clues: [] },
+  ],
+  // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
+  solution: { "Ra": [2, 3], "M": [4, 4], "P": [3, 0], "Ro": [1, 5], "C": [6, 2], "J": [0, 6], "H": [5, 1] },
+  clues: {
+    "Ra": [{"t":"offset","axis":"row","n":1,"dir":"N","of":"P"}],
+    "M": [{"t":"on","obj":"butaca"}],
+    "P": [{"t":"beside","obj":"fogon"}],
+    "Ro": [{"t":"on","obj":"reclinable"}],
+    "C": [{"t":"corner"}],
+    "J": [{"t":"aloneWith","of":"Ro"}],
+  },
+  // </gen>
+  wantMurderer: 'C',
+  pins: { H: { rooms: ['H'] } },
+  story: {
+    intro: 'En el edificio del Greenwich Village nadie soportaba al Sr. Heckles, el vecino de abajo que aporreaba el techo con la escoba en cuanto oía un ruido (o sea, siempre). Esta noche, tras otra fiesta escandalosa en casa de Monica, lo han encontrado tieso, escoba en mano, y los seis amigos juran que no oyeron nada. ¿Quién mató al Sr. Heckles?',
+    epilogue: '¡Fue Chandler! Bajó al piso del Sr. Heckles a pedirle que dejara de dar escobazos mientras Joey veía «Los vigilantes de la playa», y el viejo le soltó que acabaría como él: solo, amargado y quejándose del ruido ajeno. Chandler, por una vez sin un chiste a mano, perdió los nervios. Cuando sus amigos lo descubrieron, solo acertó a decir: «¿Se podría SER más culpable?».',
+  },
+};
+
+export default puzzle;

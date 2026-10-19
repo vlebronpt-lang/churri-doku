@@ -1,0 +1,80 @@
+import type { PuzzleInput } from '../../engine/types';
+
+const puzzle: PuzzleInput = {
+  id: 'office',
+  num: 7,
+  level: 2,
+  franchise: 'The Office',
+  title: 'Asesinato en Dunder Mifflin',
+  size: 7,
+  rooms: {
+    S: { name: 'Sala de reuniones', article: 'la', color: '#c7d6e8', floor: 'carpet' },
+    O: { name: 'Oficina de Michael', article: 'la', color: '#e9d3a6', floor: 'wood' },
+    V: { name: 'Zona de ventas', article: 'la', color: '#d5dccb', floor: 'carpet' },
+    R: { name: 'Recepción', article: 'la', color: '#f1c9b3', floor: 'marble' },
+    X: { name: 'Anexo', article: 'el', color: '#cfc4b3', floor: 'planks' },
+    C: { name: 'Cocina', article: 'la', color: '#bfe0d2', floor: 'tiles' },
+  },
+  layout: [
+    'SSSOOOO',
+    'SSSOOOO',
+    'SSVVVRR',
+    'VVVVVRR',
+    'VVVVVRR',
+    'XXXCCCC',
+    'XXXXCCC',
+  ],
+  objects: [
+    '.......',
+    'sTs.ADu',
+    '.t...B.',
+    'sEFs.sP',
+    '.......',
+    'e.bx..n',
+    '...bsTs',
+  ],
+  legend: {
+    s: 'silla',
+    T: 'mesa',
+    t: 'television',
+    P: 'planta',
+    A: { base: 'sillon', name: 'sillón de Michael', plural: 'sillones de Michael', unique: true, fem: false },
+    D: 'escritorio',
+    E: 'escritorio',
+    F: 'escritorio',
+    u: { base: 'estatua', key: 'dundie', name: 'Dundie', plural: 'Dundies', unique: true, fem: false, tint: '#e3b341' },
+    B: { base: 'barra', key: 'mostrador', name: 'mostrador', plural: 'mostradores', unique: true, fem: false, tint: '#8c6d52' },
+    e: 'estanteria',
+    b: 'caja',
+    x: 'expendedora',
+    n: 'nevera',
+  },
+  cast: [
+    { id: 'M', tag: 'M', name: 'Michael', gender: 'm', clues: [] },
+    { id: 'D', tag: 'D', name: 'Dwight', gender: 'm', clues: [] },
+    { id: 'J', tag: 'J', name: 'Jim', gender: 'm', clues: [] },
+    { id: 'P', tag: 'P', name: 'Pam', gender: 'f', clues: [] },
+    { id: 'A', tag: 'A', name: 'Angela', gender: 'f', clues: [] },
+    { id: 'K', tag: 'K', name: 'Kevin', gender: 'm', clues: [] },
+    { id: 'T', tag: 'T', name: 'Toby', gender: 'm', victim: true, clues: [] },
+  ],
+  // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)
+  solution: { "M": [5, 1], "D": [1, 4], "J": [2, 6], "P": [3, 3], "A": [0, 5], "K": [4, 2], "T": [6, 0] },
+  clues: {
+    "M": [{"t":"offset","axis":"row","n":1,"dir":"S","of":"K"}],
+    "D": [{"t":"on","obj":"sillon"}],
+    "J": [{"t":"beside","obj":"mostrador"}],
+    "P": [{"t":"on","obj":"silla"}],
+    "A": [{"t":"offset","axis":"col","n":1,"dir":"W","of":"J"}],
+    "K": [{"t":"inRoom","room":"V"},{"t":"not","c":{"t":"beside","obj":"silla"}}],
+  },
+  // </gen>
+  wantMurderer: 'M',
+  pins: { T: { rooms: ['X'] } },
+  story: {
+    intro: 'Un lunes cualquiera en Dunder Mifflin Scranton: Dwight patrulla la oficina, Kevin pelea con la máquina expendedora y Michael ensaya un discurso que nadie le ha pedido. A media mañana, Toby Flenderson aparece muerto y Recursos Humanos se queda sin recursos… y sin humano. ¿Quién mató a Toby?',
+    epilogue: 'Fue Michael, claro: llevaba años diciendo que, si pudiera borrar a una sola persona del planeta, Toby iría por delante de cualquier villano de la historia. Se coló en el Anexo con la excusa de entregarle una queja por escrito y, a solas con él, cumplió su sueño, mientras Dwight aprovechaba para probarse su sillón. Luego convocó una reunión de urgencia para anunciar, con lágrimas de felicidad, que Toby se había ido para siempre. Cuando Jim le preguntó si había sido duro, Michael respondió: «Eso es lo que ella dijo».',
+  },
+};
+
+export default puzzle;
