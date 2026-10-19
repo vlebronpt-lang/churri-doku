@@ -296,14 +296,12 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     return () => mq.removeEventListener?.('change', off);
   }, []);
 
-  // Plano ampliado (móvil, planos grandes): se centra al ampliar.
-  const toggleZoom = () => {
-    setZoom((z) => !z);
-    window.requestAnimationFrame(() => {
-      const w = boardWrap.current;
-      if (w) w.scrollLeft = (w.scrollWidth - w.clientWidth) / 2;
-    });
-  };
+  // Plano ampliado (móvil, planos grandes): se centra en cuanto se aplica el cambio de tamaño.
+  const toggleZoom = () => setZoom((z) => !z);
+  useLayoutEffect(() => {
+    const w = boardWrap.current;
+    if (w) w.scrollLeft = zoom ? (w.scrollWidth - w.clientWidth) / 2 : 0;
+  }, [zoom]);
 
   // Toque en la cabecera de una fila o columna: la herramienta se aplica a toda la línea.
   const lineCells = (axis: 'r' | 'c', i: number) => Array.from({ length: p.size }, (_, k) => (axis === 'r' ? i * p.size + k : k * p.size + i));

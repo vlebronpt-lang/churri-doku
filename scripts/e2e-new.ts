@@ -188,7 +188,10 @@ async function main() {
     await btn.click();
     const w1 = (await mpage.locator('.board-frame').boundingBox())!.width;
     assert(w1 > w0 * 1.5, `el plano no se amplía (${w0} → ${w1})`);
-    const scroll = await mpage.locator('.board-wrap').evaluate((el) => el.scrollWidth > el.clientWidth && el.scrollLeft > 0);
+    const scroll = await mpage.locator('.board-wrap').evaluate(async (el) => {
+      for (let k = 0; k < 20 && !(el.scrollWidth > el.clientWidth && el.scrollLeft > 0); k++) await new Promise((r) => setTimeout(r, 50));
+      return el.scrollWidth > el.clientWidth && el.scrollLeft > 0;
+    });
     assert(scroll, 'el plano ampliado no se puede desplazar o no está centrado');
     await mpage.screenshot({ path: `${SHOTS}/zoom.png` });
     await btn.click();
