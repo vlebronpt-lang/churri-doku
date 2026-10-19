@@ -13,7 +13,7 @@ cp -R dist/. "$TMP"
   cd "$TMP"
   git init -q -b gh-pages
   git add -A
-  git commit -q -m "Publicar Churri-doku"
+  git commit -q -m "Publicar Churri-doku" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   git push -q -f "$(git -C "$OLDPWD" remote get-url origin)" gh-pages
 )
 rm -rf "$TMP"
