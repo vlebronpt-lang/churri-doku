@@ -10,7 +10,7 @@ import { displayName } from '../src/engine/text';
 import type { PuzzleInput } from '../src/engine/types';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const base = process.argv[2] ?? 'http://localhost:5173/';
+const base = process.argv[2] ?? 'http://127.0.0.1:5173/';
 
 async function fresh(browser: Browser) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 860 } });

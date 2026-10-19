@@ -32,11 +32,13 @@ export function HintPanel({ p, hint, onMore, onApply, onClose }: {
   if (res.kind === 'errors') {
     const n = res.wrongPlaced.length;
     const x = res.wrongX.length;
+    const o = res.wrongOcc.length;
     title = 'Antes de seguir…';
     body = (
       <p>
         {n > 0 && <>Hay {n === 1 ? 'una persona colocada' : `${n} personas colocadas`} donde no {n === 1 ? 'toca' : 'tocan'}. </>}
         {x > 0 && <>Has descartado {x === 1 ? 'una casilla' : `${x} casillas`} donde sí había alguien. </>}
+        {o > 0 && <>Has marcado como ocupada{o === 1 ? ' una casilla' : `s ${o} casillas`} donde no había nadie. </>}
         Las pistas siguientes partirían de un error.
       </p>
     );
@@ -47,7 +49,7 @@ export function HintPanel({ p, hint, onMore, onApply, onClose }: {
     body = <p>Todos están en su sitio. Pulsa «Acusar» y señala al culpable.</p>;
   } else if (res.kind === 'stuck') {
     title = 'Pista';
-    body = <p>No encuentro una deducción desde aquí. Revisa tus marcas o usa «Comprobar».</p>;
+    body = <p>No encuentro una deducción desde aquí. Repasa tus marcas o usa «Revisar».</p>;
   } else {
     const d = res.d;
     title = level === 1 ? 'Un empujoncito' : TECH_NAME[d.tech] ?? 'Pista';

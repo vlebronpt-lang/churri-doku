@@ -4,7 +4,7 @@ import type { Puzzle } from '../engine/types';
 import type { BoardState } from '../state/progress';
 
 export type HintResult =
-  | { kind: 'errors'; wrongPlaced: number[]; wrongX: number[] }
+  | { kind: 'errors'; wrongPlaced: number[]; wrongX: number[]; wrongOcc: number[] }
   | { kind: 'step'; d: Deduction; /** Celdas que la deducción descarta para todos (aplicables como X). */ xCells: number[]; /** Colocación a la que lleva la cadena. */ leadsTo: { id: string; cell: number } | null }
   | { kind: 'solved' }
   | { kind: 'stuck' };
@@ -18,10 +18,13 @@ export function findErrors(p: Puzzle, board: BoardState) {
   }
   const wrongX: number[] = [];
   for (const cellStr of Object.keys(board.xs)) if (solCells.has(Number(cellStr))) wrongX.push(Number(cellStr));
-  return { wrongPlaced, wrongX };
+  // «Ocupada» donde en realidad no hay nadie.
+  const wrongOcc: number[] = [];
+  for (const cellStr of Object.keys(board.occ ?? {})) if (!solCells.has(Number(cellStr))) wrongOcc.push(Number(cellStr));
+  return { wrongPlaced, wrongX, wrongOcc };
 }
 
-/** Estado lógico a partir de lo que el jugador ya sabe (colocaciones y X correctas). */
+/** Estado lógico a partir de lo que el jugador ya sabe (colocaciones, X y casillas «ocupadas» correctas). */
 export function stateFromBoard(p: Puzzle, board: BoardState): LState {
   const st = initialState(p);
   const idx = castIndex(p);
@@ -36,12 +39,25 @@ export function stateFromBoard(p: Puzzle, board: BoardState): LState {
     if (solCells.has(cell)) continue;
     for (let k = 0; k < p.cast.length; k++) if (st.placed[k] < 0) st.cand[k][cell] = 0;
   }
+  // Una casilla ocupada deja vacío el resto de su fila y de su columna.
+  const s = p.size;
+  for (const cellStr of Object.keys(board.occ ?? {})) {
+    const cell = Number(cellStr);
+    if (!solCells.has(cell)) continue;
+    const r = Math.floor(cell / s), c = cell % s;
+    for (let q = 0; q < s; q++) {
+      for (const other of [r * s + q, q * s + c]) {
+        if (other === cell) continue;
+        for (let k = 0; k < p.cast.length; k++) if (st.placed[k] < 0) st.cand[k][other] = 0;
+      }
+    }
+  }
   return st;
 }
 
 export function computeHint(p: Puzzle, board: BoardState): HintResult {
-  const { wrongPlaced, wrongX } = findErrors(p, board);
-  if (wrongPlaced.length || wrongX.length) return { kind: 'errors', wrongPlaced, wrongX };
+  const { wrongPlaced, wrongX, wrongOcc } = findErrors(p, board);
+  if (wrongPlaced.length || wrongX.length || wrongOcc.length) return { kind: 'errors', wrongPlaced, wrongX, wrongOcc };
   const st = stateFromBoard(p, board);
   if (st.placed.every((x) => x >= 0)) return { kind: 'solved' };
   if (contradiction(p, st)) return { kind: 'stuck' };

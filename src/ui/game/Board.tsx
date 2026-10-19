@@ -10,6 +10,7 @@ export interface BoardMarks {
   conflicts: Set<number>;
   wrong: Set<number>;
   wrongX: Set<number>;
+  wrongOcc: Set<number>;
   hintCells: Set<number>;
   hintX: Set<number>;
   hintRows: Set<number>;
@@ -19,7 +20,7 @@ export interface BoardMarks {
 }
 
 export const noMarks = (): BoardMarks => ({
-  conflicts: new Set(), wrong: new Set(), wrongX: new Set(), hintCells: new Set(), hintX: new Set(),
+  conflicts: new Set(), wrong: new Set(), wrongX: new Set(), wrongOcc: new Set(), hintCells: new Set(), hintX: new Set(),
   hintRows: new Set(), hintCols: new Set(), hintRooms: new Set(), reveal: new Set(),
 });
 
@@ -33,7 +34,7 @@ interface Props {
   tokenStyle: 'portrait' | 'letter';
   coords: boolean;
   shade: boolean;
-  /** Pinta (arrastre) en modo X/nota/borrar. */
+  /** Pinta (arrastre) en modo X/nota/borrar (la marca «ocupada» va casilla a casilla). */
   paintMode: 'x' | 'note' | 'erase' | null;
   onTap: (cell: number, long: boolean) => void;
   onPaintStart: (cell: number) => void;
@@ -149,8 +150,10 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
     const ch = placedId ? p.cast.find((x) => x.id === placedId) : undefined;
     const notes = board.notes[i];
     const x = board.xs[i] ? 'm' : autoX.has(i) ? 'a' : null;
+    const occ = !!board.occ?.[i];
     const cls = ['cell'];
     if (!cell.occupiable) cls.push('is-blocked');
+    if (!ch && !occ && x === 'a') cls.push('is-autox');
     if (rooms.has(cell.room)) cls.push('hl-room');
     if (rows.has(cell.r) || cols.has(cell.c)) cls.push('hl-line');
     if (hl?.cells.has(i)) cls.push('hl-obj');
@@ -159,10 +162,11 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, co
     if (cursor === i) cls.push('is-cursor');
     if (hoverRoom !== null && hoverRoom === cell.room) cls.push('is-hover-room');
     if (persons && notes?.some((n) => persons.has(n))) cls.push('hl-note');
-    const label = `Fila ${cell.r + 1}, columna ${cell.c + 1}, ${p.rooms[cell.room].name}${cell.obj ? `, ${p.objects[cell.obj].name}` : ''}${cell.floor ? `, ${p.objects[cell.floor].name}` : ''}${ch ? `: ${displayName(ch)}` : ''}${x ? ', descartada' : ''}`;
+    const label = `Fila ${cell.r + 1}, columna ${cell.c + 1}, ${p.rooms[cell.room].name}${cell.obj ? `, ${p.objects[cell.obj].name}` : ''}${cell.floor ? `, ${p.objects[cell.floor].name}` : ''}${ch ? `: ${displayName(ch)}` : ''}${!ch && occ ? ', ocupada por alguien' : ''}${x ? ', descartada' : ''}`;
     cells.push(
       <div key={i} className={cls.join(' ')} role="gridcell" aria-label={label}>
-        {!ch && x && <span className={`cell__x${x === 'a' ? ' cell__x--auto' : ''}${marks.wrongX.has(i) ? ' is-wrong' : ''}`} aria-hidden="true" />}
+        {!ch && occ && <span className={`cell__occ${marks.wrongOcc.has(i) ? ' is-wrong' : ''}${marks.conflicts.has(i) ? ' is-conflict' : ''}`} aria-hidden="true" />}
+        {!ch && !occ && x && <span className={`cell__x${x === 'a' ? ' cell__x--auto' : ''}${marks.wrongX.has(i) ? ' is-wrong' : ''}`} aria-hidden="true" />}
         {!ch && notes && notes.length > 0 && (
           <span className={`cell__notes n${Math.min(notes.length, 9)}`} aria-hidden="true">
             {notes.slice(0, 9).map((n) => {

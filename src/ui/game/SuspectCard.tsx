@@ -37,6 +37,7 @@ export function SuspectCard({ p, ch, selected, placed, simple, genderSymbols, on
         <span className="suspect__name">{displayName(ch)}</span>
       </button>
       <div className="suspect__clue" onClick={onSelect}>
+        <span className="suspect__cname" aria-hidden="true">{displayName(ch)}</span>
         {ch.victim && <span className="suspect__victim">Víctima</span>}
         <ClueText p={p} ch={ch} simple={simple} onHighlight={onHighlight} />
       </div>

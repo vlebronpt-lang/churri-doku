@@ -35,6 +35,8 @@ const PATHS: Record<string, string> = {
   target: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 12h.01',
   gavel: 'M14 4l6 6M12 6l6 6M13 5l-6 6 3 3 6-6M8.5 12.5L3 18l3 3 5.5-5.5M3 21h9',
   wand: 'M15 4V2M15 10V8M12 6h-2M20 6h-2M17.8 3.2L16.4 4.6M17.8 8.8l-1.4-1.4M3 21l11-11 2 2L5 23z',
+  /** Persona dentro de un círculo discontinuo: «aquí hay alguien». */
+  occupied: 'M13.25 2.48A9.6 9.6 0 0 1 17.84 4.38M19.62 6.16A9.6 9.6 0 0 1 21.52 10.75M21.52 13.25A9.6 9.6 0 0 1 19.62 17.84M17.84 19.62A9.6 9.6 0 0 1 13.25 21.52M10.75 21.52A9.6 9.6 0 0 1 6.16 19.62M4.38 17.84A9.6 9.6 0 0 1 2.48 13.25M2.48 10.75A9.6 9.6 0 0 1 4.38 6.16M6.16 4.38A9.6 9.6 0 0 1 10.75 2.48M12 11.6a2.7 2.7 0 1 0 0-5.4 2.7 2.7 0 0 0 0 5.4zM7.6 17.4a4.4 4.4 0 0 1 8.8 0z',
 };
 
 export function Icon({ name, size = 22, sw = 2.2, ...rest }: { name: keyof typeof PATHS | string; size?: number; sw?: number } & Omit<SVGProps<SVGSVGElement>, 'stroke'>) {

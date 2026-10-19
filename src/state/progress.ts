@@ -10,7 +10,8 @@ export interface BoardState {
   notes: Record<number, string[]>;
   /** Casilla → marca X ('m' manual, 'a' automática por colocación). */
   xs: Record<number, 'm' | 'a'>;
-  /** Marcas de símbolos avanzados (triángulo, círculo...) por casilla. */
+  /** Casillas marcadas como «ocupadas»: ahí hay alguien, aunque aún no se sepa quién. */
+  occ?: Record<number, true>;
 }
 
 export interface CaseProgress {

@@ -64,8 +64,8 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
 
       <h3 className="settings__group">Juego</h3>
       <Choice k="tapAction" label="Un toque en una casilla…" hint="Mantener pulsado hace la acción contraria." options={[{ value: 'place', label: 'Coloca' }, { value: 'note', label: 'Anota' }]} />
-      <Toggle k="autoX" label="Descartar fila y columna al colocar" hint="Pone X automáticas (más claras)." />
-      <Toggle k="noXOnBlocked" label="Sin X sobre objetos" hint="No marca casillas que ya no se pueden ocupar." />
+      <Toggle k="autoX" label="Tachar fila y columna al colocar" hint="Pone X automáticas y bien visibles al colocar a alguien o marcar una casilla como ocupada." />
+      <Toggle k="noXOnBlocked" label="Sin X sobre objetos" hint="No tacha casillas que ya no se pueden ocupar." />
       <Toggle k="conflictWarnings" label="Avisar de dos personas en la misma fila o columna" />
       <Toggle k="keywordHighlights" label="Resaltar al pasar por las pistas" hint="Ilumina en el tablero objetos, zonas y personas." />
       <Toggle k="simpleDirections" label="Direcciones sencillas" hint="«encima de» en lugar de «al norte de», etc." />

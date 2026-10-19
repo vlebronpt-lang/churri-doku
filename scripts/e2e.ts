@@ -42,6 +42,12 @@ async function main() {
       const hintText = (await hint.innerText()).trim();
       if (hintText.length < 20) throw new Error('pista vacía');
       await page.keyboard.press('Escape');
+      // Marca «Ocupada» en la casilla del primero: aparece el hueco y se tachan su fila y su columna.
+      const occCell = p.solution[p.cast[0].id];
+      await page.locator('.tool--occ:visible').first().click();
+      await page.locator('.board__grid [role="gridcell"]').nth(occCell).click();
+      if (!(await page.locator('.board__grid [role="gridcell"]').nth(occCell).locator('.cell__occ').count())) throw new Error('no aparece la marca «Ocupada»');
+      if ((await page.locator('.cell__x--auto').count()) < 2) throw new Error('la marca «Ocupada» no tacha su fila y su columna');
       // Colocar a cada personaje en su casilla.
       for (const [k, ch] of p.cast.entries()) {
         if (mobile) await page.locator('.strip .chip').nth(k).click();

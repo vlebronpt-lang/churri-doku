@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { Puzzle } from '../../engine/types';
 import { displayName, withPrep } from '../../engine/text';
 import { useSettings } from '../../state/settings';
@@ -13,12 +13,17 @@ import { ClueText, type Highlight } from './ClueText';
 import { Icon } from '../Icon';
 import { Portrait } from '../Portrait';
 import { HintPanel } from './HintPanel';
+import { EraseDialog, erasableItems } from './EraseDialog';
 import { AccuseModal, IntroModal, ResultModal } from './CaseModals';
 import { navigate } from '../../router';
 import { decodeChallenge } from '../../share';
 import { ChallengeDialog } from '../ShareDialogs';
 
-type Tool = 'place' | 'note' | 'x' | 'erase';
+type Tool = 'place' | 'note' | 'x' | 'occ' | 'erase';
+/** Tamaños del panel de sospechosos, de más grande a más compacto: se usa el mayor que quepa sin desplazarse. */
+type Density = 'lg' | 'c2' | 'c1' | 'c2xs' | 'c1xs';
+const DENSITIES: Density[] = ['lg', 'c2', 'c1', 'c2xs', 'c1xs'];
+const suspectsClass = (d: Density) => `suspects d-${d}${d === 'lg' ? '' : ' is-compact'}`;
 type Outcome = { kind: 'wrong'; count: number } | { kind: 'wrongAccuse'; name: string } | null;
 
 export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: string | null; onHelp: () => void; onSettings: () => void }) {
@@ -40,7 +45,11 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   const [toast, setToast] = useState<string | null>(null);
   const [revealing, setRevealing] = useState(false);
   const [challengeFrom, setChallengeFrom] = useState<'result' | 'banner' | null>(null);
+  const [eraseCell, setEraseCell] = useState<number | null>(null);
   const paint = useRef<{ value: boolean } | null>(null);
+  const suspectsPanel = useRef<HTMLElement>(null);
+  const suspectsList = useRef<HTMLDivElement>(null);
+  const [density, setDensity] = useState<Density>('lg');
   const toastTimer = useRef<number>(0);
   const solved = progress.solved;
   const challenge = incoming ?? progress.challenge;
@@ -53,6 +62,31 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   }, [reto, incoming, p.id]);
 
   useEffect(() => configureFx(settings.sound, settings.haptics), [settings.sound, settings.haptics]);
+
+  // Que se vean todos los sospechosos a la vez: se prueba cada tamaño y se queda el mayor que cabe.
+  const fitSuspects = useCallback(() => {
+    const panel = suspectsPanel.current, list = suspectsList.current;
+    if (!panel || !list) return;
+    if (!window.matchMedia('(min-width: 761px)').matches) { setDensity('lg'); return; }
+    const before = list.className;
+    let best: Density = DENSITIES[DENSITIES.length - 1];
+    let bestH = Infinity;
+    for (const d of DENSITIES) {
+      list.className = suspectsClass(d);
+      if (panel.scrollHeight <= panel.clientHeight + 1) { best = d; break; }
+      if (panel.scrollHeight < bestH) { bestH = panel.scrollHeight; best = d; }
+    }
+    list.className = before;
+    setDensity(best);
+  }, []);
+  useLayoutEffect(fitSuspects, [fitSuspects, p.id, settings.simpleDirections, settings.clueSize, settings.genderSymbols]);
+  useEffect(() => {
+    let t = 0;
+    const later = () => { window.clearTimeout(t); t = window.setTimeout(fitSuspects, 100); };
+    window.addEventListener('resize', later);
+    document.fonts?.ready.then(later).catch(() => {});
+    return () => { window.removeEventListener('resize', later); window.clearTimeout(t); };
+  }, [fitSuspects]);
   useEffect(() => game.setRunning(!solved && !showIntro && !revealing), [solved, showIntro, revealing, game]);
 
   const say = useCallback((msg: string) => {
@@ -62,26 +96,26 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   }, []);
 
   const clearTransient = () => {
-    setMarks((m) => (m.wrong.size || m.wrongX.size || m.hintCells.size || m.hintX.size || m.hintRooms.size || m.hintRows.size || m.hintCols.size ? { ...noMarks(), reveal: m.reveal } : m));
+    setMarks((m) => (m.wrong.size || m.wrongX.size || m.wrongOcc.size || m.hintCells.size || m.hintX.size || m.hintRooms.size || m.hintRows.size || m.hintCols.size ? { ...noMarks(), reveal: m.reveal } : m));
   };
 
-  // Conflictos de fila/columna (regla objetiva, no revela la solución).
+  // Conflictos de fila/columna (regla objetiva, no revela la solución): personas colocadas y casillas «ocupadas».
   const conflicts = useMemo(() => {
     const out = new Set<number>();
     if (!settings.conflictWarnings) return out;
-    const cells = Object.keys(board.placed).map(Number);
+    const cells = [...new Set([...Object.keys(board.placed), ...Object.keys(board.occ ?? {})].map(Number))];
     for (const a of cells) for (const b of cells) {
       if (a === b) continue;
       if (Math.floor(a / p.size) === Math.floor(b / p.size) || a % p.size === b % p.size) out.add(a);
     }
     return out;
-  }, [board.placed, p.size, settings.conflictWarnings]);
+  }, [board.placed, board.occ, p.size, settings.conflictWarnings]);
 
   const allMarks = useMemo<BoardMarks>(() => ({ ...marks, conflicts }), [marks, conflicts]);
 
   const selectChar = (id: string | null) => {
     setSelected((cur) => (cur === id ? null : id));
-    if (tool === 'x' || tool === 'erase') setTool('place');
+    if (tool === 'x' || tool === 'occ' || tool === 'erase') setTool('place');
     sfx.select();
   };
 
@@ -96,9 +130,18 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       sfx.x();
       return;
     }
+    if (tool === 'occ') {
+      if (occupant) return say('Ahí ya has colocado a alguien.');
+      if (!p.cells[cell].occupiable) return say('Esa casilla tiene un objeto: ahí no puede haber nadie.');
+      game.toggleOcc(cell);
+      sfx.note();
+      return;
+    }
     if (tool === 'erase') {
-      game.clearCell(cell);
-      sfx.erase();
+      // Si hay varias cosas (personas o marcas), se pregunta qué borrar.
+      const items = erasableItems(board, cell);
+      if (items.length > 1) { setEraseCell(cell); return; }
+      if (items.length === 1) { game.clearCell(cell); sfx.erase(); }
       return;
     }
     const wantNote = tool === 'note' ? !long : (settings.tapAction === 'note' ? !long : long);
@@ -120,9 +163,9 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
     }
     game.place(selected, cell);
     sfx.place();
-  }, [board.placed, game, p, say, selected, settings.noXOnBlocked, settings.tapAction, solved, revealing, tool]);
+  }, [board, game, p, say, selected, settings.noXOnBlocked, settings.tapAction, solved, revealing, tool]);
 
-  const paintMode: 'x' | 'note' | 'erase' | null = solved ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
+  const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
   const onPaintStart = (cell: number) => {
     game.beginBatch();
@@ -145,7 +188,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
   // Atajos de teclado
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (showIntro || accusing || showResult || challengeFrom) return;
+      if (showIntro || accusing || showResult || challengeFrom || eraseCell !== null) return;
       const t = e.target as HTMLElement;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
       const k = e.key.toLowerCase();
@@ -154,6 +197,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (k === 'escape') { setSelected(null); setHint(null); clearTransient(); return; }
       if (k === 'x') { setTool((tl) => (tl === 'x' ? 'place' : 'x')); return; }
+      if (k === 'o') { setTool((tl) => (tl === 'occ' ? 'place' : 'occ')); return; }
       if (k === 'n' || k === 'l') { setTool((tl) => (tl === 'note' ? 'place' : 'note')); return; }
       if (k === 'b' || k === 'backspace' || k === 'delete') { if (k === 'b') setTool((tl) => (tl === 'erase' ? 'place' : 'erase')); return; }
       if (k === 'h' || k === '?') { askHint(); return; }
@@ -180,6 +224,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       if (level >= 2) {
         res.wrongPlaced.forEach((c) => m.wrong.add(c));
         res.wrongX.forEach((c) => m.wrongX.add(c));
+        res.wrongOcc.forEach((c) => m.wrongOcc.add(c));
       }
     } else if (res.kind === 'step') {
       const f = res.d.focus;
@@ -212,6 +257,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       game.apply((b) => {
         res.wrongPlaced.forEach((c) => delete b.placed[c]);
         res.wrongX.forEach((c) => delete b.xs[c]);
+        res.wrongOcc.forEach((c) => delete b.occ?.[c]);
       });
       say('He quitado los errores. ¡Sigue así!');
     } else if (res.kind === 'step') {
@@ -238,17 +284,19 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
     setHighlight(null);
   };
 
-  // ------------------------------------------------------------- comprobar
+  // ------------------------------------------------------------- revisar
   const check = () => {
-    const { wrongPlaced, wrongX } = findErrors(p, board);
+    const { wrongPlaced, wrongX, wrongOcc } = findErrors(p, board);
     updateProgress(p.id, (c) => ({ checks: c.checks + 1 }));
     const m = noMarks();
     wrongPlaced.forEach((c) => m.wrong.add(c));
     wrongX.forEach((c) => m.wrongX.add(c));
+    wrongOcc.forEach((c) => m.wrongOcc.add(c));
     setMarks(m);
-    const n = wrongPlaced.length + wrongX.length;
+    const n = wrongPlaced.length + wrongX.length + wrongOcc.length;
     if (n === 0) {
-      say(Object.keys(board.placed).length ? 'Todo correcto por ahora.' : 'Aún no hay nada que comprobar.');
+      const any = Object.keys(board.placed).length + Object.keys(board.xs).length + Object.keys(board.occ ?? {}).length;
+      say(any ? 'Todo correcto por ahora.' : 'Aún no hay nada que revisar.');
     } else {
       sfx.error();
       say(`${n === 1 ? 'Hay 1 error' : `Hay ${n} errores`} (marcados en rojo).`);
@@ -316,20 +364,23 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       <button className={`tool${tool === 'note' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'note' ? 'place' : 'note')} aria-pressed={tool === 'note'} title="Lápiz: anotar posibilidades (N)">
         <Icon name="pencil" /><span>Lápiz</span>
       </button>
-      <button className={`tool${tool === 'x' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'x' ? 'place' : 'x')} aria-pressed={tool === 'x'} title="Marcar casillas descartadas (X)">
-        <Icon name="x" sw={3} /><span>Descartar</span>
+      <button className={`tool${tool === 'x' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'x' ? 'place' : 'x')} aria-pressed={tool === 'x'} title="Tachar casillas donde no hay nadie (X)">
+        <Icon name="x" sw={3} /><span>Tachar</span>
+      </button>
+      <button className={`tool tool--occ${tool === 'occ' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'occ' ? 'place' : 'occ')} aria-pressed={tool === 'occ'} title="Marcar que en una casilla hay alguien, aunque aún no sepas quién (O)">
+        <Icon name="occupied" sw={2.4} /><span>Ocupada</span>
       </button>
       <button className={`tool${tool === 'erase' ? ' is-on' : ''}`} onClick={() => setTool(tool === 'erase' ? 'place' : 'erase')} aria-pressed={tool === 'erase'} title="Borrar casilla (B)">
         <Icon name="eraser" /><span>Borrar</span>
       </button>
-      <button className="tool" onClick={() => { game.undo(); sfx.undo(); }} disabled={!game.canUndo || solved} title="Deshacer (Ctrl+Z)">
+      <button className="tool tool--undo" onClick={() => { game.undo(); sfx.undo(); }} disabled={!game.canUndo || solved} title="Deshacer (Ctrl+Z)" aria-label="Deshacer">
         <Icon name="undo" /><span>Deshacer</span>
       </button>
-      <button className="tool" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || solved} title="Rehacer (Ctrl+Shift+Z)">
+      <button className="tool tool--redo" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || solved} title="Rehacer (Ctrl+Shift+Z)">
         <Icon name="redo" /><span>Rehacer</span>
       </button>
-      <button className="tool" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length} title="Comprobar errores">
-        <Icon name="check" /><span>Comprobar</span>
+      <button className="tool" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length} title="Revisar si hay errores">
+        <Icon name="check" /><span>Revisar</span>
       </button>
       <button className="tool tool--hint" onClick={askHint} disabled={solved} title="Pista (H)">
         <Icon name="bulb" /><span>Pista</span>
@@ -364,12 +415,12 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
       </header>
 
       <div className="game__body">
-        <aside className="game__suspects" aria-label="Sospechosos">
+        <aside ref={suspectsPanel} className="game__suspects" aria-label="Sospechosos">
           <div className="panel-head">
             <h2>Sospechosos</h2>
             <span className="muted small">{settings.tapAction === 'place' ? 'Toca una foto y luego una casilla' : 'Toca una foto; mantén pulsada la casilla para colocar'}</span>
           </div>
-          <div className="suspects">
+          <div ref={suspectsList} className={suspectsClass(density)}>
             {p.cast.map((ch, k) => (
               <SuspectCard
                 key={ch.id}
@@ -409,7 +460,7 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
           </div>
 
           {/* Tira móvil de sospechosos */}
-          <div className="strip" role="listbox" aria-label="Elegir sospechoso">
+          <div className={`strip${p.cast.length >= 8 ? ' strip--dense' : ''}`} role="listbox" aria-label="Elegir sospechoso" style={{ ['--n' as string]: p.cast.length }}>
             {p.cast.map((ch) => (
               <button
                 key={ch.id}
@@ -485,6 +536,15 @@ export function GameScreen({ p, reto, onHelp, onSettings }: { p: Puzzle; reto?: 
           onClose={() => setShowResult(false)}
           onReplay={replay}
           onChallenge={() => { setShowResult(false); setChallengeFrom('result'); }}
+        />
+      )}
+      {eraseCell !== null && (
+        <EraseDialog
+          p={p}
+          board={board}
+          cell={eraseCell}
+          onClose={() => setEraseCell(null)}
+          onErase={(sel) => { game.erase(eraseCell, sel); sfx.erase(); setEraseCell(null); }}
         />
       )}
       {challengeFrom && (

@@ -7,7 +7,7 @@ import { chromium } from 'playwright-core';
 import { readFileSync } from 'node:fs';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const BASE = process.env.SHOT_BASE ?? 'http://localhost:5173/';
+const BASE = process.env.SHOT_BASE ?? 'http://127.0.0.1:5173/';
 
 const args = process.argv.slice(2);
 const opt = (name: string) => {

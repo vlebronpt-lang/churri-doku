@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { Modal } from './Modal';
 
-type Mark = 'a' | 'b' | 'v' | 'x' | 'ok' | 'o' | 'blk' | 'chair' | 'plant' | 'hl';
+type Mark = 'a' | 'b' | 'v' | 'x' | 'ok' | 'o' | 'occ' | 'blk' | 'chair' | 'plant' | 'hl';
 
 /** Mini tablero ilustrativo. rooms: filas de letras de zona; marks: casilla → marca. */
 function Mini({ rooms, marks = {}, size = 128 }: { rooms: string[]; marks?: Record<string, Mark>; size?: number }) {
@@ -27,6 +27,13 @@ function Mini({ rooms, marks = {}, size = 128 }: { rooms: string[]; marks?: Reco
       if (mark === 'x') parts.push(<path key={`x${r}${c}`} d={`M${x + 8} ${y + 8} L${x + cs - 8} ${y + cs - 8} M${x + cs - 8} ${y + 8} L${x + 8} ${y + cs - 8}`} stroke="#251a37" strokeWidth="3" strokeLinecap="round" />);
       if (mark === 'ok') parts.push(<path key={`o${r}${c}`} d={`M${x + 7} ${y + 14} l5 5 l8 -10`} stroke="#1f8f6e" strokeWidth="3.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />);
       if (mark === 'o') parts.push(<circle key={`c${r}${c}`} cx={x + cs / 2} cy={y + cs / 2} r="7" fill="none" stroke="#1f8f6e" strokeWidth="3" />);
+      if (mark === 'occ') parts.push(
+        <g key={`q${r}${c}`}>
+          <circle cx={x + cs / 2} cy={y + cs / 2} r="9.5" fill="#f3b53f" fillOpacity=".7" stroke="#251a37" strokeWidth="2" strokeDasharray="3.2 2.2" />
+          <circle cx={x + cs / 2} cy={y + cs / 2 - 2.6} r="2.6" fill="#251a37" fillOpacity=".65" />
+          <path d={`M${x + cs / 2 - 5} ${y + cs / 2 + 6} a5 4.6 0 0 1 10 0z`} fill="#251a37" fillOpacity=".65" />
+        </g>,
+      );
     }
   }
   // Muros entre zonas
@@ -95,12 +102,13 @@ export function HowTo({ onClose }: { onClose: () => void }) {
         <div className="howto-list">
           <p><strong>Elige un sospechoso</strong> tocando su foto (o pulsando su letra en el teclado). Luego <strong>toca una casilla</strong> para colocarlo; tócala otra vez para quitarlo.</p>
           <p><strong>Lápiz:</strong> anota posibilidades con letras pequeñas. Sin cambiar de herramienta, también puedes <strong>mantener pulsada</strong> una casilla para anotar. Arrastra para anotar en varias.</p>
-          <p><strong>Descartar (X):</strong> marca casillas donde no puede haber nadie. Arrastra para marcar muchas de una vez. Las X claras son automáticas: salen al colocar a alguien.</p>
-          <p><strong>Borrar</strong> limpia una casilla. <strong>Deshacer</strong> y <strong>Rehacer</strong> no tienen límite.</p>
+          <p><strong>Tachar (X):</strong> marca casillas donde no puede haber nadie. Arrastra para tachar muchas de una vez. Las X más marcadas son automáticas y definitivas: salen al colocar a alguien (o al marcar una casilla como ocupada) en toda su fila y su columna.</p>
+          <p><strong>Ocupada:</strong> marca una casilla en la que sabes que hay alguien aunque aún no sepas quién (por ejemplo, porque es la única libre de su fila). Se ve como un hueco amarillo con una silueta y, como solo cabe una persona por fila y columna, también tacha el resto de su fila y su columna.</p>
+          <p><strong>Borrar</strong> limpia una casilla. Si en ella hay varias cosas (varias personas anotadas, una marca…), te pregunta si quieres borrarlo todo o solo lo que elijas. <strong>Deshacer</strong> y <strong>Rehacer</strong> no tienen límite.</p>
           <p><strong>Pista:</strong> primero un empujoncito, luego la explicación completa y, si quieres, la aplica por ti. Las pistas se calculan a partir de tu tablero.</p>
-          <p><strong>Comprobar</strong> marca en rojo lo que esté mal. Usar pistas o comprobar baja la nota final (las estrellas).</p>
+          <p><strong>Revisar</strong> marca en rojo lo que esté mal. Usar pistas o revisar baja la nota final (las estrellas).</p>
           <p><strong>Al pasar el ratón</strong> por una pista, el tablero resalta lo que menciona y aparece la definición de las palabras clave.</p>
-          <p className="kbd-help"><kbd>←↑→↓</kbd> moverse · <kbd>Intro</kbd> colocar · <kbd>Mayús</kbd>+<kbd>Intro</kbd> anotar · <kbd>N</kbd> lápiz · <kbd>X</kbd> descartar · <kbd>B</kbd> borrar · <kbd>H</kbd> pista · <kbd>Ctrl</kbd>+<kbd>Z</kbd> deshacer · <kbd>Esc</kbd> soltar</p>
+          <p className="kbd-help"><kbd>←↑→↓</kbd> moverse · <kbd>Intro</kbd> colocar · <kbd>Mayús</kbd>+<kbd>Intro</kbd> anotar · <kbd>N</kbd> lápiz · <kbd>X</kbd> tachar · <kbd>O</kbd> ocupada · <kbd>B</kbd> borrar · <kbd>H</kbd> pista · <kbd>Ctrl</kbd>+<kbd>Z</kbd> deshacer · <kbd>Esc</kbd> soltar</p>
         </div>
       )}
 
@@ -121,7 +129,7 @@ export function HowTo({ onClose }: { onClose: () => void }) {
 
       {tab === 'Técnicas' && (
         <div className="howto-grid">
-          <Card title="Busca filas o columnas con una sola casilla libre" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'blk', '2,0': 'blk', '1,0': 'o' }} />}>Si en una fila solo queda una casilla posible, ahí hay alguien aunque aún no sepas quién. Y nadie más podrá estar en su columna.</Card>
+          <Card title="Busca filas o columnas con una sola casilla libre" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'blk', '2,0': 'blk', '1,0': 'occ', '1,1': 'x', '1,2': 'x' }} />}>Si en una columna solo queda una casilla posible, ahí hay alguien aunque aún no sepas quién: márcala como <strong>Ocupada</strong>. Nadie más podrá estar en su fila.</Card>
           <Card title="Filas o columnas reservadas" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'a', '0,1': 'a', '1,0': 'b', '1,1': 'b', '2,0': 'x', '2,1': 'x' }} />}>Si A solo puede estar en dos casillas de las columnas 1 y 2, y B también, esas dos columnas son para ellos: nadie más puede ocuparlas.</Card>
           <Card title="Casillas alineadas" fig={<Mini rooms={['AAA', 'AAA', 'AAA']} marks={{ '0,0': 'a', '2,2': 'a', '0,2': 'x', '2,0': 'x' }} />}>Si alguien solo puede estar en dos casillas, nadie más podrá ocupar las casillas que comparten fila o columna con ambas.</Card>
           <Card title="¿Quién acompaña a la víctima?">En la zona de la víctima hay exactamente otra persona. Si solo una puede llegar ahí, es el asesino.</Card>

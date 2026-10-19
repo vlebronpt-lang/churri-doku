@@ -2,25 +2,39 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Puzzle } from '../engine/types';
 import { getProgress, updateProgress, type BoardState } from '../state/progress';
 
-export const emptyBoard = (): BoardState => ({ placed: {}, notes: {}, xs: {} });
+export const emptyBoard = (): BoardState => ({ placed: {}, notes: {}, xs: {}, occ: {} });
+
+/** Tableros guardados por versiones anteriores no tienen todas las marcas. */
+const loadBoard = (b?: BoardState): BoardState => (b ? { ...b, occ: b.occ ?? {} } : emptyBoard());
 
 const clone = (b: BoardState): BoardState => ({
   placed: { ...b.placed },
   notes: Object.fromEntries(Object.entries(b.notes).map(([k, v]) => [k, [...v]])),
   xs: { ...b.xs },
+  occ: { ...(b.occ ?? {}) },
 });
+
+/** Qué borrar de una casilla (por defecto, todo). */
+export interface EraseSel {
+  placed?: boolean;
+  notes?: string[];
+  x?: boolean;
+  occ?: boolean;
+}
 
 export interface GameApi {
   board: BoardState;
   /** Casilla de cada personaje colocado. */
   posOf: Record<string, number>;
-  /** Casillas con X automática (fila/columna de alguien colocado). */
+  /** Casillas con X automática (fila/columna de alguien colocado o de una casilla «ocupada»). */
   autoX: Set<number>;
   place: (id: string, cell: number) => void;
   unplace: (id: string) => void;
   toggleNote: (cell: number, id: string, force?: boolean) => void;
   toggleX: (cell: number, force?: boolean) => void;
+  toggleOcc: (cell: number, force?: boolean) => void;
   clearCell: (cell: number) => void;
+  erase: (cell: number, sel: EraseSel) => void;
   clearAll: () => void;
   undo: () => void;
   redo: () => void;
@@ -36,7 +50,7 @@ export interface GameApi {
 }
 
 export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean }): GameApi {
-  const [board, setBoard] = useState<BoardState>(() => getProgress(p.id).board ?? emptyBoard());
+  const [board, setBoard] = useState<BoardState>(() => loadBoard(getProgress(p.id).board));
   const past = useRef<BoardState[]>([]);
   const future = useRef<BoardState[]>([]);
   const batching = useRef(false);
@@ -46,7 +60,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
 
   // Reiniciar al cambiar de caso.
   useEffect(() => {
-    setBoard(getProgress(p.id).board ?? emptyBoard());
+    setBoard(loadBoard(getProgress(p.id).board));
     setSeconds(getProgress(p.id).time);
     past.current = [];
     future.current = [];
@@ -95,19 +109,21 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     const out = new Set<number>();
     if (!opts.autoX) return out;
     const s = p.size;
-    for (const cellStr of Object.keys(board.placed)) {
-      const cell = Number(cellStr);
+    const occ = board.occ ?? {};
+    // Si en una casilla hay alguien (colocado o marcado como «ocupada»), el resto de su fila y su columna está vacío.
+    const sources = new Set([...Object.keys(board.placed), ...Object.keys(occ)].map(Number));
+    for (const cell of sources) {
       const r = Math.floor(cell / s), c = cell % s;
       for (let k = 0; k < s; k++) {
         for (const q of [r * s + k, k * s + c]) {
-          if (q === cell || board.placed[q] !== undefined) continue;
+          if (q === cell || board.placed[q] !== undefined || occ[q]) continue;
           if (opts.noXOnBlocked && !p.cells[q].occupiable) continue;
           out.add(q);
         }
       }
     }
     return out;
-  }, [board.placed, opts.autoX, opts.noXOnBlocked, p]);
+  }, [board.placed, board.occ, opts.autoX, opts.noXOnBlocked, p]);
 
   const place = useCallback((id: string, cell: number) => {
     if (!p.cells[cell].occupiable) return;
@@ -144,16 +160,44 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     commit((b) => {
       if (b.placed[cell] !== undefined) return;
       const on = forceOn ?? !b.xs[cell];
-      if (on) b.xs[cell] = 'm';
-      else delete b.xs[cell];
+      if (on) {
+        b.xs[cell] = 'm';
+        delete b.occ![cell];
+      } else delete b.xs[cell];
     });
   }, [commit, opts.noXOnBlocked, p]);
+
+  const toggleOcc = useCallback((cell: number, forceOn?: boolean) => {
+    if (!p.cells[cell].occupiable) return;
+    commit((b) => {
+      if (b.placed[cell] !== undefined) return;
+      const on = forceOn ?? !b.occ![cell];
+      if (on) {
+        b.occ![cell] = true;
+        delete b.xs[cell];
+      } else delete b.occ![cell];
+    });
+  }, [commit, p]);
 
   const clearCell = useCallback((cell: number) => {
     commit((b) => {
       delete b.placed[cell];
       delete b.notes[cell];
       delete b.xs[cell];
+      delete b.occ![cell];
+    });
+  }, [commit]);
+
+  const erase = useCallback((cell: number, sel: EraseSel) => {
+    commit((b) => {
+      if (sel.placed) delete b.placed[cell];
+      if (sel.notes?.length) {
+        const nl = (b.notes[cell] ?? []).filter((id) => !sel.notes!.includes(id));
+        if (nl.length) b.notes[cell] = nl;
+        else delete b.notes[cell];
+      }
+      if (sel.x) delete b.xs[cell];
+      if (sel.occ) delete b.occ![cell];
     });
   }, [commit]);
 
@@ -161,6 +205,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     b.placed = {};
     b.notes = {};
     b.xs = {};
+    b.occ = {};
   }), [commit]);
 
   const undo = useCallback(() => {
@@ -207,7 +252,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
   }, []);
 
   return {
-    board, posOf, autoX, place, unplace, toggleNote, toggleX, clearCell, clearAll, undo, redo,
+    board, posOf, autoX, place, unplace, toggleNote, toggleX, toggleOcc, clearCell, erase, clearAll, undo, redo,
     canUndo: past.current.length > 0, canRedo: future.current.length > 0,
     beginBatch, endBatch, apply: commit,
     allPlaced: Object.keys(posOf).length === p.cast.length,
