@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Puzzle } from '../engine/types';
-import { getProgress, updateProgress, type BoardState } from '../state/progress';
+import { getProgress, onExternalChange, updateProgress, type BoardState } from '../state/progress';
 
-export const emptyBoard = (): BoardState => ({ placed: {}, notes: {}, xs: {}, occ: {}, lines: {} });
+export const emptyBoard = (): BoardState => ({ placed: {}, notes: {}, xs: {}, occ: {}, lines: {}, zones: {} });
 
 /** Tableros guardados por versiones anteriores no tienen todas las marcas. */
-const loadBoard = (b?: BoardState): BoardState => (b ? { ...b, occ: b.occ ?? {}, lines: b.lines ?? {} } : emptyBoard());
+const loadBoard = (b?: BoardState): BoardState => (b ? { ...b, occ: b.occ ?? {}, lines: b.lines ?? {}, zones: b.zones ?? {} } : emptyBoard());
 
 const clone = (b: BoardState): BoardState => ({
   placed: { ...b.placed },
@@ -13,6 +13,7 @@ const clone = (b: BoardState): BoardState => ({
   xs: { ...b.xs },
   occ: { ...(b.occ ?? {}) },
   lines: { ...(b.lines ?? {}) },
+  zones: { ...(b.zones ?? {}) },
 });
 
 /** Qué borrar de una o varias casillas. */
@@ -37,6 +38,8 @@ export interface GameApi {
   toggleX: (cell: number, force?: boolean) => void;
   toggleOcc: (cell: number, force?: boolean) => void;
   toggleLine: (key: string, force?: boolean) => void;
+  /** Pone (o quita) a alguien en una zona sin saber aún su casilla. */
+  toggleZone: (id: string, room: number) => void;
   clearCell: (cell: number) => void;
   erase: (cells: number[], sel: EraseSel) => void;
   clearAll: () => void;
@@ -62,12 +65,16 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
   const [seconds, setSeconds] = useState(() => getProgress(p.id).time);
   const running = useRef(true);
 
-  // Reiniciar al cambiar de caso.
+  // Reiniciar al cambiar de caso y cuando llega una partida más reciente de otro dispositivo.
   useEffect(() => {
-    setBoard(loadBoard(getProgress(p.id).board));
-    setSeconds(getProgress(p.id).time);
-    past.current = [];
-    future.current = [];
+    const reload = () => {
+      setBoard(loadBoard(getProgress(p.id).board));
+      setSeconds(getProgress(p.id).time);
+      past.current = [];
+      future.current = [];
+    };
+    reload();
+    return onExternalChange((ids) => { if (ids.includes(p.id)) reload(); });
   }, [p.id]);
 
   // Guardado
@@ -200,6 +207,13 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     });
   }, [commit]);
 
+  const toggleZone = useCallback((id: string, room: number) => {
+    commit((b) => {
+      if (b.zones![id] === room) delete b.zones![id];
+      else b.zones![id] = room;
+    });
+  }, [commit]);
+
   const erase = useCallback((cells: number[], sel: EraseSel) => {
     commit((b) => {
       for (const cell of cells) {
@@ -222,6 +236,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     b.xs = {};
     b.occ = {};
     b.lines = {};
+    b.zones = {};
   }), [commit]);
 
   const undo = useCallback(() => {
@@ -268,7 +283,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
   }, []);
 
   return {
-    board, posOf, autoX, place, unplace, toggleNote, toggleX, toggleOcc, toggleLine, clearCell, erase, clearAll, undo, redo,
+    board, posOf, autoX, place, unplace, toggleNote, toggleX, toggleOcc, toggleLine, toggleZone, clearCell, erase, clearAll, undo, redo,
     canUndo: past.current.length > 0, canRedo: future.current.length > 0,
     beginBatch, endBatch, apply: commit,
     allPlaced: Object.keys(posOf).length === p.cast.length,

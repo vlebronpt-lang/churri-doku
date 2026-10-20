@@ -26,7 +26,8 @@ async function networkFirst(req, cacheName) {
   const cache = await caches.open(cacheName);
   try {
     const res = await fetch(req);
-    if (res.ok) cache.put(req, res.clone());
+    // Las páginas se guardan sin los parámetros (así no queda guardada la sesión que trae la vuelta de Google).
+    if (res.ok) cache.put(req.mode === 'navigate' ? req.url.split(/[?#]/)[0] : req, res.clone());
     return res;
   } catch {
     const hit = await cache.match(req, { ignoreSearch: true });

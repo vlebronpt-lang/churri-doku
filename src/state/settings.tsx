@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from 'react';
 import { load, save } from './storage';
 
 export interface Settings {
@@ -53,13 +53,36 @@ interface Ctx {
   reset: () => void;
 }
 
+// Los ajustes viven fuera de React para que también se puedan leer y cambiar desde la sincronización con la cuenta.
+let current: Settings = { ...DEFAULT_SETTINGS, ...load<Partial<Settings>>('settings', {}) };
+const listeners = new Set<() => void>();
+
+function replaceSettings(next: Settings) {
+  current = next;
+  save('settings', current);
+  listeners.forEach((l) => l());
+}
+
+export const getSettings = () => current;
+
+export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]) {
+  if (current[key] === value) return;
+  replaceSettings({ ...current, [key]: value });
+}
+
+const resetSettings = () => replaceSettings(DEFAULT_SETTINGS);
+
+export function subscribeSettings(l: () => void) {
+  listeners.add(l);
+  return () => { listeners.delete(l); };
+}
+
 const SettingsContext = createContext<Ctx | null>(null);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<Settings>(() => ({ ...DEFAULT_SETTINGS, ...load<Partial<Settings>>('settings', {}) }));
+  const settings = useSyncExternalStore(subscribeSettings, getSettings, getSettings);
 
   useEffect(() => {
-    save('settings', settings);
     const root = document.documentElement;
     if (settings.theme === 'auto') root.removeAttribute('data-theme');
     else root.setAttribute('data-theme', settings.theme);
@@ -67,11 +90,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     root.setAttribute('data-clue-size', settings.clueSize);
   }, [settings]);
 
-  const set = useCallback(<K extends keyof Settings>(key: K, value: Settings[K]) => {
-    setSettings((s) => ({ ...s, [key]: value }));
-  }, []);
-  const reset = useCallback(() => setSettings(DEFAULT_SETTINGS), []);
-  const value = useMemo(() => ({ settings, set, reset }), [settings, set, reset]);
+  const value = useMemo(() => ({ settings, set: setSetting, reset: resetSettings }), [settings]);
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
 }
 

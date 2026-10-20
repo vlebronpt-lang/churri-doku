@@ -124,7 +124,7 @@ export function ProgressLinkButton() {
     <div className="setting setting--stack">
       <span className="setting__text">
         <span className="setting__label">Pasar mi progreso a otro dispositivo</span>
-        <span className="setting__hint">Crea un enlace con tus casos resueltos y en curso. Ábrelo en el otro ordenador o móvil.</span>
+        <span className="setting__hint">Sin cuenta: crea un enlace con tus casos resueltos y en curso, y ábrelo en el otro ordenador o móvil. Con tu cuenta no hace falta, se pasa solo.</span>
       </span>
       <button className="btn btn--sm" onClick={go}><Icon name="share" size={16} /> Copiar enlace</button>
       {state === 'copied' && <span className="share-ok" role="status">Enlace copiado.</span>}

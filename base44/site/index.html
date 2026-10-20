@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Churri-doku</title>
+<script>
+  // Puente de Base44. Base44 solo devuelve a su propio dominio: después de entrar con Google,
+  // de cerrar sesión o al abrir el enlace del correo para cambiar la contraseña, el jugador llega aquí
+  // y esto lo lleva de vuelta al juego (y a ningún otro sitio).
+  (function () {
+    var GAME = 'https://vlebronpt-lang.github.io/churri-doku/';
+    var q = new URLSearchParams(location.search);
+    var dest = GAME;
+    var token = q.get('access_token');
+    if (token) {
+      var out = new URLSearchParams();
+      out.set('access_token', token);
+      if (q.get('is_new_user')) out.set('is_new_user', q.get('is_new_user'));
+      dest = GAME + '?' + out.toString() + '#/';
+    } else if (/reset-password/.test(location.pathname)) {
+      dest = GAME + '#/cuenta/restablecer?' + q.toString();
+    }
+    location.replace(dest);
+  })();
+</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; font: 600 1.05rem system-ui, sans-serif; background: #ece6f6; color: #251a37; }
+  a { color: #e23d6b; }
+</style>
+</head>
+<body>
+<p>Volviendo a <a href="https://vlebronpt-lang.github.io/churri-doku/">Churri-doku</a>…</p>
+</body>
+</html>

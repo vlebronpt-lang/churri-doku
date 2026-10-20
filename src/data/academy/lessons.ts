@@ -612,7 +612,7 @@ export const LESSONS: Lesson[] = [
     skill: 'Si una opción lleva a algo imposible, esa opción es falsa.',
     explain: [
       'En todos los casos, incluso en «Muy fácil», llegará un momento en que ninguna técnica te deje avanzar. Entonces toca suponer: elige a alguien con pocas opciones y pregúntate «¿y si estuviera aquí?».',
-      'Sigue las consecuencias unos pocos pasos (puedes ir anotándolas con el «Lápiz»). Si llegas a algo imposible —alguien sin ninguna casilla, dos personas en la misma fila, la víctima acompañada de dos—, la suposición era falsa: tacha esa casilla y vuelve a deducir con normalidad.',
+      'Sigue las consecuencias unos pocos pasos (puedes ir anotándolas con el «Lápiz»). Si llegas a algo imposible (alguien sin ninguna casilla, dos personas en la misma fila o la víctima acompañada de dos), la suposición era falsa: tacha esa casilla y vuelve a deducir con normalidad.',
       'Ojo: no es adivinar. Solo descartas lo que lleva a una contradicción; si la suposición no rompe nada, no puedes concluir que sea cierta.',
     ],
     tip: 'Supón donde haya menos opciones (dos como mucho) y busca la contradicción pocos pasos después. Si no aparece, prueba otra casilla.',

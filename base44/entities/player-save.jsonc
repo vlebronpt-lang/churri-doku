@@ -1,0 +1,31 @@
+// Copia del progreso de cada jugador (una por cuenta).
+{
+  "name": "PlayerSave",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "string",
+      "description": "Progreso guardado: casos, logros y ajustes de los retos (JSON; si empieza por «z» va comprimido)"
+    },
+    "updated": {
+      "type": "number",
+      "description": "Momento de la última copia, en milisegundos desde 1970"
+    },
+    "solved": {
+      "type": "integer",
+      "description": "Casos resueltos (para consultarlo de un vistazo)"
+    }
+  },
+  "required": ["data"],
+  "rls": {
+    "create": {
+      "$or": [
+        { "user_condition": { "role": "user" } },
+        { "user_condition": { "role": "admin" } }
+      ]
+    },
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

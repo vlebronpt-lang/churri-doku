@@ -65,10 +65,15 @@ async function inflate(bytes: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(await new Response(ds).arrayBuffer());
 }
 
+/** Texto corto con un valor dentro, comprimido si el navegador lo permite (se lee con decodeProgress). */
+export async function packValue(value: unknown): Promise<string> {
+  const { data, z } = await deflate(enc.encode(JSON.stringify(value)));
+  return `${z ? 'z' : 'j'}${toB64Url(data)}`;
+}
+
 /** Enlace con datos comprimidos (si el navegador lo permite) en la ruta indicada. */
 export async function packUrl(route: string, value: unknown): Promise<string> {
-  const { data, z } = await deflate(enc.encode(JSON.stringify(value)));
-  return `${siteUrl()}#${route}/${z ? 'z' : 'j'}${toB64Url(data)}`;
+  return `${siteUrl()}#${route}/${await packValue(value)}`;
 }
 
 /** Enlace que contiene todo el progreso. */

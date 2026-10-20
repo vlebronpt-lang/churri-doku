@@ -1,0 +1,15 @@
+// Base44 Project Configuration
+// JSONC enables inline documentation and discoverability directly in config files.
+// Commented-out properties show available options you can enable.
+
+{
+  "name": "churri-doku",
+
+  "visibility": "public",
+
+  // El juego se publica en GitHub Pages. En Base44 solo vive el «puente» (base44/site/index.html):
+  // Base44 devuelve ahí al jugador después de entrar con Google o desde los correos, y el puente lo lleva al juego.
+  "site": {
+    "outputDirectory": "./base44/site"
+  }
+}

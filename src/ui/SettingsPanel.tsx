@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Modal } from './Modal';
 import { useSettings, type Settings } from '../state/settings';
-import { resetAll } from '../state/progress';
 import { ProgressLinkButton } from './ShareDialogs';
 import { AppSettings, HelpImprove, PasteProgress } from './SettingsExtras';
-import { resetAchievements } from '../state/achievements';
+import { AccountSettings } from './account/Account';
+import { resetEverything, useAccount } from '../cloud/account';
 
 function Toggle({ k, label, hint }: { k: keyof Settings; label: string; hint?: string }) {
   const { settings, set } = useSettings();
@@ -52,9 +52,13 @@ function NameField() {
 
 export function SettingsPanel({ onClose }: { onClose: () => void }) {
   const { reset } = useSettings();
+  const account = useAccount();
   const [confirm, setConfirm] = useState(false);
   return (
     <Modal title="Ajustes" onClose={onClose} labelledBy="settings-title" className="settings">
+      <h3 className="settings__group">Tu cuenta</h3>
+      <AccountSettings />
+
       <h3 className="settings__group">Aspecto</h3>
       <Choice k="theme" label="Tema" options={[{ value: 'auto', label: 'Auto' }, { value: 'light', label: 'Claro' }, { value: 'dark', label: 'Oscuro' }]} />
       <Choice k="tokenStyle" label="Fichas en el tablero" options={[{ value: 'portrait', label: 'Retrato' }, { value: 'letter', label: 'Letra' }]} />
@@ -93,8 +97,8 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
           <button className="btn btn--ghost btn--sm" onClick={() => setConfirm(true)}>Borrar mi progreso…</button>
         ) : (
           <span className="row gap">
-            <span className="small">¿Seguro? Se borran todos los casos.</span>
-            <button className="btn btn--danger btn--sm" onClick={() => { resetAll(); resetAchievements(); setConfirm(false); }}>Sí, borrar</button>
+            <span className="small">{account.status === 'in' ? '¿Seguro? Se borran todos los casos, también de tu cuenta y de tus otros dispositivos.' : '¿Seguro? Se borran todos los casos.'}</span>
+            <button className="btn btn--danger btn--sm" onClick={() => { resetEverything(); setConfirm(false); }}>Sí, borrar</button>
             <button className="btn btn--ghost btn--sm" onClick={() => setConfirm(false)}>Cancelar</button>
           </span>
         )}

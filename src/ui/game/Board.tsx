@@ -54,11 +54,17 @@ interface Props {
   dropCell?: number | null;
   /** Plano ampliado (móvil): un dedo desplaza el plano en vez de pintar. */
   zoomed?: boolean;
+  /** Casilla → sospechosos con zona marcada que aún pueden estar en ella. */
+  zoneNotes?: Map<number, string[]>;
+  /** Zona marcada del sospechoso elegido (se resalta). */
+  zoneRoom?: number | null;
+  /** Herramienta «Zona»: al pasar por el plano se resalta la habitación entera. */
+  zoneMode?: boolean;
 }
 
 const LONG_MS = 430;
 
-function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp, onMove, dropCell = null, zoomed = false }: Props) {
+function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp, onMove, dropCell = null, zoomed = false, zoneNotes, zoneRoom = null, zoneMode = false }: Props) {
   const svg = useMemo(() => renderBoard(p, { shade, shadow: true, idp: `bd-${p.id}` }), [p, shade]);
   const { w: W, h: H, off } = boardSize(p, false);
   const s = p.size;
@@ -198,7 +204,9 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     const cell = p.cells[i];
     const placedId = board.placed[i];
     const ch = placedId ? p.cast.find((x) => x.id === placedId) : undefined;
-    const notes = board.notes[i];
+    const manual = board.notes[i] ?? [];
+    const zoned = (zoneNotes?.get(i) ?? []).filter((id) => !manual.includes(id));
+    const notes = [...manual, ...zoned];
     const x = board.xs[i] ? 'm' : autoX.has(i) ? 'a' : null;
     const occ = !!board.occ?.[i];
     const cls = ['cell'];
@@ -211,6 +219,7 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     if (marks.hintX.has(i)) cls.push('hl-hintx');
     if (cursor === i) cls.push('is-cursor');
     if (hoverRoom !== null && hoverRoom === cell.room) cls.push('is-hover-room');
+    if (zoneRoom !== null && zoneRoom === cell.room) cls.push('hl-zone');
     if (persons && notes?.some((n) => persons.has(n))) cls.push('hl-note');
     if (!ch && selected && notes?.includes(selected)) cls.push('hl-selnote');
     if (!ch && lineOcc.has(i)) cls.push(lineOcc.get(i) ? 'is-lineocc is-lineocc-one' : 'is-lineocc');
@@ -222,11 +231,11 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
       <div key={i} className={cls.join(' ')} role="gridcell" aria-label={label}>
         {!ch && occ && <span className={`cell__occ${marks.wrongOcc.has(i) ? ' is-wrong' : ''}${marks.conflicts.has(i) ? ' is-conflict' : ''}`} aria-hidden="true" />}
         {!ch && !occ && x && <span className={`cell__x${x === 'a' ? ' cell__x--auto' : ''}${marks.wrongX.has(i) ? ' is-wrong' : ''}`} aria-hidden="true" />}
-        {!ch && notes && notes.length > 0 && (
+        {!ch && notes.length > 0 && (
           <span className={`cell__notes n${Math.min(notes.length, 9)}`} aria-hidden="true">
             {notes.slice(0, 9).map((n) => {
               const nc = p.cast.find((c) => c.id === n);
-              return <span key={n} className={`note${persons?.has(n) ? ' is-hl' : ''}${selected === n ? ' is-sel' : ''}`}>{nc?.tag ?? n}</span>;
+              return <span key={n} className={`note${zoned.includes(n) ? ' note--zone' : ''}${persons?.has(n) ? ' is-hl' : ''}${selected === n ? ' is-sel' : ''}`}>{nc?.tag ?? n}</span>;
             })}
           </span>
         )}
@@ -313,7 +322,7 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
       <div className="board__svg" dangerouslySetInnerHTML={{ __html: svg }} />
       <div
         ref={overlay}
-        className={`board__grid${paint ? ` mode-${paint}` : ''}${zoomed ? ' is-zoomed' : ''}`}
+        className={`board__grid${paint ? ` mode-${paint}` : ''}${zoneMode ? ' mode-zone' : ''}${zoomed ? ' is-zoomed' : ''}`}
         role="grid"
         aria-label="Escena del crimen"
         tabIndex={0}

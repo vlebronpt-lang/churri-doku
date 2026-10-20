@@ -19,11 +19,13 @@ async function main() {
       const r = await page.evaluate(() => {
         const nav = document.querySelector('.site-nav');
         const last = nav?.lastElementChild?.getBoundingClientRect();
-        return { overflow: document.documentElement.scrollWidth - window.innerWidth, navRight: last ? Math.round(last.right) : 0, vw: window.innerWidth };
+        // Rótulos de la barra de herramientas del móvil que no caben enteros.
+        const clipped = [...document.querySelectorAll('.tools-bar .tool span')].filter((t) => (t as HTMLElement).offsetParent && t.scrollWidth > t.clientWidth + 0.5).map((t) => t.textContent);
+        return { overflow: document.documentElement.scrollWidth - window.innerWidth, navRight: last ? Math.round(last.right) : 0, vw: window.innerWidth, clipped };
       });
-      if (r.overflow > 0 || r.navRight > r.vw) {
+      if (r.overflow > 0 || r.navRight > r.vw || r.clipped.length) {
         bad++;
-        console.log(`✘ ${w}px ${route}: se sale ${r.overflow}px${r.navRight > r.vw ? `, el menú llega a ${r.navRight}px` : ''}`);
+        console.log(`✘ ${w}px ${route}: se sale ${r.overflow}px${r.navRight > r.vw ? `, el menú llega a ${r.navRight}px` : ''}${r.clipped.length ? `, rótulos cortados: ${r.clipped.join(', ')}` : ''}`);
       }
     }
     await ctx.close();

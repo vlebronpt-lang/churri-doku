@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { Puzzle } from '../../engine/types';
-import { displayName, withPrep } from '../../engine/text';
+import { displayName, roomPhrase, withPrep } from '../../engine/text';
 import { useSettings } from '../../state/settings';
 import { getProgress, getStore, resetCase, updateProgress, useCaseProgress } from '../../state/progress';
 import { streakInfo } from '../../state/streak';
@@ -10,7 +10,7 @@ import { computeHint, findErrors, type HintResult } from '../../game/hints';
 import { configureFx, sfx } from '../../game/sfx';
 import { levelInfo, nextPuzzle } from '../../data/puzzles';
 import { Board, noMarks, type BoardMarks } from './Board';
-import { SuspectCard } from './SuspectCard';
+import { SuspectCard, ZoneLine } from './SuspectCard';
 import { ClueText, type Highlight } from './ClueText';
 import { Icon } from '../Icon';
 import { Portrait } from '../Portrait';
@@ -26,7 +26,7 @@ import { caseRoute, caseTag } from '../../data/labels';
 import { ChallengeDialog } from '../ShareDialogs';
 import { DragGhost, useSuspectDrag } from './drag';
 
-type Tool = 'place' | 'note' | 'x' | 'occ' | 'erase';
+type Tool = 'place' | 'note' | 'x' | 'occ' | 'zone' | 'erase';
 /** Tamaños del panel de sospechosos, de más grande a más compacto: se usa el mayor que quepa sin desplazarse. */
 type Density = 'lg' | 'c2' | 'c1' | 'c2xs' | 'c1xs' | 'c2xxs';
 const DENSITIES: Density[] = ['lg', 'c2', 'c1', 'c2xs', 'c1xs', 'c2xxs'];
@@ -42,6 +42,7 @@ export type CoachEvent =
   | { t: 'note'; id: string; cell: number }
   | { t: 'x'; cell: number }
   | { t: 'occ'; cell: number }
+  | { t: 'zone'; id: string; room: number }
   | { t: 'hint' }
   | { t: 'accuse'; id: string }
   | { t: 'solved' };
@@ -72,6 +73,8 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   const [tool, setTool] = useState<Tool>('place');
   const [highlight, setHighlight] = useState<Highlight | null>(null);
   const [marks, setMarks] = useState<BoardMarks>(noMarks);
+  /** Sospechosos con la zona mal marcada (tras «Revisar»). */
+  const [wrongZones, setWrongZones] = useState<Set<string>>(() => new Set());
   const [hint, setHint] = useState<{ res: HintResult; level: number } | null>(null);
   const incoming = useMemo(() => (reto ? decodeChallenge(reto) : null), [reto]);
   const [showIntro, setShowIntro] = useState(() => !getProgress(p.id).board || !!incoming);
@@ -150,6 +153,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
 
   const clearTransient = () => {
     setMarks((m) => (m.wrong.size || m.wrongX.size || m.wrongOcc.size || m.hintCells.size || m.hintX.size || m.hintRooms.size || m.hintRows.size || m.hintCols.size ? { ...noMarks(), reveal: m.reveal } : m));
+    setWrongZones((z) => (z.size ? new Set() : z));
   };
 
   // Conflictos de fila/columna (regla objetiva, no revela la solución): personas colocadas y casillas «ocupadas».
@@ -165,6 +169,28 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   }, [board.placed, board.occ, p.size, settings.conflictWarnings]);
 
   const allMarks = useMemo<BoardMarks>(() => ({ ...marks, conflicts }), [marks, conflicts]);
+
+  // Zonas: en cada casilla que aún es posible dentro de la zona marcada sale la letra del sospechoso.
+  const roomCells = useMemo(() => p.rooms.map((r) => p.cells.filter((c) => c.room === r.id).map((c) => c.i)), [p]);
+  const zoneInfo = useMemo(() => {
+    const notes = new Map<number, string[]>();
+    const left: Record<string, number> = {};
+    for (const [id, room] of Object.entries(board.zones ?? {})) {
+      if (posOf[id] !== undefined || !roomCells[room]) continue;
+      left[id] = 0;
+      for (const cell of roomCells[room]) {
+        if (!p.cells[cell].occupiable || board.placed[cell] !== undefined || board.xs[cell] || game.autoX.has(cell)) continue;
+        left[id]++;
+        notes.set(cell, [...(notes.get(cell) ?? []), id]);
+      }
+    }
+    return { notes, left };
+  }, [board, posOf, game.autoX, p, roomCells]);
+  const zoneOf = (id: string) => {
+    const room = board.zones?.[id];
+    if (room === undefined || posOf[id] !== undefined) return undefined;
+    return { label: p.rooms[room].name, left: zoneInfo.left[id] ?? 0, wrong: wrongZones.has(id), room };
+  };
 
   const selectChar = (id: string | null) => {
     if (id && selected !== id && !guard({ t: 'select', id })) return;
@@ -201,6 +227,18 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
       game.toggleOcc(cell);
       sfx.note();
       tell({ t: 'occ', cell });
+      return;
+    }
+    if (tool === 'zone') {
+      if (!selected) return say('Elige primero a un sospechoso y luego toca cualquier casilla de su zona.');
+      const ch = p.cast.find((c) => c.id === selected)!;
+      const room = p.cells[cell].room;
+      if (!guard({ t: 'zone', id: selected, room })) return;
+      const removing = board.zones?.[selected] === room;
+      game.toggleZone(selected, room);
+      sfx.note();
+      say(removing ? `Quitada la zona ${withPrep('de', ch)}.` : `${displayName(ch)} está ${roomPhrase(p.rooms[room], 'en')}: sus casillas posibles llevan su letra.`);
+      tell({ t: 'zone', id: selected, room });
       return;
     }
     if (tool === 'erase') {
@@ -363,10 +401,10 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     });
     sfx.note();
   };
-  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = solved || revealing || coach ? null
+  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = solved || revealing || coach || tool === 'zone' ? null
     : tool === 'x' ? 'x' : tool === 'occ' ? 'occ' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
-  const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' || coach ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
+  const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' || tool === 'zone' || coach ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
   const onPaintStart = (cell: number) => {
     game.beginBatch();
@@ -506,16 +544,17 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
 
   // ------------------------------------------------------------- revisar
   const check = () => {
-    const { wrongPlaced, wrongX, wrongOcc } = findErrors(p, board);
+    const { wrongPlaced, wrongX, wrongOcc, wrongZones: badZones } = findErrors(p, board);
     updateProgress(p.id, (c) => ({ checks: c.checks + 1 }));
     const m = noMarks();
     wrongPlaced.forEach((c) => m.wrong.add(c));
     wrongX.forEach((c) => m.wrongX.add(c));
     wrongOcc.forEach((c) => m.wrongOcc.add(c));
     setMarks(m);
-    const n = wrongPlaced.length + wrongX.length + wrongOcc.length;
+    setWrongZones(new Set(badZones));
+    const n = wrongPlaced.length + wrongX.length + wrongOcc.length + badZones.length;
     if (n === 0) {
-      const any = Object.keys(board.placed).length + Object.keys(board.xs).length + Object.keys(board.occ ?? {}).length;
+      const any = Object.keys(board.placed).length + Object.keys(board.xs).length + Object.keys(board.occ ?? {}).length + Object.keys(board.zones ?? {}).length;
       say(any ? 'Todo correcto por ahora.' : 'Aún no hay nada que revisar.');
     } else {
       sfx.error();
@@ -594,6 +633,9 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
       <button className={`tool tool--occ${tool === 'occ' ? ' is-on' : ''}`} onClick={() => pickTool('occ')} aria-pressed={tool === 'occ'} title="Marcar que en una casilla hay alguien, aunque aún no sepas quién (O)">
         <Icon name="occupied" sw={2.4} /><span>Ocupada</span>
       </button>
+      <button className={`tool tool--zone${tool === 'zone' ? ' is-on' : ''}`} onClick={() => pickTool('zone')} aria-pressed={tool === 'zone'} title="Zona: elige a un sospechoso y toca cualquier casilla de la habitación donde sabes que está">
+        <Icon name="pin" /><span>Zona</span>
+      </button>
       <button className={`tool tool--erase${tool === 'erase' ? ' is-on' : ''}`} onClick={() => pickTool('erase')} aria-pressed={tool === 'erase'} title="Borrar casilla (B)">
         <Icon name="eraser" /><span>Borrar</span>
       </button>
@@ -603,7 +645,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
       <button className="tool tool--redo" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || solved || !!coach} title="Rehacer (Ctrl+Shift+Z)">
         <Icon name="redo" /><span>Rehacer</span>
       </button>
-      <button className="tool tool--check" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length} title="Revisar si hay errores">
+      <button className="tool tool--check" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length && !Object.keys(board.zones ?? {}).length} title="Revisar si hay errores">
         <Icon name="check" /><span>Revisar</span>
       </button>
       <button className="tool tool--hint" onClick={askHint} disabled={solved} title="Pista (H)">
@@ -659,6 +701,8 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
                 onDragStart={startDrag(ch.id)}
                 onHighlight={settings.keywordHighlights ? setHighlight : () => {}}
                 onFeedback={coach ? undefined : () => setFeedbackFor({ charId: ch.id, who: `Pista ${withPrep('de', ch)}`, text: clueText(p, ch) })}
+                zone={zoneOf(ch.id)}
+                onClearZone={() => { const z = zoneOf(ch.id); if (z) game.toggleZone(ch.id, z.room); }}
               />
             ))}
           </div>
@@ -688,6 +732,9 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
               onMove={coach ? undefined : moveToken}
               dropCell={drag?.cell ?? null}
               zoomed={zoom}
+              zoneNotes={zoneInfo.notes}
+              zoneRoom={selected ? zoneOf(selected)?.room ?? null : null}
+              zoneMode={tool === 'zone' && !solved}
             />
           </div>
           </div>
@@ -709,7 +756,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
                 key={ch.id}
                 role="option"
                 aria-selected={selected === ch.id}
-                className={`chip${selected === ch.id ? ' is-selected' : ''}${posOf[ch.id] !== undefined ? ' is-placed' : ''}${ch.victim ? ' is-victim' : ''}`}
+                className={`chip${selected === ch.id ? ' is-selected' : ''}${posOf[ch.id] !== undefined ? ' is-placed' : ''}${ch.victim ? ' is-victim' : ''}${zoneOf(ch.id) ? ' is-zoned' : ''}${wrongZones.has(ch.id) ? ' is-zone-wrong' : ''}`}
                 onClick={() => { if (!justDropped()) selectChar(ch.id); }}
                 onPointerDown={startDrag(ch.id)}
                 onContextMenu={(e) => e.preventDefault()}
@@ -725,6 +772,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
               <div>
                 <strong>{displayName(selChar)}</strong>
                 <ClueText p={p} ch={selChar} simple={settings.simpleDirections} onHighlight={settings.keywordHighlights ? setHighlight : undefined} />
+                {zoneOf(selChar.id) && <ZoneLine zone={zoneOf(selChar.id)!} onClear={() => game.toggleZone(selChar.id, zoneOf(selChar.id)!.room)} />}
                 {!coach && !selChar.victim && <button className="linkish selected-clue__fb" onClick={() => setFeedbackFor({ charId: selChar.id, who: `Pista ${withPrep('de', selChar)}`, text: clueText(p, selChar) })}>¿Te confunde esta pista?</button>}
               </div>
               {!coach && <button className="icon-btn icon-btn--sm" onClick={() => setSelected(null)} aria-label="Deseleccionar"><Icon name="close" size={18} /></button>}

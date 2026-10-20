@@ -1,0 +1,13 @@
+// Usuarios de la app (esquema por defecto de Base44: solo el rol).
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "The role of the user in the app",
+      "enum": ["admin", "user"]
+    }
+  },
+  "required": ["role"]
+}

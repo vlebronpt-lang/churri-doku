@@ -13,6 +13,8 @@ export interface Events {
   challengesSent?: number;
   tutorialDone?: boolean;
   installed?: boolean;
+  /** Último cambio (ms), para juntar los de varios dispositivos. */
+  at?: number;
 }
 
 export interface Achievement {
@@ -77,8 +79,21 @@ const listeners = new Set<() => void>();
 const emit = () => listeners.forEach((l) => l());
 
 export function getEvents() { return events; }
+export function getUnlocked() { return unlocked; }
 export function recordEvent(patch: Partial<Events> | ((e: Events) => Partial<Events>)) {
-  events = { ...events, ...(typeof patch === 'function' ? patch(events) : patch) };
+  const p = typeof patch === 'function' ? patch(events) : patch;
+  if ((Object.keys(p) as (keyof Events)[]).every((k) => events[k] === p[k])) return;
+  events = { ...events, ...p, at: Date.now() };
+  save('events', events);
+  emit();
+}
+
+/** Sustituye logros y eventos por los que llegan de la nube. */
+export function replaceAchievements(nextUnlocked: Record<string, number>, nextEvents: Events) {
+  if (JSON.stringify(nextUnlocked) === JSON.stringify(unlocked) && JSON.stringify(nextEvents) === JSON.stringify(events)) return;
+  unlocked = nextUnlocked;
+  events = nextEvents;
+  save('achievements', unlocked);
   save('events', events);
   emit();
 }
@@ -106,6 +121,8 @@ function subscribe(l: () => void) {
   listeners.add(l);
   return () => listeners.delete(l);
 }
+
+export const subscribeAchievements = subscribe;
 
 export function useEvents(): Events {
   return useSyncExternalStore(subscribe, () => events, () => events);

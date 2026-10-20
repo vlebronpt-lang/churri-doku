@@ -8,12 +8,15 @@ import type { Level } from '../engine/types';
 import { InviteButton } from './ShareDialogs';
 import { DailyCard } from './daily/DailyCard';
 import { useEvents } from '../state/achievements';
+import { AccountNudge, openAccount } from './account/Account';
+import { useAccount } from '../cloud/account';
 
 const FEATURED = ['tronos', 'friends', 'marvel', 'titanes', 'simpson', 'vikingos', 'potter'];
 
 export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: () => void }) {
   const store = useProgressStore();
   const events = useEvents();
+  const account = useAccount();
   const [filter, setFilter] = useState<Level | 0>(0);
   const prog = (id: string) => store[id] ?? emptyProgress();
   const solvedCount = PUZZLES.filter((p) => wasSolved(prog(p.id))).length;
@@ -35,7 +38,7 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
             <span className="hero__sub">Y con tus series favoritas.</span>
           </h1>
           <p className="hero__lede">
-            Coloca a cada sospechoso en la escena del crimen —una persona por fila y por columna— y descubre quién estaba a solas con la víctima. Sin adivinar: solo con lógica.
+            Coloca a cada sospechoso en el plano sin repetir fila ni columna y averigua quién se quedó a solas con la víctima. No hace falta adivinar nada: todo sale con lógica.
           </p>
           <div className="row gap wrap">
             {inProgress ? (
@@ -67,6 +70,7 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
             </div>
             <span className="progress__label"><strong>{solvedCount}</strong>/{PUZZLES.length} casos resueltos</span>
           </div>
+          <AccountNudge />
         </div>
         <div className="hero__art" aria-hidden="true">
           {featured.map((p, k) => (
@@ -117,7 +121,11 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
         <div className="couple__text">
           <h2 id="couple-title" className="section-title">Jugad en pareja</h2>
           <p>Cada uno juega desde su móvil u ordenador, abriendo esta misma página. Cuando resuelvas un caso, pulsa <strong>«Retar a mi churri»</strong> y mándale el enlace: verá tu tiempo antes de empezar y tendrá que superarlo.</p>
-          <p className="muted small">El progreso se guarda en cada navegador. ¿Cambias de ordenador? En <button className="linkish" onClick={onSettings}>Ajustes</button> puedes copiar un enlace con todo lo que llevas.</p>
+          {account.status === 'guest' ? (
+            <p className="muted small">Sin cuenta, el progreso se queda en cada navegador. <button className="linkish" onClick={() => openAccount('register')}>Crea tu cuenta</button> y te seguirá a cualquier móvil u ordenador (también puedes pasarlo con un enlace desde <button className="linkish" onClick={onSettings}>Ajustes</button>).</p>
+          ) : (
+            <p className="muted small">Tu progreso va contigo: entra con tu cuenta en cualquier móvil u ordenador y lo tendrás todo.</p>
+          )}
           <div className="row gap wrap"><InviteButton className="btn btn--primary" /></div>
         </div>
         <img className="couple__art" src={`${import.meta.env.BASE_URL}img/ui/desk.webp`} alt="" width="900" height="900" loading="lazy" />

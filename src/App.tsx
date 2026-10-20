@@ -16,6 +16,7 @@ import { Academy } from './ui/academy/Academy';
 import { Tutorial } from './ui/tutorial/Tutorial';
 import { Panel, ImportReportModal } from './ui/panel/Panel';
 import { AchievementToasts } from './ui/AchievementToasts';
+import { AccountCenter, maybeWelcome, openAccount } from './ui/account/Account';
 
 const PrintPage = lazy(() => import('./ui/print/PrintPage'));
 
@@ -30,7 +31,23 @@ export default function App() {
       setHelp(true);
       navigate('/');
     }
-  }, [page]);
+    // Enlaces de la cuenta: #/cuenta abre la ventana; #/cuenta/restablecer?token=… viene del correo de «olvidé la contraseña».
+    if (page === 'cuenta') {
+      if (parts[1] === 'restablecer') openAccount('reset', { token: query.get('token') ?? query.get('reset_token') ?? query.get('code') ?? '' });
+      else openAccount();
+      history.replaceState(history.state, '', `${location.pathname}${location.search}#/`);
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    }
+  }, [page, parts, query]);
+
+  // Bienvenida al entrar sin cuenta (no en las páginas que se abren para imprimir o importar algo).
+  useEffect(() => {
+    if (['imprimir', 'progreso', 'informe', 'panel', 'cuenta', 'tutorial'].includes(page)) return;
+    const t = window.setTimeout(maybeWelcome, 900);
+    return () => window.clearTimeout(t);
+    // Solo al cargar la página.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (page === 'imprimir') {
     const sub = parts[1] ?? '';
@@ -51,6 +68,7 @@ export default function App() {
       {help && <HowTo onClose={() => setHelp(false)} />}
       {settingsOpen && <SettingsPanel onClose={() => setSettingsOpen(false)} />}
       <AchievementToasts />
+      <AccountCenter />
     </>
   );
 

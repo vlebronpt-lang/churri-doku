@@ -23,7 +23,12 @@ export function findErrors(p: Puzzle, board: BoardState) {
   // «Ocupada» donde en realidad no hay nadie.
   const wrongOcc: number[] = [];
   for (const cellStr of Object.keys(board.occ ?? {})) if (!solCells.has(Number(cellStr))) wrongOcc.push(Number(cellStr));
-  return { wrongPlaced, wrongX, wrongOcc };
+  // Zonas marcadas a sospechosos que en realidad están en otra (solo cuentan las de quien aún no está colocado).
+  const placedIds = new Set(Object.values(board.placed));
+  const wrongZones = Object.entries(board.zones ?? {})
+    .filter(([id, room]) => !placedIds.has(id) && p.solution[id] !== undefined && p.cells[p.solution[id]].room !== room)
+    .map(([id]) => id);
+  return { wrongPlaced, wrongX, wrongOcc, wrongZones };
 }
 
 /** Estado lógico a partir de lo que el jugador ya sabe (colocaciones, X y casillas «ocupadas» correctas). */

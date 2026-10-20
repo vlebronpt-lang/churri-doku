@@ -2,6 +2,7 @@ import { Logo } from './Logo';
 import { Icon } from './Icon';
 import { navigate } from '../router';
 import { useSettings } from '../state/settings';
+import { AccountButton } from './account/Account';
 
 export type Section = 'home' | 'daily' | 'academy' | 'stats' | 'downloads';
 
@@ -34,6 +35,7 @@ export function SiteHeader({ current, onHelp, onSettings }: { current: Section |
           <Icon name={dark ? 'sun' : 'moon'} />
         </button>
         <button className="icon-btn" onClick={onSettings} aria-label="Ajustes" title="Ajustes"><Icon name="settings" /></button>
+        <AccountButton />
       </div>
     </header>
   );
@@ -45,7 +47,7 @@ export function SiteFooter() {
       <p>
         <strong>Churri-doku</strong> es un proyecto fan sin ánimo de lucro, inspirado en los rompecabezas de lógica tipo <em>Murdoku</em>. Los personajes, nombres y marcas pertenecen a sus respectivos propietarios; este juego no está afiliado a ellos.
       </p>
-      <p className="muted">Hecho con cariño (y algún asesinato) · Tu progreso se guarda en este navegador.</p>
+      <p className="muted">Hecho con cariño (y algún asesinato) · Tu progreso se guarda en este navegador y, si entras con tu cuenta, también en ella.</p>
     </footer>
   );
 }
