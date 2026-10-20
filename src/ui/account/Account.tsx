@@ -39,7 +39,8 @@ const WELCOME_MAX = 3;
 
 /** La bienvenida sale al entrar sin cuenta: como mucho una vez al día y hasta que se rechaza tres veces. */
 export function maybeWelcome() {
-  if (getAccount().status !== 'guest' || ui.view) return;
+  // Tampoco al volver de un intento de entrar con Google: ya sale su aviso.
+  if (getAccount().status !== 'guest' || getAccount().notice || ui.view) return;
   // En las pruebas automáticas no sale (salvo en la que la comprueba), para no tapar lo que se prueba.
   if (navigator.webdriver && !load<boolean>('welcome-test', false)) return;
   const w = load<{ n?: number; t?: number }>('welcome', {});

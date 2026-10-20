@@ -188,6 +188,16 @@ async function main() {
   const shrek = await load('shrek');
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 
+  // 0 · Quien vuelve de cancelar la entrada con Google ve el aviso, no la bienvenida.
+  const G = await device(browser, { welcome: true });
+  await G.page.goto(base, { waitUntil: 'networkidle' });
+  await G.page.evaluate(() => localStorage.setItem('churri-doku:google-pending', JSON.stringify({ t: Date.now(), hash: '#/' })));
+  await G.page.reload({ waitUntil: 'networkidle' });
+  await G.page.locator('.notice-toast').waitFor({ timeout: 5000 });
+  await G.page.waitForTimeout(1500);
+  check(/No se ha completado la entrada con Google/.test(await G.page.locator('.notice-toast').innerText()) && !(await G.page.locator('.account--welcome').count()), 'al volver de cancelar Google sale su aviso y no la bienvenida');
+  await G.ctx.close();
+
   // 1 · A juega sin cuenta, ve la bienvenida y se registra con su correo.
   const A = await device(browser, { welcome: true });
   await A.page.goto(base, { waitUntil: 'networkidle' });
