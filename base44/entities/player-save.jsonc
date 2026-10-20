@@ -1,4 +1,6 @@
 // Copia del progreso de cada jugador (una por cuenta).
+// Crear está abierto (como en el ejemplo de Base44), pero solo el dueño puede leer, cambiar o borrar su copia,
+// y Base44 pone él mismo created_by: nadie puede escribir en la copia de otro.
 {
   "name": "PlayerSave",
   "type": "object",
@@ -18,12 +20,7 @@
   },
   "required": ["data"],
   "rls": {
-    "create": {
-      "$or": [
-        { "user_condition": { "role": "user" } },
-        { "user_condition": { "role": "admin" } }
-      ]
-    },
+    "create": true,
     "read": { "created_by": "{{user.email}}" },
     "update": { "created_by": "{{user.email}}" },
     "delete": { "created_by": "{{user.email}}" }
