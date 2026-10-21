@@ -394,6 +394,8 @@ export async function resendCode() {
 
 export function loginWithGoogle() {
   save('google-pending', { t: Date.now(), hash: location.hash });
+  // Va primero al puente del dominio de Base44: Base44 toma el dominio de la página que pide la entrada
+  // y, al volver de Google, rechaza github.io («Domain is not valid»).
   location.href = googleLoginUrl();
 }
 

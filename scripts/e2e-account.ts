@@ -4,6 +4,7 @@
  * con progreso sin cuenta (pregunta de juntar), sesión caducada, borrar progreso y cerrar sesión.
  *   npx tsx scripts/e2e-account.ts [url]
  */
+import { readFileSync } from 'node:fs';
 import { chromium, type Browser, type Page, type Route } from 'playwright-core';
 import { compilePuzzle } from '../src/engine/puzzle';
 import { displayName } from '../src/engine/text';
@@ -100,11 +101,18 @@ async function api(route: Route) {
   return fail(route, 404, `Sin simular: ${req.method()} ${path}`);
 }
 
-/** Google: Base44 vuelve a su dominio y el puente trae la sesión al juego (aquí se simula de golpe). */
+/** Google: la entrada empieza en el puente de verdad (base44/site) y Base44 vuelve con la sesión (la vuelta se simula de golpe). */
 const googleUser = { email: 'lucia@example.com', full_name: 'Lucía Pérez' };
+const bridge = readFileSync(new URL('../base44/site/index.html', import.meta.url), 'utf8');
+/** Página desde la que se pidió cada entrada con Google: Base44 solo acepta la vuelta si es su dominio. */
+const googleReferers: string[] = [];
 async function appDomain(route: Route) {
   const url = new URL(route.request().url());
+  if (url.pathname === '/' && url.searchParams.get('entrar') === 'google') {
+    return route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: bridge });
+  }
   if (url.pathname === '/api/apps/auth/login') {
+    googleReferers.push((await route.request().headerValue('referer')) ?? '(ninguna)');
     if (!db.users.has(googleUser.email)) db.users.set(googleUser.email, { id: newId(), ...googleUser, password: '', verified: true });
     return route.fulfill({ status: 302, headers: { location: `${base}?access_token=${newToken(googleUser.email)}&is_new_user=false#/` } });
   }
@@ -278,6 +286,7 @@ async function main() {
   await L.page.locator('.btn--google').click();
   await L.page.locator('.me-btn').waitFor();
   check(!(await L.page.evaluate(() => location.search)).includes('access_token'), 'la vuelta de Google deja la dirección limpia');
+  check(googleReferers.length === 1 && googleReferers[0].startsWith(`${APP_DOMAIN}/`), `la entrada con Google se pide desde el dominio de Base44, que es el único que acepta a la vuelta (${googleReferers.join(', ')})`);
   await solve(L.page, friends);
   await until(async () => (await cloudData(L.page, googleUser.email))?.p[friends.id]?.solved === true, 'la cuenta de Google de Lucía guarda su caso');
   const C = await device(browser);

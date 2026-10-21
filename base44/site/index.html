@@ -4,14 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<meta name="referrer" content="origin">
 <title>Churri-doku</title>
 <script>
   // Puente de Base44. Base44 solo devuelve a su propio dominio: después de entrar con Google,
   // de cerrar sesión o al abrir el enlace del correo para cambiar la contraseña, el jugador llega aquí
   // y esto lo lleva de vuelta al juego (y a ningún otro sitio).
+  // La entrada con Google también empieza aquí (?entrar=google): Base44 toma el dominio de la página
+  // que la pide y, al volver de Google, rechaza cualquiera que no sea el suyo («Domain is not valid»).
   (function () {
     var GAME = 'https://vlebronpt-lang.github.io/churri-doku/';
     var q = new URLSearchParams(location.search);
+    if (q.get('entrar') === 'google') {
+      var back = encodeURIComponent(location.origin + '/');
+      location.replace(location.origin + '/api/apps/auth/login?app_id=6ad7e5d5a1f2149ed0366eac&from_url=' + back);
+      return;
+    }
     var dest = GAME;
     var token = q.get('access_token');
     if (token) {
@@ -31,6 +39,6 @@
 </style>
 </head>
 <body>
-<p>Volviendo a <a href="https://vlebronpt-lang.github.io/churri-doku/">Churri-doku</a>…</p>
+<p>Un momento… Si no pasa nada, vuelve a <a href="https://vlebronpt-lang.github.io/churri-doku/">Churri-doku</a>.</p>
 </body>
 </html>

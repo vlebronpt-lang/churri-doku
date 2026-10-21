@@ -90,7 +90,7 @@ export const saves = {
 };
 
 /** Entrar con Google: Base44 solo devuelve a su propio dominio, y el puente de allí trae al jugador de vuelta con su sesión. */
-export const googleLoginUrl = () => `${APP_DOMAIN}/api/apps/auth/login?app_id=${APP_ID}&from_url=${encodeURIComponent(`${APP_DOMAIN}/`)}`;
+export const googleLoginUrl = () => `${APP_DOMAIN}/?entrar=google`;
 
 /** Cierra también la sesión de Google en Base44 (si no, en un dispositivo compartido entraría la cuenta anterior). */
 export const logoutUrl = () => `${APP_DOMAIN}/api/apps/auth/logout?from_url=${encodeURIComponent(`${APP_DOMAIN}/`)}`;
