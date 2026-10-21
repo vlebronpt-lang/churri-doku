@@ -540,7 +540,9 @@ kbd {
 }
 .game__title { min-width: 0; flex: 1; }
 .game__title h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1rem, 2.2vw, 1.35rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.game__meta { display: flex; align-items: center; gap: .45em; font-family: var(--f-type); font-size: .8rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.game__meta { display: flex; align-items: center; gap: .45em; font-family: var(--f-type); font-size: .8rem; color: var(--muted); white-space: nowrap; overflow: hidden; }
+/* Los «…» solo salen en un bloque, no en el flex de arriba. */
+.game__meta-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .game__actions { display: flex; align-items: center; gap: 2px; }
 .timer { display: inline-flex; align-items: center; gap: 5px; font-family: var(--f-display); font-size: 1rem; margin-right: 8px; font-variant-numeric: tabular-nums; }
 .game__body {

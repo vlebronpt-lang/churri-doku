@@ -726,7 +726,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
           <Icon name="back" size={18} /> <span className="hide-sm">Casos</span>
         </button>
         <div className="game__title">
-          <span className="game__meta"><span className="lvl-dot" />{caseTag(p)} · {p.franchise} · {lvl.name}</span>
+          <span className="game__meta"><span className="lvl-dot" /><span className="game__meta-text">{caseTag(p)} · {p.franchise} · {lvl.name}</span></span>
           <h1>{p.title}</h1>
         </div>
         <div className="game__actions">
