@@ -52,7 +52,8 @@ async function cacheFirst(req, cacheName) {
 async function staleWhileRevalidate(req, cacheName) {
   const cache = await caches.open(cacheName);
   const hit = await cache.match(req);
-  const update = fetch(req).then((res) => {
+  // La renovación pregunta siempre al servidor (no a la caché HTTP del navegador); si no cambió, contesta sin reenviarlo.
+  const update = fetch(req, { cache: 'no-cache' }).then((res) => {
     if (res.ok || res.type === 'opaque') cache.put(req, res.clone());
     return res;
   }).catch(() => hit);
