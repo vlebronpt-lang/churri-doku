@@ -10,6 +10,10 @@ import { DailyCard } from './daily/DailyCard';
 import { useEvents } from '../state/achievements';
 import { AccountNudge, openAccount } from './account/Account';
 import { useAccount } from '../cloud/account';
+import { abrirPareja } from './live/ParejaDialog';
+import { MarcadorPareja } from './live/Marcador';
+import { useMarcadores } from '../live/marcador';
+import { salaAbierta } from '../live/sala';
 
 const FEATURED = ['tronos', 'friends', 'marvel', 'titanes', 'simpson', 'vikingos', 'potter'];
 
@@ -17,6 +21,8 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
   const store = useProgressStore();
   const events = useEvents();
   const account = useAccount();
+  const marcadores = useMarcadores();
+  const sala = account.status === 'in' ? salaAbierta() : null;
   const [filter, setFilter] = useState<Level | 0>(0);
   const prog = (id: string) => store[id] ?? emptyProgress();
   const solvedCount = PUZZLES.filter((p) => wasSolved(prog(p.id))).length;
@@ -56,6 +62,15 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
               <button className="btn btn--lg" onClick={onHelp}><Icon name="help" size={20} /> Cómo se juega</button>
             )}
           </div>
+          {sala ? (
+            <p className="pareja-nudge">
+              <span aria-hidden="true">💘</span> Tienes una sala abierta ({sala}). <button className="linkish" onClick={() => navigate(`/sala/${sala}`)}>Volver a la sala</button>
+            </p>
+          ) : (
+            <p className="pareja-nudge">
+              <span aria-hidden="true">💘</span> <strong>En pareja y en directo:</strong> <button className="linkish" onClick={() => abrirPareja()}>crear una sala</button> o <button className="linkish" onClick={() => abrirPareja({ unirme: true })}>entrar con un código</button>
+            </p>
+          )}
           <div className="progress" aria-label={`${solvedCount} de ${PUZZLES.length} casos resueltos`}>
             <div className="progress__bars">
               {LEVELS.map((l) => {
@@ -120,13 +135,24 @@ export function Home({ onHelp, onSettings }: { onHelp: () => void; onSettings: (
         <span className="couple__icon" aria-hidden="true">💘</span>
         <div className="couple__text">
           <h2 id="couple-title" className="section-title">Jugad en pareja</h2>
-          <p>Cada uno juega desde su móvil u ordenador, abriendo esta misma página. Cuando resuelvas un caso, pulsa <strong>«Retar a mi churri»</strong> y mándale el enlace: verá tu tiempo antes de empezar y tendrá que superarlo.</p>
+          <p><strong>En directo:</strong> crea una sala y dale el código a tu pareja (cada uno entra con su cuenta). Resolved el mismo tablero entre los dos (cooperativo) o echad un duelo con el mismo caso, cada uno en el suyo: gana quien lo resuelva antes. Vuestro marcador guarda las victorias y los mejores tiempos.</p>
+          <div className="row gap wrap couple__live">
+            <button className="btn btn--primary" onClick={() => abrirPareja()}><Icon name="play" size={18} /> Jugar en directo</button>
+            <button className="btn" onClick={() => abrirPareja({ unirme: true })}>Tengo un código</button>
+          </div>
+          <p><strong>Por turnos:</strong> cuando resuelvas un caso, pulsa <strong>«Retar a mi churri»</strong> y mándale el enlace: verá tu tiempo antes de empezar y tendrá que superarlo.</p>
           {account.status === 'guest' ? (
             <p className="muted small">Sin cuenta, el progreso se queda en cada navegador. <button className="linkish" onClick={() => openAccount('register')}>Crea tu cuenta</button> y te seguirá a cualquier móvil u ordenador (también puedes pasarlo con un enlace desde <button className="linkish" onClick={onSettings}>Ajustes</button>).</p>
           ) : (
             <p className="muted small">Tu progreso va contigo: entra con tu cuenta en cualquier móvil u ordenador y lo tendrás todo.</p>
           )}
-          <div className="row gap wrap"><InviteButton className="btn btn--primary" /></div>
+          <div className="row gap wrap"><InviteButton className="btn" /></div>
+          {marcadores.length > 0 && (
+            <div className="couple__marcadores">
+              <h3 className="couple__subtitle">{marcadores.length === 1 ? 'Vuestro marcador' : 'Vuestros marcadores'}</h3>
+              {marcadores.slice(0, 3).map((m) => <MarcadorPareja key={m.jugadores.map((j) => j.uid).join('|')} m={m} />)}
+            </div>
+          )}
         </div>
         <img className="couple__art" src={`${import.meta.env.BASE_URL}img/ui/desk.webp`} alt="" width="900" height="900" loading="lazy" />
       </section>

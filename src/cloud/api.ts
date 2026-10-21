@@ -89,6 +89,41 @@ export const saves = {
   remove: (id: string) => call<unknown>('DELETE', `${SAVES}/${id}`),
 };
 
+/** Marcador de una pareja del modo en directo (lo escribe la sala; cada jugador solo ve los suyos). */
+export interface MarcadorRecord {
+  id: string;
+  clave: string;
+  jugador_a: string;
+  jugador_b: string;
+  nombre_a?: string;
+  nombre_b?: string;
+  victorias_a?: number;
+  victorias_b?: number;
+  duelos?: number;
+  coop?: number;
+  tiempos?: string;
+  ultimas?: string;
+  ultima?: number;
+}
+
+export const marcadores = {
+  list: () => call<MarcadorRecord[]>('GET', '/entities/MarcadorPareja?sort=-ultima&limit=20'),
+};
+
+/** Salas del modo pareja en directo (actor «SalaPareja» de Base44). */
+export const ACTOR_SALA = 'SalaPareja';
+export const actors = {
+  /** Permiso para conectarse a una sala: Base44 lo da a quien tiene sesión y la sala sabe así quién es. */
+  connectionToken: (room: string, connectionId: string) =>
+    call<{ websocket_url: string; token: string }>('POST', `/actors/${ACTOR_SALA}/connection-token`, { room, connection_id: connectionId }),
+  /** Camino antiguo de Base44 para los actores (si el permiso directo no está disponible). */
+  proxyUrl: (room: string, connectionId: string) => {
+    const q = new URLSearchParams([['_pk', connectionId], ['app_id', APP_ID], ['handler', ACTOR_SALA]]);
+    if (token) q.append('token', token);
+    return `wss://base44.app/parties/${ACTOR_SALA}/${encodeURIComponent(room)}?${q}`;
+  },
+};
+
 /** Entrar con Google: Base44 solo devuelve a su propio dominio, y el puente de allí trae al jugador de vuelta con su sesión. */
 export const googleLoginUrl = () => `${APP_DOMAIN}/?entrar=google`;
 

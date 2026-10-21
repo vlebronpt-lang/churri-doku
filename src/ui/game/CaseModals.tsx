@@ -20,7 +20,16 @@ import { longDate } from '../../data/daily';
 
 const BASE = import.meta.env.BASE_URL;
 
-export function IntroModal({ p, challenge, onStart, onHelp }: { p: Puzzle; challenge?: Challenge; onStart: () => void; onHelp: () => void }) {
+export function IntroModal({ p, challenge, onStart, onHelp, onPair, inRoom = false }: {
+  p: Puzzle;
+  challenge?: Challenge;
+  onStart: () => void;
+  onHelp: () => void;
+  /** «Jugar en pareja»: abre la ventana del modo en directo con este caso. */
+  onPair?: () => void;
+  /** Abierto desde una sala del modo pareja (el caso ya está abierto). */
+  inRoom?: boolean;
+}) {
   const lvl = levelInfo(p.level);
   const victim = p.cast.find((c) => c.victim)!;
   const suspects = p.cast.filter((c) => !c.victim);
@@ -62,7 +71,8 @@ export function IntroModal({ p, challenge, onStart, onHelp }: { p: Puzzle; chall
         <ObjectLegend p={p} compact />
       </section>
       <div className="row gap wrap dossier__actions">
-        <button className="btn btn--primary btn--lg" onClick={onStart}><Icon name="search" size={20} /> {lesson ? 'Empezar la práctica' : daily ? 'Abrir el caso del día' : p.meta?.kind === 'tutorial' ? 'Empezar el tutorial' : 'Abrir el caso'}</button>
+        <button className="btn btn--primary btn--lg" onClick={onStart}><Icon name="search" size={20} /> {inRoom ? 'Volver a la partida' : lesson ? 'Empezar la práctica' : daily ? 'Abrir el caso del día' : p.meta?.kind === 'tutorial' ? 'Empezar el tutorial' : 'Abrir el caso'}</button>
+        {onPair && <button className="btn" onClick={onPair}><span aria-hidden="true">💘</span> Jugar en pareja</button>}
         <button className="btn btn--ghost" onClick={() => { onStart(); onHelp(); }}><Icon name="help" size={18} /> Cómo se juega</button>
       </div>
     </Modal>

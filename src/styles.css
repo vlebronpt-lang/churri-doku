@@ -1884,6 +1884,163 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
   .zoom-btn { display: none; }
 }
 
+/* ------------------------------------------------------------ jugar en pareja, en directo */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.pareja { width: min(540px, 100%); }
+.pareja__lede { margin: 0 0 14px; color: var(--ink-2); }
+.pareja__fine { text-align: center; margin: 12px 0 0; }
+.pareja form > .btn--primary { margin-top: 6px; }
+.pareja__abierta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 9px 12px; border: 2px solid var(--edge); border-radius: 12px; background: color-mix(in srgb, var(--raspberry) 10%, var(--card)); font-weight: 600; }
+.pareja select.input { width: 100%; font-weight: 600; }
+
+.modos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 6px; padding: 0; border: 0; min-width: 0; }
+.modo { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px; border: 2.5px solid var(--edge); border-radius: 14px; background: var(--paper); cursor: pointer; transition: transform .1s, box-shadow .1s, background .15s; }
+.modo:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-sm); }
+.modo input { position: absolute; opacity: 0; pointer-events: none; }
+.modo:has(input:focus-visible) { outline: 3px solid var(--raspberry); outline-offset: 2px; }
+.modo.is-on { background: color-mix(in srgb, var(--mustard) 30%, var(--card)); box-shadow: var(--shadow-sm); }
+.modo.is-on::after { content: '✓'; position: absolute; right: 10px; top: 8px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--paper); font-weight: 900; font-size: .8rem; }
+.modo__icon { font-size: 1.6rem; line-height: 1; }
+.modo__text { display: flex; flex-direction: column; gap: 3px; }
+.modo__text strong { font-family: var(--f-display); font-weight: 400; font-size: 1.02rem; }
+.modo__text span { font-size: .86rem; line-height: 1.35; color: var(--ink-2); }
+
+/* Barra de la sala: segunda fila de la cabecera del caso (fija con ella) */
+.game__head:has(.sala-bar) { flex-wrap: wrap; row-gap: 0; padding-bottom: 0; }
+.sala-bar { flex: 1 0 100%; order: 10; margin: 6px -14px 0; background: color-mix(in srgb, var(--raspberry) 9%, var(--card)); border-top: 2px solid var(--edge); }
+.sala-bar__fila { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; max-width: 1680px; margin: 0 auto; padding: 4px 16px; min-height: 40px; font-size: .9rem; }
+.sala-juego .game__suspects, .sala-juego .game__side { top: 118px; max-height: calc(100dvh - 134px); }
+.sala-bar__sala { font-weight: 600; white-space: nowrap; }
+.sala-bar__sala strong { font-family: var(--f-label); letter-spacing: .12em; }
+.sala-bar__pareja { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-weight: 700; }
+.sala-bar__nombre { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 14ch; }
+.sala-bar__estado { font-weight: 600; color: var(--muted); white-space: nowrap; }
+.sala-bar__dot { flex: none; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--edge); background: var(--muted); }
+.is-linea .sala-bar__dot { background: var(--mint); }
+.is-senal .sala-bar__dot, .is-reconecta .sala-bar__dot { background: var(--mustard); animation: latido 1.2s ease-in-out infinite; }
+.is-linea .sala-bar__estado { color: color-mix(in srgb, var(--mint) 70%, var(--ink)); }
+.is-senal .sala-bar__estado, .is-reconecta .sala-bar__estado { color: color-mix(in srgb, var(--mustard) 45%, var(--raspberry)); }
+.is-fuera .sala-bar__dot, .is-salio .sala-bar__dot, .is-espera .sala-bar__dot { background: transparent; }
+@keyframes latido { 50% { transform: scale(.7); opacity: .6; } }
+.sala-bar__prog { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.sala-bar__barra { width: 74px; height: 10px; border: 2px solid var(--edge); border-radius: 999px; overflow: hidden; background: var(--card); }
+.sala-bar__barra span { display: block; height: 100%; background: var(--raspberry); transition: width .3s ease; }
+.sala-bar__red { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: color-mix(in srgb, var(--mustard) 45%, var(--raspberry)); }
+.sala-bar__btn { margin-left: auto; }
+.sala-bar__btn + .sala-bar__btn { margin-left: 0; }
+.sala-bar__aviso { margin: 0; padding: 6px 16px; font-size: .86rem; font-weight: 700; text-align: center; background: color-mix(in srgb, var(--mustard) 30%, var(--card)); border-top: 2px solid var(--edge); }
+
+/* Mientras se espera a empezar, el plano no se ve (en el duelo nadie puede adelantarse). */
+.sala-juego.is-esperando .game__body { filter: blur(9px) saturate(.6); pointer-events: none; user-select: none; }
+.sala-juego.is-esperando .tools-bar { pointer-events: none; opacity: .5; }
+
+/* Lo que acaba de tocar tu pareja se ilumina un momento. */
+.cell__pareja { position: absolute; inset: 1px; z-index: 4; border-radius: 6px; pointer-events: none; box-shadow: 0 0 0 3px var(--raspberry), inset 0 0 0 2px rgba(255, 255, 255, .85); animation: pareja 1.5s ease-out forwards; }
+@keyframes pareja { 0% { opacity: 0; transform: scale(1.3); } 15% { opacity: 1; transform: scale(1); } 70% { opacity: 1; } 100% { opacity: 0; } }
+/* Sin animaciones, el aviso se queda quieto el momento que dura. */
+@media (prefers-reduced-motion: reduce) { .cell__pareja { animation: none !important; } }
+:root[data-no-motion] .cell__pareja { animation: none !important; }
+
+/* Sala de espera */
+.sala-capa { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; overflow: auto; background: color-mix(in srgb, #120b1c 40%, transparent); animation: fade .18s ease; }
+.lobby { width: min(520px, 100%); margin: auto; background: var(--card); border: 3px solid var(--edge); border-radius: 20px; box-shadow: 8px 8px 0 var(--edge); padding: 20px 22px 18px; text-align: center; animation: pop .22s cubic-bezier(.2, 1.3, .4, 1); }
+.lobby .eyebrow { justify-content: center; }
+.lobby__titulo { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.3rem, 4vw, 1.7rem); }
+.lobby__caso { margin: 4px 0 12px; font-family: var(--f-type); font-size: .9rem; color: var(--muted); }
+.lobby__codigo { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 4px 0 14px; padding: 12px; border: 2.5px dashed var(--raspberry); border-radius: 16px; background: color-mix(in srgb, var(--raspberry) 7%, var(--card)); }
+.lobby__etiqueta { font-family: var(--f-type); font-size: .86rem; color: var(--muted); }
+.lobby__letras { font-family: var(--f-label); font-size: clamp(2.1rem, 9vw, 2.8rem); letter-spacing: .22em; padding-left: .22em; line-height: 1.1; color: var(--ink); }
+.lobby__compartir { justify-content: center; }
+.lobby__codigo .share-ok { width: auto; margin: 0; }
+.lobby__jugadores { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; text-align: left; }
+.lobby__jugador { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 2px solid var(--edge); border-radius: 12px; background: var(--paper); }
+.lobby__jugador .me__avatar { width: 38px; height: 38px; font-size: 1.05rem; border-width: 2.5px; box-shadow: none; }
+.me__avatar--hueco { background: transparent; color: var(--muted); border-style: dashed; }
+.lobby__nombre { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lobby__estado { display: inline-flex; align-items: center; gap: 6px; font-size: .86rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.lobby__jugador.is-espera .lobby__nombre { color: var(--muted); font-style: italic; }
+.lobby__ayuda { margin: 0 0 10px; }
+.lobby__reglas { margin: 0 0 12px; font-size: .92rem; color: var(--ink-2); }
+.lobby .marcador { margin: 0 0 14px; }
+.lobby__mas { justify-content: center; margin-top: 12px; }
+
+/* Cuenta atrás */
+.cuenta { position: fixed; inset: 0; z-index: 85; display: grid; place-content: center; justify-items: center; gap: 10px; background: color-mix(in srgb, #120b1c 45%, transparent); pointer-events: all; }
+.cuenta__n { font-family: var(--f-display); font-size: clamp(6rem, 30vw, 11rem); line-height: 1; color: #fff; -webkit-text-stroke: 4px #251a37; text-shadow: 7px 7px 0 #251a37; animation: cuenta .9s cubic-bezier(.2, 1.4, .4, 1) both; }
+.cuenta__txt { font-family: var(--f-display); font-size: clamp(1.1rem, 4.5vw, 1.6rem); color: #fff; text-shadow: 3px 3px 0 #251a37; }
+@keyframes cuenta { 0% { opacity: 0; transform: scale(2.2) rotate(-8deg); } 35% { opacity: 1; transform: scale(.94) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+
+/* Final de la partida */
+.final { width: min(520px, 100%); text-align: center; }
+.final .modal__body { padding-top: 0; }
+.final__cabeza { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 0 0 8px; }
+.final__icono { font-size: 2.6rem; line-height: 1; }
+.final__cabeza .stamp { font-size: 1.25rem; animation: slam2 .55s cubic-bezier(.25, 1.6, .45, 1) both .1s; }
+.final__titulo { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.35rem, 4.5vw, 1.8rem); margin: 0 0 .3em; }
+.final__texto { font-size: 1.04rem; font-weight: 600; color: var(--ink-2); }
+.final .marcador { margin: 12px 0 4px; text-align: left; }
+.final__acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
+
+/* Marcador de la pareja */
+.marcador { border: 2.5px solid var(--edge); border-radius: 14px; background: var(--paper); padding: 10px 12px; }
+.marcador + .marcador { margin-top: 10px; }
+.marcador__duelo { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+.marcador__lado { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.marcador__lado strong { font-family: var(--f-display); font-weight: 400; font-size: 1.9rem; line-height: 1; }
+.marcador__lado span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: .92rem; }
+.marcador__lado.is-lider strong { color: var(--raspberry); }
+.marcador__vs { display: flex; flex-direction: column; align-items: center; font-family: var(--f-type); font-size: .8rem; color: var(--muted); white-space: nowrap; }
+.marcador__vs span { font-size: 1.2rem; }
+.marcador__coop { margin: 8px 0 0; text-align: center; font-weight: 700; font-size: .92rem; color: var(--ink-2); }
+.marcador__caso { margin: 6px 0 0; text-align: center; font-size: .86rem; color: var(--ink-2); }
+.marcador__tabla-wrap { margin-top: 10px; overflow-x: auto; }
+.marcador__tabla { width: 100%; border-collapse: collapse; font-size: .86rem; font-variant-numeric: tabular-nums; }
+.marcador__tabla th, .marcador__tabla td { padding: 5px 6px; border-top: 1.5px solid color-mix(in srgb, var(--ink) 15%, transparent); text-align: center; white-space: nowrap; }
+.marcador__tabla thead th { border-top: 0; font-size: .74rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.marcador__tabla tbody th { text-align: left; font-weight: 600; white-space: normal; }
+.marcador__tabla td.is-mejor { font-weight: 800; color: var(--raspberry); }
+.marcador__ultimas { margin-top: 8px; font-size: .88rem; }
+.marcador__ultimas summary { cursor: pointer; font-weight: 700; }
+.marcador__ultimas ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; }
+.marcador__ultimas li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; padding: 4px 0; border-top: 1.5px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+
+.couple__live { margin: 0 0 14px; }
+.couple__marcadores { margin-top: 18px; max-width: 560px; position: relative; z-index: 1; }
+.couple__subtitle { font-family: var(--f-display); font-weight: 400; font-size: 1.1rem; margin: 0 0 8px; }
+.pareja-nudge { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; margin: 14px 0 0; padding: 7px 14px; border: 2px dashed color-mix(in srgb, var(--raspberry) 60%, var(--edge)); border-radius: 999px; background: color-mix(in srgb, var(--raspberry) 7%, var(--card)); font-size: .95rem; }
+@media (max-width: 760px) { .pareja-nudge { border-radius: 14px; } }
+
+/* Avisos de la sala (arriba, para no tapar la barra de herramientas del móvil). */
+.sala-toast { top: 112px; bottom: auto; z-index: 125; }
+@keyframes toastarriba { from { opacity: 0; transform: translate(-50%, -10px); } }
+.sala-toast { animation-name: toastarriba; }
+
+@media (max-width: 760px) {
+  .sala-bar { margin: 4px -8px 0; }
+  .sala-bar__fila { padding: 3px 10px; gap: 6px 10px; font-size: .84rem; min-height: 38px; }
+  .sala-bar__nombre { max-width: 9ch; }
+  .sala-bar__barra { width: 46px; }
+  .modos { grid-template-columns: 1fr; }
+  .modo { flex-direction: row; align-items: center; gap: 12px; padding: 10px 40px 10px 12px; }
+  .lobby { padding: 16px 14px 14px; border-radius: 18px; box-shadow: 5px 5px 0 var(--edge); }
+  .sala-toast { top: 100px; }
+}
+@media (max-width: 380px) {
+  .sala-bar__estado { display: none; }
+}
+/* La cabecera de la sala tiene una fila más: el plano se encoge lo mismo para seguir cabiendo sin desplazarse. */
+.sala-juego .board-frame { width: min(100%, calc(100dvh - 162px)); }
+@media (max-width: 1180px) { .sala-juego .board-frame { width: min(100%, calc(100dvh - 252px)); } }
+@media (max-width: 760px) { .sala-juego .board-frame { width: 100%; } }
+@media (orientation: landscape) and (max-height: 520px) {
+  .sala-juego .board-frame { width: min(100%, calc(100dvh - 112px)); }
+  .sala-juego .game__suspects, .sala-juego .game__side { top: 92px; max-height: calc(100dvh - 100px); }
+}
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 760px) {
+  .sala-juego .board-frame { width: calc(100dvh - 112px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }

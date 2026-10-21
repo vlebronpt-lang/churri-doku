@@ -58,13 +58,15 @@ interface Props {
   zoneNotes?: Map<number, string[]>;
   /** Zona marcada del sospechoso elegido (se resalta). */
   zoneRoom?: number | null;
+  /** Casillas que acaba de tocar tu pareja (modo pareja en directo). */
+  pulse?: ReadonlySet<number>;
   /** Herramienta «Zona»: al pasar por el plano se resalta la habitación entera. */
   zoneMode?: boolean;
 }
 
 const LONG_MS = 430;
 
-function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp, onMove, dropCell = null, zoomed = false, zoneNotes, zoneRoom = null, zoneMode = false }: Props) {
+function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, shade, lineAction, selectedTag, onLine, paintMode, onTap, onPaintStart, onPaint, onPaintEnd, stamp, onMove, dropCell = null, zoomed = false, zoneNotes, zoneRoom = null, zoneMode = false, pulse }: Props) {
   const svg = useMemo(() => renderBoard(p, { shade, shadow: true, idp: `bd-${p.id}` }), [p, shade]);
   const { w: W, h: H, off } = boardSize(p, false);
   const s = p.size;
@@ -229,6 +231,7 @@ function BoardImpl({ p, board, autoX, selected, highlight, marks, tokenStyle, sh
     const label = `Fila ${cell.r + 1}, columna ${cell.c + 1}, ${p.rooms[cell.room].name}${cell.obj ? `, ${p.objects[cell.obj].name}` : ''}${cell.floor ? `, ${p.objects[cell.floor].name}` : ''}${ch ? `: ${displayName(ch)}` : ''}${!ch && occ ? ', ocupada por alguien' : ''}${!ch && lineOcc.has(i) ? ', aquí puede estar la persona de su fila o columna' : ''}${x ? ', descartada' : ''}`;
     cells.push(
       <div key={i} className={cls.join(' ')} role="gridcell" aria-label={label}>
+        {pulse?.has(i) && <span className="cell__pareja" aria-hidden="true" />}
         {!ch && occ && <span className={`cell__occ${marks.wrongOcc.has(i) ? ' is-wrong' : ''}${marks.conflicts.has(i) ? ' is-conflict' : ''}`} aria-hidden="true" />}
         {!ch && !occ && x && <span className={`cell__x${x === 'a' ? ' cell__x--auto' : ''}${marks.wrongX.has(i) ? ' is-wrong' : ''}`} aria-hidden="true" />}
         {!ch && notes.length > 0 && (

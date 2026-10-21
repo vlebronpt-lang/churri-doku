@@ -1,0 +1,74 @@
+// Marcador de cada pareja del modo en directo: victorias en duelo, casos resueltos juntos y mejores tiempos.
+// Solo lo escribe la sala (el actor SalaPareja, con permisos de servidor) y solo lo pueden leer los dos jugadores
+// de la pareja: nadie puede apuntarse victorias a mano ni ver el marcador de otros.
+{
+  "name": "MarcadorPareja",
+  "type": "object",
+  "properties": {
+    "clave": {
+      "type": "string",
+      "description": "Ids de los dos jugadores, ordenados y unidos con «|»"
+    },
+    "jugador_a": {
+      "type": "string",
+      "description": "Id del primer jugador (el de id menor)"
+    },
+    "jugador_b": {
+      "type": "string",
+      "description": "Id del segundo jugador"
+    },
+    "nombre_a": {
+      "type": "string",
+      "description": "Nombre con el que juega el primer jugador"
+    },
+    "nombre_b": {
+      "type": "string",
+      "description": "Nombre con el que juega el segundo jugador"
+    },
+    "victorias_a": {
+      "type": "integer",
+      "description": "Duelos ganados por el primer jugador"
+    },
+    "victorias_b": {
+      "type": "integer",
+      "description": "Duelos ganados por el segundo jugador"
+    },
+    "duelos": {
+      "type": "integer",
+      "description": "Duelos terminados"
+    },
+    "coop": {
+      "type": "integer",
+      "description": "Casos resueltos juntos en cooperativo"
+    },
+    "tiempos": {
+      "type": "string",
+      "description": "JSON: caso → mejores tiempos en segundos [primero en duelo, segundo en duelo, juntos]"
+    },
+    "ultimas": {
+      "type": "string",
+      "description": "JSON: últimas partidas de la pareja"
+    },
+    "aplicados": {
+      "type": "string",
+      "description": "JSON: resultados ya apuntados (para no contar nada dos veces)"
+    },
+    "ultima": {
+      "type": "number",
+      "description": "Última partida, en milisegundos desde 1970"
+    }
+  },
+  "required": ["clave", "jugador_a", "jugador_b"],
+  "rls": {
+    "create": { "user_condition": { "role": "admin" } },
+    "read": {
+      "$or": [
+        { "data.jugador_a": "{{user.id}}" },
+        { "data.jugador_b": "{{user.id}}" },
+        { "user_condition": { "role": "admin" } }
+      ]
+    },
+    "update": { "user_condition": { "role": "admin" } },
+    "delete": { "user_condition": { "role": "admin" } }
+  }
+}
