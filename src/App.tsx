@@ -17,6 +17,8 @@ import { Tutorial } from './ui/tutorial/Tutorial';
 import { Panel, ImportReportModal } from './ui/panel/Panel';
 import { AchievementToasts } from './ui/AchievementToasts';
 import { AccountCenter, maybeWelcome, openAccount } from './ui/account/Account';
+import { SalaScreen } from './ui/live/SalaScreen';
+import { abrirPareja, ParejaCenter } from './ui/live/ParejaDialog';
 
 const PrintPage = lazy(() => import('./ui/print/PrintPage'));
 
@@ -38,11 +40,16 @@ export default function App() {
       history.replaceState(history.state, '', `${location.pathname}${location.search}#/`);
       window.dispatchEvent(new HashChangeEvent('hashchange'));
     }
+    // #/sala sin código: «Tengo un código».
+    if (page === 'sala' && !parts[1]) {
+      abrirPareja({ unirme: true });
+      navigate('/');
+    }
   }, [page, parts, query]);
 
   // Bienvenida al entrar sin cuenta (no en las páginas que se abren para imprimir o importar algo).
   useEffect(() => {
-    if (['imprimir', 'progreso', 'informe', 'panel', 'cuenta', 'tutorial'].includes(page)) return;
+    if (['imprimir', 'progreso', 'informe', 'panel', 'cuenta', 'tutorial', 'sala'].includes(page)) return;
     const t = window.setTimeout(maybeWelcome, 900);
     return () => window.clearTimeout(t);
     // Solo al cargar la página.
@@ -69,6 +76,7 @@ export default function App() {
       {settingsOpen && <SettingsPanel onClose={() => setSettingsOpen(false)} />}
       <AchievementToasts />
       <AccountCenter />
+      <ParejaCenter />
     </>
   );
 
@@ -87,6 +95,8 @@ export default function App() {
     }
   } else if (page === 'tutorial') {
     game = <Tutorial onHelp={openHelp} onSettings={openSettings} />;
+  } else if (page === 'sala' && parts[1]) {
+    game = <SalaScreen key={parts[1]} codigo={parts[1].toUpperCase()} onHelp={openHelp} onSettings={openSettings} />;
   }
   if (game) {
     return (

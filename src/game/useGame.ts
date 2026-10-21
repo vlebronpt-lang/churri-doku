@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import type { Puzzle } from '../engine/types';
 import { getProgress, onExternalChange, updateProgress, type BoardState } from '../state/progress';
 
@@ -25,6 +25,22 @@ export interface EraseSel {
   /** Marca de fila/columna «ocupada» que también se quita ('r3', 'c0'…). */
   line?: string;
 }
+
+/**
+ * Tablero que vive fuera de la partida (modo pareja en directo): el de la sala en el cooperativo
+ * o el tuyo en el duelo. La partida lo lee, le manda sus cambios y no toca el progreso guardado.
+ */
+export interface BoardSync {
+  get(): BoardState;
+  /** Cambio hecho en este dispositivo (una jugada, deshacer, rehacer…). */
+  set(next: BoardState): void;
+  /** Avisa de cada cambio; si viene de fuera, trae cómo aplicarlo también al historial de deshacer. */
+  subscribe(l: (remoto?: (b: BoardState) => BoardState) => void): () => void;
+  /** Casillas que acaba de tocar tu pareja (se iluminan un momento). */
+  readonly destacadas?: ReadonlySet<number>;
+}
+
+const noSync = () => () => {};
 
 export interface GameApi {
   board: BoardState;
@@ -56,17 +72,33 @@ export interface GameApi {
   setRunning: (run: boolean) => void;
 }
 
-export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean }): GameApi {
-  const [board, setBoard] = useState<BoardState>(() => loadBoard(getProgress(p.id).board));
+export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean; sync?: BoardSync | null }): GameApi {
+  const sync = opts.sync ?? null;
+  const [own, setBoard] = useState<BoardState>(() => (sync ? emptyBoard() : loadBoard(getProgress(p.id).board)));
   const past = useRef<BoardState[]>([]);
   const future = useRef<BoardState[]>([]);
   const batching = useRef(false);
   const [, force] = useState(0);
-  const [seconds, setSeconds] = useState(() => getProgress(p.id).time);
+  const [seconds, setSeconds] = useState(() => (sync ? 0 : getProgress(p.id).time));
   const running = useRef(true);
+
+  // Tablero de fuera: lo que cambia allí (tu pareja) se aplica también al historial, así «Deshacer» solo deshace lo tuyo.
+  const subscribe = useCallback((l: () => void) => {
+    if (!sync) return noSync();
+    return sync.subscribe((remoto) => {
+      if (remoto) {
+        past.current = past.current.map(remoto);
+        future.current = future.current.map(remoto);
+      }
+      l();
+    });
+  }, [sync]);
+  const outside = useSyncExternalStore(subscribe, () => sync?.get() ?? null, () => sync?.get() ?? null);
+  const board = sync && outside ? outside : own;
 
   // Reiniciar al cambiar de caso y cuando llega una partida más reciente de otro dispositivo.
   useEffect(() => {
+    if (sync) return;
     const reload = () => {
       setBoard(loadBoard(getProgress(p.id).board));
       setSeconds(getProgress(p.id).time);
@@ -75,12 +107,12 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     };
     reload();
     return onExternalChange((ids) => { if (ids.includes(p.id)) reload(); });
-  }, [p.id]);
+  }, [p.id, sync]);
 
   // Guardado
   useEffect(() => {
-    updateProgress(p.id, { board, opened: true });
-  }, [board, p.id]);
+    if (!sync) updateProgress(p.id, { board, opened: true });
+  }, [board, p.id, sync]);
 
   // Temporizador (se pausa con la pestaña oculta).
   useEffect(() => {
@@ -91,11 +123,25 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     return () => window.clearInterval(t);
   }, []);
   useEffect(() => {
-    if (seconds % 5 === 0) updateProgress(p.id, { time: seconds });
-  }, [seconds, p.id]);
-  useEffect(() => () => updateProgress(p.id, (c) => ({ time: Math.max(c.time, 0) })), [p.id]);
+    if (!sync && seconds % 5 === 0) updateProgress(p.id, { time: seconds });
+  }, [seconds, p.id, sync]);
+  useEffect(() => () => { if (!sync) updateProgress(p.id, (c) => ({ time: Math.max(c.time, 0) })); }, [p.id, sync]);
 
   const commit = useCallback((fn: (b: BoardState) => void) => {
+    if (sync) {
+      const prev = sync.get();
+      const next = clone(prev);
+      fn(next);
+      if (JSON.stringify(next) === JSON.stringify(prev)) return;
+      if (!batching.current) {
+        past.current.push(prev);
+        if (past.current.length > 300) past.current.shift();
+        future.current = [];
+      }
+      sync.set(next);
+      force((x) => x + 1);
+      return;
+    }
     setBoard((prev) => {
       const next = clone(prev);
       fn(next);
@@ -108,7 +154,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
       return next;
     });
     force((x) => x + 1);
-  }, []);
+  }, [sync]);
 
   const posOf = useMemo(() => {
     const out: Record<string, number> = {};
@@ -242,41 +288,65 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
   const undo = useCallback(() => {
     const prev = past.current.pop();
     if (!prev) return;
+    if (sync) {
+      future.current.push(sync.get());
+      sync.set(prev);
+      force((x) => x + 1);
+      return;
+    }
     setBoard((cur) => {
       future.current.push(cur);
       return prev;
     });
     force((x) => x + 1);
-  }, []);
+  }, [sync]);
 
   const redo = useCallback(() => {
     const next = future.current.pop();
     if (!next) return;
+    if (sync) {
+      past.current.push(sync.get());
+      sync.set(next);
+      force((x) => x + 1);
+      return;
+    }
     setBoard((cur) => {
       past.current.push(cur);
       return next;
     });
     force((x) => x + 1);
-  }, []);
+  }, [sync]);
 
   const beginBatch = useCallback(() => {
+    if (sync) {
+      past.current.push(sync.get());
+      future.current = [];
+      batching.current = true;
+      return;
+    }
     setBoard((cur) => {
       past.current.push(cur);
       future.current = [];
       return cur;
     });
     batching.current = true;
-  }, []);
+  }, [sync]);
   const endBatch = useCallback(() => {
     batching.current = false;
     // Si el gesto no cambió nada, quitamos la instantánea vacía.
+    if (sync) {
+      const last = past.current[past.current.length - 1];
+      if (last && JSON.stringify(last) === JSON.stringify(sync.get())) past.current.pop();
+      force((x) => x + 1);
+      return;
+    }
     setBoard((cur) => {
       const last = past.current[past.current.length - 1];
       if (last && JSON.stringify(last) === JSON.stringify(cur)) past.current.pop();
       return cur;
     });
     force((x) => x + 1);
-  }, []);
+  }, [sync]);
 
   const setRunning = useCallback((run: boolean) => {
     running.current = run;

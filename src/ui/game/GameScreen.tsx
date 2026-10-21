@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Puzzle } from '../../engine/types';
 import { displayName, roomPhrase, withPrep } from '../../engine/text';
 import { useSettings } from '../../state/settings';
 import { getProgress, getStore, resetCase, updateProgress, useCaseProgress } from '../../state/progress';
 import { streakInfo } from '../../state/streak';
 import { LessonDone } from '../academy/LessonDone';
-import { formatTime, useGame } from '../../game/useGame';
+import { formatTime, useGame, type BoardSync } from '../../game/useGame';
 import { computeHint, findErrors, type HintResult } from '../../game/hints';
 import { configureFx, sfx } from '../../game/sfx';
 import { levelInfo, nextPuzzle } from '../../data/puzzles';
@@ -25,6 +25,7 @@ import { decodeChallenge } from '../../share';
 import { caseRoute, caseTag } from '../../data/labels';
 import { ChallengeDialog } from '../ShareDialogs';
 import { DragGhost, useSuspectDrag } from './drag';
+import { abrirPareja, puedeJugarseEnPareja } from '../live/ParejaDialog';
 
 type Tool = 'place' | 'note' | 'x' | 'occ' | 'zone' | 'erase';
 /** Tamaños del panel de sospechosos, de más grande a más compacto: se usa el mayor que quepa sin desplazarse. */
@@ -32,6 +33,7 @@ type Density = 'lg' | 'c2' | 'c1' | 'c2xs' | 'c1xs' | 'c2xxs';
 const DENSITIES: Density[] = ['lg', 'c2', 'c1', 'c2xs', 'c1xs', 'c2xxs'];
 const suspectsClass = (d: Density) => `suspects d-${d}${d === 'lg' ? '' : ' is-compact'}`;
 type Outcome = { kind: 'wrong'; count: number } | { kind: 'wrongAccuse'; name: string } | null;
+const NO_HELP = 'En el duelo no hay pistas ni revisión: gana quien lo resuelva antes.';
 
 /** Acciones del jugador que el tutorial guiado puede permitir, bloquear y seguir. */
 export type CoachEvent =
@@ -53,7 +55,29 @@ export interface Coach {
 }
 export type { Tool };
 
-export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
+/** Partida del modo pareja en directo: la sala manda el tablero, el reloj y cuándo se puede jugar. */
+export interface LiveGame {
+  modo: 'coop' | 'duelo';
+  /** Tablero de la sala (cooperativo) o el tuyo del duelo. */
+  tablero: BoardSync;
+  /** Ya se puede jugar: empezó la partida y aún no ha terminado para ti. */
+  activo: boolean;
+  /** Resuelto para ti (cooperativo: por cualquiera de los dos; duelo: por ti). */
+  resuelto: boolean;
+  /** Segundos del reloj de la partida. */
+  segundos: number;
+  /** Tu acusación ha sido la buena. */
+  alResolver: () => void;
+  /** Ha terminado la animación de «Caso cerrado». */
+  alRevelar?: () => void;
+  /** Cambia cuando tu pareja resuelve el cooperativo: la animación se ve también aquí. */
+  revelarPareja?: number;
+  /** Barra de la sala (código, pareja, conexión y «Salir») y lo que va encima del juego. */
+  barra: ReactNode;
+  capa?: ReactNode;
+}
+
+export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, live }: {
   p: Puzzle;
   reto?: string | null;
   onHelp: () => void;
@@ -62,11 +86,13 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   coach?: Coach;
   /** Si se indica, sustituye a la pantalla final (lo usa el tutorial). */
   onFinished?: () => void;
+  /** Modo pareja en directo. */
+  live?: LiveGame;
 }) {
   const { settings } = useSettings();
   const progress = useCaseProgress(p.id);
   // En el tutorial, las X automáticas y «tocar = colocar» siempre activos, para que lo que se explica sea lo que se ve.
-  const game = useGame(p, { autoX: coach ? true : settings.autoX, noXOnBlocked: settings.noXOnBlocked });
+  const game = useGame(p, { autoX: coach ? true : settings.autoX, noXOnBlocked: settings.noXOnBlocked, sync: live?.tablero ?? null });
   const tapAction = coach ? 'place' : settings.tapAction;
   const { board, posOf } = game;
   const [selected, setSelected] = useState<string | null>(null);
@@ -76,8 +102,9 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   /** Sospechosos con la zona mal marcada (tras «Revisar»). */
   const [wrongZones, setWrongZones] = useState<Set<string>>(() => new Set());
   const [hint, setHint] = useState<{ res: HintResult; level: number } | null>(null);
-  const incoming = useMemo(() => (reto ? decodeChallenge(reto) : null), [reto]);
-  const [showIntro, setShowIntro] = useState(() => !getProgress(p.id).board || !!incoming);
+  const incoming = useMemo(() => (reto && !live ? decodeChallenge(reto) : null), [reto, live]);
+  // En la sala no sale el expediente al entrar: ya está la sala de espera (el expediente se abre con su botón).
+  const [showIntro, setShowIntro] = useState(() => !live && (!getProgress(p.id).board || !!incoming));
   const [accusing, setAccusing] = useState(false);
   const [outcome, setOutcome] = useState<Outcome>(null);
   const [stamp, setStamp] = useState<string | null>(null);
@@ -95,8 +122,12 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   const suspectsList = useRef<HTMLDivElement>(null);
   const [density, setDensity] = useState<Density>('lg');
   const toastTimer = useRef<number>(0);
-  const solved = progress.solved;
-  const challenge = incoming ?? progress.challenge;
+  const solved = live ? live.resuelto : progress.solved;
+  const challenge = live ? undefined : incoming ?? progress.challenge;
+  /** En la sala, lo que pasa en la partida no toca tu progreso de siempre. */
+  const track: typeof updateProgress = live ? () => {} : updateProgress;
+  /** En el duelo no hay pistas ni revisión: gana quien lo resuelva antes. */
+  const noHelp = live?.modo === 'duelo';
   const guard = (e: CoachEvent) => {
     if (!coach) return true;
     const r = coach.allow(e);
@@ -108,7 +139,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   const tell = (e: CoachEvent) => coach?.notify(e);
 
   // Registro de visitas (para el informe de juego).
-  useEffect(() => { updateProgress(p.id, (c) => ({ visits: (c.visits ?? 0) + 1 })); }, [p.id]);
+  useEffect(() => { track(p.id, (c) => ({ visits: (c.visits ?? 0) + 1 })); }, [p.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Reto recibido por enlace: se guarda y se limpia la dirección.
   useEffect(() => {
@@ -143,7 +174,10 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     document.fonts?.ready.then(later).catch(() => {});
     return () => { window.removeEventListener('resize', later); window.clearTimeout(t); };
   }, [fitSuspects]);
-  useEffect(() => game.setRunning(!solved && !showIntro && !revealing), [solved, showIntro, revealing, game]);
+  // En la sala el reloj es el de la partida (lo lleva la sala).
+  useEffect(() => game.setRunning(!live && !solved && !showIntro && !revealing), [live, solved, showIntro, revealing, game]);
+  /** Ahora no se puede tocar el tablero (resuelto, animación final o la sala aún no ha empezado). */
+  const frozen = solved || revealing || (!!live && !live.activo);
 
   const say = useCallback((msg: string) => {
     setToast(msg);
@@ -208,7 +242,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   };
 
   const onTap = useCallback((cell: number, long: boolean) => {
-    if (solved || revealing) return;
+    if (frozen) return;
     clearTransient();
     const occupant = board.placed[cell];
     if (tool === 'x') {
@@ -281,19 +315,19 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     if (!guard({ t: 'place', id: selected, cell })) return;
     placeAt(selected, cell);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, game, p, say, selected, settings.noXOnBlocked, tapAction, solved, revealing, tool, coach]);
+  }, [board, game, p, say, selected, settings.noXOnBlocked, tapAction, frozen, tool, coach]);
 
   /** Coloca a alguien (también al arrastrarlo) y apunta el primer movimiento para el informe. */
   const placeAt = (id: string, cell: number) => {
     game.place(id, cell);
     sfx.place();
-    if (getProgress(p.id).firstMoveAt === undefined) updateProgress(p.id, { firstMoveAt: game.seconds });
+    if (getProgress(p.id).firstMoveAt === undefined) track(p.id, { firstMoveAt: game.seconds });
     tell({ t: 'place', id, cell });
   };
 
   // Arrastrar a alguien desde su foto hasta una casilla.
   const dropOn = (id: string, cell: number) => {
-    if (solved || revealing) return;
+    if (frozen) return;
     clearTransient();
     if (!p.cells[cell].occupiable) { sfx.error(); return say(`Ahí hay ${p.cells[cell].obj ? `un objeto (${p.objects[p.cells[cell].obj!].name})` : 'un obstáculo'}: no se puede ocupar.`); }
     if (board.placed[cell] === id) return;
@@ -302,7 +336,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     if (tool !== 'place' && tool !== 'note') setTool('place');
     placeAt(id, cell);
   };
-  const { drag, start: startDrag, justDropped } = useSuspectDrag(dropOn, !solved && !revealing);
+  const { drag, start: startDrag, justDropped } = useSuspectDrag(dropOn, !frozen);
   useEffect(() => {
     document.body.classList.toggle('is-dragging', !!drag);
     return () => document.body.classList.remove('is-dragging');
@@ -312,7 +346,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   // Mover una ficha arrastrándola por el plano (si cae sobre otra, se intercambian).
   const moveToken = (from: number, to: number) => {
     const id = board.placed[from];
-    if (!id || solved || revealing) return;
+    if (!id || frozen) return;
     clearTransient();
     if (!p.cells[to].occupiable) { sfx.error(); return say('Ahí hay un objeto: no se puede ocupar.'); }
     const other = board.placed[to];
@@ -344,7 +378,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   // Toque en la cabecera de una fila o columna: la herramienta se aplica a toda la línea.
   const lineCells = (axis: 'r' | 'c', i: number) => Array.from({ length: p.size }, (_, k) => (axis === 'r' ? i * p.size + k : k * p.size + i));
   const onLine = (axis: 'r' | 'c', i: number) => {
-    if (solved || revealing) return;
+    if (frozen) return;
     clearTransient();
     const cells = lineCells(axis, i);
     const key = `${axis}${i}`;
@@ -401,10 +435,10 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     });
     sfx.note();
   };
-  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = solved || revealing || coach || tool === 'zone' ? null
+  const lineAction: 'note' | 'x' | 'occ' | 'erase' | null = frozen || coach || tool === 'zone' ? null
     : tool === 'x' ? 'x' : tool === 'occ' ? 'occ' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
-  const paintMode: 'x' | 'note' | 'erase' | null = solved || tool === 'occ' || tool === 'zone' || coach ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
+  const paintMode: 'x' | 'note' | 'erase' | null = frozen || tool === 'occ' || tool === 'zone' || coach ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
   const onPaintStart = (cell: number) => {
     game.beginBatch();
@@ -455,6 +489,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
   // ------------------------------------------------------------- pistas
   const askHint = () => {
     if (solved) return;
+    if (noHelp) { say(NO_HELP); return; }
     if (!guard({ t: 'hint' })) return;
     const res = computeHint(p, board);
     sfx.hint();
@@ -462,7 +497,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     applyHintMarks(res, 1);
     if (res.kind === 'step' || res.kind === 'errors' || res.kind === 'reveal') {
       const entry = { t: game.seconds, tech: res.kind === 'step' ? res.d.tech : res.kind === 'reveal' ? 'revelar' : 'errores', placed: Object.keys(board.placed).length };
-      updateProgress(p.id, (c) => ({ hints: c.hints + 1, hintLog: [...(c.hintLog ?? []), entry].slice(-60) }));
+      track(p.id, (c) => ({ hints: c.hints + 1, hintLog: [...(c.hintLog ?? []), entry].slice(-60) }));
     }
     tell({ t: 'hint' });
   };
@@ -498,7 +533,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     const level = hint.level + 1;
     setHint({ ...hint, level });
     applyHintMarks(hint.res, level);
-    updateProgress(p.id, (c) => ({ hints: c.hints + 1 }));
+    track(p.id, (c) => ({ hints: c.hints + 1 }));
   };
 
   const hintApply = () => {
@@ -522,7 +557,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
         }
       });
       sfx.place();
-      updateProgress(p.id, (c) => ({ hints: c.hints + 1 }));
+      track(p.id, (c) => ({ hints: c.hints + 1 }));
     } else if (res.kind === 'reveal') {
       game.apply((b) => {
         for (const [k, v] of Object.entries(b.placed)) if (v === res.id) delete b.placed[Number(k)];
@@ -544,8 +579,9 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
 
   // ------------------------------------------------------------- revisar
   const check = () => {
+    if (noHelp) { say(NO_HELP); return; }
     const { wrongPlaced, wrongX, wrongOcc, wrongZones: badZones } = findErrors(p, board);
-    updateProgress(p.id, (c) => ({ checks: c.checks + 1 }));
+    track(p.id, (c) => ({ checks: c.checks + 1 }));
     const m = noMarks();
     wrongPlaced.forEach((c) => m.wrong.add(c));
     wrongX.forEach((c) => m.wrongX.add(c));
@@ -570,17 +606,38 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     const { wrongPlaced } = findErrors(p, board);
     if (wrongPlaced.length) {
       sfx.error();
-      updateProgress(p.id, (c) => ({ mistakes: c.mistakes + 1 }));
+      track(p.id, (c) => ({ mistakes: c.mistakes + 1 }));
       setOutcome({ kind: 'wrong', count: wrongPlaced.length });
       return;
     }
     if (id !== p.murderer) {
       sfx.error();
-      updateProgress(p.id, (c) => ({ mistakes: c.mistakes + 1 }));
+      track(p.id, (c) => ({ mistakes: c.mistakes + 1 }));
       setOutcome({ kind: 'wrongAccuse', name: withPrep('', p.cast.find((c) => c.id === id)!) });
       return;
     }
-    // ¡Resuelto!
+    // ¡Resuelto! En la sala se avisa ya (el tiempo que cuenta es el de este momento).
+    if (live) {
+      live.alResolver();
+      reveal(() => live.alRevelar?.());
+      return;
+    }
+    reveal(() => {
+      const cur = getProgress(p.id);
+      const stars = cur.hints === 0 && cur.mistakes === 0 && cur.checks === 0 ? 3 : cur.hints <= 2 && cur.mistakes <= 1 ? 2 : 1;
+      updateProgress(p.id, {
+        solved: true, solvedAt: Date.now(), firstSolvedAt: cur.firstSolvedAt ?? Date.now(), time: game.seconds,
+        bestTime: cur.bestTime ? Math.min(cur.bestTime, game.seconds) : game.seconds,
+        stars: Math.max(stars, cur.stars ?? 0),
+      });
+      tell({ t: 'solved' });
+      if (onFinished) onFinished();
+      else setShowResult(true);
+    });
+  };
+
+  /** «Caso cerrado»: cada sospechoso se ilumina en su casilla y cae el sello. */
+  const reveal = (after: () => void) => {
     setRevealing(true);
     setSelected(null);
     const order = p.cast.map((c) => p.solution[c.id]);
@@ -593,20 +650,25 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
     const t = 180 * order.length + 350;
     window.setTimeout(() => { setStamp('Caso cerrado'); sfx.stamp(); }, t);
     window.setTimeout(() => {
-      const cur = getProgress(p.id);
-      const stars = cur.hints === 0 && cur.mistakes === 0 && cur.checks === 0 ? 3 : cur.hints <= 2 && cur.mistakes <= 1 ? 2 : 1;
-      updateProgress(p.id, {
-        solved: true, solvedAt: Date.now(), firstSolvedAt: cur.firstSolvedAt ?? Date.now(), time: game.seconds,
-        bestTime: cur.bestTime ? Math.min(cur.bestTime, game.seconds) : game.seconds,
-        stars: Math.max(stars, cur.stars ?? 0),
-      });
       sfx.win();
       setRevealing(false);
-      tell({ t: 'solved' });
-      if (onFinished) onFinished();
-      else setShowResult(true);
+      after();
     }, t + 1100);
   };
+
+  // En el cooperativo, si lo resuelve tu pareja, aquí también se ve el final.
+  const partnerReveal = useRef(live?.revelarPareja ?? 0);
+  useEffect(() => {
+    const n = live?.revelarPareja ?? 0;
+    if (!n || n === partnerReveal.current) return;
+    partnerReveal.current = n;
+    // Si los dos acusan a la vez, aquí ya se está viendo el final.
+    if (revealing || stamp) return;
+    setAccusing(false);
+    setHint(null);
+    reveal(() => live?.alRevelar?.());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [live?.revelarPareja]);
 
   const replay = () => {
     resetCase(p.id);
@@ -639,19 +701,19 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
       <button className={`tool tool--erase${tool === 'erase' ? ' is-on' : ''}`} onClick={() => pickTool('erase')} aria-pressed={tool === 'erase'} title="Borrar casilla (B)">
         <Icon name="eraser" /><span>Borrar</span>
       </button>
-      <button className="tool tool--undo" onClick={() => { game.undo(); sfx.undo(); }} disabled={!game.canUndo || solved || !!coach} title="Deshacer (Ctrl+Z)" aria-label="Deshacer">
+      <button className="tool tool--undo" onClick={() => { game.undo(); sfx.undo(); }} disabled={!game.canUndo || frozen || !!coach} title="Deshacer (Ctrl+Z)" aria-label="Deshacer">
         <Icon name="undo" /><span>Deshacer</span>
       </button>
-      <button className="tool tool--redo" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || solved || !!coach} title="Rehacer (Ctrl+Shift+Z)">
+      <button className="tool tool--redo" onClick={() => { game.redo(); sfx.undo(); }} disabled={!game.canRedo || frozen || !!coach} title="Rehacer (Ctrl+Shift+Z)">
         <Icon name="redo" /><span>Rehacer</span>
       </button>
-      <button className="tool tool--check" onClick={check} disabled={solved || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length && !Object.keys(board.zones ?? {}).length} title="Revisar si hay errores">
+      <button className="tool tool--check" onClick={check} disabled={solved || noHelp || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length && !Object.keys(board.zones ?? {}).length} title={noHelp ? NO_HELP : 'Revisar si hay errores'}>
         <Icon name="check" /><span>Revisar</span>
       </button>
-      <button className="tool tool--hint" onClick={askHint} disabled={solved} title="Pista (H)">
+      <button className="tool tool--hint" onClick={askHint} disabled={solved || noHelp} title={noHelp ? NO_HELP : 'Pista (H)'}>
         <Icon name="bulb" /><span>Pista</span>
       </button>
-      <button className="tool tool--accuse" onClick={() => setAccusing(true)} disabled={!game.allPlaced || solved || revealing} title={game.allPlaced ? 'Acusar al culpable' : 'Coloca a todos para acusar'}>
+      <button className="tool tool--accuse" onClick={() => setAccusing(true)} disabled={!game.allPlaced || frozen} title={game.allPlaced ? 'Acusar al culpable' : 'Coloca a todos para acusar'}>
         <Icon name="gavel" /><span>{game.allPlaced ? 'Acusar' : `${placedCount}/${p.cast.length}`}</span>
       </button>
     </div>
@@ -670,14 +732,18 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
         <div className="game__actions">
           {settings.timer && (
             <span className={`timer${challenge && !solved && game.seconds > challenge.t ? ' timer--over' : ''}`} aria-label="Tiempo">
-              <Icon name="timer" size={18} />{formatTime(game.seconds)}
+              <Icon name="timer" size={18} />{formatTime(live ? live.segundos : game.seconds)}
               {challenge && !solved && <span className="timer__duel" title={`Tiempo de ${challenge.n}`}><span aria-hidden="true">💘</span>{formatTime(challenge.t)}</span>}
             </span>
+          )}
+          {!live && !coach && puedeJugarseEnPareja(p) && (
+            <button className="icon-btn hide-sm" onClick={() => abrirPareja({ caso: p.id })} aria-label="Jugar este caso en pareja, en directo" title="Jugar en pareja en directo"><Icon name="heart" /></button>
           )}
           <button className="icon-btn" onClick={() => setShowIntro(true)} aria-label="Ver el expediente: historia, sospechosos y objetos del plano" title="Expediente (historia y objetos del plano)"><Icon name="folder" /></button>
           <button className="icon-btn" onClick={onHelp} aria-label="Cómo jugar" title="Cómo jugar"><Icon name="help" /></button>
           <button className="icon-btn" onClick={onSettings} aria-label="Ajustes" title="Ajustes"><Icon name="settings" /></button>
         </div>
+        {live?.barra}
       </header>
 
       <div className="game__body">
@@ -735,6 +801,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
               zoneNotes={zoneInfo.notes}
               zoneRoom={selected ? zoneOf(selected)?.room ?? null : null}
               zoneMode={tool === 'zone' && !solved}
+              pulse={live?.tablero.destacadas}
             />
           </div>
           </div>
@@ -780,7 +847,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
           )}
           <div className="tools-bar">{tools}</div>
 
-          {solved && !showResult && (
+          {solved && !showResult && !live && (
             <div className="solved-banner">
               <span className="stamp stamp--sm">Resuelto</span>
               <span>en {formatTime(progress.bestTime ?? progress.time)} · {'★'.repeat(progress.stars ?? 1)}</span>
@@ -809,7 +876,16 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
       {toast && <div className="toast" role="status">{toast}</div>}
       {drag && dragChar && <DragGhost p={p} ch={dragChar} x={drag.x} y={drag.y} touch={drag.touch} ok={drag.cell !== null && p.cells[drag.cell].occupiable} />}
 
-      {showIntro && <IntroModal p={p} challenge={challenge} onStart={() => { setShowIntro(false); tell({ t: 'intro' }); }} onHelp={onHelp} />}
+      {showIntro && (
+        <IntroModal
+          p={p}
+          challenge={challenge}
+          onStart={() => { setShowIntro(false); tell({ t: 'intro' }); }}
+          onHelp={onHelp}
+          inRoom={!!live}
+          onPair={!live && !coach && puedeJugarseEnPareja(p) ? () => { setShowIntro(false); abrirPareja({ caso: p.id }); } : undefined}
+        />
+      )}
       {accusing && <AccuseModal p={p} onAccuse={accuse} onClose={() => setAccusing(false)} />}
       {outcome && (
         <div className="outcome" role="alert">
@@ -827,10 +903,10 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
           </div>
         </div>
       )}
-      {showResult && p.meta?.kind === 'lesson' && (
+      {showResult && !live && p.meta?.kind === 'lesson' && (
         <LessonDone p={p} progress={getProgress(p.id)} onClose={() => setShowResult(false)} onReplay={replay} />
       )}
-      {showResult && p.meta?.kind !== 'lesson' && (
+      {showResult && !live && p.meta?.kind !== 'lesson' && (
         <ResultModal
           p={p}
           progress={getProgress(p.id)}
@@ -860,6 +936,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished }: {
           onClose={() => { if (challengeFrom === 'result') setShowResult(true); setChallengeFrom(null); }}
         />
       )}
+      {live?.capa}
     </div>
   );
 }
