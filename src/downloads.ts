@@ -5,7 +5,7 @@ export type PdfKind = 'color' | 'bn' | 'solucion';
 export const PDF_KINDS: { kind: PdfKind; label: string; hint: string }[] = [
   { kind: 'color', label: 'Color', hint: 'Para imprimir a color' },
   { kind: 'bn', label: 'B/N', hint: 'Ahorra tinta' },
-  { kind: 'solucion', label: 'Solución', hint: 'Hoja aparte con la solución' },
+  { kind: 'solucion', label: 'Solución', hint: 'Página aparte con la solución' },
 ];
 
 export const caseSlug = (p: Pick<Puzzle, 'num' | 'id'>) => `${String(p.num).padStart(2, '0')}-${p.id}`;

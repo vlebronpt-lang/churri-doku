@@ -2,8 +2,10 @@
  * Genera los PDF descargables a partir de la web compilada (dist/):
  *   npm run build && npx tsx scripts/pdf.ts
  * Crea en dist/downloads/:
- *   - churri-doku-NN-<id>-color.pdf / -bn.pdf / -solucion.pdf (cada caso)
- *   - churri-doku-libro-completo.pdf (portada, reglas, 25 casos y soluciones al final)
+ *   - churri-doku-NN-<id>-color.pdf / -bn.pdf (cada caso en formato libro: portada, doble página
+ *     con los personajes y objetos a la izquierda y el plano a la derecha, y contraportada) y -solucion.pdf
+ *   - churri-doku-libro-completo.pdf (portada, reglas, índice, 25 casos en doble página, soluciones,
+ *     notas y contraportada)
  *   - churri-doku-todos-los-casos.zip (todos los PDF sueltos por nivel)
  */
 import { createServer } from 'node:http';
@@ -54,7 +56,7 @@ async function render(page: Page, base: string, route: string): Promise<Uint8Arr
   await page.goto(`${base}#${route}`, { waitUntil: 'networkidle' });
   await page.waitForSelector('body[data-print-ready="1"]', { timeout: 30000 });
   await page.waitForTimeout(150);
-  return page.pdf({ format: 'A4', landscape: true, printBackground: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
+  return page.pdf({ format: 'A4', landscape: false, printBackground: true, preferCSSPageSize: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
 }
 
 async function main() {
@@ -65,7 +67,7 @@ async function main() {
   const server = await serve(port);
   const base = `http://localhost:${port}/`;
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
-  const page = await browser.newPage({ viewport: { width: 1123, height: 794 } });
+  const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
   page.on('pageerror', (e) => console.error('pageerror', e.message));
 
   const zip = new JSZip();
@@ -75,6 +77,8 @@ async function main() {
     sheets[p.id] = {} as Record<PdfKind, Uint8Array>;
     for (const kind of kinds) {
       const doc = await PDFDocument.load(await render(page, base, `/imprimir/${p.id}/${kind}`));
+      const want = kind === 'solucion' ? 1 : 4;
+      if (doc.getPageCount() !== want) throw new Error(`${p.id}/${kind}: ${doc.getPageCount()} páginas (deberían ser ${want})`);
       doc.setTitle(`Churri-doku Nº ${String(p.num).padStart(2, '0')} · ${p.title}${kind === 'solucion' ? ' (solución)' : kind === 'bn' ? ' (blanco y negro)' : ''}`);
       doc.setAuthor('Churri-doku');
       doc.setSubject(`${p.franchise} · sudoku con asesinato`);
@@ -96,16 +100,21 @@ async function main() {
   book.setLanguage('es-ES');
   const bookBytes = await book.save();
   writeFileSync(join(OUT, BOOK_PDF), bookBytes);
-  if (book.getPageCount() !== 2 + puzzles.length * 2) throw new Error(`El libro tiene ${book.getPageCount()} páginas`);
+  // Portada, reglas, índice, 2 páginas por caso, 1 por solución, notas y contraportada (número par: la contraportada cierra el libro).
+  if (book.getPageCount() !== 3 + puzzles.length * 3 + 2) throw new Error(`El libro tiene ${book.getPageCount()} páginas`);
   zip.file('churri-doku/LEEME.txt', [
     'Churri-doku · Sudoku con asesinato',
     '',
     'Cada caso viene en tres archivos:',
-    '  -color.pdf     hoja del caso a color',
-    '  -bn.pdf        la misma hoja en blanco y negro (ahorra tinta)',
+    '  -color.pdf     el caso a color, en formato libro (4 páginas)',
+    '  -bn.pdf        lo mismo en blanco y negro (ahorra tinta)',
     '  -solucion.pdf  la solución, aparte para no verla sin querer',
     '',
-    'Imprime en A4 apaisado. Juega online, con pistas paso a paso:',
+    'Formato libro: portada, doble página (a la izquierda los sospechosos y los objetos',
+    'del plano; a la derecha, el plano) y contraportada. Imprime en A4 vertical a doble cara',
+    '(volteo por el borde largo): al abrirlo, el plano queda frente a los sospechosos.',
+    '',
+    'Juega online, con pistas paso a paso:',
     'https://vlebronpt-lang.github.io/churri-doku/',
     '',
     'Proyecto fan sin ánimo de lucro. Los personajes pertenecen a sus propietarios.',

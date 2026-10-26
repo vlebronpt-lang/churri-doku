@@ -20,14 +20,14 @@ export function Downloads() {
           <div>
             <p className="eyebrow">Para papel y lápiz</p>
             <h1 className="section-title">Descargas</h1>
-            <p className="lede">Cada caso en una hoja A4 apaisada con el plano, los sospechosos y sus pistas. La solución va en un archivo aparte para que no te la encuentres sin querer.</p>
+            <p className="lede">Cada caso en formato libro: portada, una doble página (a la izquierda, la historia, los sospechosos con sus pistas y los objetos del plano; a la derecha, el plano) y contraportada. Imprímelo en A4 a doble cara y, al abrirlo, el plano queda frente a los sospechosos. La solución va en un archivo aparte para que no te la encuentres sin querer.</p>
           </div>
           <img className="dl-hero__art" src={`${BASE}img/ui/files.webp`} alt="" width="900" height="900" />
         </div>
         <div className="dl-all">
           <a className="dl-big" href={`${BASE}downloads/${BOOK_PDF}`} download>
             <Icon name="book" size={30} />
-            <span><strong>Libro completo (PDF)</strong><span>Los {PUZZLES.length} casos con portada, reglas y soluciones al final{mb(sizes.libro)}.</span></span>
+            <span><strong>Libro completo (PDF)</strong><span>Los {PUZZLES.length} casos en doble página, con portada, reglas, índice, soluciones al final y contraportada{mb(sizes.libro)}.</span></span>
           </a>
           <a className="dl-big" href={`${BASE}downloads/${ZIP_ALL}`} download>
             <Icon name="download" size={30} />

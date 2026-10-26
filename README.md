@@ -14,7 +14,7 @@ Churri-doku es un juego de lógica en español, inspirado en los rompecabezas ti
 - **Herramientas cómodas**: lápiz para anotar, X automáticas, deshacer y rehacer, comprobar errores, atajos de teclado y modo oscuro. Funciona en el móvil y en el ordenador.
 - **Para jugar en pareja**: en directo, crea una sala y dale el código de 5 letras a tu pareja: resolved el mismo tablero entre los dos (cooperativo, veis al momento lo que coloca, anota o tacha el otro) o echad un duelo con el mismo caso, cada uno en el suyo (veis cuánto lleva el otro y gana quien lo resuelva antes). Un marcador de pareja guarda las victorias y los mejores tiempos de cada uno. Y por turnos: al resolver un caso, «Retar a mi churri» manda un enlace con tu tiempo, y la otra persona ve quién gana al terminar.
 - **Tu cuenta**: entra con Google o con tu correo y tu progreso (casos, rachas, logros y nombre de los retos) se guarda solo y te sigue a cualquier dispositivo. Sin cuenta también se juega; entonces el progreso se pasa con un enlace desde Ajustes.
-- **Descargas**: cada caso en PDF (color, blanco y negro y solución), todos en un ZIP o un libro completo con portada, reglas y soluciones.
+- **Descargas**: cada caso en PDF en formato libro (portada, doble página con los sospechosos y los objetos a la izquierda y el plano a la derecha, y contraportada; a color o en blanco y negro) y su solución aparte, todos en un ZIP o un libro completo de 80 páginas (portada, reglas, índice, casos, soluciones, notas y contraportada).
 
 ## Desarrollo
 

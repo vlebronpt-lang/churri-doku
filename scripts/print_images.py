@@ -27,3 +27,21 @@ for case in sorted(os.listdir(SRC)):
         g.save(base + '-bn.jpg', 'JPEG', quality=84, optimize=True, progressive=False)
         n += 1
 print(f'{n} retratos para imprimir')
+
+# Portadas de los casos para imprimir: JPEG (Chrome los incrusta tal cual; un WebP lo recodifica y pesa mucho más).
+# Color y B/N para la portada de cada caso, y una miniatura para el mosaico de la portada del libro.
+CSRC = os.path.join(ROOT, 'public', 'img', 'covers')
+CDST = os.path.join(DST, 'covers')
+os.makedirs(CDST, exist_ok=True)
+m = 0
+for f in sorted(os.listdir(CSRC)):
+    if not f.endswith('.webp'):
+        continue
+    im = Image.open(os.path.join(CSRC, f)).convert('RGB')
+    base = os.path.join(CDST, f[:-5])
+    im.save(base + '.jpg', 'JPEG', quality=84, optimize=True, progressive=False)
+    g = ImageEnhance.Brightness(ImageEnhance.Contrast(ImageOps.grayscale(im)).enhance(1.05)).enhance(1.08)
+    g.save(base + '-bn.jpg', 'JPEG', quality=82, optimize=True, progressive=False)
+    im.resize((300, 300), Image.LANCZOS).save(base + '-s.jpg', 'JPEG', quality=82, optimize=True, progressive=False)
+    m += 1
+print(f'{m} portadas para imprimir')
