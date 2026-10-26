@@ -10,6 +10,8 @@ export interface Settings {
   autoX: boolean;
   /** No permitir X en casillas no ocupables. */
   noXOnBlocked: boolean;
+  /** Avisar antes de tachar una casilla con algo dentro (al tacharla se borra). */
+  warnCross: boolean;
   genderSymbols: boolean;
   /** Cómo se ven las fichas colocadas. */
   tokenStyle: 'portrait' | 'letter';
@@ -35,6 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
   timer: true,
   autoX: true,
   noXOnBlocked: true,
+  warnCross: true,
   genderSymbols: true,
   tokenStyle: 'portrait',
   simpleDirections: false,

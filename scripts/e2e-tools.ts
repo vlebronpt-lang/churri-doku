@@ -1,5 +1,6 @@
 /**
- * Prueba de las herramientas del tablero: X automáticas, marca «Ocupada» y ventana de borrar.
+ * Prueba de las herramientas del tablero: X automáticas, marca «Ocupada», ventana de borrar y tachar
+ * casillas con algo dentro (avisa antes, las vacía, se deshace y respeta «No volver a avisar»).
  *   npx tsx scripts/e2e-tools.ts [prefijo-capturas] [--mobile]   (con el servidor de desarrollo en marcha; E2E_BASE para otra web)
  */
 import { chromium } from 'playwright-core';
@@ -66,6 +67,9 @@ async function main() {
   if (await page.locator('.cell.hl-selnote').count()) throw new Error('el segundo toque en la cabecera no quita las anotaciones');
   await tool('Tachar');
   await rowH(6).click();
+  // Si en la fila hay algo, avisa antes de vaciarlo: aquí solo se quieren las vacías.
+  await page.waitForTimeout(250);
+  if (await page.locator('.cross-dialog').count()) await page.getByRole('button', { name: 'Cancelar' }).click();
   const xRow = await page.evaluate((n) => [...document.querySelectorAll('.board__grid [role="gridcell"]')].slice(6 * n, 7 * n).filter((el) => el.querySelector('.cell__x')).length, S);
   if (!xRow) throw new Error('tachar toda la fila no tachó nada');
   await tool('Ocupada');
@@ -79,6 +83,59 @@ async function main() {
   await page.waitForTimeout(200);
   if (await page.locator('.cell.is-lineocc').count()) throw new Error('borrar la fila no quitó su marca');
   console.log('✔ herramientas: X automáticas, Ocupada, borrar seleccionadas y borrar todo, filas y columnas enteras');
+
+  // Tachar una casilla con algo dentro la vacía, pero antes pregunta.
+  const blank = (i: number) => page.evaluate((k) => {
+    const el = document.querySelectorAll('.board__grid [role="gridcell"]')[k];
+    return !el.querySelector('.token, .note, .cell__x, .cell__occ') && !el.classList.contains('is-blocked');
+  }, i);
+  let noteCell = -1;
+  for (const i of free) if (Math.floor(i / S) !== 6 && Math.floor(i / S) !== 5 && (await blank(i))) { noteCell = i; break; }
+  if (noteCell < 0) throw new Error('no hay casilla libre para la prueba de tachar');
+  await tool('Lápiz'); await pick(4); await cell(noteCell).click();
+  await tool('Tachar'); await cell(noteCell).click();
+  await page.locator('.cross-dialog').waitFor();
+  await page.screenshot({ path: `${OUT}-cross.png` });
+  await page.getByRole('button', { name: 'Cancelar' }).click();
+  if ((await cell(noteCell).locator('.note').count()) !== 1 || (await cell(noteCell).locator('.cell__x').count())) throw new Error('cancelar el aviso de tachar cambió la casilla');
+  await cell(noteCell).click();
+  await page.locator('.cross-dialog').waitFor();
+  await page.getByRole('button', { name: 'Tachar y borrar' }).click();
+  await page.waitForTimeout(200);
+  if ((await cell(noteCell).locator('.note').count()) || !(await cell(noteCell).locator('.cell__x').count())) throw new Error('tachar no vació la casilla');
+  // A alguien colocado también se le quita, y «Deshacer» lo devuelve.
+  await cell(r0).click();
+  await page.locator('.cross-dialog').waitFor();
+  if (!/Colocado aquí/.test(await page.locator('.cross-dialog').innerText())) throw new Error('el aviso no dice quién está colocado');
+  await page.getByRole('button', { name: 'Tachar y borrar' }).click();
+  await page.waitForTimeout(200);
+  if (await cell(r0).locator('.token').count()) throw new Error('tachar no quitó a la persona colocada');
+  await page.locator('.tool--undo:visible').first().click();
+  await page.waitForTimeout(200);
+  if (!(await cell(r0).locator('.token').count())) throw new Error('deshacer no devolvió a la persona tachada');
+  // Toda una fila con algo dentro: tacha las vacías y pregunta por la que tiene notas.
+  const rowOf = Math.floor(noteCell / S) === 0 ? 1 : 0;
+  let rowNote = -1;
+  for (let k = 0; k < S; k++) if (await blank(rowOf * S + k)) { rowNote = rowOf * S + k; break; }
+  if (rowNote >= 0 && Math.floor(r0 / S) !== rowOf) {
+    await tool('Lápiz'); await pick(4); await cell(rowNote).click();
+    await tool('Tachar'); await rowH(rowOf).click();
+    await page.locator('.cross-dialog').waitFor();
+    await page.getByRole('button', { name: 'Tachar y borrar' }).click();
+    await page.waitForTimeout(200);
+    if ((await cell(rowNote).locator('.note').count()) || !(await cell(rowNote).locator('.cell__x').count())) throw new Error('tachar la fila no vació la casilla con notas');
+  }
+  // «No volver a avisar»: la siguiente vez se tacha sin preguntar.
+  await cell(r0).click();
+  await page.locator('.cross-dialog').waitFor();
+  await page.locator('.cross-quiet input').check();
+  await page.getByRole('button', { name: 'Tachar y borrar' }).click();
+  await page.locator('.tool--undo:visible').first().click();
+  await page.waitForTimeout(200);
+  await cell(r0).click();
+  await page.waitForTimeout(300);
+  if ((await page.locator('.cross-dialog').count()) || (await cell(r0).locator('.token').count())) throw new Error('con «No volver a avisar» tenía que tachar sin preguntar');
+  console.log('✔ tachar: avisa antes, vacía la casilla (también a quien está colocado y en filas enteras), se deshace y respeta «No volver a avisar»');
   await page.locator('.tools-bar').screenshot({ path: `${OUT}-tools.png` }).catch(() => {});
   await browser.close();
 }

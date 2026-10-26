@@ -64,11 +64,28 @@ interface Ctx {
   label: (i: number) => string;
   /** «la casilla F1·C2» / «las casillas F1·C2, F3·C4 y F5·C6». */
   cells: (list: number[]) => string;
+  /** «F1·C2, F3·C4 y F5·C6» (o «o» con `or`), sin artículo. */
+  enum: (list: number[], or?: boolean) => string;
+  /** Habitación de una casilla: «la Capilla». */
+  room: (i: number) => string;
 }
 
 const capFirst = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 /** Cita una pista quitando el punto final: «Estaba con Ana». */
 const quote = (t: string) => `«${t.replace(/\.$/, '')}»`;
+/** «1, 2 y 5» / «1 a 5» con números ya en base 1. */
+function seq(nums: number[], or = false): string {
+  const ns = [...new Set(nums)].sort((a, b) => a - b);
+  if (ns.length >= 3 && ns[ns.length - 1] - ns[0] === ns.length - 1) return `${ns[0]} a ${ns[ns.length - 1]}`;
+  if (ns.length === 1) return String(ns[0]);
+  return `${ns.slice(0, -1).join(', ')} ${or ? 'o' : 'y'} ${ns[ns.length - 1]}`;
+}
+/** «la columna 3» / «las columnas 1 a 5». */
+const lineList = (word: 'fila' | 'columna', nums: number[], or = false) => (new Set(nums).size === 1 ? `la ${word} ${nums[0]}` : `las ${word}s ${seq(nums, or)}`);
+/** Junta frases con comas y una «y» final. */
+const joinY = (parts: string[]) => (parts.length <= 1 ? parts.join('') : `${parts.slice(0, -1).join(', ')} y ${parts[parts.length - 1]}`);
+/** Texto de una sola pista de un personaje (sin las demás que tenga). */
+const oneClue = (p: Puzzle, k: number, clue: Clue) => clueText(p, { ...p.cast[k], victim: false, clues: [clue] });
 
 const ctxCache = new WeakMap<Puzzle, Ctx>();
 
@@ -114,6 +131,11 @@ function makeCtx(p: Puzzle): Ctx {
       return `las casillas ${ls.slice(0, -1).join(', ')} y ${ls[ls.length - 1]}`;
     },
     label: (i) => `F${Math.floor(i / s) + 1}·C${(i % s) + 1}`,
+    enum: (lst, or = false) => {
+      const ls = lst.map((i) => `F${Math.floor(i / s) + 1}·C${(i % s) + 1}`);
+      return ls.length === 1 ? ls[0] : `${ls.slice(0, -1).join(', ')} ${or ? 'o' : 'y'} ${ls[ls.length - 1]}`;
+    },
+    room: (i) => roomPhrase(p.rooms[p.cells[i].room], ''),
   };
   ctxCache.set(p, ctx);
   return ctx;
@@ -175,6 +197,107 @@ function count(a: Uint8Array): number {
   let c = 0;
   for (let i = 0; i < a.length; i++) c += a[i];
   return c;
+}
+
+// ---------------------------------------------------------------------------
+// Explicaciones: dónde puede estar alguien y por qué, dicho con casillas, filas y habitaciones
+// ---------------------------------------------------------------------------
+
+/** «está en F1·C5», «solo puede estar en F2·C3 o F4·C6», «tiene que estar en la Capilla»… */
+function whereIs(ctx: Ctx, st: LState, k: number): string {
+  if (st.placed[k] >= 0) return `está en ${ctx.label(st.placed[k])}`;
+  const C = list(st.cand[k]);
+  if (C.length <= 4) return `solo puede estar en ${ctx.enum(C, true)}`;
+  if (new Set(C.map(ctx.roomOf)).size === 1) return `tiene que estar en ${ctx.room(C[0])}`;
+  return `puede estar en ${C.length} casillas`;
+}
+
+/**
+ * Casillas descartadas dichas de la forma más corta (va tras «no puede estar»): columnas, filas o habitaciones
+ * enteras, o una a una si son pocas. null si no hay una forma corta de decirlo.
+ */
+function regionOf(ctx: Ctx, gone: number[], kept: number[]): string | null {
+  const cols = [...new Set(gone.map(ctx.colOf))];
+  const rows = [...new Set(gone.map(ctx.rowOf))];
+  const rooms = [...new Set(gone.map(ctx.roomOf))];
+  const ni = (ls: string[]) => (ls.length === 1 ? ls[0] : `${ls.slice(0, -1).join(', ')} ni en ${ls[ls.length - 1]}`);
+  const opts: string[] = [];
+  if (gone.length <= 4) opts.push(`en ${ni(gone.map(ctx.label))}`);
+  if (!kept.some((i) => cols.includes(ctx.colOf(i)))) opts.push(`en ${lineList('columna', cols.map((c) => c + 1))}`);
+  if (!kept.some((i) => rows.includes(ctx.rowOf(i)))) opts.push(`en ${lineList('fila', rows.map((r) => r + 1))}`);
+  if (rooms.length <= 3 && !kept.some((i) => rooms.includes(ctx.roomOf(i)))) opts.push(`en ${ni(rooms.map((R) => roomPhrase(ctx.p.rooms[R], '')))}`);
+  return opts.length ? opts.sort((a, b) => a.length - b.length)[0] : null;
+}
+
+/** «Solo le queda F2·C3.» / «Le quedan F2·C3, F4·C5 y F6·C7.» / «Le quedan 9 casillas, resaltadas en el plano.» */
+function remaining(ctx: Ctx, kept: number[]): string {
+  if (!kept.length) return '';
+  if (kept.length === 1) return `Solo le queda ${ctx.label(kept[0])} (${ctx.room(kept[0])}).`;
+  if (kept.length <= 6) return `Le quedan ${ctx.enum(kept)}.`;
+  if (new Set(kept.map(ctx.roomOf)).size === 1) return `Le quedan ${kept.length} casillas, todas en ${ctx.room(kept[0])}.`;
+  return `Le quedan ${kept.length} casillas: las tienes resaltadas en el plano.`;
+}
+
+/** Cierre de una explicación: qué casillas pierde k y cuáles le quedan. */
+function outcome(ctx: Ctx, k: number, gone: number[], kept: number[]): string {
+  const where = regionOf(ctx, gone, kept);
+  if (where) return `Por eso ${ctx.name(k)} no puede estar ${where}. ${remaining(ctx, kept)}`;
+  const rest = remaining(ctx, kept);
+  return `Por eso, ${withPrep('a', ctx.p.cast[k])} ${rest.charAt(0).toLowerCase()}${rest.slice(1)}`;
+}
+
+/** «F2·C4 y F5·C4», «la columna 4», «la Capilla»… para un puñado de casillas. */
+function describeCells(ctx: Ctx, cells: number[]): string {
+  if (cells.length <= 4) return ctx.enum(cells);
+  const cols = [...new Set(cells.map(ctx.colOf))].map((c) => c + 1);
+  const rows = [...new Set(cells.map(ctx.rowOf))].map((r) => r + 1);
+  const rooms = [...new Set(cells.map(ctx.roomOf))];
+  if (cols.length <= 2) return lineList('columna', cols);
+  if (rows.length <= 2) return lineList('fila', rows);
+  if (rooms.length <= 2) return joinY(rooms.map((R) => roomPhrase(ctx.p.rooms[R], '')));
+  return `${cells.length} casillas`;
+}
+
+/** Por qué una casilla ya no vale para k: la fila o la columna de alguien colocado, que ya no vale para nadie u otra pista. */
+function whyNot(ctx: Ctx, st: LState, k: number, q: number): { kind: 'row' | 'col' | 'nobody' | 'other'; j: number } {
+  for (let j = 0; j < ctx.n; j++) {
+    if (j === k || st.placed[j] < 0) continue;
+    if (ctx.rowOf(st.placed[j]) === ctx.rowOf(q)) return { kind: 'row', j };
+    if (ctx.colOf(st.placed[j]) === ctx.colOf(q)) return { kind: 'col', j };
+  }
+  for (let j = 0; j < ctx.n; j++) if (j !== k && st.placed[j] < 0 && st.cand[j][q]) return { kind: 'other', j: -1 };
+  return { kind: 'nobody', j: -1 };
+}
+
+/** «F3·C2 está en la fila de Fiona, F5·C8 en la columna de Jengi y F9·C1 ya no vale para nadie». */
+function whyNotText(ctx: Ctx, st: LState, k: number, qs: number[]): string {
+  const byRow = new Map<number, number[]>();
+  const byCol = new Map<number, number[]>();
+  const nobody: number[] = [];
+  const other: number[] = [];
+  const add = (m: Map<number, number[]>, j: number, q: number) => (m.get(j) ?? m.set(j, []).get(j)!).push(q);
+  for (const q of qs) {
+    const w = whyNot(ctx, st, k, q);
+    if (w.kind === 'row') add(byRow, w.j, q);
+    else if (w.kind === 'col') add(byCol, w.j, q);
+    else if (w.kind === 'nobody') nobody.push(q);
+    else other.push(q);
+  }
+  const are = (l: number[]) => (l.length === 1 ? 'está' : 'están');
+  if (qs.length > 8) {
+    const inLine = [...byRow.values(), ...byCol.values()].reduce((a, l) => a + l.length, 0);
+    const parts: string[] = [];
+    if (inLine) parts.push(`${inLine} ${inLine === 1 ? 'está en una fila o columna que ya tiene' : 'están en filas o columnas que ya tienen'} a alguien`);
+    if (nobody.length) parts.push(`${nobody.length} ya no ${nobody.length === 1 ? 'vale' : 'valen'} para nadie`);
+    if (other.length) parts.push(`${other.length} ${other.length === 1 ? 'la' : 'las'} descartan otras pistas`);
+    return joinY(parts);
+  }
+  const parts: string[] = [];
+  for (const [j, l] of byRow) parts.push(`${ctx.enum(l)} ${are(l)} en la fila ${ctx.de(j)}`);
+  for (const [j, l] of byCol) parts.push(`${ctx.enum(l)} ${are(l)} en la columna ${ctx.de(j)}`);
+  if (nobody.length) parts.push(`${ctx.enum(nobody)} ya no ${nobody.length === 1 ? 'vale' : 'valen'} para nadie`);
+  if (other.length) parts.push(`${ctx.enum(other)} ${other.length === 1 ? 'la' : 'las'} descartan otras pistas`);
+  return joinY(parts);
 }
 
 function certainRoom(ctx: Ctx, st: LState, j: number): number {
@@ -246,11 +369,29 @@ function techSingle(ctx: Ctx, st: LState): Deduction | null {
     if (l.length !== 1) continue;
     const i = l[0];
     const ch = ctx.p.cast[k];
-    const clue = ch.clues.length ? ` Su pista: ${quote(clueText(ctx.p, ch))}.` : '';
+    // Casillas que cumplen su propia pista y por qué ya no vale ninguna menos una.
+    const own = unaryDomain(ctx.p, k);
+    const hasClue = ch.clues.some((c) => isUnary(c) || c.t === 'onlyOn');
+    const clueQ = quote(clueText(ctx.p, ch));
+    const at = `${ctx.label(i)} (${ctx.room(i)})`;
+    let text: string;
+    let nudge: string;
+    if (own.length === 1) {
+      text = `${ctx.Name(k)} solo puede estar en ${at}: es la única casilla del plano que cumple su pista, ${clueQ}.`;
+      nudge = `Lee la pista ${ctx.de(k)}: ${clueQ}. ¿Cuántas casillas del plano la cumplen?`;
+    } else {
+      const gone = own.filter((q) => q !== i);
+      const start = hasClue
+        ? `Por su pista (${clueQ}), ${ctx.name(k)} podía estar en ${own.length <= 6 ? ctx.enum(own, true) : `${own.length} casillas`}`
+        : `En principio, ${ctx.name(k)} podía estar en cualquier casilla libre`;
+      text = `${start}, pero ${whyNotText(ctx, st, k, gone)}. Solo le queda ${at}, así que está ahí.`;
+      nudge = hasClue
+        ? `Mira las casillas que cumplen la pista ${ctx.de(k)}. ¿Cuántas no están en una fila o columna ya ocupada?`
+        : `Fíjate en ${ctx.name(k)}: ¿cuántas casillas le quedan que no estén en una fila o columna ocupada?`;
+    }
     return {
       tech: 'single', level: TECH_LEVEL.single, place: { k, i }, elim: [],
-      text: `${ctx.Name(k)} solo tiene una casilla posible: ${ctx.label(i)}.${clue} Todas sus demás opciones ya están descartadas.`,
-      nudge: `Fíjate en ${ctx.name(k)}: ¿cuántas casillas le quedan?`,
+      text, nudge,
       focus: { ...emptyFocus(), cells: [i], chars: [ch.id] },
     };
   }
@@ -285,18 +426,20 @@ function techLineSingle(ctx: Ctx, st: LState, axis: 'row' | 'col'): Deduction | 
     const ch = ctx.p.cast[k];
     const focus: Focus = { ...emptyFocus(), chars: [ch.id], cells: keep };
     if (axis === 'row') focus.rows = [line]; else focus.cols = [line];
+    const why = `En la ${word} ${line + 1} tiene que haber una persona, porque hay una en cada ${word}. De las que faltan por colocar, ${ctx.name(k)} es la única que puede estar en ella: las demás tienen todas sus casillas posibles en otras ${word}s.`;
+    const nudge = `¿Quién puede estar en la ${word} ${line + 1}? Mira sus casillas libres y las opciones de cada uno.`;
     if (keep.length === 1) {
       return {
         tech: axis === 'row' ? 'rowSingle' : 'colSingle', level: 1, place: { k, i: keep[0] }, elim,
-        text: `En la ${word} ${line + 1} tiene que haber alguien, y ${ctx.name(k)} es la única persona que puede estar en ella. Solo le queda una casilla ahí: ${ctx.label(keep[0])}.`,
-        nudge: `Fíjate en la ${word} ${line + 1}: ¿quién puede estar en ella?`,
+        text: `${why} Y en esa ${word} solo le queda ${ctx.label(keep[0])} (${ctx.room(keep[0])}).`,
+        nudge,
         focus,
       };
     }
     return {
       tech: axis === 'row' ? 'rowSingle' : 'colSingle', level: 1, elim,
-      text: `En la ${word} ${line + 1} tiene que haber alguien, y ${ctx.name(k)} es la única persona que puede estar en ella. Por tanto, ${ctx.name(k)} está en la ${word} ${line + 1} y no en ninguna otra.`,
-      nudge: `Fíjate en la ${word} ${line + 1}: ¿quién puede estar en ella?`,
+      text: `${why} Así que ${ctx.name(k)} está en la ${word} ${line + 1} (${keep.length <= 6 ? `en ${ctx.enum(keep, true)}` : 'en una de sus casillas resaltadas'}) y en ninguna otra.`,
+      nudge,
       focus,
     };
   }
@@ -323,12 +466,14 @@ function techCellForced(ctx: Ctx, st: LState, axis: 'row' | 'col'): Deduction | 
     const i = [...cells][0];
     const who: number[] = [];
     for (let k = 0; k < n; k++) if (st.placed[k] < 0 && st.cand[k][i]) who.push(k);
+    const why = `En la ${word} ${line + 1} tiene que haber una persona, pero solo queda una casilla de esa ${word} donde pueda estar alguien: ${ctx.label(i)}. Las demás tienen objetos en los que no se puede estar, ya no valen para nadie o caen en ${other}s que ya tienen a alguien.`;
+    const nudge = `La ${word} ${line + 1} necesita a alguien. ¿En cuántas de sus casillas puede estar una persona?`;
     if (who.length === 1) {
       const k = who[0];
       return {
         tech: axis === 'row' ? 'cellForcedRow' : 'cellForcedCol', level: 2, place: { k, i }, elim: [],
-        text: `En la ${word} ${line + 1} solo queda una casilla en la que puede estar alguien: ${ctx.label(i)}. Alguien tiene que ocuparla, y la única persona que puede es ${ctx.name(k)}.`,
-        nudge: `Fíjate en la ${word} ${line + 1}: ¿cuántas casillas libres le quedan?`,
+        text: `${why} Y la única persona que puede ocupar ${ctx.label(i)} es ${ctx.name(k)}.`,
+        nudge,
         focus: { ...emptyFocus(), cells: [i], chars: [ctx.p.cast[k].id], ...(axis === 'row' ? { rows: [line] } : { cols: [line] }) },
       };
     }
@@ -345,8 +490,8 @@ function techCellForced(ctx: Ctx, st: LState, axis: 'row' | 'col'): Deduction | 
     if (!elim.length) continue;
     return {
       tech: axis === 'row' ? 'cellForcedRow' : 'cellForcedCol', level: 2, elim,
-      text: `En la ${word} ${line + 1} solo queda una casilla posible (${ctx.label(i)}), así que alguien está ahí aunque aún no sepamos quién. Esa persona ocupa también la ${other} ${cross + 1}: nadie más puede estar en esa ${other}.`,
-      nudge: `Fíjate en la ${word} ${line + 1}: ¿cuántas casillas libres le quedan?`,
+      text: `${why} Así que ahí hay alguien, aunque aún no sepamos quién, y esa persona ocupa también la ${other} ${cross + 1}: nadie más puede estar en esa ${other}.`,
+      nudge,
       focus: { ...emptyFocus(), cells: [i], ...(axis === 'row' ? { rows: [line], cols: [cross] } : { cols: [line], rows: [cross] }) },
     };
   }
@@ -379,19 +524,19 @@ function techPointing(ctx: Ctx, st: LState): Deduction | null {
     const ch = ctx.p.cast[k];
     let text: string;
     const focus: Focus = { ...emptyFocus(), chars: [ch.id], cells: C };
+    const opts = C.length <= 6 ? `${ctx.Name(k)} solo puede estar en ${ctx.enum(C, true)}` : `${ctx.Name(k)} tiene ${C.length} casillas posibles`;
     if (rows.size === 1) {
       const r = [...rows][0];
-      text = `Todas las casillas posibles ${ctx.de(k)} están en la fila ${r + 1}. Esa fila será suya, así que nadie más puede estar en ella.`;
+      text = `${opts}, y todas están en la fila ${r + 1}. Esa fila será suya, así que nadie más puede estar en ella.`;
       focus.rows = [r];
     } else if (cols.size === 1) {
       const c = [...cols][0];
-      text = `Todas las casillas posibles ${ctx.de(k)} están en la columna ${c + 1}. Esa columna será suya, así que nadie más puede estar en ella.`;
+      text = `${opts}, y todas están en la columna ${c + 1}. Esa columna será suya, así que nadie más puede estar en ella.`;
       focus.cols = [c];
     } else {
-      const hits = [...hit].map(ctx.label).join(', ');
-      text = `${ctx.Name(k)} tiene que estar en una de las casillas resaltadas. Esté en la que esté, compartirá fila o columna con ${hit.size === 1 ? 'la casilla' : 'las casillas'} ${hits}, así que nadie más puede estar ahí.`;
+      text = `${opts}. Esté en la que esté, compartirá fila o columna con ${ctx.cells([...hit])}, así que ahí no puede haber nadie más.`;
     }
-    const d: Deduction = { tech: 'pointing', level: 2, elim, text, nudge: `Fíjate en las opciones que le quedan a ${ctx.name(k)}.`, focus };
+    const d: Deduction = { tech: 'pointing', level: 2, elim, text, nudge: `Mira dónde puede estar ${ctx.name(k)}. ¿Qué tienen en común esas casillas?`, focus };
     if (!best || d.elim.length > best.elim.length) best = d;
   }
   return best;
@@ -399,6 +544,63 @@ function techPointing(ctx: Ctx, st: LState): Deduction | null {
 
 function conflicts(ctx: Ctx, i: number, q: number) {
   return i === q || ctx.rowOf(i) === ctx.rowOf(q) || ctx.colOf(i) === ctx.colOf(q);
+}
+
+const OPPOSITE: Record<string, string> = { N: 'S', S: 'N', E: 'W', W: 'E', NE: 'SW', SW: 'NE', NW: 'SE', SE: 'NW' };
+
+/**
+ * Qué exige una pista de relación a `me` según dónde puede estar `other` (O: sus casillas posibles).
+ * `meOwns`: la pista es de `me` («me está al este de other»); si no, es de `other` («other está al este de me»).
+ */
+function relRule(ctx: Ctx, clue: Clue, me: number, other: number, meOwns: boolean, O: number[]): string {
+  const Me = ctx.Name(me), oth = ctx.name(other);
+  const lead = meOwns ? 'Para cumplirla' : 'Para que se cumpla';
+  const oRows = O.map(ctx.rowOf), oCols = O.map(ctx.colOf);
+  const minR = Math.min(...oRows), maxR = Math.max(...oRows), minC = Math.min(...oCols), maxC = Math.max(...oCols);
+  switch (clue.t) {
+    case 'dir': {
+      // Dirección de me respecto a other.
+      const d = meOwns ? clue.dir : OPPOSITE[clue.dir];
+      const vert = d.includes('N') ? 'más arriba' : d.includes('S') ? 'más abajo' : '';
+      const horiz = d.includes('E') ? 'más a la derecha' : d.includes('W') ? 'más a la izquierda' : '';
+      const bound: string[] = [];
+      if (d.includes('N')) bound.push(maxR > 0 ? `de la fila ${maxR} hacia arriba` : '');
+      if (d.includes('S')) bound.push(`de la fila ${minR + 2} hacia abajo`);
+      if (d.includes('E')) bound.push(`de la columna ${minC + 2} hacia la derecha`);
+      if (d.includes('W')) bound.push(maxC > 0 ? `de la columna ${maxC} hacia la izquierda` : '');
+      const how = joinY([vert, horiz].filter(Boolean));
+      const where = d.length === 1 ? `en una ${vert ? 'fila' : 'columna'} ${how} que ${oth}` : `${how} que ${oth}`;
+      const b = bound.filter(Boolean);
+      return `${lead}, ${ctx.name(me)} tiene que estar ${where}${b.length ? `: ${joinY(b)}` : ''}.`;
+    }
+    case 'offset': {
+      const d = meOwns ? clue.dir : OPPOSITE[clue.dir];
+      const shift = d === 'E' ? clue.n : d === 'W' ? -clue.n : d === 'S' ? clue.n : -clue.n;
+      const word = clue.axis === 'row' ? 'fila' : 'columna';
+      const side = d === 'E' ? 'a la derecha' : d === 'W' ? 'a la izquierda' : d === 'S' ? 'por debajo' : 'por encima';
+      const base = clue.axis === 'row' ? oRows : oCols;
+      const ok = [...new Set(base.map((x) => x + shift))].filter((x) => x >= 0 && x < ctx.s).map((x) => x + 1);
+      const at = ok.length ? `: en ${lineList(word, ok, true)}` : '';
+      return `${lead}, ${ctx.name(me)} tiene que estar exactamente ${numF(clue.n)} ${word}${clue.n === 1 ? '' : 's'} ${side} ${ctx.de(other)}${at}.`;
+    }
+    case 'sameRoom':
+    case 'aloneWith': {
+      const rooms = [...new Set(O.map(ctx.roomOf))].map((R) => roomPhrase(ctx.p.rooms[R], ''));
+      const at = rooms.length <= 3 ? `, así que solo puede estar en ${rooms.length === 1 ? rooms[0] : `${rooms.slice(0, -1).join(', ')} o ${rooms[rooms.length - 1]}`}` : '';
+      return `${Me} tiene que estar en la misma habitación que ${oth}${at}.`;
+    }
+    case 'notSameRoom': {
+      const rooms = [...new Set(O.map(ctx.roomOf))];
+      const at = rooms.length === 1 ? `, así que no puede estar en ${roomPhrase(ctx.p.rooms[rooms[0]], '')}` : '';
+      return `${Me} no puede estar en la misma habitación que ${oth}${at}.`;
+    }
+    case 'adjacentTo':
+      return `${Me} tiene que estar en una casilla pegada a la ${ctx.de(other)}: justo encima, debajo o a un lado, y en la misma habitación.`;
+    case 'diagonal':
+      return `${Me} tiene que estar en una de las diagonales que pasan por la casilla ${ctx.de(other)}.`;
+    default:
+      return '';
+  }
 }
 
 function techRelation(ctx: Ctx, st: LState): Deduction | null {
@@ -421,17 +623,20 @@ function techRelation(ctx: Ctx, st: LState): Deduction | null {
       }
       if (!elim.length) continue;
       const owner = p.cast[rel.a];
-      const clue = clueText(p, owner);
+      const ct = quote(oneClue(p, rel.a, rel.clue));
       const elimCells = elim.map(([, q]) => q);
       const keep = C.filter((i) => !elimCells.includes(i));
-      const tail = elimCells.length <= 5
-        ? `${ctx.name(me)} no puede estar en ${ctx.cells(elimCells)}`
-        : `${ctx.name(me)} queda ${ctx.adj(me, 'descartad')} en ${elimCells.length} casillas`;
-      const keepTxt = keep.length <= 4 ? ` Solo le ${keep.length === 1 ? 'queda' : 'quedan'} ${ctx.cells(keep)}.` : ' Sus opciones quedan resaltadas.';
+      // ¿Ha pesado que no pueden compartir fila ni columna? (sin esa regla habría menos descartes)
+      const loose = C.filter((i) => !O.some((q) => i !== q && (side === 0 ? pairOk(p, g, rel.clue, i, q) : pairOk(p, g, rel.clue, q, i)))).length;
+      const lineNote = loose < elimCells.length ? ` Además, no puede compartir fila ni columna con ${ctx.name(other)}.` : '';
+      const where = `${ctx.Name(other)} ${whereIs(ctx, st, other)}.`;
+      const rule = relRule(ctx, rel.clue, me, other, side === 0, O);
+      const text = `Pista ${withPrep('de', owner)}: ${ct}. ${where} ${rule}${lineNote} ${outcome(ctx, me, elimCells, keep)}`;
+      const nudge = st.placed[other] >= 0
+        ? `${ctx.Name(other)} ya está en ${ctx.label(st.placed[other])} y la pista ${withPrep('de', owner)} dice ${ct}. ¿Dónde puede estar ${ctx.name(me)}?`
+        : `La pista ${withPrep('de', owner)} dice ${ct}. Con las casillas que le quedan ${withPrep('a', p.cast[other])}, ¿dónde puede estar ${ctx.name(me)}?`;
       return {
-        tech: 'relation', level: 2, elim,
-        text: `Pista ${withPrep('de', owner)}: ${quote(clue)}. Teniendo en cuenta dónde puede estar ${ctx.name(other)}, ${tail}.${keepTxt}`,
-        nudge: `Relaciona las pistas de ${ctx.name(rel.a)} y ${ctx.name(rel.b)}.`,
+        tech: 'relation', level: 2, elim, text, nudge,
         focus: { ...emptyFocus(), chars: [p.cast[me].id, p.cast[other].id], cells: keep },
       };
     }
@@ -445,7 +650,9 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
   const roomName = (R: number) => roomPhrase(p.rooms[R], '');
   const mk = (k: number, elim: [number, number][], text: string, rooms: number[], extraChars: number[] = []): Deduction => ({
     tech: 'room', level: 3, elim, text,
-    nudge: `Piensa en quién puede compartir habitación con ${ctx.name(k)}.`,
+    nudge: p.cast[k].victim
+      ? `${ctx.Name(k)} estaba a solas con el asesino. ¿En qué habitaciones puede pasar eso con lo que ya sabes?`
+      : `La pista ${ctx.de(k)} habla de quién está en su habitación. ¿En qué habitaciones puede cumplirse?`,
     focus: { ...emptyFocus(), chars: [k, ...extraChars].map((j) => p.cast[j].id), rooms },
   });
   const certainIn = (j: number, R: number) => certainRoom(ctx, st, j) === R;
@@ -525,7 +732,15 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
               if (offsetOk(clue.axis, clue.n, clue.dir, ctx.rowOf(q), ctx.colOf(q), ri, ci) && (!clue.cond || unaryOk(p, g, clue.cond, q)) && (!clue.g || p.cast[j].gender === clue.g)) { any = true; break; }
             }
           }
-          if (!any) { bad = true; reasons.add('nadie podría estar donde indica su pista'); }
+          if (!any) {
+            bad = true;
+            // Dónde puede estar ese «alguien»: casillas que cumplen la condición y en las que aún cabe otra persona.
+            const targets = [...new Set(Array.from({ length: n }, (_, j) => j).filter((j) => j !== k && (!clue.g || p.cast[j].gender === clue.g))
+              .flatMap((j) => list(st.cand[j])).filter((q) => !clue.cond || unaryOk(p, g, clue.cond, q)))].sort((a, b) => a - b);
+            reasons.add(targets.length
+              ? `ese «alguien» solo puede estar en ${describeCells(ctx, targets)}, que es donde se cumple y aún cabe una persona`
+              : 'nadie podría estar donde indica su pista');
+          }
           break;
         }
         default: break;
@@ -540,10 +755,10 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
       let text: string;
       if (reasons.size > 2 && keepRooms.length && keepRooms.length <= 3) {
         const where = keepRooms.map((R) => roomName(R)).join(' o ');
-        text = `${ctext}. Eso solo es posible si ${ctx.name(k)} está en ${where}.` + (keepCells.length <= 4 ? ` Le ${keepCells.length === 1 ? 'queda' : 'quedan'} ${ctx.cells(keepCells)}.` : '');
+        text = `${ctext}. Si miras habitación por habitación, eso solo es posible si ${ctx.name(k)} está en ${where}: en las demás, ${[...reasons].slice(0, 2).join('; ')}${reasons.size > 2 ? '…' : '.'} ${remaining(ctx, keepCells)}`;
       } else {
-        const what = elimCells.length <= 5 ? `no puede estar en ${ctx.cells(elimCells)}` : `queda ${ctx.adj(k, 'descartad')} en ${elimCells.length} casillas`;
-        text = `${ctext}. ${ctx.Name(k)} ${what}: ${[...reasons].slice(0, 2).join('; ')}${reasons.size > 2 ? '…' : '.'}`;
+        const rs = [...reasons];
+        text = `${ctext}. Pero ${rs.slice(0, 3).join('; ')}${rs.length > 3 ? '…' : ''}. ${outcome(ctx, k, elimCells, keepCells)}`;
       }
       return mk(k, elim, text, rooms);
     }
@@ -660,10 +875,12 @@ function techSubset(ctx: Ctx, st: LState, maxSize: number): Deduction | null {
         if (!elim.length) continue;
         const ls = [...lines].sort((a, b) => a - b).map((l) => l + 1);
         const names = group.map(ctx.name);
+        const fem = group.every((k) => ctx.p.cast[k].gender === 'f');
+        const each = group.map((k, j) => `${j === 0 ? ctx.Name(k) : ctx.name(k)} solo puede estar en ${lineList(word.slice(0, -1) as 'fila' | 'columna', [...linesOf(k)].map((l) => l + 1), true)}`);
         return {
           tech: 'subset', level: 4, elim,
-          text: `${capFirst(names.slice(0, -1).join(', '))} y ${names[names.length - 1]} solo pueden estar en las ${word} ${ls.slice(0, -1).join(', ')} y ${ls[ls.length - 1]}. Esas ${numF(size)} ${word} quedan ocupadas por ell${group.every((k) => ctx.p.cast[k].gender === 'f') ? 'as' : 'os'}, así que nadie más puede estar en ellas.`,
-          nudge: `Fíjate en qué ${word} pueden ocupar ${names.join(', ')}.`,
+          text: `${each.join('; ')}. Entre ${fem ? 'las' : 'los'} ${numF(size)} tienen que ocupar las ${word} ${seq(ls)}, una cada ${fem ? 'una' : 'uno'}, así que nadie más puede estar en ellas.`,
+          nudge: `¿En qué ${word} pueden estar ${joinY(names)}? Compáralo con las demás personas.`,
           focus: { ...emptyFocus(), chars: group.map((k) => ctx.p.cast[k].id), ...(axis === 'row' ? { rows: [...lines] } : { cols: [...lines] }) },
         };
       }
@@ -738,12 +955,12 @@ function techTrial(ctx: Ctx, st: LState, budget = 140, deadline = Infinity): Ded
       applyPlace(ctx, sim, k, i);
       const { contra, steps } = propagate(ctx, sim);
       if (!contra) continue;
-      const chain = steps.slice(0, 3).map((d) => d.place ? `${ctx.name(d.place.k)} tendría que estar en ${ctx.label(d.place.i)}` : null).filter(Boolean);
-      const via = chain.length ? ` Entonces ${chain.join(', ')}... y al final ${contra}.` : ` Entonces ${contra}.`;
+      const chain = steps.filter((d) => d.place).slice(0, 4).map((d) => `${ctx.name(d.place!.k)} tendría que estar en ${ctx.label(d.place!.i)}`);
+      const via = chain.length ? ` Entonces ${joinY(chain)}${steps.filter((d) => d.place).length > 4 ? '…' : ''}, y al final ${contra}.` : ` Entonces ${contra}.`;
       return {
         tech: 'trial', level: TECH_LEVEL.trial, elim: [[k, i]],
-        text: `Supón que ${ctx.name(k)} estuviera en ${ctx.label(i)}.${via} Es imposible, así que ${ctx.name(k)} no está en ${ctx.label(i)}.`,
-        nudge: `Prueba a suponer dónde estaría ${ctx.name(k)} y busca una contradicción.`,
+        text: `Supón que ${ctx.name(k)} estuviera en ${ctx.label(i)}: su fila y su columna quedarían ocupadas.${via} Como eso es imposible, ${ctx.name(k)} no está en ${ctx.label(i)}.`,
+        nudge: `Prueba a poner ${withPrep('a', ctx.p.cast[k])} en ${ctx.label(i)} y sigue las consecuencias. ¿Qué falla?`,
         focus: { ...emptyFocus(), cells: [i], chars: [ctx.p.cast[k].id] },
       };
     }

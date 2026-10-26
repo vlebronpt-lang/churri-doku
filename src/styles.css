@@ -1140,6 +1140,12 @@ kbd {
 .erase-item__check { width: 26px; height: 26px; border-radius: 8px; border: 2.5px solid var(--edge); display: grid; place-items: center; font-weight: 900; font-size: .9rem; background: var(--card); }
 .erase-item.is-on .erase-item__check { background: var(--raspberry); border-color: var(--raspberry); color: #fff; }
 .erase-actions .btn:disabled { opacity: .55; }
+/* Aviso antes de tachar casillas con algo dentro: la misma lista, solo para leer. */
+.cross-list { list-style: none; padding: 0; }
+.cross-item { grid-template-columns: 44px 1fr; }
+.cross-item:hover { transform: none; }
+.cross-quiet { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; font-size: .9rem; color: var(--ink-2); cursor: pointer; }
+.cross-quiet input { width: 18px; height: 18px; accent-color: var(--raspberry); }
 
 /* ------------------------------------------------------------ en pareja */
 .input {

@@ -52,6 +52,8 @@ export interface GameApi {
   unplace: (id: string) => void;
   toggleNote: (cell: number, id: string, force?: boolean) => void;
   toggleX: (cell: number, force?: boolean) => void;
+  /** Tacha casillas borrando lo que tuvieran (persona colocada, notas, «ocupada»), como una sola jugada. */
+  crossOut: (cells: number[]) => void;
   toggleOcc: (cell: number, force?: boolean) => void;
   toggleLine: (key: string, force?: boolean) => void;
   /** Pone (o quita) a alguien en una zona sin saber aún su casilla. */
@@ -224,6 +226,18 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
     });
   }, [commit, opts.noXOnBlocked, p]);
 
+  const crossOut = useCallback((cells: number[]) => {
+    commit((b) => {
+      for (const cell of cells) {
+        if (opts.noXOnBlocked && !p.cells[cell].occupiable) continue;
+        delete b.placed[cell];
+        delete b.notes[cell];
+        delete b.occ![cell];
+        b.xs[cell] = 'm';
+      }
+    });
+  }, [commit, opts.noXOnBlocked, p]);
+
   const toggleOcc = useCallback((cell: number, forceOn?: boolean) => {
     if (!p.cells[cell].occupiable) return;
     commit((b) => {
@@ -353,7 +367,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
   }, []);
 
   return {
-    board, posOf, autoX, place, unplace, toggleNote, toggleX, toggleOcc, toggleLine, toggleZone, clearCell, erase, clearAll, undo, redo,
+    board, posOf, autoX, place, unplace, toggleNote, toggleX, crossOut, toggleOcc, toggleLine, toggleZone, clearCell, erase, clearAll, undo, redo,
     canUndo: past.current.length > 0, canRedo: future.current.length > 0,
     beginBatch, endBatch, apply: commit,
     allPlaced: Object.keys(posOf).length === p.cast.length,

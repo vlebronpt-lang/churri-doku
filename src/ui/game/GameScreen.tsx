@@ -6,7 +6,7 @@ import { getProgress, getStore, resetCase, updateProgress, useCaseProgress } fro
 import { streakInfo } from '../../state/streak';
 import { LessonDone } from '../academy/LessonDone';
 import { formatTime, useGame, type BoardSync } from '../../game/useGame';
-import { computeHint, findErrors, type HintResult } from '../../game/hints';
+import { computeHint, findErrors, remember, type HintMemory, type HintResult } from '../../game/hints';
 import { configureFx, sfx } from '../../game/sfx';
 import { levelInfo, nextPuzzle } from '../../data/puzzles';
 import { Board, noMarks, type BoardMarks } from './Board';
@@ -16,6 +16,7 @@ import { Icon } from '../Icon';
 import { Portrait } from '../Portrait';
 import { HintPanel } from './HintPanel';
 import { EraseDialog, erasableItems } from './EraseDialog';
+import { CrossDialog, hasContent } from './CrossDialog';
 import { ObjectsModal } from './ObjectLegend';
 import { FeedbackDialog } from './FeedbackDialog';
 import { clueText } from '../../engine/text';
@@ -89,7 +90,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
   /** Modo pareja en directo. */
   live?: LiveGame;
 }) {
-  const { settings } = useSettings();
+  const { settings, set: setSetting } = useSettings();
   const progress = useCaseProgress(p.id);
   // En el tutorial, las X automáticas y «tocar = colocar» siempre activos, para que lo que se explica sea lo que se ve.
   const game = useGame(p, { autoX: coach ? true : settings.autoX, noXOnBlocked: settings.noXOnBlocked, sync: live?.tablero ?? null });
@@ -113,6 +114,8 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
   const [revealing, setRevealing] = useState(false);
   const [challengeFrom, setChallengeFrom] = useState<'result' | 'banner' | null>(null);
   const [eraseTarget, setEraseTarget] = useState<{ cells: number[]; lineKey?: string; where: string } | null>(null);
+  /** Casillas con algo dentro que se van a tachar (se pregunta antes de borrar lo que tienen). */
+  const [crossTarget, setCrossTarget] = useState<{ cells: number[]; where: string } | null>(null);
   const [showObjects, setShowObjects] = useState(false);
   const [feedbackFor, setFeedbackFor] = useState<{ charId?: string; who: string; text: string } | null>(null);
   const [zoom, setZoom] = useState(false);
@@ -241,14 +244,27 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
     tell({ t: 'tool', tool: next });
   };
 
+  /** Tacha casillas con algo dentro: pregunta antes (salvo que se haya pedido no avisar) y luego las vacía. */
+  const requestCross = useCallback((cells: number[], where: string) => {
+    if (!cells.length) return;
+    if (settings.warnCross) { setCrossTarget({ cells, where }); return; }
+    game.crossOut(cells);
+    sfx.x();
+  }, [game, settings.warnCross]);
+
   const onTap = useCallback((cell: number, long: boolean) => {
     if (frozen) return;
     clearTransient();
     const occupant = board.placed[cell];
     if (tool === 'x') {
-      if (occupant) return;
       if (settings.noXOnBlocked && !p.cells[cell].occupiable) return say('Esa casilla tiene un objeto: ahí no puede haber nadie.');
       if (!guard({ t: 'x', cell })) return;
+      // Tachar una casilla con algo dentro la vacía (antes se pregunta).
+      if (!board.xs[cell] && hasContent(board, cell)) {
+        const c = p.cells[cell];
+        requestCross([cell], `La casilla de la fila ${c.r + 1}, columna ${c.c + 1}`);
+        return;
+      }
       game.toggleX(cell);
       sfx.x();
       tell({ t: 'x', cell });
@@ -315,7 +331,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
     if (!guard({ t: 'place', id: selected, cell })) return;
     placeAt(selected, cell);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, game, p, say, selected, settings.noXOnBlocked, tapAction, frozen, tool, coach]);
+  }, [board, game, p, say, selected, settings.noXOnBlocked, tapAction, frozen, tool, coach, requestCross]);
 
   /** Coloca a alguien (también al arrastrarlo) y apunta el primer movimiento para el informe. */
   const placeAt = (id: string, cell: number) => {
@@ -392,16 +408,23 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
       return;
     }
     if (tool === 'x') {
-      const targets = cells.filter((c) => board.placed[c] === undefined && !occ[c] && !game.autoX.has(c) && (!settings.noXOnBlocked || p.cells[c].occupiable));
-      if (!targets.length) return say(`En ${label} no queda nada por tachar.`);
-      const allOn = targets.every((c) => board.xs[c]);
-      game.apply((b) => {
-        for (const c of targets) {
-          if (allOn) delete b.xs[c];
-          else b.xs[c] = 'm';
-        }
-      });
-      sfx.x();
+      const can = (c: number) => !game.autoX.has(c) && (!settings.noXOnBlocked || p.cells[c].occupiable);
+      // Casillas con algo dentro (se vacían al tacharlas, tras preguntar) y casillas vacías.
+      const full = cells.filter((c) => can(c) && !board.xs[c] && hasContent(board, c));
+      const empty = cells.filter((c) => can(c) && !full.includes(c) && board.placed[c] === undefined && !occ[c]);
+      if (!empty.length && !full.length) return say(`En ${label} no queda nada por tachar.`);
+      // Si ya estaba toda tachada, se destacha; si no, se tacha entera.
+      const allOn = !full.length && empty.every((c) => board.xs[c]);
+      if (empty.some((c) => allOn || !board.xs[c])) {
+        game.apply((b) => {
+          for (const c of empty) {
+            if (allOn) delete b.xs[c];
+            else b.xs[c] = 'm';
+          }
+        });
+        sfx.x();
+      }
+      if (full.length) requestCross(full, `${full.length === 1 ? 'Una casilla' : `${full.length} casillas`} de ${label}`);
       return;
     }
     if (tool === 'occ') {
@@ -440,8 +463,11 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
 
   const paintMode: 'x' | 'note' | 'erase' | null = frozen || tool === 'occ' || tool === 'zone' || coach ? null : tool === 'x' ? 'x' : tool === 'erase' ? 'erase' : selected ? 'note' : null;
 
+  /** Casillas con algo dentro por las que se ha pasado tachando: se preguntan al soltar. */
+  const paintSkipped = useRef<number[]>([]);
   const onPaintStart = (cell: number) => {
     game.beginBatch();
+    paintSkipped.current = [];
     if (paintMode === 'x') paint.current = { value: !board.xs[cell] };
     else if (paintMode === 'note' && selected) paint.current = { value: !(board.notes[cell] ?? []).includes(selected) };
     else paint.current = { value: true };
@@ -449,19 +475,25 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
   };
   const onPaint = (cell: number) => {
     const v = paint.current?.value ?? true;
-    if (paintMode === 'x') { if (!board.placed[cell]) game.toggleX(cell, v); }
+    if (paintMode === 'x') {
+      if (v && !board.xs[cell] && hasContent(board, cell)) { if (!paintSkipped.current.includes(cell)) paintSkipped.current.push(cell); }
+      else if (!board.placed[cell]) game.toggleX(cell, v);
+    }
     else if (paintMode === 'note' && selected) { if (!board.placed[cell]) game.toggleNote(cell, selected, v); }
     else if (paintMode === 'erase') game.clearCell(cell);
   };
   const onPaintEnd = () => {
     game.endBatch();
     paint.current = null;
+    const skipped = paintSkipped.current;
+    paintSkipped.current = [];
+    if (skipped.length) requestCross(skipped, skipped.length === 1 ? 'Una casilla por la que has pasado' : `${skipped.length} casillas por las que has pasado`);
   };
 
   // Atajos de teclado
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (showIntro || accusing || showResult || challengeFrom || eraseTarget || showObjects || feedbackFor) return;
+      if (showIntro || accusing || showResult || challengeFrom || eraseTarget || crossTarget || showObjects || feedbackFor) return;
       const t = e.target as HTMLElement;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
       const k = e.key.toLowerCase();
@@ -487,11 +519,18 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
   });
 
   // ------------------------------------------------------------- pistas
+  // Lo que ya se ha explicado en pistas anteriores (la siguiente sigue desde ahí). Se olvida al vaciar el tablero.
+  const hintMemo = useRef<HintMemory>({});
+  const boardEmpty = !Object.keys(board.placed).length && !Object.keys(board.xs).length && !Object.keys(board.notes).length && !Object.keys(board.occ ?? {}).length && !Object.keys(board.zones ?? {}).length;
+  useEffect(() => {
+    if (boardEmpty) hintMemo.current = {};
+  }, [boardEmpty]);
+
   const askHint = () => {
     if (solved) return;
     if (noHelp) { say(NO_HELP); return; }
     if (!guard({ t: 'hint' })) return;
-    const res = computeHint(p, board);
+    const res = computeHint(p, board, hintMemo.current);
     sfx.hint();
     setHint({ res, level: 1 });
     applyHintMarks(res, 1);
@@ -533,9 +572,19 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
     const level = hint.level + 1;
     setHint({ ...hint, level });
     applyHintMarks(hint.res, level);
+    // Ya explicada: la próxima pista parte de lo que esta descarta.
+    if (hint.res.kind === 'step' && level >= 2) hintMemo.current = remember(hintMemo.current, p, hint.res.d);
     track(p.id, (c) => ({ hints: c.hints + 1 }));
   };
 
+  /** Coloca a alguien en su casilla (sacándolo de donde estuviera). */
+  const placeFromHint = (b: typeof board, id: string, cell: number) => {
+    for (const [k, v] of Object.entries(b.placed)) if (v === id) delete b.placed[Number(k)];
+    b.placed[cell] = id;
+    delete b.xs[cell];
+  };
+
+  /** La acción de la pista en el tablero: colocar, tachar, marcar la zona o apuntar con el lápiz. */
   const hintApply = () => {
     if (!hint) return;
     const res = hint.res;
@@ -544,19 +593,22 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
         res.wrongPlaced.forEach((c) => delete b.placed[c]);
         res.wrongX.forEach((c) => delete b.xs[c]);
         res.wrongOcc.forEach((c) => delete b.occ?.[c]);
+        res.wrongZones.forEach((id) => delete b.zones?.[id]);
       });
       say('He quitado los errores. ¡Sigue así!');
     } else if (res.kind === 'step') {
+      const d = res.d;
       game.apply((b) => {
-        res.xCells.forEach((c) => { if (b.placed[c] === undefined) b.xs[c] = 'm'; });
-        const target = res.d.place ? { id: p.cast[res.d.place.k].id, cell: res.d.place.i } : res.leadsTo;
-        if (target) {
-          for (const [k, v] of Object.entries(b.placed)) if (v === target.id) delete b.placed[Number(k)];
-          b.placed[target.cell] = target.id;
-          delete b.xs[target.cell];
+        if (d.place) placeFromHint(b, p.cast[d.place.k].id, d.place.i);
+        else if (res.xCells.length) res.xCells.forEach((c) => { if (b.placed[c] === undefined) b.xs[c] = 'm'; });
+        else if (res.zone) b.zones = { ...(b.zones ?? {}), [res.zone.id]: res.zone.room };
+        else if (res.notes) {
+          const n = res.notes;
+          for (const c of n.cells) if (!(b.notes[c] ?? []).includes(n.id)) b.notes[c] = [...(b.notes[c] ?? []), n.id];
         }
       });
-      sfx.place();
+      hintMemo.current = remember(hintMemo.current, p, d);
+      if (d.place) sfx.place();
       track(p.id, (c) => ({ hints: c.hints + 1 }));
     } else if (res.kind === 'reveal') {
       game.apply((b) => {
@@ -566,6 +618,23 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
       });
       sfx.place();
     }
+    setHint(null);
+    setMarks(noMarks());
+    setHighlight(null);
+  };
+
+  /** «Hazlo por mí»: tacha lo que descarta y coloca a quien lleva la cadena de deducciones. */
+  const hintShortcut = () => {
+    if (hint?.res.kind !== 'step') return;
+    const res = hint.res;
+    const target = res.leadsTo;
+    game.apply((b) => {
+      res.xCells.forEach((c) => { if (b.placed[c] === undefined) b.xs[c] = 'm'; });
+      if (target) placeFromHint(b, target.id, target.cell);
+    });
+    hintMemo.current = remember(hintMemo.current, p, res.d);
+    sfx.place();
+    track(p.id, (c) => ({ hints: c.hints + 1 }));
     setHint(null);
     setMarks(noMarks());
     setHighlight(null);
@@ -871,7 +940,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
         </aside>
       </div>
 
-      {hint && <HintPanel p={p} hint={hint} onMore={hintLevelUp} onApply={hintApply} onClose={closeHint} onFeedback={coach ? undefined : (text) => setFeedbackFor({ who: 'Explicación de una pista', text })} />}
+      {hint && <HintPanel p={p} hint={hint} onMore={hintLevelUp} onApply={hintApply} onShortcut={hintShortcut} onNext={askHint} onClose={closeHint} onFeedback={coach ? undefined : (text) => setFeedbackFor({ who: 'Explicación de una pista', text })} />}
       {feedbackFor && <FeedbackDialog caseId={p.id} charId={feedbackFor.charId} who={feedbackFor.who} text={feedbackFor.text} onClose={() => setFeedbackFor(null)} />}
       {toast && <div className="toast" role="status">{toast}</div>}
       {drag && dragChar && <DragGhost p={p} ch={dragChar} x={drag.x} y={drag.y} touch={drag.touch} ok={drag.cell !== null && p.cells[drag.cell].occupiable} />}
@@ -918,6 +987,16 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
         />
       )}
       {showObjects && <ObjectsModal p={p} onClose={() => setShowObjects(false)} />}
+      {crossTarget && (
+        <CrossDialog
+          p={p}
+          board={board}
+          cells={crossTarget.cells}
+          where={crossTarget.where}
+          onConfirm={(quiet) => { game.crossOut(crossTarget.cells); sfx.x(); if (quiet) setSetting('warnCross', false); setCrossTarget(null); }}
+          onClose={() => setCrossTarget(null)}
+        />
+      )}
       {eraseTarget && (
         <EraseDialog
           p={p}
