@@ -157,7 +157,7 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <details><summary>¿Puedo instalarlo como una app y jugar sin conexión?</summary><p>Sí. En <strong>Ajustes → App y recordatorios</strong> puedes instalarlo (en iPhone: botón Compartir de Safari → «Añadir a pantalla de inicio») y pulsar <strong>Descargar todo</strong> para jugar sin internet. También puedes añadir a tu calendario un recordatorio diario del caso del día.</p></details>
           <details><summary>¿Y si una pista me confunde?</summary><p>Pulsa el <strong>?</strong> que aparece junto a la pista (en el móvil, «¿Te confunde esta pista?») y cuéntanos qué pasa. Se guarda en tu informe de juego (<strong>Ajustes → Ayudar a mejorar</strong>), que puedes mandar a quien crea los casos para mejorarlos.</p></details>
           <details><summary>¿Cómo juego con mi pareja si usa otro dispositivo?</summary><p>Cada uno abre esta misma página en su móvil u ordenador. Cuando resuelvas un caso, pulsa <strong>«Retar a mi churri»</strong> y mándale el enlace por WhatsApp o por donde queráis: verá tu tiempo antes de empezar y, al terminar, quién ha ganado. Luego puede devolverte el reto.</p></details>
-          <details><summary>¿Puedo jugar en papel?</summary><p>Sí. En <strong>Descargas</strong> tienes cada caso en PDF (color, blanco y negro y solución) o todos juntos en un libro.</p></details>
+          <details><summary>¿Puedo jugar en papel?</summary><p>Sí. En <strong>Descargas</strong> tienes cada caso en PDF (color, blanco y negro y solución) o todos juntos en un libro, también listo para encuadernar o con tu dedicatoria para regalarlo. El libro trae además un caso final que solo está en papel.</p></details>
         </div>
       )}
     </Modal>

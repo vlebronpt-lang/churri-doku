@@ -1,9 +1,10 @@
 /**
  * Generador de pistas para Churri-doku.
  *
- *   npx tsx scripts/gen.ts <id> [--tries 60] [--seed 1] [--time 240] [--band 1.0-1.7] [--keep-solution] [--top 4] [--write N] [--stop N]
+ *   npx tsx scripts/gen.ts <id> [--file ruta.ts] [--tries 60] [--seed 1] [--time 240] [--band 1.0-1.7] [--keep-solution] [--top 4] [--write N] [--stop N]
  *
- * Lee src/data/puzzles/<id>.ts (mapa, reparto y, opcionalmente, solución) y busca juegos de pistas
+ * Lee src/data/puzzles/<id>.ts (o el archivo de --file, como el caso final del libro: src/data/final.ts)
+ * (mapa, reparto y, opcionalmente, solución) y busca juegos de pistas
  * que el motor lógico resuelva sin adivinar (o con suposiciones, solo en Difícil/Experto) y con la
  * dificultad del nivel. La solución única se verifica además con el solver exhaustivo.
  */
@@ -20,9 +21,10 @@ const opt = (name: string, def: string) => {
   return i >= 0 && args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : def;
 };
 const flag = (name: string) => args.includes(`--${name}`);
+const file = opt('file', `src/data/puzzles/${id}.ts`);
 
 async function main() {
-  const mod = await import(`../src/data/puzzles/${id}.ts`);
+  const mod = await import(`../${file}`);
   const input: PuzzleInput = mod.default;
   const level = Number(opt('level', String(input.level))) as Level;
   const prof = { ...PROFILE[level] };
@@ -62,12 +64,12 @@ async function main() {
   console.log(`Candidatos guardados en .gen/${id}.json (elige con: npx tsx scripts/pick.ts ${id} <n>)`);
   if (flag('write') && uniq.length) {
     const nth = Number(opt('write', '1')) || 1;
-    writeBlock(id, uniq[Math.min(nth, uniq.length) - 1].p);
+    writeBlock(id, uniq[Math.min(nth, uniq.length) - 1].p, file);
   }
 }
 
-export function writeBlock(pid: string, p: Puzzle) {
-  const file = new URL(`../src/data/puzzles/${pid}.ts`, import.meta.url);
+export function writeBlock(pid: string, p: Puzzle, path = `src/data/puzzles/${pid}.ts`) {
+  const file = new URL(`../${path}`, import.meta.url);
   const src = readFileSync(file, 'utf8');
   const s = p.size;
   const sol = p.cast.map((ch) => `${JSON.stringify(ch.id)}: [${Math.floor(p.solution[ch.id] / s)}, ${p.solution[ch.id] % s}]`).join(', ');
@@ -76,7 +78,7 @@ export function writeBlock(pid: string, p: Puzzle) {
   const re = /\/\/ <gen>[\s\S]*?\/\/ <\/gen>/;
   if (!re.test(src)) throw new Error('No encuentro el bloque // <gen> ... // </gen>');
   writeFileSync(file, src.replace(re, block));
-  console.log(`✔ Escrito en src/data/puzzles/${pid}.ts`);
+  console.log(`✔ Escrito en ${path}`);
 }
 
 function report(r: { rep: LogicReport; p: Puzzle; obj: number }) {

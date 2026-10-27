@@ -13,7 +13,7 @@ async function main() {
   for (const w of [320, 360, 375, 390, 414, 768, 820, 901, 1024]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 800 }, isMobile: w < 760, hasTouch: w < 760, deviceScaleFactor: 2 });
     const page = await ctx.newPage();
-    for (const route of ['#/', '#/logros', '#/academia', '#/archivo', '#/descargas', '#/panel', '#/caso/tronos', '#/tutorial']) {
+    for (const route of ['#/', '#/logros', '#/academia', '#/archivo', '#/descargas', '#/secreto', '#/panel', '#/caso/tronos', '#/tutorial']) {
       await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(150);
       const r = await page.evaluate(() => {

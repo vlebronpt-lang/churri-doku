@@ -13,6 +13,8 @@ export interface Events {
   challengesSent?: number;
   tutorialDone?: boolean;
   installed?: boolean;
+  /** Escribió en #/secreto el código del caso final del libro. */
+  bookFinal?: boolean;
   /** Último cambio (ms), para juntar los de varios dispositivos. */
   at?: number;
 }
@@ -69,6 +71,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'reto-enviado', icon: '💌', title: '¿Te atreves?', desc: 'Reta a tu churri con uno de tus tiempos.', test: (c) => (c.events.challengesSent ?? 0) > 0 },
   { id: 'reto-ganado', icon: '💘', title: 'Pareja imbatible', desc: 'Gana un reto: resuelve un caso más rápido que quien te retó.', test: (c) => Object.values(c.store).some((p) => p.challenge && isSolved(p) && (p.bestTime ?? Infinity) < p.challenge.t) },
   { id: 'instalada', icon: '📱', title: 'Siempre a mano', desc: 'Instala Churri-doku en tu móvil u ordenador.', secret: true, test: (c) => !!c.events.installed },
+  { id: 'caso-final', icon: '📕', title: 'El club de las víctimas', desc: 'Resuelve el caso final del libro y escribe su código en la web.', secret: true, test: (c) => !!c.events.bookFinal },
 ];
 
 // ------------------------------------------------------------- estado

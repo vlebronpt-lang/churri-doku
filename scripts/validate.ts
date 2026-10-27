@@ -1,5 +1,5 @@
 /**
- * Valida todos los casos (o los indicados):
+ * Valida todos los casos y el caso final del libro (o los indicados; el final es «final»):
  *   npx tsx scripts/validate.ts [id ...] [--steps]
  * Comprueba: compilación, solución única e igual a la declarada, resolución lógica (con las
  * suposiciones que pide cada nivel), solidez del motor, que la dificultad esté dentro de la banda de
@@ -20,12 +20,12 @@ async function main() {
   const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
   const showSteps = process.argv.includes('--steps');
   const dir = new URL('../src/data/puzzles/', import.meta.url);
-  const ids = args.length ? args : readdirSync(dir).filter((f) => f.endsWith('.ts') && f !== 'index.ts').map((f) => f.replace(/\.ts$/, ''));
+  const ids = args.length ? args : [...readdirSync(dir).filter((f) => f.endsWith('.ts') && f !== 'index.ts').map((f) => f.replace(/\.ts$/, '')), 'final'];
   let failures = 0;
   const rows: string[] = [];
   const stats: { level: number; sc: number; total: number; trial: number; size: number }[] = [];
   for (const id of ids) {
-    const mod = await import(`../src/data/puzzles/${id}.ts`);
+    const mod = await import(id === 'final' ? '../src/data/final.ts' : `../src/data/puzzles/${id}.ts`);
     const input: PuzzleInput = mod.default;
     const errs: string[] = [];
     const warns: string[] = [];

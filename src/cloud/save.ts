@@ -66,6 +66,7 @@ export function mergeSaves(x: SaveData, y: SaveData): SaveData {
     if (s.challengesSent) e.challengesSent = Math.max(e.challengesSent ?? 0, s.challengesSent);
     if (s.tutorialDone) e.tutorialDone = true;
     if (s.installed) e.installed = true;
+    if (s.bookFinal) e.bookFinal = true;
     if (s.at) e.at = Math.max(e.at ?? 0, s.at);
   }
   const n = !x.n ? y.n : !y.n ? x.n : y.n.at > x.n.at ? y.n : x.n;

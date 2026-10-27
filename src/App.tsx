@@ -12,6 +12,7 @@ import { ImportProgressModal } from './ui/ShareDialogs';
 import { DailyScreen } from './ui/daily/DailyScreen';
 import { Archive } from './ui/daily/Archive';
 import { Stats } from './ui/Stats';
+import { SecretCase } from './ui/SecretCase';
 import { Academy } from './ui/academy/Academy';
 import { Tutorial } from './ui/tutorial/Tutorial';
 import { Panel, ImportReportModal } from './ui/panel/Panel';
@@ -49,7 +50,7 @@ export default function App() {
 
   // Bienvenida al entrar sin cuenta (no en las páginas que se abren para imprimir o importar algo).
   useEffect(() => {
-    if (['imprimir', 'progreso', 'informe', 'panel', 'cuenta', 'tutorial', 'sala'].includes(page)) return;
+    if (['imprimir', 'progreso', 'informe', 'panel', 'cuenta', 'tutorial', 'sala', 'secreto'].includes(page)) return;
     const t = window.setTimeout(maybeWelcome, 900);
     return () => window.clearTimeout(t);
     // Solo al cargar la página.
@@ -63,7 +64,7 @@ export default function App() {
     const kind = special ?? ((parts[2] as 'color' | 'bn' | 'solucion') || 'color');
     return (
       <Suspense fallback={null}>
-        <PrintPage p={p ?? null} kind={kind} />
+        <PrintPage p={p ?? null} kind={kind} query={query} />
       </Suspense>
     );
   }
@@ -107,7 +108,7 @@ export default function App() {
     );
   }
 
-  const section: Section | null = page === 'descargas' ? 'downloads' : page === 'archivo' ? 'daily' : page === 'logros' ? 'stats' : page === 'academia' ? 'academy' : page === 'panel' ? null : 'home';
+  const section: Section | null = page === 'descargas' ? 'downloads' : page === 'archivo' ? 'daily' : page === 'logros' ? 'stats' : page === 'academia' ? 'academy' : page === 'panel' || page === 'secreto' ? null : 'home';
   return (
     <div className="site">
       <SiteHeader current={section} onHelp={openHelp} onSettings={openSettings} />
@@ -117,6 +118,7 @@ export default function App() {
           : page === 'logros' ? <Stats />
           : page === 'academia' ? <Academy />
           : page === 'panel' ? <Panel />
+          : page === 'secreto' ? <SecretCase />
           : <Home onHelp={openHelp} onSettings={openSettings} />}
       </main>
       <SiteFooter />

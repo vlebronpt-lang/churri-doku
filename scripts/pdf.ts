@@ -2,11 +2,14 @@
  * Genera los PDF descargables a partir de la web compilada (dist/):
  *   npm run build && npx tsx scripts/pdf.ts
  * Crea en dist/downloads/:
- *   - churri-doku-NN-<id>-color.pdf / -bn.pdf (cada caso en formato libro: portada, doble página
- *     con los personajes y objetos a la izquierda y el plano a la derecha, y contraportada) y -solucion.pdf
- *     (el asesino y el paso a paso)
- *   - churri-doku-libro-completo.pdf (portada, cómo se juega, un ejemplo resuelto, la web con QR, índice,
- *     25 casos en doble página, soluciones con su paso a paso, notas y contraportada)
+ *   - churri-doku-NN-<id>-color.pdf / -bn.pdf (cada caso en formato libro: portada, doble página con los
+ *     sospechosos, sus pistas y móviles y los objetos a la izquierda, y el plano con la cuadrícula de deducción a
+ *     la derecha, y contraportada) y -solucion.pdf (una página: la solución en media página y «caso cerrado»)
+ *   - churri-doku-libro-completo.pdf (portada, dedicatoria, cómo se juega, un ejemplo resuelto, la escuela de
+ *     detectives, la web con QR, índice, 25 casos en doble página, el caso final exclusivo, las soluciones de dos
+ *     en dos, notas y contraportada)
+ *   - churri-doku-libro-encuadernar-interior.pdf y -cubiertas.pdf (el libro con margen de lomo: el interior en
+ *     papel y las cubiertas, portada y contraportada con sus reversos, en cartulina)
  *   - churri-doku-todos-los-casos.zip (todos los PDF sueltos por nivel)
  */
 import { createServer } from 'node:http';
@@ -16,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium, type Page } from 'playwright-core';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
-import { downloadName, BOOK_PDF, ZIP_ALL, type PdfKind } from '../src/downloads';
+import { downloadName, BOOK_BOUND_COVERS, BOOK_BOUND_INTERIOR, BOOK_PDF, ZIP_ALL, type PdfKind } from '../src/downloads';
 import type { PuzzleInput } from '../src/engine/types';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
@@ -54,6 +57,8 @@ async function loadPuzzles() {
 }
 
 async function render(page: Page, base: string, route: string): Promise<Uint8Array> {
+  // Cada hoja en un documento nuevo: con solo cambiar el #, la señal de «listo» sería la de la hoja anterior.
+  await page.goto('about:blank');
   await page.goto(`${base}#${route}`, { waitUntil: 'networkidle' });
   await page.waitForSelector('body[data-print-ready="1"]', { timeout: 30000 });
   await page.waitForTimeout(150);
@@ -78,8 +83,8 @@ async function main() {
     sheets[p.id] = {} as Record<PdfKind, Uint8Array>;
     for (const kind of kinds) {
       const doc = await PDFDocument.load(await render(page, base, `/imprimir/${p.id}/${kind}`));
-      // Cada caso en formato libro son 4 páginas; la solución, con su paso a paso, las que haga falta.
-      if (kind === 'solucion' ? doc.getPageCount() < 1 : doc.getPageCount() !== 4) throw new Error(`${p.id}/${kind}: ${doc.getPageCount()} páginas`);
+      // Cada caso en formato libro son 4 páginas; la solución, una (media página y «caso cerrado»).
+      if (doc.getPageCount() !== (kind === 'solucion' ? 1 : 4)) throw new Error(`${p.id}/${kind}: ${doc.getPageCount()} páginas`);
       doc.setTitle(`Churri-doku Nº ${String(p.num).padStart(2, '0')} · ${p.title}${kind === 'solucion' ? ' (solución)' : kind === 'bn' ? ' (blanco y negro)' : ''}`);
       doc.setAuthor('Churri-doku');
       doc.setSubject(`${p.franchise} · sudoku con asesinato`);
@@ -101,20 +106,41 @@ async function main() {
   book.setLanguage('es-ES');
   const bookBytes = await book.save();
   writeFileSync(join(OUT, BOOK_PDF), bookBytes);
-  // Portada, cómo se juega, ejemplo, web, índice, 2 páginas por caso, las soluciones con su paso a paso, notas y
-  // contraportada: número par, para que la contraportada cierre el libro.
-  if (book.getPageCount() % 2 || book.getPageCount() < 5 + puzzles.length * 3 + 2) throw new Error(`El libro tiene ${book.getPageCount()} páginas`);
+  // Portada, dedicatoria, cómo se juega, ejemplo, escuela, web, índice, 2 páginas por caso y por el caso final, las
+  // soluciones de dos en dos, notas y contraportada: número par, para que la contraportada cierre el libro.
+  const minPages = 9 + 2 * (puzzles.length + 1) + Math.ceil((puzzles.length + 1) / 2) + 2;
+  if (book.getPageCount() % 2 || book.getPageCount() < minPages) throw new Error(`El libro tiene ${book.getPageCount()} páginas`);
+
+  // Para encuadernar: el mismo libro con margen de lomo. Las cubiertas (portada y su reverso, la dedicatoria;
+  // contraportada y su reverso, las notas) van en cartulina; el interior empieza en la página 3, que es impar.
+  const bound = await PDFDocument.load(await render(page, base, '/imprimir/libro?encuadernar=1'));
+  const n = bound.getPageCount();
+  if (n !== book.getPageCount()) throw new Error(`El libro para encuadernar tiene ${n} páginas y el normal ${book.getPageCount()}`);
+  const part = async (title: string, idx: number[]) => {
+    const doc = await PDFDocument.create();
+    for (const pg of await doc.copyPages(bound, idx)) doc.addPage(pg);
+    doc.setTitle(`Churri-doku · ${title}`);
+    doc.setAuthor('Churri-doku');
+    doc.setLanguage('es-ES');
+    return doc.save();
+  };
+  const interior = await part('Libro para encuadernar (interior)', Array.from({ length: n - 4 }, (_, i) => i + 2));
+  const covers = await part('Libro para encuadernar (cubiertas)', [0, 1, n - 2, n - 1]);
+  writeFileSync(join(OUT, BOOK_BOUND_INTERIOR), interior);
+  writeFileSync(join(OUT, BOOK_BOUND_COVERS), covers);
   zip.file('churri-doku/LEEME.txt', [
     'Churri-doku · Sudoku con asesinato',
     '',
     'Cada caso viene en tres archivos:',
     '  -color.pdf     el caso a color, en formato libro (4 páginas)',
     '  -bn.pdf        lo mismo en blanco y negro (ahorra tinta)',
-    '  -solucion.pdf  la solución (el asesino y el paso a paso), aparte para no verla sin querer',
+    '  -solucion.pdf  la solución (el plano resuelto, el perfil del asesino y el orden en que',
+    '                 se coloca a cada uno), aparte para no verla sin querer',
     '',
-    'Formato libro: portada, doble página (a la izquierda los sospechosos y los objetos',
-    'del plano; a la derecha, el plano) y contraportada. Imprime en A4 vertical a doble cara',
-    '(volteo por el borde largo): al abrirlo, el plano queda frente a los sospechosos.',
+    'Formato libro: portada, doble página (a la izquierda, los sospechosos con su pista y su',
+    'móvil y los objetos del plano; a la derecha, el plano y la cuadrícula de deducción) y',
+    'contraportada. Imprime en A4 vertical a doble cara (volteo por el borde largo): al',
+    'abrirlo, el plano queda frente a los sospechosos.',
     '',
     'Juega online, con pistas paso a paso:',
     'https://vlebronpt-lang.github.io/churri-doku/',
@@ -124,8 +150,8 @@ async function main() {
   const zipBytes = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 6 } });
   writeFileSync(join(OUT, ZIP_ALL), zipBytes);
   // Tamaños para mostrarlos en la página de descargas.
-  writeFileSync(join(OUT, 'tamanos.json'), JSON.stringify({ libro: bookBytes.length, zip: zipBytes.length }));
-  console.log(`✔ libro (${(bookBytes.length / 1e6).toFixed(1)} MB) y zip (${(zipBytes.length / 1e6).toFixed(1)} MB)`);
+  writeFileSync(join(OUT, 'tamanos.json'), JSON.stringify({ libro: bookBytes.length, zip: zipBytes.length, interior: interior.length, cubiertas: covers.length }));
+  console.log(`✔ libro (${n} páginas, ${(bookBytes.length / 1e6).toFixed(1)} MB), para encuadernar (${(interior.length / 1e6).toFixed(1)} + ${(covers.length / 1e6).toFixed(1)} MB) y zip (${(zipBytes.length / 1e6).toFixed(1)} MB)`);
 
   await browser.close();
   server.close();

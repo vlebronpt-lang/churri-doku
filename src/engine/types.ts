@@ -71,7 +71,7 @@ export interface CharacterDef {
   gender: Gender;
   victim?: boolean;
   clues: Clue[];
-  /** Ruta del retrato (relativa a /img). */
+  /** Retrato de otro caso, como 'simpson/V' (por defecto, el del propio caso con su id). */
   portrait?: string;
   /** Color de fondo del retrato / ficha. */
   color?: string;

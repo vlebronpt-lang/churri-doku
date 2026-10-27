@@ -1,6 +1,7 @@
 /**
  * Prueba de punta a punta de lo nuevo: tutorial guiado, arrastrar fichas, zoom, móvil en horizontal,
- * academia, logros, avisos de pistas, informes y panel, y caso del día (si hay calendario).
+ * academia, logros, avisos de pistas, informes y panel, el código del caso final del libro y caso del día (si hay
+ * calendario).
  *   npx tsx scripts/e2e-new.ts [url]
  */
 import { chromium, type BrowserContext, type Page } from 'playwright-core';
@@ -10,6 +11,7 @@ import { TUTORIAL } from '../src/data/tutorial';
 import { LESSONS } from '../src/data/academy/lessons';
 import type { Puzzle, PuzzleInput } from '../src/engine/types';
 import { dailyInput, type DailyEntry } from '../src/engine/variant';
+import FINAL from '../src/data/final';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const base = process.argv.slice(2).find((a) => !a.startsWith('--')) ?? 'http://127.0.0.1:5173/';
@@ -290,6 +292,30 @@ async function main() {
     const on = await dpage.locator('.badge.is-on').count();
     assert(on >= 1, 'no aparece ningún logro conseguido (debería estar el del tutorial)');
     await dpage.screenshot({ path: `${SHOTS}/logros.png`, fullPage: true });
+  });
+
+  await check('Caso final del libro: el código desbloquea la solución y el logro secreto', async () => {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 860 } });
+    const page = await newPage(ctx);
+    await page.goto(`${base}#/secreto`);
+    const input = page.locator('.secret__form .input--code');
+    await input.fill('1234567890');
+    await page.locator('.secret__form .btn').click();
+    await page.locator('.secret__wrong').waitFor();
+    assert(!(await page.locator('.secret__reveal').count()), 'un código falso enseña la solución');
+    const size = FINAL.size;
+    const code = FINAL.cast.map((ch) => ((FINAL.solution[ch.id][1] + 1) % 10)).join('');
+    assert(code.length === size, `el código tiene ${code.length} cifras`);
+    await input.fill(`${code.slice(0, 4)} ${code.slice(4)}`);
+    await page.locator('.secret__form .btn').click();
+    await page.locator('.secret__reveal .secret__id strong', { hasText: 'Thanos' }).waitFor();
+    await page.locator('.achievement-toast', { hasText: 'El club de las víctimas' }).waitFor();
+    const unlocked = await page.evaluate(() => JSON.parse(localStorage.getItem('churri-doku:achievements') ?? '{}'));
+    assert(unlocked['caso-final'], 'no se ha guardado el logro secreto');
+    await page.reload();
+    await page.locator('.secret__reveal').waitFor();
+    await page.screenshot({ path: `${SHOTS}/caso-final.png`, fullPage: true });
+    await ctx.close();
   });
 
   const hasDaily = await dpage.evaluate(async (b) => { try { await (await fetch(`${b}daily/index.json`)).json(); return true; } catch { return false; } }, base);

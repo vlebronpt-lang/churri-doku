@@ -94,7 +94,10 @@ Los asientos se orientan solos hacia la mesa/escritorio/tele contigua: pon las s
 - Nombres como se conocen en España (doblaje de España).
 - `intro`: 2–4 frases en registro de España, con humor y tensión; termina con la pregunta del caso.
 - `epilogue`: revela al asesino (debe ser `wantMurderer`) y su motivo/método. Guiños para fans, sin copiar frases
-  largas literales de la obra (parafrasea). Nada de spoilers innecesarios fuera del caso.
+  largas literales de la obra (parafrasea). Nada de spoilers innecesarios fuera del caso. Si cuenta dónde estaba
+  el resto, que empiece por «Mientras tanto,»: la solución impresa corta ahí para quedarse solo con el crimen.
+- Móviles: uno por sospechoso en `src/data/motives.ts` (confesión completa, para los casos del día) y su agravio
+  sin el «cómo» en `src/data/grudges.ts` (sale en la página del caso del libro; el del asesino, en su perfil).
 
 ## 5. Calidad de las pistas
 
