@@ -14,7 +14,7 @@ import { SuspectCard, ZoneLine } from './SuspectCard';
 import { ClueText, type Highlight } from './ClueText';
 import { Icon } from '../Icon';
 import { Portrait } from '../Portrait';
-import { HintPanel } from './HintPanel';
+import { HintPanel, hintTarget } from './HintPanel';
 import { EraseDialog, erasableItems } from './EraseDialog';
 import { CrossDialog, hasContent } from './CrossDialog';
 import { ObjectsModal } from './ObjectLegend';
@@ -510,7 +510,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
       if (k === 'n' || k === 'l') { pickTool('note'); return; }
       if (k === 'b') { pickTool('erase'); return; }
       if (k === 'backspace' || k === 'delete') return;
-      if (k === 'h' || k === '?') { askHint(); return; }
+      if (k === 'h' || k === '?') { onHintButton(); return; }
       const byTag = p.cast.find((c) => c.tag.toLowerCase() === k) ?? p.cast.find((c) => c.tag[0].toLowerCase() === k);
       if (byTag && k.length === 1 && /[a-zñ]/.test(k)) { selectChar(byTag.id); }
     };
@@ -556,15 +556,28 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
       f.rows.forEach((r) => m.hintRows.add(r));
       f.cols.forEach((c) => m.hintCols.add(c));
       f.rooms.forEach((r) => m.hintRooms.add(r));
-      if (level >= 2) {
+      if (level === 2) {
         f.cells.forEach((c) => m.hintCells.add(c));
         res.xCells.forEach((c) => m.hintX.add(c));
       }
     }
+    // Tercera pista: solo la casilla de la persona que se desvela.
+    const target = level >= 3 ? hintTarget(res) : null;
+    if (target) {
+      m.hintRows.clear(); m.hintCols.clear(); m.hintRooms.clear();
+      m.hintCells.add(target.cell);
+    }
     setMarks(m);
-    if (res.kind === 'step' && res.d.focus.chars.length) {
+    if (target) setHighlight({ cells: new Set(), rows: new Set(), cols: new Set(), rooms: new Set(), persons: new Set([target.id]) });
+    else if (res.kind === 'step' && res.d.focus.chars.length) {
       setHighlight({ cells: new Set(), rows: new Set(), cols: new Set(), rooms: new Set(), persons: new Set(res.d.focus.chars) });
     }
+  };
+
+  /** Botón «Pista» (o tecla H): con una pista abierta sube al escalón siguiente; si no, pide una nueva. */
+  const onHintButton = () => {
+    if (hint && ((hint.res.kind === 'step' && hint.level < 3) || (hint.res.kind === 'errors' && hint.level < 2))) { hintLevelUp(); return; }
+    askHint();
   };
 
   const hintLevelUp = () => {
@@ -596,6 +609,15 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
         res.wrongZones.forEach((id) => delete b.zones?.[id]);
       });
       say('He quitado los errores. ¡Sigue así!');
+    } else if (res.kind === 'step' && hint.level >= 3) {
+      const target = hintTarget(res);
+      game.apply((b) => {
+        res.xCells.forEach((c) => { if (b.placed[c] === undefined) b.xs[c] = 'm'; });
+        if (target) placeFromHint(b, target.id, target.cell);
+      });
+      hintMemo.current = remember(hintMemo.current, p, res.d);
+      sfx.place();
+      track(p.id, (c) => ({ hints: c.hints + 1 }));
     } else if (res.kind === 'step') {
       const d = res.d;
       game.apply((b) => {
@@ -618,23 +640,6 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
       });
       sfx.place();
     }
-    setHint(null);
-    setMarks(noMarks());
-    setHighlight(null);
-  };
-
-  /** «Hazlo por mí»: tacha lo que descarta y coloca a quien lleva la cadena de deducciones. */
-  const hintShortcut = () => {
-    if (hint?.res.kind !== 'step') return;
-    const res = hint.res;
-    const target = res.leadsTo;
-    game.apply((b) => {
-      res.xCells.forEach((c) => { if (b.placed[c] === undefined) b.xs[c] = 'm'; });
-      if (target) placeFromHint(b, target.id, target.cell);
-    });
-    hintMemo.current = remember(hintMemo.current, p, res.d);
-    sfx.place();
-    track(p.id, (c) => ({ hints: c.hints + 1 }));
     setHint(null);
     setMarks(noMarks());
     setHighlight(null);
@@ -779,7 +784,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
       <button className="tool tool--check" onClick={check} disabled={solved || noHelp || !placedCount && !Object.keys(board.xs).length && !Object.keys(board.occ ?? {}).length && !Object.keys(board.zones ?? {}).length} title={noHelp ? NO_HELP : 'Revisar si hay errores'}>
         <Icon name="check" /><span>Revisar</span>
       </button>
-      <button className="tool tool--hint" onClick={askHint} disabled={solved || noHelp} title={noHelp ? NO_HELP : 'Pista (H)'}>
+      <button className="tool tool--hint" onClick={onHintButton} disabled={solved || noHelp} title={noHelp ? NO_HELP : 'Pista (H)'}>
         <Icon name="bulb" /><span>Pista</span>
       </button>
       <button className="tool tool--accuse" onClick={() => setAccusing(true)} disabled={!game.allPlaced || frozen} title={game.allPlaced ? 'Acusar al culpable' : 'Coloca a todos para acusar'}>
@@ -940,7 +945,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
         </aside>
       </div>
 
-      {hint && <HintPanel p={p} hint={hint} onMore={hintLevelUp} onApply={hintApply} onShortcut={hintShortcut} onNext={askHint} onClose={closeHint} onFeedback={coach ? undefined : (text) => setFeedbackFor({ who: 'Explicación de una pista', text })} />}
+      {hint && <HintPanel p={p} hint={hint} onMore={hintLevelUp} onApply={hintApply} onClose={closeHint} onFeedback={coach ? undefined : (text) => setFeedbackFor({ who: 'Explicación de una pista', text })} />}
       {feedbackFor && <FeedbackDialog caseId={p.id} charId={feedbackFor.charId} who={feedbackFor.who} text={feedbackFor.text} onClose={() => setFeedbackFor(null)} />}
       {toast && <div className="toast" role="status">{toast}</div>}
       {drag && dragChar && <DragGhost p={p} ch={dragChar} x={drag.x} y={drag.y} touch={drag.touch} ok={drag.cell !== null && p.cells[drag.cell].occupiable} />}

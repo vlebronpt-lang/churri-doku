@@ -1011,7 +1011,8 @@ export function solveLogically(p: Puzzle, opts: { allowTrial?: boolean; maxSteps
       if (sol[d.place.k] !== d.place.i) sound = false;
       applyPlace(ctx, st, d.place.k, d.place.i);
     }
-    steps.push(d);
+    // El texto se lee en el paso a paso de las soluciones impresas: sin puntos dobles.
+    steps.push({ ...d, text: tidy(d.text), nudge: d.nudge && tidy(d.nudge) });
     techCount[d.tech]++;
   }
   const solved = st.placed.every((x) => x >= 0);

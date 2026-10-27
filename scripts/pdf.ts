@@ -4,8 +4,9 @@
  * Crea en dist/downloads/:
  *   - churri-doku-NN-<id>-color.pdf / -bn.pdf (cada caso en formato libro: portada, doble página
  *     con los personajes y objetos a la izquierda y el plano a la derecha, y contraportada) y -solucion.pdf
- *   - churri-doku-libro-completo.pdf (portada, reglas, índice, 25 casos en doble página, soluciones,
- *     notas y contraportada)
+ *     (el asesino y el paso a paso)
+ *   - churri-doku-libro-completo.pdf (portada, cómo se juega, un ejemplo resuelto, la web con QR, índice,
+ *     25 casos en doble página, soluciones con su paso a paso, notas y contraportada)
  *   - churri-doku-todos-los-casos.zip (todos los PDF sueltos por nivel)
  */
 import { createServer } from 'node:http';
@@ -77,8 +78,8 @@ async function main() {
     sheets[p.id] = {} as Record<PdfKind, Uint8Array>;
     for (const kind of kinds) {
       const doc = await PDFDocument.load(await render(page, base, `/imprimir/${p.id}/${kind}`));
-      const want = kind === 'solucion' ? 1 : 4;
-      if (doc.getPageCount() !== want) throw new Error(`${p.id}/${kind}: ${doc.getPageCount()} páginas (deberían ser ${want})`);
+      // Cada caso en formato libro son 4 páginas; la solución, con su paso a paso, las que haga falta.
+      if (kind === 'solucion' ? doc.getPageCount() < 1 : doc.getPageCount() !== 4) throw new Error(`${p.id}/${kind}: ${doc.getPageCount()} páginas`);
       doc.setTitle(`Churri-doku Nº ${String(p.num).padStart(2, '0')} · ${p.title}${kind === 'solucion' ? ' (solución)' : kind === 'bn' ? ' (blanco y negro)' : ''}`);
       doc.setAuthor('Churri-doku');
       doc.setSubject(`${p.franchise} · sudoku con asesinato`);
@@ -100,15 +101,16 @@ async function main() {
   book.setLanguage('es-ES');
   const bookBytes = await book.save();
   writeFileSync(join(OUT, BOOK_PDF), bookBytes);
-  // Portada, reglas, índice, 2 páginas por caso, 1 por solución, notas y contraportada (número par: la contraportada cierra el libro).
-  if (book.getPageCount() !== 3 + puzzles.length * 3 + 2) throw new Error(`El libro tiene ${book.getPageCount()} páginas`);
+  // Portada, cómo se juega, ejemplo, web, índice, 2 páginas por caso, las soluciones con su paso a paso, notas y
+  // contraportada: número par, para que la contraportada cierre el libro.
+  if (book.getPageCount() % 2 || book.getPageCount() < 5 + puzzles.length * 3 + 2) throw new Error(`El libro tiene ${book.getPageCount()} páginas`);
   zip.file('churri-doku/LEEME.txt', [
     'Churri-doku · Sudoku con asesinato',
     '',
     'Cada caso viene en tres archivos:',
     '  -color.pdf     el caso a color, en formato libro (4 páginas)',
     '  -bn.pdf        lo mismo en blanco y negro (ahorra tinta)',
-    '  -solucion.pdf  la solución, aparte para no verla sin querer',
+    '  -solucion.pdf  la solución (el asesino y el paso a paso), aparte para no verla sin querer',
     '',
     'Formato libro: portada, doble página (a la izquierda los sospechosos y los objetos',
     'del plano; a la derecha, el plano) y contraportada. Imprime en A4 vertical a doble cara',
