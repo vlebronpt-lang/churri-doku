@@ -57,7 +57,7 @@ function scenarios(): { name: string; input: PuzzleInput }[] {
     ['groupsApart', [{ t: 'groupsApart', a: 'a', b: 'b' }]],
     ['noZoneWith', [{ t: 'noZoneWith', n: 1 }]],
   ];
-  const out = rules.map(([name, r]) => ({ name, input: { ...withGroups(office), rules: r } }));
+  const out: { name: string; input: PuzzleInput }[] = rules.map(([name, r]) => ({ name, input: { ...withGroups(office), rules: r } }));
   out.push({ name: 'plano grande', input: grow(friends) });
   out.push({ name: 'plano grande + regla', input: { ...grow(friends), rules: [{ t: 'zoneCount', room: '#', n: 2 }] } });
   return out;

@@ -157,7 +157,7 @@ async function main() {
   }
   // Tamaños para mostrarlos en la página de descargas.
   writeFileSync(join(OUT, 'tamanos.json'), JSON.stringify({ libro: bookBytes.length, zips: zipSizes, interior: interior.length, cubiertas: covers.length }));
-  console.log(`✔ libro (${n} páginas, ${(bookBytes.length / 1e6).toFixed(1)} MB), para encuadernar (${(interior.length / 1e6).toFixed(1)} + ${(covers.length / 1e6).toFixed(1)} MB) y zip (${(zipBytes.length / 1e6).toFixed(1)} MB)`);
+  console.log(`✔ libro (${n} páginas, ${(bookBytes.length / 1e6).toFixed(1)} MB), para encuadernar (${(interior.length / 1e6).toFixed(1)} + ${(covers.length / 1e6).toFixed(1)} MB) y zip por temporadas (${(Object.values(zipSizes).reduce((a, b) => a + b, 0) / 1e6).toFixed(1)} MB en total)`);
 
   await browser.close();
   server.close();
