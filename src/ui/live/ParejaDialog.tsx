@@ -30,7 +30,7 @@ export function abrirPareja(o: { caso?: string; unirme?: boolean; codigo?: strin
 }
 const cerrarPareja = () => setUi({ ...ui, abierta: false });
 
-/** Los 25 casos y los del día se pueden jugar en pareja (el tutorial y las lecciones, no). */
+/** Los casos y los del día se pueden jugar en pareja (el tutorial y las lecciones, no). */
 export const puedeJugarseEnPareja = (p: Puzzle) => !p.meta || p.meta.kind === 'daily';
 
 // ------------------------------------------------------------ la ventana

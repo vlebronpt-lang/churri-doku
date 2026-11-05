@@ -1,11 +1,11 @@
 #!/bin/bash
-# Regenera la colocación y las pistas de los casos con la escala de dificultad actual
-# (conserva el asesino y la sala de la víctima de cada historia).
+# Genera la colocación y las pistas de los casos (conserva el asesino y la sala de la víctima de cada historia).
 #   bash scripts/regen-all.sh [paralelos] [id ...]     (ESCALA=2 dobla el tiempo de cada caso; PARAR=3 acaba al tener 3 candidatos)
+# Sin ids, todos los casos que aún no tienen solución.
 cd "$(dirname "$0")/.."
 P=${1:-7}
 shift
-IDS=${*:-"tronos marvel potter anillos padrino papel starwars batman calamar titanes breaking vikingos miercoles avecina walking office friends dragonball jurassic peaky shrek simpson toystory stranger piratas"}
+IDS=${*:-$(grep -L "^  solution: {" src/data/puzzles/*.ts | grep -v index.ts | xargs -n1 basename | sed 's/\.ts$//')}
 mkdir -p .gen/regen
 jobs=""
 for id in $IDS; do

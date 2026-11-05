@@ -51,7 +51,7 @@ function ogHtml() {
   <div class="text">
     <div class="logo"><span class="c">CHURRI</span><span class="d">D${LENS()}KU</span></div>
     <h1>Sudoku con <span>asesinato</span></h1>
-    <p>25 casos de lógica con los personajes de tus series y películas favoritas.</p>
+    <p>64 casos de lógica con los personajes de tus series y películas favoritas.</p>
     <div class="chips"><span class="chip">Gratis</span><span class="chip">En español</span><span class="chip">Online o en PDF</span></div>
   </div>
   <div class="pol p1"><img src="${covers[0]}"><b>Juego de Tronos</b></div>

@@ -110,14 +110,18 @@ export const GEAR: Record<string, IconFn> = {
     + P('M20 58 L12 64 L22 76 L30 72 Z', DARK, 3)
     + C(50, 60, 5, METAL, 2.5)
     + HL('M28 56 L66 28', 2.6, 0.4),
-  cauldron: () => SHC(50, 56, 34)
-    + R(16, 46, 8, 8, '#2f2b33', 2, 2.5) + R(76, 46, 8, 8, '#2f2b33', 2, 2.5)
-    + C(50, 55, 33, '#2f2b33')
-    + `<circle cx="50" cy="53" r="27" fill="none" stroke="#56505e" stroke-width="5"/>`
-    + C(50, 53, 24, '#6bd36b', 3)
-    + C(41, 47, 6, '#a6f0a0', 2) + C(57, 58, 4.5, '#a6f0a0', 2) + C(56, 44, 3, '#d9ffd4', 1.6) + C(40, 60, 3, '#d9ffd4', 1.6)
-    + LN('M42 26 Q36 18 42 12 M56 24 Q62 16 56 9', 2.4, '#bfe8bb', 0.85)
-    + HL('M30 42 Q34 33 42 30', 3, 0.35),
+  cauldron: (_w, _h, o) => {
+    const f = o.tint ?? '#6bd36b';
+    const bub = o.tint ? lighten(f, 0.4) : '#a6f0a0', bub2 = o.tint ? lighten(f, 0.7) : '#d9ffd4', steam = o.tint ? lighten(f, 0.55) : '#bfe8bb';
+    return SHC(50, 56, 34)
+      + R(16, 46, 8, 8, '#2f2b33', 2, 2.5) + R(76, 46, 8, 8, '#2f2b33', 2, 2.5)
+      + C(50, 55, 33, '#2f2b33')
+      + `<circle cx="50" cy="53" r="27" fill="none" stroke="#56505e" stroke-width="5"/>`
+      + C(50, 53, 24, f, 3)
+      + C(41, 47, 6, bub, 2) + C(57, 58, 4.5, bub, 2) + C(56, 44, 3, bub2, 1.6) + C(40, 60, 3, bub2, 1.6)
+      + LN('M42 26 Q36 18 42 12 M56 24 Q62 16 56 9', 2.4, steam, 0.85)
+      + HL('M30 42 Q34 33 42 30', 3, 0.35);
+  },
   campfire: () => {
     const stones = [0, 1, 2, 3, 4, 5, 6, 7].map((k) => { const a = (k / 8) * Math.PI * 2; return E(50 + Math.cos(a) * 33, 54 + Math.sin(a) * 31, 8, 6, k % 2 ? '#a59e94' : '#8c857c', 2.5); }).join('');
     return SHE(50, 56, 36, 33) + stones

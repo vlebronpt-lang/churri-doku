@@ -1,5 +1,5 @@
 /**
- * Prueba de punta a punta: resuelve los 25 casos en la web como lo haría una persona
+ * Prueba de punta a punta: resuelve todos los casos en la web como lo haría una persona
  * (abre el expediente, pide una pista, coloca a todos, acusa y comprueba el final).
  *   npx tsx scripts/e2e.ts [url] [--mobile]
  */
@@ -35,6 +35,9 @@ async function main() {
     try {
       await page.goto(`${base}#/caso/${p.id}`, { waitUntil: 'networkidle' });
       await page.click('.dossier__actions .btn--primary');
+      // Las reglas del caso y los grupos del reparto tienen que verse.
+      if ((p.rules.length || p.cast.length < p.size) && !(await page.locator('.rules-box:visible').count())) throw new Error('no se ven las reglas del caso');
+      if (!mobile && p.cast.some((c) => c.groups?.length) && !(await page.locator('.suspects .group-chip:visible').count())) throw new Error('no se ven los grupos del reparto');
       // Una pista: debe aparecer el panel con texto.
       await page.locator('.tool--hint:visible').first().click();
       const hint = page.locator('.hint');

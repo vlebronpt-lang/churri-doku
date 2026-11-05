@@ -1,5 +1,6 @@
 import { castIndex, cellHas, clueHolds, isUnary, pairOk, unaryOk } from './clues';
 import { geo } from './puzzle';
+import { anyRuleForbids, ruleHolds, rulesBroken } from './rules';
 import type { Clue, Puzzle } from './types';
 
 export interface SolveResult {
@@ -41,6 +42,7 @@ export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_0
     for (const cell of p.cells) {
       if (!cell.occupiable || emptyRooms.has(cell.room)) continue;
       if (initCand && !initCand[k][cell.i]) continue;
+      if (anyRuleForbids(p, k, cell.i)) continue;
       let ok = true;
       for (const o of onlyOnBy) {
         const has = cellHas(p, cell.i, o.obj);
@@ -134,6 +136,7 @@ export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_0
     if (++nodes > maxNodes) return true;
     if (depth === n) {
       for (const gl of globals) if (!clueHolds(p, gl.clue, gl.self, pos)) return false;
+      for (const rule of p.rules) if (!ruleHolds(p, rule, pos)) return false;
       count++;
       if (solutions.length < limit) solutions.push(Array.from(pos));
       return count >= limit;
@@ -159,6 +162,7 @@ export function solve(p: Puzzle, limit = 2, clues?: Clue[][], maxNodes = 5_000_0
       colUsed[i % s] = 1;
       let ok = true;
       for (const gl of globals) if (partialViolated(gl.self, gl.clue)) { ok = false; break; }
+      if (ok && p.rules.length && rulesBroken(p, pos)) ok = false;
       if (ok && dfs(depth + 1)) {
         pos[best] = -1; rowUsed[Math.floor(i / s)] = 0; colUsed[i % s] = 0;
         return true;

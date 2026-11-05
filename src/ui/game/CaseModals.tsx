@@ -1,3 +1,4 @@
+import { RulesBox } from './RulesBox';
 import { useState } from 'react';
 import type { Puzzle } from '../../engine/types';
 import { resultText } from '../../game/result';
@@ -63,6 +64,7 @@ export function IntroModal({ p, challenge, onStart, onHelp, onPair, inRoom = fal
             </>
           )}
           <p className="dossier__suspects"><strong>Sospechosos:</strong> {suspects.map((c) => withPrep('', c)).join(', ')}.</p>
+          <RulesBox p={p} />
           {challenge && <ChallengeIntro challenge={challenge} />}
         </div>
       </div>

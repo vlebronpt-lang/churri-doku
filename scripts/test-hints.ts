@@ -1,5 +1,5 @@
 /**
- * Comprueba el motor de pistas en los 25 casos: con la marca «Ocupada» (una correcta da una pista, una incorrecta
+ * Comprueba el motor de pistas en todos los casos: con la marca «Ocupada» (una correcta da una pista, una incorrecta
  * se detecta como error y, siguiendo las pistas, se llega a la solución) y como un jugador que lee cada explicación
  * y hace lo que propone o pasa a la siguiente: ninguna pista se repite y se llega al final sin revelar a nadie.
  *   npx tsx scripts/test-hints.ts

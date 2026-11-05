@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "Si": "Scar le hizo creer a Simba que había matado a su padre y lo empujó al exilio. Cuando volvió a casa, Simba solo quería devolverle cada día de culpa que le hizo cargar.",
+  "Na": "Sin agua ni comida en las Tierras del Reino, Scar seguía mandando a las leonas a cazar donde ya no quedaba nada. Una leona sabe cuándo hay que sacar las garras.",
+  "Ti": "Por culpa de Scar y sus hienas, Timón acabó bailando el hula con una falda de hierba para salvar a sus amigos. Hay humillaciones que un suricato no perdona.",
+  "Pu": "Llamar «cerdo» a Pumba delante de toda la sabana y burlarse de sus amigos fue el último error de Scar. A Pumba hay que llamarlo «señor Cerdo», y quien se salta el «señor» lo paga caro.",
+  "Ra": "Scar convirtió la sabana en un erial y se rio de todas las tradiciones del reino. Rafiki siempre dice que del pasado se aprende, y a Scar había que enseñárselo a bastonazos.",
+  "Za": "Años de jaula de huesos, cantando por orden y aguantando las burlas de Scar, le dejaron a Zazú el orgullo hecho trizas. Un mayordomo real tiene paciencia, pero no infinita.",
+  "Sh": "Scar juró a las hienas que no volverían a pasar hambre, y ahí seguían, muertas de hambre y a sus órdenes. Shenzi ya estaba harta de hacer de guardia de pacotilla.",
+  "Ba": "De comparsa y a dos velas de la comida prometida: así tenía Scar a Banzai y a Shenzi. Una hiena puede reírse de todo, menos de eso."
+ },
+ "grudges": {
+  "Si": "Scar le hizo creer que era el culpable de la muerte de su padre y lo empujó a huir del reino.",
+  "Na": "Las Tierras del Reino se quedaron sin presas ni agua, y Scar seguía mandando a las leonas a cazar donde ya no quedaba nada.",
+  "Ti": "Por culpa de Scar y sus hienas, tuvo que bailar el hula con una falda de hierba para salvar a sus amigos.",
+  "Pu": "Scar lo llamaba «cerdo», sin el «señor», y se burlaba de él y de Timón cada vez que se cruzaban en la sabana.",
+  "Ra": "Scar despreciaba todas las tradiciones del reino y se reía de su viejo chamán delante de todos.",
+  "Za": "Scar lo tenía a su servicio a base de gritos, jaulas y canciones obligadas, y se reía de su pico a todas horas.",
+  "Sh": "Scar juró a las hienas que no volverían a pasar hambre, y las tenía muertas de hambre y a sus órdenes.",
+  "Ba": "Siempre lo tenía de comparsa junto a Shenzi, burlándose de él sin soltarle ni un hueso de la caza."
+ },
+ "looks": {
+  "Si": "Simba from The Lion King, an adult male lion with golden tawny fur, a full thick dark-red-brown mane, warm amber eyes and a proud regal bearing, no clothes.",
+  "Na": "Nala from The Lion King, an adult lioness with sleek cream-beige fur, a pale muzzle, big blue-green eyes, a slim athletic build, no mane and no clothes.",
+  "Ti": "Timon from The Lion King, a small meerkat standing upright with sandy tan fur, a cream face and belly, a pointed snout with a dark nose, big dark eyes and tiny hands, no clothes.",
+  "Pu": "Pumbaa from The Lion King, a stocky warthog with greyish-brown bristly fur, a wide flat snout with two long curved yellow tusks, a stiff tufted mane and small round warts, no clothes.",
+  "Ra": "Rafiki from The Lion King, an old mandrill shaman with a blue and red striped face, a white tuft beard, grey-brown shaggy fur, a wooden staff with a gourd tied to it and a red-orange fur patch on the nape.",
+  "Za": "Zazu from The Lion King, a red-billed hornbill with a long curved bright red beak, blue feathered head and neck, white belly, grey wings and a tall tuft of feathers on the head, a fussy proud stance.",
+  "Sh": "Shenzi from The Lion King: a cunning spotted hyena with a long dark muzzle, sloping neck, grey-purple fur with dark spots, a strip of black shaggy mane running from her head down her neck, narrow yellow eyes, a wide toothy sneer showing sharp teeth.",
+  "Ba": "Banzai from The Lion King: a goofy spotted hyena with a long dark muzzle, grey-brown fur with dark spots, a strip of black shaggy mane on his head and neck, one big black nose, sharp teeth and a hungry open-mouthed grin.",
+  "Sc": "Scar from The Lion King, a lean adult male lion with dark brown-tawny fur, a jet-black thin mane, bright green eyes, a long jagged scar across the left eye, sharp cheekbones and a sly sneering expression."
+ },
+ "cover": "Pride Rock rising over the African savanna at sunset, a golden rocky outcrop with a long ledge, acacia trees and a distant dark cave below, a bone cage in the foreground, no characters and no text."
+}

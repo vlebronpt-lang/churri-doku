@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "Ja": "Cal le ofreció veinte dólares por salvar a Rose, lo sentó a cenar en primera para reírse de él y le puso a Lovejoy pisándole los talones. Jack solo quería dibujar, bailar en tercera y no volver a verle la cara.",
+  "Ro": "Cal tenía a Rose prometida como quien reserva una mesa, y en cada cena decidía por ella lo que comía y lo que pensaba. Aquella noche a Rose se le acabó la paciencia, y con ella el compromiso.",
+  "Ru": "Cal sabía que la familia de Ruth dependía de su dinero y se lo recordaba, amenazando con romper el compromiso. Ruth no pensaba dejar que los hundiera en la ruina ni que los humillara más.",
+  "Mo": "Cal y su corrillo trataban a Molly Brown de advenediza delante de toda la mesa, como si el dinero nuevo oliera mal. Molly ha salido de cosas peores y no estaba dispuesta a aguantar una más.",
+  "Lo": "Cal tenía a Lovejoy a su disposición a todas horas, mandándolo espiar a su prometida sin darle jamás las gracias. Un hombre aguanta mucho, pero hasta un criado de usar y tirar tiene su límite.",
+  "An": "Cal se reía de las preocupaciones de Thomas Andrews por los botes salvavidas y trataba su barco como un juguete de lujo. Andrews se ha dejado la vida en esa obra y no soporta que se la pisoteen.",
+  "Sm": "Cal se paseaba por el barco como si fuera suyo, repartiendo billetes entre los oficiales para conseguir favores. En su último viaje antes del retiro, el capitán Smith no iba a tolerar que se burlara de su autoridad.",
+  "Fa": "Cal trataba a los de tercera como a ganado y había puesto a Lovejoy a vigilar a Jack, el mejor amigo de Fabrizio. Fabrizio ganó su billete en una partida de cartas, y nadie iba a estropearle el viaje a América."
+ },
+ "grudges": {
+  "Ja": "Cal le había ofrecido veinte dólares por salvar a Rose y lo había sentado a cenar en primera para reírse de él.",
+  "Ro": "Cal la tenía prometida a la fuerza y decidía hasta lo que debía comer y decir en cada cena.",
+  "Ru": "Cal le recordaba a todas horas que la fortuna de la familia dependía de él y amenazaba con romper el compromiso.",
+  "Mo": "Cal y su círculo la despreciaban como nueva rica y la trataban con desdén en la mesa.",
+  "Lo": "Cal lo tenía a su servicio día y noche, mandándolo espiar a su prometida sin una palabra de agradecimiento.",
+  "An": "Cal se burlaba de sus preocupaciones por la seguridad del barco y trataba su obra como un capricho para ricos.",
+  "Sm": "Cal se movía por el barco como en su casa y compraba favores entre los oficiales con billetes.",
+  "Fa": "Cal trataba a los de tercera como a ganado, tenía a Lovejoy vigilando a su mejor amigo y estaba amargándole el sueño de llegar a América."
+ },
+ "looks": {
+  "Ja": "Jack Dawson from Titanic: lanky young man in his early twenties, tousled sandy-blond hair, clean-shaven, warm open smile, a worn brown wool coat or rolled-up sleeves over a plain vest with suspenders, a flat cap tucked in his pocket, a sketchbook under his arm.",
+  "Ro": "Rose DeWitt Bukater from Titanic: young woman with long wavy copper-red hair pinned up loosely, pale skin, bright determined eyes, an elegant ivory Edwardian dress and a wide-brimmed hat with ribbons.",
+  "Ru": "Ruth DeWitt Bukater from Titanic: stern upper-class woman in her late forties, reddish-brown hair swept into a high Edwardian updo under a large feathered hat, a dark gown, jewellery at her throat, a disapproving pinched expression.",
+  "Mo": "Molly Brown from Titanic: cheerful stout woman in her forties, curly light-brown hair, big warm smile, a rich Edwardian dress with a fur stole and a large feathered hat, frank and friendly look.",
+  "Lo": "Spicer Lovejoy from Titanic: tall thin man in his fifties with a hollow severe face, slicked-back greying dark hair, no beard, cold watchful eyes, a charcoal frock suit with a waistcoat, black derby hat and gloves.",
+  "An": "Thomas Andrews from Titanic: kind earnest man of about forty, slightly greying dark hair, a neat moustache, a dark three-piece suit with a watch chain, rolled ship blueprints under his arm and a worried look.",
+  "Sm": "Captain Edward Smith from Titanic: dignified elderly sea captain, neat white beard, kind but weary eyes, navy double-breasted uniform with gold braid on the sleeves and a white-topped captain's cap.",
+  "Fa": "Fabrizio from Titanic: cheerful young Italian man in his twenties, dark curly hair, clean-shaven, big grin, worn wool jacket and flat cap, a scarf at his neck, third-class traveller's clothes.",
+  "Ca": "Cal Hockley from Titanic: arrogant wealthy man of about thirty, slicked-back black hair with a side parting, clean-shaven sharp face, a black Edwardian tuxedo with white bow tie and a gold watch chain."
+ },
+ "cover": "A white Edwardian ocean liner's grand staircase and promenade deck at night: a polished wooden clock above a sweeping carpeted staircase, with a large blue diamond necklace glittering on a velvet cushion in the foreground, starry sky through the glass dome, no people and no text."
+}

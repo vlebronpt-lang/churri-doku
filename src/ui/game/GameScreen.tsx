@@ -12,6 +12,7 @@ import { levelInfo, nextPuzzle } from '../../data/puzzles';
 import { Board, noMarks, type BoardMarks } from './Board';
 import { SuspectCard, ZoneLine } from './SuspectCard';
 import { ClueText, type Highlight } from './ClueText';
+import { GroupChips, RulesBox } from './RulesBox';
 import { Icon } from '../Icon';
 import { Portrait } from '../Portrait';
 import { HintPanel, hintTarget } from './HintPanel';
@@ -826,6 +827,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
             <h2>Sospechosos</h2>
             <span className="muted small">{tapAction === 'place' ? 'Toca una foto y luego una casilla, o arrástrala al plano' : 'Toca una foto; mantén pulsada la casilla para colocar'}</span>
           </div>
+          <RulesBox p={p} onHighlight={settings.keywordHighlights ? setHighlight : undefined} />
           <div ref={suspectsList} className={suspectsClass(density)}>
             {p.cast.map((ch, k) => (
               <SuspectCard
@@ -912,6 +914,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
               <Portrait p={p} ch={selChar} className="selected-clue__img" />
               <div>
                 <strong>{displayName(selChar)}</strong>
+                <GroupChips p={p} ch={selChar} />
                 <ClueText p={p} ch={selChar} simple={settings.simpleDirections} onHighlight={settings.keywordHighlights ? setHighlight : undefined} />
                 {zoneOf(selChar.id) && <ZoneLine zone={zoneOf(selChar.id)!} onClear={() => game.toggleZone(selChar.id, zoneOf(selChar.id)!.room)} />}
                 {!coach && !selChar.victim && <button className="linkish selected-clue__fb" onClick={() => setFeedbackFor({ charId: selChar.id, who: `Pista ${withPrep('de', selChar)}`, text: clueText(p, selChar) })}>¿Te confunde esta pista?</button>}
@@ -919,6 +922,7 @@ export function GameScreen({ p, reto, onHelp, onSettings, coach, onFinished, liv
               {!coach && <button className="icon-btn icon-btn--sm" onClick={() => setSelected(null)} aria-label="Deseleccionar"><Icon name="close" size={18} /></button>}
             </div>
           )}
+          <RulesBox p={p} mobile onHighlight={settings.keywordHighlights ? setHighlight : undefined} />
           <div className="tools-bar">{tools}</div>
 
           {solved && !showResult && !live && (

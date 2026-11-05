@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "El": "Wickham le contó a Elizabeth entre lágrimas de cocodrilo que Darcy le había arruinado la vida, y ella, que presume de calar a la gente, se lo tragó entero. Su orgullo no perdonó quedar como una tonta.",
+  "Da": "Wickham dilapidó el dinero que dejó el padre de Darcy, fue tras la fortuna de su hermana Georgiana y encima se paseaba por Netherfield como si nada. Darcy es hombre de pocas palabras, y con él las agotó.",
+  "Ja": "Wickham engañó a medio Meryton con sus deudas y sus cuentos, y las Bennet lo recibían en casa como a un amigo. Jane, que nunca ve maldad en nadie, por fin la vio.",
+  "Bi": "Wickham llevaba semanas poniendo a Darcy de vuelta y media por todo el condado, y Darcy es el mejor amigo de Bingley. Bingley es un hombre amable, pero a su casa y a sus amigos no los insulta nadie.",
+  "Ca": "Wickham difundía mentiras sobre Darcy, a quien Caroline lleva años cazando con elegancia, y encima se coló en su baile. Una anfitriona así no tolera manchas en una velada perfecta.",
+  "Co": "Aquel oficial se burlaba de las reverencias del Sr. Collins y exponía a su patrona, lady Catherine de Bourgh, a rumores impropios de su rango. Servir a una dama tan ilustre exige defender su honor.",
+  "LC": "Un don nadie, hijo de un simple administrador, se codeaba con la familia de lady Catherine como si le correspondiera y le había echado el ojo a la fortuna de su sobrina. Ella jamás toleró tal insolencia y no iba a empezar en un baile.",
+  "Ly": "Wickham le sacó a Lydia los ahorros para cintas y sombreros con la promesa de devolvérselos, y luego ella descubrió que él debía dinero a medio Meryton. Será la más pequeña de las Bennet, pero a ella no la engaña nadie."
+ },
+ "grudges": {
+  "El": "Wickham le había contado una historia lacrimógena sobre Darcy y ella la había creído a pies juntillas, quedando como una ingenua.",
+  "Da": "Wickham se había gastado el dinero que le dejó su padre y había ido tras la fortuna de su hermana Georgiana.",
+  "Ja": "Wickham iba dejando deudas y cuentos por todo Meryton y ponía en peligro el buen nombre de las Bennet.",
+  "Bi": "Wickham llevaba semanas hablando mal de su mejor amigo, Darcy, delante de medio condado.",
+  "Ca": "Wickham había difundido mentiras sobre Darcy y se había colado en su baile sin que nadie lo invitara.",
+  "Co": "Wickham se había burlado de sus reverencias y sus sermones y había dejado en mal lugar a su patrona, lady Catherine.",
+  "LC": "Wickham, hijo de un simple administrador, se codeaba con su familia como si fuera uno más y le había echado el ojo a la fortuna de su sobrina.",
+  "Ly": "Wickham le había pedido prestados sus ahorros para cintas y sombreros y no pensaba devolverle ni un chelín."
+ },
+ "looks": {
+  "El": "Elizabeth Bennet from Pride and Prejudice: young woman in her early twenties with dark brown hair pinned up in a loose Regency updo with a few curls, bright intelligent eyes and a teasing half-smile, wearing a simple cream Regency empire-waist dress with a sage-green spencer jacket.",
+  "Da": "Mr. Darcy from Pride and Prejudice: tall man in his thirties with dark brown wavy hair and long sideburns, no beard, a serious proud expression, wearing a Regency dark tailcoat, high white cravat, cream waistcoat and dark trousers.",
+  "Ja": "Jane Bennet from Pride and Prejudice: young woman in her early twenties, the beautiful eldest sister, with light blonde hair in a soft Regency updo, gentle sweet face and a serene smile, wearing a pale blue or white empire-waist ball gown.",
+  "Bi": "Mr. Bingley from Pride and Prejudice: cheerful young man in his late twenties with light reddish-blond tousled hair and sideburns, a boyish friendly open smile, wearing a Regency tailcoat in blue, a buff waistcoat and a white cravat.",
+  "Ly": "Lydia Bennet from Pride and Prejudice: giddy teenage girl with curly light brown hair partly pinned up, rosy cheeks, a mischievous grin, a frilly pink-and-white Regency dress with a high neckline, ribbons and a bonnet.",
+  "Ca": "Caroline Bingley from Pride and Prejudice: elegant woman in her late twenties with sleek dark hair in an elaborate Regency updo with a feather ornament, a haughty raised-chin look, wearing a stylish deep-red or emerald empire-waist silk ball gown with long gloves.",
+  "Co": "Mr. Collins from Pride and Prejudice: awkward clergyman in his late twenties, plump and tall, with a round pale face, thinning slicked-down brown hair, an eager smug smile, wearing a black clerical Regency tailcoat, white bands at the neck, black breeches and buckled shoes.",
+  "LC": "Lady Catherine de Bourgh from Pride and Prejudice: imperious elderly aristocratic woman in her sixties with grey hair under a tall feathered headdress, a stern disdainful face, wearing a lavish dark purple Regency gown with jewels, a fur-trimmed shawl and a cane.",
+  "Wi": "Mr. Wickham from Pride and Prejudice: charming handsome man in his late twenties with wavy light brown hair and sideburns, a roguish smile, wearing a scarlet Regency militia officer's coat with gold buttons and white breeches and a black high collar."
+ },
+ "cover": "A grand Regency country-house ballroom at Netherfield Park lit by crystal chandeliers, with a polished parquet floor, tall arched windows with drapes, and a pianoforte and a punch bowl on a table in the corner, no characters and no text."
+}

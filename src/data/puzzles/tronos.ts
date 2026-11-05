@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'tronos',
-  num: 21,
+  num: 56,
   level: 5,
   franchise: 'Juego de Tronos',
   title: 'La Boda Púrpura',

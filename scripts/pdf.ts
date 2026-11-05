@@ -6,7 +6,7 @@
  *     sospechosos, sus pistas y móviles y los objetos a la izquierda, y el plano con la cuadrícula de deducción a
  *     la derecha, y contraportada) y -solucion.pdf (una página: la solución en media página y «caso cerrado»)
  *   - churri-doku-libro-completo.pdf (portada, dedicatoria, cómo se juega, un ejemplo resuelto, la escuela de
- *     detectives, la web con QR, índice, 25 casos en doble página, el caso final exclusivo, las soluciones de dos
+ *     detectives, la web con QR, índice, los casos en doble página, el caso final exclusivo, las soluciones de dos
  *     en dos, notas y contraportada)
  *   - churri-doku-libro-encuadernar-interior.pdf y -cubiertas.pdf (el libro con margen de lomo: el interior en
  *     papel y las cubiertas, portada y contraportada con sus reversos, en cartulina)
@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium, type Page } from 'playwright-core';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
-import { downloadName, BOOK_BOUND_COVERS, BOOK_BOUND_INTERIOR, BOOK_PDF, ZIP_ALL, type PdfKind } from '../src/downloads';
+import { downloadName, BOOK_BOUND_COVERS, BOOK_BOUND_INTERIOR, BOOK_PDF, zipName, type PdfKind } from '../src/downloads';
 import type { PuzzleInput } from '../src/engine/types';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
@@ -76,7 +76,8 @@ async function main() {
   const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
   page.on('pageerror', (e) => console.error('pageerror', e.message));
 
-  const zip = new JSZip();
+  const zips = new Map<number, JSZip>();
+  const zipOf = (level: number) => zips.get(level) ?? zips.set(level, new JSZip()).get(level)!;
   const kinds: PdfKind[] = ['color', 'bn', 'solucion'];
   const sheets: Record<string, Record<PdfKind, Uint8Array>> = {};
   for (const p of puzzles) {
@@ -93,7 +94,7 @@ async function main() {
       sheets[p.id][kind] = bytes;
       const name = downloadName(p, kind);
       writeFileSync(join(OUT, name), bytes);
-      zip.file(`churri-doku/${LEVEL_DIR[p.level]}/${name}`, bytes);
+      zipOf(p.level).file(`churri-doku/${LEVEL_DIR[p.level]}/${name}`, bytes);
     }
     console.log(`✔ ${String(p.num).padStart(2)} ${p.id}`);
   }
@@ -128,7 +129,7 @@ async function main() {
   const covers = await part('Libro para encuadernar (cubiertas)', [0, 1, n - 2, n - 1]);
   writeFileSync(join(OUT, BOOK_BOUND_INTERIOR), interior);
   writeFileSync(join(OUT, BOOK_BOUND_COVERS), covers);
-  zip.file('churri-doku/LEEME.txt', [
+  const leeme = [
     'Churri-doku · Sudoku con asesinato',
     '',
     'Cada caso viene en tres archivos:',
@@ -146,11 +147,16 @@ async function main() {
     'https://vlebronpt-lang.github.io/churri-doku/',
     '',
     'Proyecto fan sin ánimo de lucro. Los personajes pertenecen a sus propietarios.',
-  ].join('\n'));
-  const zipBytes = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 6 } });
-  writeFileSync(join(OUT, ZIP_ALL), zipBytes);
+  ].join('\n');
+  const zipSizes: Record<number, number> = {};
+  for (const [level, zip] of zips) {
+    zip.file('churri-doku/LEEME.txt', leeme);
+    const zipBytes = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    writeFileSync(join(OUT, zipName(level)), zipBytes);
+    zipSizes[level] = zipBytes.length;
+  }
   // Tamaños para mostrarlos en la página de descargas.
-  writeFileSync(join(OUT, 'tamanos.json'), JSON.stringify({ libro: bookBytes.length, zip: zipBytes.length, interior: interior.length, cubiertas: covers.length }));
+  writeFileSync(join(OUT, 'tamanos.json'), JSON.stringify({ libro: bookBytes.length, zips: zipSizes, interior: interior.length, cubiertas: covers.length }));
   console.log(`✔ libro (${n} páginas, ${(bookBytes.length / 1e6).toFixed(1)} MB), para encuadernar (${(interior.length / 1e6).toFixed(1)} + ${(covers.length / 1e6).toFixed(1)} MB) y zip (${(zipBytes.length / 1e6).toFixed(1)} MB)`);
 
   await browser.close();

@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { LEVELS, PUZZLES } from '../data/puzzles';
-import { BOOK_BOUND_COVERS, BOOK_BOUND_INTERIOR, BOOK_PDF, DEDICATION_KEY, downloadName, PDF_KINDS, ZIP_ALL, type Dedication } from '../downloads';
+import { BOOK_BOUND_COVERS, BOOK_BOUND_INTERIOR, BOOK_PDF, DEDICATION_KEY, downloadName, PDF_KINDS, zipName, type Dedication } from '../downloads';
 import { load, save } from '../state/storage';
 import { navigate } from '../router';
 import { CaseCover } from './CaseCard';
@@ -38,7 +38,7 @@ function DedicatedBook() {
 }
 
 export function Downloads() {
-  const [sizes, setSizes] = useState<{ libro?: number; zip?: number; interior?: number; cubiertas?: number }>({});
+  const [sizes, setSizes] = useState<{ libro?: number; zips?: Record<number, number>; interior?: number; cubiertas?: number }>({});
   useEffect(() => {
     fetch(`${BASE}downloads/tamanos.json`).then((r) => (r.ok ? r.json() : {})).then(setSizes).catch(() => {});
   }, []);
@@ -58,10 +58,16 @@ export function Downloads() {
             <Icon name="book" size={30} />
             <span><strong>Libro completo (PDF)</strong><span>Los {PUZZLES.length} casos en doble página y un caso final exclusivo, con cómo se juega, la escuela de detectives, las soluciones al final y contraportada{mb(sizes.libro)}.</span></span>
           </a>
-          <a className="dl-big" href={`${BASE}downloads/${ZIP_ALL}`} download>
+          <div className="dl-big dl-big--zips">
             <Icon name="download" size={30} />
-            <span><strong>Todos los casos (ZIP)</strong><span>Los {PUZZLES.length * 3} PDF sueltos (color, B/N y solución), ordenados por nivel{mb(sizes.zip)}.</span></span>
-          </a>
+            <span>
+              <strong>Todos los casos, por temporadas (ZIP)</strong>
+              <span>Los PDF sueltos de cada caso (color, B/N y solución).</span>
+              <span className="dl-zips">
+                {LEVELS.map((l) => <a key={l.level} href={`${BASE}downloads/${zipName(l.level)}`} download>{l.season}{mb(sizes.zips?.[l.level])}</a>)}
+              </span>
+            </span>
+          </div>
         </div>
       </section>
       <section className="dl-special">

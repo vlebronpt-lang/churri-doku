@@ -10,6 +10,7 @@ import { solve } from '../src/engine/solver';
 import { solveLogically, type LogicReport } from '../src/engine/logic';
 import { factsFor, type Fact } from '../src/engine/facts';
 import { castIndex, cellHas, clueHolds } from '../src/engine/clues';
+import { anyRuleForbids, inGroup, rulesHold } from '../src/engine/rules';
 import type { Clue, Level, Puzzle, PuzzleInput } from '../src/engine/types';
 import { PROFILE, hardSteps, type Profile } from '../src/engine/difficulty';
 
@@ -38,10 +39,10 @@ const shuffleWith = <T,>(rng: Rng, a: T[]) => {
 /** Preferencia de tipos de pista según el `clueLevel` del perfil (se multiplica por el "sabor" de cada hecho). */
 export const KIND_WEIGHT: Record<Level, Record<string, number>> = {
   1: { inRoom: 3, on: 3, beside: 3, inRoomNotBeside: 2, row: 1.6, col: 1.6, dir: 1.4, alone: 2, onlyOn: 2, corner: 0.6 },
-  2: { inRoom: 2, on: 2, beside: 2, inRoomNotBeside: 1.5, dir: 2, sameRoom: 2, aloneWith: 2, row: 1.2, col: 1.2, corner: 1.4, withGender: 1.6, offset: 1, alone: 1.6, onlyOn: 1.4, adjacentTo: 1.2, inRoomCorner: 1 },
-  3: { inRoom: 1.4, on: 1.4, beside: 1.6, dir: 2, dirDiag: 1.2, offset: 1.6, sameRoom: 1.8, aloneWith: 1.6, withGender: 1.6, corner: 1.4, roomCount: 1.4, withSomeoneOn: 1.2, notAlone: 1, row2: 1, col2: 1, diagonal: 1, adjacentTo: 1.2, inRoomNotOn: 1, alone: 1.2 },
-  4: { dir: 2, dirDiag: 1.6, offset: 2, diagonal: 1.6, sameRoom: 1.8, notSameRoom: 1, withGender: 1.8, roomCount: 1.6, notAlone: 1, someoneAtOffset: 1.6, besideN: 1.2, corner: 1.4, inRoomNotOn: 1, beside: 1.4, inRoom: 1, on: 1, row2: 1.4, col2: 1.4, roomEmpty: 1, withSomeoneOn: 1.4, withSomeoneBeside: 1.2, adjacentTo: 1.2, notBeside: 1 },
-  5: { dir: 2, dirDiag: 1.8, offset: 2, diagonal: 1.8, sameRoom: 1.6, notSameRoom: 1.2, withGender: 1.8, roomCount: 1.6, notAlone: 1.2, someoneAtOffset: 2, besideN: 1.4, corner: 1.4, inRoomNotOn: 1, beside: 1.2, inRoom: 0.8, on: 0.8, row2: 1.4, col2: 1.4, roomEmpty: 1.2, withSomeoneOn: 1.4, withSomeoneBeside: 1.4, adjacentTo: 1.2, notBeside: 1.2 },
+  2: { inRoom: 2, on: 2, beside: 2, inRoomNotBeside: 1.5, dir: 2, sameRoom: 2, aloneWith: 2, row: 1.2, col: 1.2, corner: 1.4, withGender: 1.6, withGroup: 1.8, offset: 1, alone: 1.6, onlyOn: 1.4, adjacentTo: 1.2, inRoomCorner: 1 },
+  3: { inRoom: 1.4, on: 1.4, beside: 1.6, dir: 2, dirDiag: 1.2, offset: 1.6, sameRoom: 1.8, aloneWith: 1.6, withGender: 1.6, withGroup: 1.8, corner: 1.4, roomCount: 1.4, withSomeoneOn: 1.2, notAlone: 1, row2: 1, col2: 1, diagonal: 1, adjacentTo: 1.2, inRoomNotOn: 1, alone: 1.2 },
+  4: { dir: 2, dirDiag: 1.6, offset: 2, diagonal: 1.6, sameRoom: 1.8, notSameRoom: 1, withGender: 1.8, withGroup: 2, roomCount: 1.6, notAlone: 1, someoneAtOffset: 1.6, besideN: 1.2, corner: 1.4, inRoomNotOn: 1, beside: 1.4, inRoom: 1, on: 1, row2: 1.4, col2: 1.4, roomEmpty: 1, withSomeoneOn: 1.4, withSomeoneBeside: 1.2, adjacentTo: 1.2, notBeside: 1 },
+  5: { dir: 2, dirDiag: 1.8, offset: 2, diagonal: 1.8, sameRoom: 1.6, notSameRoom: 1.2, withGender: 1.8, withGroup: 2, roomCount: 1.6, notAlone: 1.2, someoneAtOffset: 2, besideN: 1.4, corner: 1.4, inRoomNotOn: 1, beside: 1.2, inRoom: 0.8, on: 0.8, row2: 1.4, col2: 1.4, roomEmpty: 1.2, withSomeoneOn: 1.4, withSomeoneBeside: 1.4, adjacentTo: 1.2, notBeside: 1.2 },
 };
 
 export interface GenResult { facts: (Fact | null)[]; rep: LogicReport; p: Puzzle; obj: number }
@@ -53,10 +54,10 @@ export function randomSolution(p: Puzzle, input: PuzzleInput, rng: Rng): number[
   const idx = castIndex(p);
   const want = input.wantMurderer;
   const pins = input.pins ?? {};
-  const allowed = p.cast.map((ch) => {
+  const allowed = p.cast.map((ch, k) => {
     const pin = pins[ch.id];
     return p.cells.filter((c) => {
-      if (!c.occupiable) return false;
+      if (!c.occupiable || anyRuleForbids(p, k, c.i)) return false;
       if (!pin) return true;
       if (pin.rooms && !pin.rooms.some((rk) => p.roomByKey[rk] === c.room)) return false;
       if (pin.objs && !pin.objs.some((o) => cellHas(p, c.i, o))) return false;
@@ -64,7 +65,9 @@ export function randomSolution(p: Puzzle, input: PuzzleInput, rng: Rng): number[
       return true;
     }).map((c) => c.i);
   });
-  for (let attempt = 0; attempt < 3000; attempt++) {
+  // Con reglas del caso hay que descartar muchas colocaciones hasta dar con una que las cumpla.
+  const attempts = p.rules.length ? 60000 : 3000;
+  for (let attempt = 0; attempt < attempts; attempt++) {
     const pos = new Array<number>(n).fill(-1);
     const rows = new Set<number>(), cols = new Set<number>();
     const order = shuffleWith(rng, Array.from({ length: n }, (_, k) => k)).sort((a, b) => allowed[a].length - allowed[b].length);
@@ -83,9 +86,31 @@ export function randomSolution(p: Puzzle, input: PuzzleInput, rng: Rng): number[
     const comp = pos.map((i, k) => (k !== v && p.cells[i].room === vRoom ? k : -1)).filter((k) => k >= 0);
     if (comp.length !== 1) continue;
     if (want && p.cast[comp[0]].id !== want) continue;
+    if (!rulesHold(p, pos) || !rulesInPlay(p, pos)) continue;
     return pos;
   }
   return null;
+}
+
+/** Una zona reservada sin nadie dentro sería una regla sin gracia: que al menos haya alguien de su grupo. */
+function rulesInPlay(p: Puzzle, pos: number[]): boolean {
+  // GEN_ZONA_LIBRE=1: la zona reservada puede quedarse vacía (la regla sigue descartando casillas).
+  if (process.env.GEN_ZONA_LIBRE) return true;
+  return p.rules.every((rule) => {
+    if (rule.t !== 'zoneOnly') return true;
+    return pos.some((i, k) => inGroup(p.cast[k], rule.group) && rule.rooms.some((rk) => p.roomByKey[rk] === p.cells[i].room));
+  });
+}
+
+/** ¿Hacen falta todas las reglas del caso? Sin una regla necesaria, tendría que dejar de haber solución única. */
+export function rulesNeeded(p: Puzzle): boolean {
+  return p.rules.every((rule) => {
+    const q: Puzzle = { ...p, rules: p.rules.filter((r) => r !== rule) };
+    const L = solveLogically(q, { allowTrial: false, maxSteps: 400 });
+    if (L.solved && L.sound) return false;
+    const r = solve(q, 2, undefined, 3_000_000, L.sound ? L.stuckState?.cand : undefined);
+    return r.aborted || r.count > 1;
+  });
 }
 
 function cluesFrom(p: Puzzle, facts: (Fact | null)[]): Clue[][] {
@@ -155,7 +180,7 @@ function looseness(p: Puzzle, k: number, f: Fact, pos: number[]): number {
  * 3) Ajusta la dificultad hacia la banda del nivel cambiando pistas por otras más flojas o más
  *    fuertes (siempre con solución única) y se rinde si se estanca.
  */
-export function searchClues(p: Puzzle, pos: number[], _level: Level, prof: Profile, rng: Rng, deadline = Infinity): GenResult | null {
+export function searchClues(p: Puzzle, pos: number[], _level: Level, prof: Profile, rng: Rng, deadline = Infinity, rulesOptional = false): GenResult | null {
   const n = p.cast.length;
   const W = KIND_WEIGHT[prof.clueLevel];
   const all = p.cast.map((ch, k) => (ch.victim ? [] : factsFor(p, k, pos).filter((f) => f.minLevel <= prof.clueLevel)));
@@ -275,10 +300,18 @@ export function searchClues(p: Puzzle, pos: number[], _level: Level, prof: Profi
     const b = badness(e.rep);
     if (!acc.best || b < acc.best.bad) acc.best = { changes, rep: e.rep, bad: b };
   };
-  for (let it = 0; it < 200 && bad > 0 && stagn < 12; it++) {
+  // Con la dificultad ya en su sitio, si sobra alguna regla del caso se siguen aflojando pistas hasta que haga falta.
+  let ruleTries = 0;
+  for (let it = 0; it < 200 && stagn < 12; it++) {
     if (Date.now() > deadline) return null;
+    if (bad === 0) {
+      if (rulesOptional || !p.rules.length || ruleTries >= 12 || rulesNeeded(withClues(p, cluesFrom(p, facts)))) break;
+      ruleTries++;
+      bad = 0.01;
+      dbg(`sobra una regla: se aflojan pistas (${ruleTries})`);
+    }
     const sc = rep.score / n;
-    const harder = sc < prof.band[0] || rep.techCount.trial < prof.minTrial || hardSteps(rep.techCount) < prof.minHard;
+    const harder = ruleTries > 0 || sc < prof.band[0] || rep.techCount.trial < prof.minTrial || hardSteps(rep.techCount) < prof.minHard;
     const acc: { best: Move | null } = { best: null };
     // Movimiento simple: cambiar la pista de alguien por otra más floja (o más fuerte) con solución única.
     for (const k of shuffleWith(rng, free).slice(0, 4)) {
@@ -342,6 +375,11 @@ export function searchClues(p: Puzzle, pos: number[], _level: Level, prof: Profi
   const check = L0.solved && L0.sound ? { count: 1, aborted: false } : solve(p, 2, C, 40_000_000, L0.sound ? L0.stuckState?.cand : undefined);
   dbg(`unique? count ${check.count} aborted ${check.aborted} (${((Date.now() - tc0) / 1000).toFixed(1)}s)`);
   if (check.aborted || check.count !== 1) return null;
+  // Las reglas del caso tienen que servir para algo: si sobra alguna, este juego de pistas no vale.
+  if (!rulesOptional && p.rules.length && !rulesNeeded(withClues(p, C))) {
+    dbg('sobra alguna regla');
+    return null;
+  }
   const inBand = sc >= prof.band[0] && sc <= prof.band[1];
   const flavor = facts.reduce((acc, f) => acc + (f ? f.flavor : 0), 0) / free.length;
   const kinds = new Map<string, number>();
@@ -354,7 +392,7 @@ export function searchClues(p: Puzzle, pos: number[], _level: Level, prof: Profi
 }
 
 /** Intenta varias colocaciones y devuelve los candidatos válidos (mejores primero). */
-export function generate(input: PuzzleInput, opts: { level: Level; prof?: Profile; rng: Rng; tries: number; timeMs: number; attemptMs?: number; keepSolution?: boolean; stopAfter?: number; onCandidate?: (r: GenResult, elapsedMs: number) => void }): GenResult[] {
+export function generate(input: PuzzleInput, opts: { level: Level; prof?: Profile; rng: Rng; tries: number; timeMs: number; attemptMs?: number; keepSolution?: boolean; rulesOptional?: boolean; stopAfter?: number; onCandidate?: (r: GenResult, elapsedMs: number) => void }): GenResult[] {
   const { level, rng, tries, timeMs } = opts;
   const prof = opts.prof ?? PROFILE[level];
   const keep = !!opts.keepSolution && !!input.solution;
@@ -374,7 +412,7 @@ export function generate(input: PuzzleInput, opts: { level: Level; prof?: Profil
       continue;
     }
     const deadline = Math.min(t0 + timeMs, Date.now() + (opts.attemptMs ?? Infinity));
-    const res = searchClues(base, pos, level, prof, rng, deadline);
+    const res = searchClues(base, pos, level, prof, rng, deadline, opts.rulesOptional);
     if (res) {
       results.push(res);
       opts.onCandidate?.(res, Date.now() - t0);

@@ -95,6 +95,9 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <Card title="4 · Acusa al culpable">
             Cuando todos estén colocados, pulsa <strong>Acusar</strong> y señala al asesino. Si algo no cuadra, te avisaremos.
           </Card>
+          <Card title="5 · Reglas del caso">
+            Algunos casos traen <strong>reglas propias</strong>, en un recuadro sobre los sospechosos y en el rótulo de la zona: «solo los Stark podían estar en la Cripta», «en el Salón había exactamente tres personas», «había exactamente una zona vacía». Valen para todo el reparto. Si el plano tiene más filas y columnas que personas, sobran: algunas se quedan vacías.
+          </Card>
         </div>
       )}
 
@@ -152,7 +155,7 @@ export function HowTo({ onClose }: { onClose: () => void }) {
           <details><summary>¿Los objetos grandes ocupan varias casillas?</summary><p>Sí (mesas, camas, coches…), pero una persona solo ocupa una casilla.</p></details>
           <details><summary>¿Siempre hay una sola solución?</summary><p>Sí, y todos los casos se han verificado con un programa que lo comprueba. Si te sale otra cosa, repasa una palabra clave: es fácil pasar por alto un «no» o un «exactamente».</p></details>
           <details><summary>¿Por qué son tan difíciles?</summary><p>Porque así lo pidieron quienes los probaron. Hemos medido los casos de Murdoku con el mismo motor que resuelve los nuestros: «Muy fácil» tiene la dificultad de «La habitación del pánico», un caso «Difícil» de Murdoku, y cada nivel siguiente es más difícil que el anterior. Desde el primer caso hay que hacer suposiciones. Si te atascas, empieza por el tutorial y la Academia, y recuerda que las pistas te explican el siguiente paso sin destripar el caso.</p></details>
-          <details><summary>¿Qué es el caso del día?</summary><p>Cada día hay un caso nuevo: el lunes, muy fácil; el sábado, experto. Usa el plano de uno de los 25 casos, pero con otra colocación, otras pistas y otro culpable. Si lo resuelves ese mismo día, sumas un día a tu <strong>racha</strong> 🔥. Los de días anteriores están en el <strong>Archivo</strong>.</p></details>
+          <details><summary>¿Qué es el caso del día?</summary><p>Cada día hay un caso nuevo: el lunes, muy fácil; el sábado, experto. Usa el plano de uno de los casos, pero con otra colocación, otras pistas y otro culpable. Si lo resuelves ese mismo día, sumas un día a tu <strong>racha</strong> 🔥. Los de días anteriores están en el <strong>Archivo</strong>.</p></details>
           <details><summary>¿Se guarda mi progreso?</summary><p>Sí, automáticamente en este navegador, incluido el tiempo. Puedes cerrar y seguir otro día. Para seguir en otro ordenador o en el móvil, abre <strong>Ajustes → Pasar mi progreso a otro dispositivo</strong> y abre ese enlace allí (o pégalo en <strong>Traer progreso desde un enlace</strong>).</p></details>
           <details><summary>¿Puedo instalarlo como una app y jugar sin conexión?</summary><p>Sí. En <strong>Ajustes → App y recordatorios</strong> puedes instalarlo (en iPhone: botón Compartir de Safari → «Añadir a pantalla de inicio») y pulsar <strong>Descargar todo</strong> para jugar sin internet. También puedes añadir a tu calendario un recordatorio diario del caso del día.</p></details>
           <details><summary>¿Y si una pista me confunde?</summary><p>Pulsa el <strong>?</strong> que aparece junto a la pista (en el móvil, «¿Te confunde esta pista?») y cuéntanos qué pasa. Se guarda en tu informe de juego (<strong>Ajustes → Ayudar a mejorar</strong>), que puedes mandar a quien crea los casos para mejorarlos.</p></details>

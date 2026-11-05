@@ -1,0 +1,35 @@
+{
+ "motives": {
+  "Bi": "Smaug se rio de Bilbo, lo llamó ladrón y casi lo achicharra por llevarse una copa, cuando él solo quería volver a su agujero. Como el contrato decía «saqueador», dejó el trabajo bien hecho.",
+  "G": "Aquel dragón era un tapón con alas en el norte y Gandalf no pensaba permitir que Sauron lo usara como arma. Organizó la expedición para quitarlo de en medio y hoy le tocaba rematar el plan.",
+  "Th": "Smaug le quitó a Thorin el reino y el oro de su abuelo, y lo dejó de herrero errante en las Montañas Azules. No pensaba morirse sin volver a casa.",
+  "Ba": "Balin vio arder Erebor siendo joven y lleva toda la vida contando cómo el dragón los echó de casa. Smaug había tenido tiempo de sobra, y Balin decidió que ya estaba bien.",
+  "Ki": "Kili creció en las Montañas Azules oyendo a su tío Thorin contar que Smaug les había quitado la montaña y el oro. No pensaba pasar otro invierno remendando botas mientras su herencia dormía bajo una bestia.",
+  "Br": "Smaug mató a Girion, antepasado de Bardo, arrasó su ciudad y dejó a sus descendientes malviviendo de barqueros. Bardo guardaba una flecha negra para la ocasión y unas cuentas que saldar.",
+  "Ta": "Por culpa de aquella montaña, un enano que le importaba mucho se metió en el peor de los peligros, y el fuego del dragón amenazaba a todos los que Tauriel juró proteger. No iba a quedarse mirando.",
+  "Tr": "Smaug llevaba más de un siglo sentado sobre las gemas blancas de la familia de Thranduil, que quería recuperar lo suyo. Un rey no regala su colección de joyas a un lagarto con alas.",
+  "L": "Las gemas del dragón habían vuelto loco al padre de Legolas, que lo tenía persiguiendo orcos y enanos por medio reino. Si Smaug dejaba de ser un problema, quizá su padre también."
+ },
+ "grudges": {
+  "Bi": "Smaug lo había recibido con burlas y amenazas, tomándolo por un simple ladrón de copas, y había estado a punto de asarlo.",
+  "G": "El dragón llevaba más de un siglo tapando la Montaña, y Gandalf temía que Sauron pudiera servirse de él como arma en el norte.",
+  "Th": "Smaug le arrebató el reino de su abuelo y lo dejó de herrero errante por tierras ajenas.",
+  "Ba": "Siendo joven vio arder Erebor y desde entonces repite la historia de cómo los enanos perdieron su casa a manos del dragón.",
+  "Ki": "Creció en las Montañas Azules, lejos del hogar de su familia, con la herencia de los suyos en manos de una bestia.",
+  "Br": "Su antepasado Girion cayó ante el dragón, su ciudad ardió y sus descendientes acabaron malviviendo de barqueros.",
+  "Ta": "Por el dragón y su tesoro, un enano que le importaba se había lanzado de cabeza al peligro, y el fuego de la bestia amenazaba a los que ella juró proteger.",
+  "Tr": "Smaug se había quedado con las gemas blancas de su familia, y él nunca perdonó que un lagarto con alas custodiara sus joyas.",
+  "L": "El oro del dragón había vuelto obsesivo a su padre, que le mandaba perseguir orcos y enanos por medio reino en vez de dejarlo vivir en paz."
+ },
+ "looks": {
+  "Bi": "Bilbo Baggins from The Hobbit: small young-looking hobbit with curly sandy-brown hair, big bare furry feet, a muted green and brown traveller's coat over a cream shirt, a small sword at his belt, a mischievous worried expression.",
+  "Th": "Thorin Oakenshield from The Hobbit: proud stern dwarf king with long dark hair streaked with grey, a short braided beard, a dark blue tunic under a heavy fur-trimmed coat, a runed sword at his side.",
+  "Ba": "Balin from The Hobbit: kind elderly dwarf, short and stout, bald on top with a ring of white hair, a big bulbous nose, rosy cheeks, a wide white forked beard, a red and brown coat with a thick fur collar, a gentle wise smile, not a wizard, no hat.",
+  "Ki": "Kili from The Hobbit: young handsome dwarf with shoulder-length dark hair and light stubble, no long beard, a brown hooded coat, a bow on his back, a cheeky grin.",
+  "Br": "Bard the Bowman from The Hobbit: weary grim man in his forties with messy shoulder-length dark hair and a stubble beard, a long worn dark coat, a big black bow in his hands.",
+  "Ta": "Tauriel from The Hobbit: young female wood-elf with long red hair partly braided back, pointed ears, green and brown leather armour, a bow and twin daggers, a fierce but gentle look.",
+  "Tr": "Thranduil from The Hobbit: tall regal elf king with long straight pale-blond hair, a crown of twisting antlers and twigs, shimmering silver-gold robes and a cold proud stare.",
+  "Sm": "Smaug from The Hobbit: gigantic red-gold dragon with a long serpentine neck, a horned crest, huge leathery wings, scales like jewelled armour and glowing golden eyes, coiled over a heap of gold."
+ },
+ "cover": "The great treasure hall of the Lonely Mountain, a vast cavern of towering stone pillars with endless dunes of gold coins, goblets and jewels, a glowing white gem on a stone pedestal, no characters and no text."
+}

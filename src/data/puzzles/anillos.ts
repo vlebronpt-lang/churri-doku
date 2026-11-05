@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'anillos',
-  num: 24,
+  num: 53,
   level: 5,
   franchise: 'El Señor de los Anillos',
   title: 'La caída de Isengard',

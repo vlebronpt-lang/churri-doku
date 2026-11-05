@@ -1,0 +1,37 @@
+{
+ "motives": {
+  "No": "Bill le pegó un tiro a la Novia en el ensayo de su boda y la dejó años en coma. Ella tenía una lista de nombres y él era el último, así que lo tachó con mucho gusto.",
+  "OR": "Bill seguía tratando a O-Ren como a una de sus Víboras cuando ella ya mandaba en todo Tokio. Una jefa de la yakuza no le debe explicaciones a nadie, y menos a quien se cree su dueño.",
+  "El": "Bill nunca reconoció ni uno solo de los méritos de Elle y dejaba que otra se llevara siempre los honores. Elle se cansó de ser la segunda y le pasó la cuenta de golpe.",
+  "Bu": "Bill tenía a su hermano Budd por un fracasado que empeñó su espada y trabaja de portero en un bar de carretera. Tras años de miradas por encima del hombro, Budd se hartó.",
+  "Ve": "Bill nunca le perdonó a Vernita que dejara las Víboras para vivir con su casita y sus cereales. Ella solo quería una vida tranquila y él no paraba de recordarle su pasado.",
+  "Go": "Bill se rio del uniforme de colegio de Gogo y de su bola con cadena delante de todos. Ella se lo tomó fatal, y ya se sabe cómo se pone cuando le llevan la contraria.",
+  "HH": "Bill fue alumno de Hattori Hanzo, y por su culpa el maestro juró no volver a forjar una espada para matar a nadie. Un artesano no perdona que ensucien así su trabajo.",
+  "PM": "Bill presumía por ahí de ser el mejor alumno de Pai Mei, que siempre ha dicho que ningún occidental le ha dado la talla. Un maestro no consiente que le roben el prestigio.",
+  "So": "Bill le pedía soluciones de última hora a Sofie para todos sus líos y no le pagó ni una sola factura. Una abogada puede aguantar mucho, pero no que le deban honorarios."
+ },
+ "grudges": {
+  "No": "Bill le había disparado en el ensayo de su boda y la había dejado años en coma.",
+  "OR": "Bill seguía tratándola como a una de sus Víboras, aunque ella ya dirigía su propio imperio en Tokio.",
+  "El": "Bill nunca le reconocía sus méritos y dejaba que otras se llevaran siempre los honores.",
+  "Bu": "Bill, su hermano mayor, lo trataba de fracasado por haber empeñado su espada y malvivir de portero en un bar de carretera.",
+  "Ve": "Bill la tenía por traidora por haber abandonado las Víboras para llevar una vida de barrio, con su casita y sus cereales.",
+  "Go": "Bill se burlaba de su uniforme de colegio y de su bola con cadena delante de todo el mundo.",
+  "HH": "Bill, su antiguo alumno, le había dado tal disgusto que juró no volver a forjar una espada para matar.",
+  "PM": "Bill presumía de ser su mejor alumno, cuando el maestro sostenía que ningún occidental le daba la talla.",
+  "So": "Bill le exigía soluciones de última hora para sus líos y jamás le pagó una factura."
+ },
+ "looks": {
+  "No": "The Bride (Beatrix Kiddo) from Kill Bill: a determined woman in her mid thirties with long blonde hair, wearing a yellow motorcycle jumpsuit with black stripes down the sides, holding a katana, a cold focused stare.",
+  "OR": "O-Ren Ishii from Kill Bill: an elegant East Asian woman in her thirties with long straight black hair, a white silk kimono, a calm and icy expression, a katana at her side.",
+  "El": "Elle Driver from Kill Bill: a slim blonde woman in her late thirties with a black eye patch over her right eye, a white nurse uniform, and a cold amused smile.",
+  "Bu": "Budd from Kill Bill: a lean weathered man in his fifties with a lined face, slicked-back dark hair, stubble, a black cowboy hat, a black western shirt, jeans and boots, a tired sneer.",
+  "Ve": "Vernita Green from Kill Bill: a Black woman in her thirties with short dark hair, wearing casual suburban clothes and a kitchen apron, a wary friendly smile.",
+  "Go": "Gogo Yubari from Kill Bill: a Japanese teenage bodyguard with long straight black hair and straight bangs, a dark school blazer over a white shirt with a tie, a ball on a chain in her hand, a cold mischievous grin.",
+  "HH": "Hattori Hanzo from Kill Bill: an elderly Japanese man with thin grey hair, a kind wrinkled face, wearing a white sushi chef uniform with a headband, a gentle humorous expression.",
+  "PM": "Pai Mei from Kill Bill: an ancient Chinese kung fu master with a long white beard and very long white eyebrows, white hair, wearing a grey-white traditional robe, a stern disdainful look.",
+  "So": "Sofie Fatale from Kill Bill: an elegant woman in her thirties with dark hair neatly styled, wearing a sharp black business suit and white blouse, a poised lawyer-like expression.",
+  "Bi": "Bill from Kill Bill: a weathered charming man in his sixties with long straight greying hair, a lined face, a dark shirt under a dark jacket, a bamboo flute in his hand, a knowing amused smile."
+ },
+ "cover": "A sunlit Mexican hacienda courtyard with whitewashed adobe walls and a terracotta roof, a tall pedestal holding a katana in the foreground, a yellow camper trailer and a tiny white chapel in the desert background, no characters, no text."
+}

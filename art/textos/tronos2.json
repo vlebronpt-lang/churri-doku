@@ -1,0 +1,34 @@
+{
+  "motives": {
+    "JN": "Meñique vendió a Ned, el hombre que crio a Jon, y luego se paseó por Invernalia como si nada, rondando a Sansa. Jon ya le había avisado de que, si la tocaba, lo mataría con sus propias manos.",
+    "Da": "Meñique soñaba con sentarse en el Trono de Hierro, y ese trono es de Daenerys por sangre. Hay muchos que lo codician, pero ninguno tan solapado, y ella no comparte asiento con sabandijas.",
+    "S": "Meñique vendió a Sansa a los Bolton después de años de fingir que la protegía. Ella aprendió de él a no fiarse de nadie, y esta vez le aplicó su propia lección.",
+    "Ar": "Meñique pasó semanas susurrando para enfrentar a Arya con su hermana y partir a los Stark en dos. Arya tiene una lista de nombres y él se había colado en ella sin pedir permiso.",
+    "Br": "Meñique era el dueño del puñal con el que intentaron matar a Bran en su cama cuando era un crío. Bran lo recuerda todo y no se lo perdonó ni cuando dejó de ser Bran.",
+    "T": "Meñique juró que su propio puñal era de Tyrion y lo dejó jugándose la vida en un juicio en el Nido de Águilas. Tyrion sabe apreciar a un buen embustero, pero a este se le fue la mano.",
+    "J": "Meñique tramó con la Reina de Espinas la muerte de Joffrey y luego se marchó en barco tan pancho. Joffrey sería un monstruo, pero era el monstruo de Jaime.",
+    "Bi": "Meñique traicionó a Lady Catelyn, a quien Brienne había jurado servir, y se llevó a Sansa ante sus narices mientras ella la buscaba por medio reino. La espada de Brienne tenía una deuda con él.",
+    "Dv": "Meñique llegó con los caballeros del Valle cuando todo estaba perdido y se las dio de salvador. Davos fue contrabandista y sabe distinguir a un hombre honrado de un prestamista de reyes."
+  },
+  "grudges": {
+    "JN": "Meñique había traicionado a Ned Stark, el hombre que lo crio, y se paseaba por Invernalia como si nada.",
+    "Da": "Meñique soñaba en voz alta con sentarse en el Trono de Hierro, un trono que ella considera suyo por derecho de sangre.",
+    "S": "Meñique la había entregado a los Bolton tras años de fingir que la protegía.",
+    "Ar": "Meñique pasó semanas sembrando la discordia para enfrentar a los Stark entre sí.",
+    "Br": "Meñique era el dueño del puñal de acero valyrio con el que intentaron matar a Bran de niño.",
+    "T": "Meñique le había endosado su propio puñal y lo había dejado jugándose la vida en un juicio en el Nido de Águilas.",
+    "J": "Meñique había tramado la muerte de Joffrey, el hijo de Jaime, y se había marchado de la corte sin pagar por ello.",
+    "Bi": "Meñique había traicionado a Lady Catelyn y se había llevado a Sansa ante sus narices.",
+    "Dv": "Meñique se había presentado con los caballeros del Valle cuando todo estaba perdido y presumía de haberlos salvado a todos."
+  },
+  "looks": {
+    "JN": "Jon Snow from Game of Thrones: young man in his late twenties with long dark curly hair to the shoulders, a short dark beard, grey eyes, a black fur-collared cloak over a black leather doublet, a serious brooding look.",
+    "Da": "Daenerys Targaryen from Game of Thrones: young woman with long platinum silver-blonde hair in intricate braids, pale skin, a charcoal-grey dress with dragon-scale embroidery under a heavy fur-trimmed coat, a stern regal expression.",
+    "Ar": "Arya Stark from Game of Thrones: slim young woman in her early twenties with a narrow face, dark brown hair pulled back in a loose ponytail, grey eyes, a dark leather jerkin and boots, a Valyrian steel dagger at her belt, a sharp wary look.",
+    "Br": "Bran Stark from Game of Thrones: pale young man in his late teens with shoulder-length dark brown hair, a calm distant stare, dark plain clothes under a wool cloak, sitting in a wooden wheelchair.",
+    "Bi": "Brienne of Tarth from Game of Thrones: very tall broad-shouldered woman with short cropped blonde hair, a plain strong freckled face, blue eyes, dark plate armour with a longsword at her hip, a stubborn honest look.",
+    "Dv": "Ser Davos Seaworth from Game of Thrones: weathered man in his fifties with short grey hair and a short grey beard, a lined kind face, the fingertips of his left hand missing, a dark grey coat over a leather vest, a patient shrewd look.",
+    "Me": "Petyr Baelish, Littlefinger, from Game of Thrones: slim man in his forties with neat salt-and-pepper hair, a trim pointed goatee, a thin knowing smirk, fine black tailored clothes with a small silver mockingbird pin, long slender fingers."
+  },
+  "cover": "The snow-dusted godswood of Winterfell at dusk, with a pale weirwood tree carved with a red weeping face beside a steaming dark pond, and the grey towers of the castle behind the bare branches, no characters and no text."
+}

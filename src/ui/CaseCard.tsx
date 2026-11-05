@@ -41,8 +41,9 @@ export function CaseCard({ p, progress }: { p: Puzzle; progress: CaseProgress })
         <span className="case__meta">
           <span className="lvl-chip" style={{ background: lvl.color }}>{lvl.name}</span>
           <span>{p.size}×{p.size}</span>
+          {(p.rules.length > 0 || p.cast.length < p.size) && <span className="case__rules" title="Este caso tiene reglas propias">Reglas especiales</span>}
           {status === 'solved' && <span className="case__stars" aria-label={`${progress.stars ?? 1} estrellas`}>{'★'.repeat(progress.stars ?? 1)}<span className="dim">{'★'.repeat(3 - (progress.stars ?? 1))}</span> · {formatTime(progress.bestTime ?? progress.time)}</span>}
-          {status === 'playing' && <span className="case__progress">En curso · {placed}/{p.size}</span>}
+          {status === 'playing' && <span className="case__progress">En curso · {placed}/{p.cast.length}</span>}
           {status === 'new' && <span className="case__new">Nuevo</span>}
         </span>
       </span>

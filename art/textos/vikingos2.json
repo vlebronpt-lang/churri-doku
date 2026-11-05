@@ -1,0 +1,30 @@
+{
+  "motives": {
+    "R": "Ecbert prometió a Ragnar tierras fértiles para su gente y le sonrió como un amigo mientras preparaba el golpe. Ragnar confía en sus dioses y en su hacha, no en reyes que hablan de paz con un libro en la mano.",
+    "L": "Ecbert le ofreció a Lagertha una colonia en Wessex, le dedicó su mejor sonrisa y, en cuanto ella se dio la vuelta, la mandó arrasar. Una condesa y escudera no perdona algo así.",
+    "Ro": "Ecbert recogió a Rollo malherido tras una batalla y lo tuvo en Winchester como a un trofeo. Rollo no lo olvidó ni cuando Ecbert le ofreció su mejor vino.",
+    "F": "Un rey cristiano que presume de entender a los dioses nórdicos y a la vez los toma por cuento le revolvía las entrañas a Floki. Él construye barcos y habla con los dioses, y a ese farsante lo vio venir desde el primer día.",
+    "B": "Ecbert se hizo pasar por amigo del padre de Bjorn mientras pactaba a sus espaldas con el rey que lo quería en un foso de serpientes. Bjorn llevaba años esperando el momento de pedirle cuentas.",
+    "I": "Ecbert acogió a Ivar con aires de abuelo bondadoso mientras negociaba la suerte de su padre. Ivar no se traga esas sonrisas, y menos las de un viejo que lo mira con lástima.",
+    "Ju": "Ecbert manejó a Judith durante años como a una pieza más de su tablero: la casó con su hijo y la calló cuando le convino. Cuando por fin se quedó a solas con él, se acabaron las partidas.",
+    "Ae": "Ecbert siempre prefirió a sus amigos paganos antes que a su propio hijo, y trataba a Aethelwulf como a un heredero de segunda. Un futuro rey de Wessex no va a ser el segundón de su propio padre.",
+    "Kw": "Ecbert se quedó con la Mercia de Kwenthrith mientras le sonreía y la llamaba reina. Ella lleva la corona por derecho, y él se la había quitado con su letra pequeña."
+  },
+  "grudges": {
+    "R": "Ecbert le había prometido tierras para su gente y se había mostrado como un amigo fiel, pero sus promesas valían menos que el pergamino.",
+    "L": "Ecbert le había ofrecido una colonia en Wessex y, en cuanto ella se dio la vuelta, la había mandado arrasar.",
+    "Ro": "Ecbert lo había recogido malherido tras una batalla y lo había tenido en Winchester como a un trofeo.",
+    "F": "Ecbert, rey cristiano, presumía de entender a los dioses nórdicos, y Floki lo consideraba un farsante.",
+    "B": "Ecbert había fingido ser amigo de su padre mientras pactaba a sus espaldas con otros reyes.",
+    "I": "Ecbert lo había acogido con aires de abuelo bondadoso mientras negociaba la suerte de su padre.",
+    "Ju": "Ecbert la había manejado durante años como a una pieza más de su tablero, casándola y callándola según le convenía.",
+    "Ae": "Ecbert prefería la compañía de sus amigos paganos a la de su propio hijo y lo trataba como a un heredero de segunda.",
+    "Kw": "Ecbert se había quedado con el reino de Mercia, que ella consideraba suyo por derecho."
+  },
+  "looks": {
+    "Ju": "Judith from the TV series Vikings: Anglo-Saxon princess of Wessex in her early 30s, pale skin, long wavy dark-brown hair partly pinned back under a thin veil and circlet, a calm intelligent expression; wears a long layered medieval gown in deep blue and brown with embroidered trim.",
+    "Ae": "Aethelwulf from the TV series Vikings: Anglo-Saxon king of Wessex in his late 30s, short brown hair, a neatly trimmed short beard, a stern worried expression; wears a dark tunic with a studded leather belt, a long fur-trimmed red cloak and a small gold crown.",
+    "Kw": "Kwenthrith from the TV series Vikings: young Mercian queen in her mid 20s, long wild wavy dark hair, pale skin with intense eyes and a restless, scheming smile; wears a heavy fur-lined dress in dark red and gold with a tarnished gold crown."
+  },
+  "cover": "A sunlit Anglo-Saxon royal villa of Wessex with a Roman-style bathhouse of steaming turquoise water, a stone chapel with a cross in the background and a gold throne glimpsed through an open doorway, no characters and no text."
+}

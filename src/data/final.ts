@@ -8,7 +8,7 @@ import type { PuzzleInput } from '../engine/types';
  */
 const puzzle: PuzzleInput = {
   id: 'final',
-  num: 26,
+  num: 65,
   level: 5,
   franchise: 'Crossover',
   title: 'El club de las víctimas',
@@ -62,7 +62,7 @@ const puzzle: PuzzleInput = {
   ],
   legend: {
     W: { base: 'pedestal', key: 'guantelete', name: 'Guantelete del Infinito', plural: 'Guanteletes del Infinito', unique: true, fem: false, tint: '#f3c33b', icon: 'gauntlet' },
-    c: { base: 'carbonita', key: 'han_carbonita', name: 'Han Solo en carbonita', plural: 'Han Solos en carbonita', unique: true, fem: false },
+    c: { base: 'carbonita', key: 'trofeo_congelado', name: 'trofeo congelado', plural: 'trofeos congelados', unique: true, fem: false },
     p: 'piano',
     l: 'lampara',
     C: 'cama',
@@ -94,10 +94,10 @@ const puzzle: PuzzleInput = {
   },
   cast: [
     { id: 'SB', tag: 'SB', name: 'Sr. Burns', article: 'el', gender: 'm', portrait: 'simpson/V', clues: [] },
-    { id: 'Ba', tag: 'Ba', name: 'Barb', gender: 'f', portrait: 'stranger/B', clues: [] },
+    { id: 'Ba', tag: 'Mi', name: 'Miranda Priestly', gender: 'f', portrait: 'prada/Mi', clues: [] },
     { id: 'Kr', tag: 'Kr', name: 'Krilin', gender: 'm', portrait: 'dragonball/K', clues: [] },
-    { id: 'AR', tag: 'AR', name: 'Antonio Recio', gender: 'm', portrait: 'avecina/AR', clues: [] },
-    { id: 'Ja', tag: 'Ja', name: 'Jabba', gender: 'm', nonhuman: true, portrait: 'starwars/J', clues: [] },
+    { id: 'AR', tag: 'JC', name: 'Juan Cuesta', gender: 'm', portrait: 'aquinohay/JC', clues: [] },
+    { id: 'Ja', tag: 'Sc', name: 'Scar', gender: 'm', nonhuman: true, portrait: 'reyleon/Sc', clues: [] },
     { id: 'Jk', tag: 'Jk', name: 'Joker', article: 'el', gender: 'm', portrait: 'batman/J', clues: [] },
     { id: 'Jo', tag: 'Jo', name: 'Joffrey', gender: 'm', portrait: 'tronos/Jo', clues: [] },
     { id: 'Du', tag: 'Du', name: 'Dumbledore', gender: 'm', portrait: 'potter/Du', clues: [] },
@@ -122,7 +122,7 @@ const puzzle: PuzzleInput = {
   pins: { LF: { rooms: ['P'] } },
   story: {
     intro: 'Ser la víctima de un caso tiene sus ventajas: nadie te pide coartada. Por eso las víctimas de este libro han fundado un club y celebran su primer congreso en el Gran Hotel Churri. Lord Farquaad se ha proclamado presidente «por ser el primero en caer» y ha preparado un discurso de tres horas, una tarta con su cara y una votación amañada. No llegó a leer el discurso: a medianoche lo encontraron flotando en la piscina, con la corona a la deriva. Nueve socios, nueve móviles y ninguna coartada. ¿Quién ha matado (otra vez) a Lord Farquaad?',
-    epilogue: '¡Fue Thanos! Para él, un club con tantos socios estaba desequilibrado, y decidió empezar a equilibrarlo por el presidente. Esperó tumbado en una tumbona a que Farquaad se quedara solo junto a la piscina, chasqueó los dedos (sin guantelete: el de la Sala de trofeos es de atrezo) y, como no pasó nada, lo tiró al agua de un empujón. Mientras tanto, Joffrey y Antonio Recio discutían en el Salón de baile por la música (uno quería laúdes; el otro, pasodobles), Krilin y Barb se escondían en la Biblioteca para no salir en la foto de grupo, el Joker le contaba chistes malos a Jabba en Recepción, Dumbledore echaba la siesta en la Suite presidencial y el Sr. Burns ensayaba en el Jardín su discurso de presidente. Nadie oyó el chapuzón. A la mañana siguiente, el club cambió sus estatutos por unanimidad: queda prohibido ser presidente.',
+    epilogue: '¡Fue Thanos! Para él, un club con tantos socios estaba desequilibrado, y decidió empezar a equilibrarlo por el presidente. Esperó tumbado en una tumbona a que Farquaad se quedara solo junto a la piscina, chasqueó los dedos (sin guantelete: el de la Sala de trofeos es de atrezo) y, como no pasó nada, lo tiró al agua de un empujón. Mientras tanto, Joffrey y Juan Cuesta discutían en el Salón de baile por la música (uno quería laúdes; el otro, someterlo a votación), Krilin y Miranda Priestly se escondían en la Biblioteca para no salir en la foto de grupo (él, por bajito; ella, por la ropa de los demás), el Joker le contaba chistes malos a Scar en Recepción, Dumbledore echaba la siesta en la Suite presidencial y el Sr. Burns ensayaba en el Jardín su discurso de presidente. Nadie oyó el chapuzón. A la mañana siguiente, el club cambió sus estatutos por unanimidad: queda prohibido ser presidente.',
   },
 };
 

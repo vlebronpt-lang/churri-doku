@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'peaky',
-  num: 10,
+  num: 18,
   level: 2,
   franchise: 'Peaky Blinders',
   title: 'Por orden de los Peaky Blinders',

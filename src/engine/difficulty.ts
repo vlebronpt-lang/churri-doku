@@ -37,4 +37,4 @@ export const PROFILE: Record<Level, Profile> = {
 export const REFERENCE = { title: 'La habitación del pánico', source: 'Murdoku (Difícil, 10×10)', perChar: 8.38, total: 83.8, trials: 11 };
 
 /** Pasos que cuentan como «difíciles». */
-export const hardSteps = (t: Record<string, number>) => (t.room ?? 0) + (t.subset ?? 0) + (t.trial ?? 0) + (t.relation ?? 0) + (t.pointing ?? 0);
+export const hardSteps = (t: Record<string, number>) => (t.room ?? 0) + (t.subset ?? 0) + (t.trial ?? 0) + (t.relation ?? 0) + (t.pointing ?? 0) + (t.rule ?? 0);

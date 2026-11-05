@@ -1,7 +1,7 @@
 /**
  * Calendario del «caso del día».
  *
- * Cada fecha usa uno de los 25 mapas (a veces en espejo) con la víctima en su sitio original
+ * Cada fecha usa uno de los mapas (a veces en espejo) con la víctima en su sitio original
  * (así la historia sigue valiendo), una colocación nueva y pistas nuevas. La dificultad depende
  * del día de la semana. Todo es determinista: la misma fecha da siempre el mismo caso.
  *
@@ -159,6 +159,8 @@ async function genCmd(from: string, days: number, shard: number, shards: number)
         timeMs: TIME[lv].total * 1000,
         attemptMs: TIME[lv].attempt * 1000,
         stopAfter: 1,
+        // A la primera se pide que todas las reglas hagan falta; si no sale, basta con que el caso sea correcto.
+        rulesOptional: round > 0,
       });
       for (const r of results) {
         const s = r.p.size;

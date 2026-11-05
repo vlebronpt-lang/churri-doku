@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'friends',
-  num: 6,
+  num: 14,
   level: 2,
   franchise: 'Friends',
   title: '¿Quién mató al Sr. Heckles?',

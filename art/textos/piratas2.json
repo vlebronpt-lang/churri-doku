@@ -1,0 +1,27 @@
+{
+  "motives": {
+    "J": "Davy Jones le reclamaba cien años de servicio a bordo del Holandés a cambio de sus trece al mando de la Perla Negra, y Jack no pensaba pagar. Un acreedor muerto no cobra deudas.",
+    "W": "Davy Jones tenía a su padre condenado a servir en el Holandés para siempre, y él solo quería liberarlo. Con el capitán fuera de juego, nadie le impediría llegar hasta el corazón y la llave.",
+    "E": "Davy Jones mandó al Kraken a por Jack, y ella, que lo dejó encadenado al mástil para salvar a los demás, no se lo perdonaba. Le hizo pagar la culpa a quien tenía más a mano.",
+    "G": "El Kraken de Davy Jones llevaba años hundiendo barcos y zampándose a sus compañeros de ron, y Gibbs ya no sabía cuántos fantasmas más contar en las tabernas. Una noche de ron de más, decidió cobrárselo todo de golpe.",
+    "T": "En realidad es la diosa Calipso, y Davy Jones, su antiguo amor, reveló a los piratas cómo atarla a un cuerpo humano. Llevaba mucho tiempo esperando devolvérsela, y por fin el mar la dejó acercarse.",
+    "N": "Necesitaba el corazón de Davy Jones para que Beckett le devolviera el uniforme y su carrera en la Marina Real. Jones era lo único que se interponía entre él y su honor perdido.",
+    "BB": "Davy Jones le mandó azotar a su propio hijo delante de toda la tripulación, y cada día que pasaba Bill se quedaba más pegado a la madera del Holandés. Le quedaba poco de hombre, pero lo justo para esto.",
+    "LB": "Quería los siete mares para la Compañía de las Indias Orientales, y Jones era el único capitán al que no podía comprar. En la Compañía, al que estorba se le despide, y a veces para siempre."
+  },
+  "grudges": {
+    "J": "Jones le reclamaba cien años de servicio a cambio de sus trece al mando de la Perla Negra, y Jack llevaba tiempo esquivando el cobro.",
+    "W": "Jones tenía a su padre condenado a servir en el Holandés Errante para siempre, y Will no podía perdonárselo.",
+    "E": "Jones había enviado al Kraken tras Jack Sparrow, y Elizabeth le culpaba de lo que ocurrió después.",
+    "G": "El Kraken de Jones llevaba años hundiendo barcos y devorando a viejos compañeros de Gibbs, y a ese marinero no le quedaba más ron para olvidarlo.",
+    "T": "Jones y ella arrastraban un viejo asunto de amores y traiciones que ninguno de los dos había olvidado.",
+    "N": "Jones era el único obstáculo entre Norrington y el corazón que le devolvería su uniforme de la Marina Real.",
+    "BB": "Jones le mandó azotar a su propio hijo delante de toda la tripulación, y eso no se perdona.",
+    "LB": "Jones era el único capitán que no se dejaba comprar, y Beckett no tolera a nadie que le estropee el negocio."
+  },
+  "looks": {
+    "BB": "Bootstrap Bill Turner from Pirates of the Caribbean: a gaunt middle-aged sailor with long dark tangled hair and a short dark beard, pale weathered skin covered in barnacles, coral, seashells and seaweed fused into his face and body, tattered old brown sailor clothes, sorrowful eyes.",
+    "LB": "Lord Cutler Beckett from Pirates of the Caribbean: a thin, pale, clean-shaven man in his early forties, tall powdered white wig with curled sides tied at the back, immaculate long dark blue frock coat with gold embroidery and buttons, white lace cravat, cold calculating expression."
+  },
+  "cover": "The weathered deck and great hall of the Flying Dutchman at night: barnacle-crusted wooden planks, a huge pipe organ with glowing teeth, a ship's wheel wrapped in seaweed, glowing green lanterns and, in the background, a small sandy island with a chest and a rowing boat in the dark sea."
+}

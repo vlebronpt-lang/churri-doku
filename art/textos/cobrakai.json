@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "Jo": "Kreese le enseñó que la piedad es de débiles, lo machacó por perder un torneo y, décadas después, le robó su propio dojo. Esa noche, Johnny fue a decirle que se acabó.",
+  "Da": "Kreese llevaba décadas intentando arrasar Miyagi-Do y metiendo a la familia de Daniel en sus juegos sucios. Daniel defiende lo que le enseñó el señor Miyagi, pero se le acabó la paciencia.",
+  "Mi": "Mientras él salía del coma tras su caída por las escaleras, Kreese se quedó con el dojo y le convirtió a los amigos en matones. Cuando por fin abrió los ojos, no estaba para perdonar a nadie.",
+  "Ro": "Kreese lo acogió cuando estaba perdido y lo puso en contra de su padre y de Daniel. Descubrir que solo era un instrumento le dolió más que cualquier derrota.",
+  "Sa": "Cobra Kai le destrozó el instituto y las amistades, y era Kreese quien movía los hilos. Sam se cansó de que nadie le parara los pies.",
+  "To": "Kreese prometió ayudar a la familia de Tory y luego la trató como a un arma de su dojo. Cuando ella se dio cuenta de que solo era un peón, no quiso seguir siéndolo.",
+  "Ha": "Kreese cogió la confianza que Halcón acababa de ganar y la convirtió en crueldad, hasta dejarlo sin amigos. Él ya no quería seguir siendo el matón de la cresta.",
+  "Ch": "Kreese pisotea todo lo que el código de honor de Okinawa le enseñó a respetar a Chozen, que tardó décadas en aprenderlo. Hay cosas que un guerrero no deja sin respuesta."
+ },
+ "grudges": {
+  "Jo": "Kreese lo machacó de joven y, décadas después, le robó su propio dojo.",
+  "Da": "Kreese llevaba años tratando de acabar con Miyagi-Do y metiéndose con su familia.",
+  "Mi": "Kreese le convirtió a los amigos en matones mientras él estaba en coma tras caer por las escaleras.",
+  "Ro": "Kreese lo había acogido en su dojo para ponerlo en contra de su padre y de Daniel.",
+  "Sa": "Kreese era quien movía los hilos de Cobra Kai y de la pelea más gorda del instituto.",
+  "To": "Kreese le había prometido ayuda para su familia y luego la había tratado como a un arma.",
+  "Ha": "Kreese lo había moldeado a su manera hasta convertirlo en un matón del que se avergonzaba.",
+  "Ch": "Kreese pisoteaba cada día las normas de honor del karate que Chozen respetaba."
+ },
+ "looks": {
+  "Jo": "Johnny Lawrence from Cobra Kai: rugged man in his late 50s, shaggy dirty-blond feathered hair, a grumpy tough expression, a plain black t-shirt with no print at all under a worn denim jacket.",
+  "Da": "Daniel LaRusso from Cobra Kai: fit man in his 50s, short dark brown hair with a little grey at the temples, clean-shaven, friendly slightly intense face, small dark eyes, a white karate gi with a black belt.",
+  "Mi": "Miguel Diaz from Cobra Kai: a young Latino man in his late teens, short neat dark hair, athletic build, serious determined face, wearing a black karate gi or a dark t-shirt and jeans.",
+  "Ro": "Robby Keene from Cobra Kai: a lean young man in his late teens, short dirty-blond hair, fine stubble, a stern troubled look, a dark hoodie.",
+  "Sa": "Samantha LaRusso from Cobra Kai: a teenage girl, long wavy light-brown hair, a determined friendly face, a white karate gi with a belt.",
+  "To": "Tory Nichols from Cobra Kai: a teenage girl, long dark hair, hard intense eyes, dark eyeliner, a black leather jacket over a black top.",
+  "Ha": "Hawk (Eli Moskowitz) from Cobra Kai: a teenage boy with a tall bright blue mohawk, a thin scar on his upper lip, intense eyes, a black Cobra Kai karate gi.",
+  "Ch": "Chozen Toguchi from Karate Kid II and Cobra Kai: fit Japanese man in his 50s, short black hair, small dark eyes, serious dignified face, a plain dark karate gi.",
+  "Kr": "John Kreese from Cobra Kai: a stern tanned man in his late 70s, slicked-back silver-blond hair, clean-shaven, deep lines on his face, a hard cold stare, a black Cobra Kai karate gi with yellow trim."
+ },
+ "cover": "A traditional karate dojo with a polished wooden floor, a black banner with a coiled cobra on the wall, a glass trophy case with a cracked pane, and a small bonsai tree on a stone ledge near an open sliding door to a Japanese garden at dusk."
+}

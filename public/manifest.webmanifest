@@ -1,7 +1,7 @@
 {
   "name": "Churri-doku · Sudoku con asesinato",
   "short_name": "Churri-doku",
-  "description": "25 casos de lógica con los personajes de tus series y películas favoritas.",
+  "description": "64 casos de lógica con los personajes de tus series y películas favoritas.",
   "lang": "es",
   "start_url": "./",
   "scope": "./",

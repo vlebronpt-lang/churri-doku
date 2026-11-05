@@ -1,4 +1,5 @@
 import { geo, type Geo } from './puzzle';
+import { rulesHold } from './rules';
 import type { Clue, Dir, Card, Puzzle, UnaryClue } from './types';
 
 /** ¿La casilla i tiene el objeto (o suelo) `obj`? */
@@ -148,6 +149,9 @@ export function clueHolds(p: Puzzle, clue: Clue, self: number, pos: ArrayLike<nu
       if (!cellHas(p, me, clue.obj)) return false;
       for (let k = 0; k < n; k++) if (k !== self && cellHas(p, pos[k], clue.obj)) return false;
       return true;
+    case 'withGroup':
+      for (let k = 0; k < n; k++) if (inRoom(k) && p.cast[k].groups?.includes(clue.group)) return true;
+      return false;
     case 'withSomeoneOn':
       for (let k = 0; k < n; k++) if (inRoom(k) && cellHas(p, pos[k], clue.obj)) return true;
       return false;
@@ -203,6 +207,7 @@ export function assignmentValid(p: Puzzle, pos: ArrayLike<number>): boolean {
     cols.add(i % s);
   }
   if (rows.size !== p.cast.length || cols.size !== p.cast.length) return false;
+  if (!rulesHold(p, pos)) return false;
   for (let k = 0; k < p.cast.length; k++) {
     for (const clue of p.cast[k].clues) if (!clueHolds(p, clue, k, pos)) return false;
   }

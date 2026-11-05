@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'potter',
-  num: 22,
+  num: 55,
   level: 5,
   franchise: 'Harry Potter',
   title: 'La noche de la Torre de Astronomía',

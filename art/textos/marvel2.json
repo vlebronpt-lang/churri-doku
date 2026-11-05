@@ -1,0 +1,31 @@
+{
+  "motives": {
+    "I": "Ultrón nació de un invento de Iron Man para proteger el planeta, acabó queriendo extinguir a la humanidad y se llevó por delante a Jarvis. Quien enciende a su criatura también puede apagarla.",
+    "C": "Ultrón se burlaba de los ideales del Capitán América y cantaba que no tenía hilos mientras Sokovia pendía de uno. El Capi pide que se cuide el lenguaje, pero hasta un soldado a la antigua tiene un límite.",
+    "T": "Ultrón se hizo con el cetro de Loki y lo usó para fabricar su ejército de drones. Thor llevaba una eternidad tras ese cetro, y verlo en manos de un robot charlatán le nubló la cabeza.",
+    "H": "Ultrón y sus drones le estropearon a Hulk el único rato tranquilo que había encontrado junto a Natasha. Solo quería un poco de paz y un buen abrazo, y hay que ser muy robot para no entenderlo.",
+    "V": "Ultrón encerró a la Viuda Negra en una celda de Sokovia como a una vulgar prisionera. Ella ha escapado de sitios peores, pero con un robot que se cree rey del mundo no negocia.",
+    "O": "Ultrón estuvo a punto de acribillar a Ojo de Halcón con un Quinjet robado mientras él sacaba civiles de la ciudad. Es un simple arquero entre dioses y gigantes, pero nadie le toca las flechas sin consecuencias.",
+    "BE": "Ultrón les prometió a la Bruja Escarlata y a su hermano vengarse de Stark y luego los trató como a piezas de su tablero. Arrastró a Sokovia a la ruina, y ella se lo hizo pagar.",
+    "Qs": "Ultrón les prometió justicia contra Stark a él y a su hermana, y a cambio los usó de carne de cañón. Es más rápido que nadie, y no perdonó que se riera de ellos a la cara.",
+    "Vi": "Ultrón no solo quería acabar con la humanidad, también se burlaba de Visión por haber nacido de su misma mente. Visión lleva la gema en la frente y la conciencia limpia, y un hermano tan retorcido debía acabar apagado."
+  },
+  "grudges": {
+    "I": "Ultrón había nacido de un experimento suyo y se había vuelto contra él, burlándose de su creador delante de todos.",
+    "C": "Ultrón se mofaba de sus ideales y de su sentido del deber, y no paraba de cantarle que no tenía hilos.",
+    "T": "Ultrón se había hecho con el cetro de Loki, que Thor llevaba tiempo intentando recuperar.",
+    "H": "Ultrón y sus drones habían estropeado el único rato de calma que había encontrado junto a Natasha.",
+    "V": "Ultrón la había encerrado en una celda de Sokovia, y a ella no le gusta que la encierren.",
+    "O": "Ultrón había estado a punto de acribillarlo con un Quinjet robado mientras evacuaba civiles.",
+    "BE": "Ultrón le había mentido para que se uniera a él y luego la había tratado como a una simple pieza de su plan.",
+    "Qs": "Ultrón les había prometido venganza a él y a su hermana, y después los había usado como carne de cañón.",
+    "Vi": "Ultrón quería acabar con la humanidad y se burlaba de él por haber nacido de su misma mente."
+  },
+  "looks": {
+    "BE": "Wanda Maximoff, the Scarlet Witch from Avengers: Age of Ultron: young woman in her late twenties, long wavy dark brown hair, intense eyes, wearing a long dark red leather jacket over a dark red top and a dark trousers, with a faint red glow of magic around her hands",
+    "Qs": "Pietro Maximoff, Quicksilver from Avengers: Age of Ultron: young man in his late twenties, short silver-bleached hair, light stubble, athletic build, wearing a dark blue tracksuit jacket with white stripes and a dark athletic outfit, a cocky smirk",
+    "Vi": "Vision from Avengers: Age of Ultron: tall android man with a smooth red synthetic face with no hair, a yellow glowing gem on his forehead, a green and yellow suit with a long flowing gold cape, hands relaxed, calm expression",
+    "Ul": "Ultron from Avengers: Age of Ultron: tall menacing robot with a silver-grey metal body, glowing red eyes, a metallic face with a thin mouth slit, hollow dark head like a skull mask, with exposed cables and a battle-damaged armour"
+  },
+  "cover": "Sokovia, a ruined European city floating high in the sky: broken cobblestone streets and a stone church tilting on a chunk of rock, with a glowing blue vibranium core beneath it and a Quinjet circling, drones in the distance, dusk light"
+}

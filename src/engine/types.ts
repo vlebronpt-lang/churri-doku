@@ -79,7 +79,40 @@ export interface CharacterDef {
   quote?: string;
   /** Criatura, robot, etc.: se evitan pistas de "con una mujer / un hombre". */
   nonhuman?: boolean;
+  /** Grupos a los que pertenece (Targaryen, piso interior, primera clase…): claves de `groups` del caso. */
+  groups?: string[];
 }
+
+/** Grupo de personas de un caso: una casa, una clase del barco, los pisos interiores… */
+export interface GroupDef {
+  /** Etiqueta corta para su ficha: «Targaryen», «Piso interior», «1.ª clase». */
+  label: string;
+  /** Cómo se dice en el rótulo de una zona reservada («solo empleados»), si no es igual que la etiqueta. */
+  only?: string;
+  /** En singular con artículo: «un Targaryen», «un vecino de piso interior». */
+  one: string;
+  /** En plural con artículo: «los Targaryen», «los vecinos de pisos interiores». */
+  many: string;
+  /** Color de su etiqueta. */
+  color?: string;
+}
+
+/** Reglas del caso: valen para todo el plano y para todo el reparto (las «pistas generales» de Murdoku). */
+export type CaseRule =
+  /** En estas zonas solo puede haber personas de este grupo. */
+  | { t: 'zoneOnly'; rooms: string[]; group: string }
+  /** En esta zona hay exactamente n personas (0: está vacía). */
+  | { t: 'zoneCount'; room: string; n: number }
+  /** Hay exactamente n zonas vacías (0: ninguna). */
+  | { t: 'emptyZones'; n: number }
+  /** Hay exactamente n personas sobre este objeto (sentadas en una silla, en una alfombra…). */
+  | { t: 'objCount'; obj: string; n: number }
+  /** En cada una de estas zonas hay al menos una persona de este grupo. */
+  | { t: 'zoneHasGroup'; rooms: string[]; group: string }
+  /** Estos dos grupos nunca comparten zona. */
+  | { t: 'groupsApart'; a: string; b: string }
+  /** Ninguna zona tiene exactamente n personas (n = 1: nadie está a solas en su zona). */
+  | { t: 'noZoneWith'; n: number };
 
 // ---------------------------------------------------------------------------
 // Pistas
@@ -112,6 +145,8 @@ export type Clue =
   | { t: 'alone' }
   | { t: 'notAlone' }
   | { t: 'withGender'; g: Gender }
+  /** Estaba con alguien de este grupo. */
+  | { t: 'withGroup'; group: string }
   | { t: 'roomCount'; n: number }
   | { t: 'onlyOn'; obj: string }
   | { t: 'withSomeoneOn'; obj: string }
@@ -152,6 +187,10 @@ export interface PuzzleInput {
   /** Letra → clave de objeto base o definición personalizada. */
   legend: Record<string, ObjectInput>;
   cast: CharacterDef[];
+  /** Grupos del reparto (clave → definición). */
+  groups?: Record<string, GroupDef>;
+  /** Reglas del caso. */
+  rules?: CaseRule[];
   /** Solución: id de personaje → [fila, columna] (base 0). */
   solution: Record<string, [number, number]>;
   /** Pistas por personaje (sustituyen a las de `cast`). Las escribe el generador. */
@@ -187,6 +226,8 @@ export interface Puzzle {
   cells: CellDef[];
   objects: Record<string, ObjectDef>;
   cast: CharacterDef[];
+  groups: Record<string, GroupDef>;
+  rules: CaseRule[];
   victim: string;
   murderer: string;
   solution: Record<string, number>;

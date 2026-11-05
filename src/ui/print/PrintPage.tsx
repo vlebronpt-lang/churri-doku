@@ -3,7 +3,7 @@ import qrcode from 'qrcode-generator';
 import type { Puzzle } from '../../engine/types';
 import { boardSize, CELL, renderBoard } from '../../render/board';
 import { renderSolvedBoard, tokenSvg } from '../../render/solved';
-import { clueSentences, displayName, roomPhrase, withPrep } from '../../engine/text';
+import { clueSentences, displayName, roomPhrase, withPrep, caseRuleSegs } from '../../engine/text';
 import { compilePuzzle } from '../../engine/puzzle';
 import { solveLogically, type Deduction } from '../../engine/logic';
 import { TUTORIAL } from '../../data/tutorial';
@@ -43,7 +43,9 @@ const chunk = <T,>(xs: T[], n: number): T[][] => Array.from({ length: Math.ceil(
 
 /** Libro: portada (1), dedicatoria (2), cómo se juega (3), ejemplo (4), escuela, web e índice; los casos empiezan en par. */
 const SCHOOL_PAGES = Math.ceil(LESSONS.length / 3);
-const FRONT = 6 + SCHOOL_PAGES;
+/** Páginas del índice: 65 líneas no caben en una. */
+const INDEX_PAGES = 2;
+const FRONT = 5 + SCHOOL_PAGES + INDEX_PAGES;
 const FRONT_PAD = (FRONT + 1) % 2;
 export const BOOK_FIRST_CASE = FRONT + 1 + FRONT_PAD;
 export const bookCasePage = (k: number) => BOOK_FIRST_CASE + 2 * k;
@@ -143,6 +145,12 @@ export function CaseLeftPage({ p, bw, page }: { p: Puzzle; bw: boolean; page?: n
       <div className="page__inner" ref={ref}>
         <CaseHead p={p} />
         <p className="case-left__story">{p.story.intro}</p>
+        {caseRuleSegs(p).length > 0 && (
+          <div className="print-rules">
+            <span className="print-rules__title">Reglas del caso</span>
+            {caseRuleSegs(p).map((segs, k) => <p key={k}>{segs.map((x, j) => (x.b ? <b key={j}>{x.text}</b> : <span key={j}>{x.text}</span>))}</p>)}
+          </div>
+        )}
         <h2 className="page__section">Sospechosos <span>· su pista y su móvil</span></h2>
         <div className="case-left__suspects">
           {p.cast.map((ch) => (
@@ -153,7 +161,7 @@ export function CaseLeftPage({ p, bw, page }: { p: Puzzle; bw: boolean; page?: n
                 <span className="ps__gender">{ch.gender === 'f' ? '♀' : '♂'}</span>
               </div>
               <div className="ps__text">
-                <span className="ps__name">{displayName(ch)}</span>
+                <span className="ps__name">{displayName(ch)}{ch.groups?.map((g) => <span key={g} className="ps__group">{p.groups[g].label}</span>)}</span>
                 <span className="ps__clue">{ch.victim ? <><span className="ps__victim">La víctima.</span> Estaba <b>a solas con el asesino</b>.</> : <ClueLine p={p} ch={ch} />}</span>
                 {!ch.victim && grudges[ch.id] && <span className="ps__motive"><b>Móvil:</b> {grudges[ch.id]}</span>}
               </div>
@@ -434,7 +442,7 @@ export function BookCover({ dedication }: { dedication?: Dedication | null }) {
       <div className="book-cover__logo"><Logo /></div>
       <p className="book-cover__sub">Sudoku con asesinato. Y con tus series favoritas.</p>
       {dedication && <p className="book-cover__for">Edición especial para <b>{dedication.para}</b></p>}
-      <div className="book-cover__grid">
+      <div className="book-cover__grid" style={{ ['--cols' as string]: Math.ceil(Math.sqrt(PUZZLES.length)) }}>
         {PUZZLES.map((q) => (
           <img key={q.id} src={`${BASE}img/print/covers/${q.id}-s.jpg`} alt="" style={{ ['--lvl' as string]: levelInfo(q.level).color }} />
         ))}
@@ -491,10 +499,11 @@ export function PrintRules({ page }: { page?: number }) {
       <p className="rules__lead">Cada caso es un asesinato en un lugar de una serie o película. Tienes el plano del lugar, a los sospechosos (con su pista y su móvil) y la víctima. Tu trabajo: <b>colocar a cada persona en su casilla</b> y descubrir quién estaba a solas con la víctima.</p>
       <h3>Las reglas</h3>
       <ul>
-        <li><b>Una persona por fila y una por columna.</b> Hay tantas personas como filas, así que cada fila y cada columna tiene exactamente una.</li>
+        <li><b>Una persona por fila y una por columna.</b> Hay tantas personas como filas, así que cada fila y cada columna tiene exactamente una. Si un caso tiene un plano más grande, sobran filas y columnas: se quedan vacías.</li>
         <li>Solo se puede estar en casillas libres o en <b>objetos ocupables</b>: sillas, sillones, bancos, camas, alfombras, barcas… Nunca encima de mesas, estanterías, plantas, árboles o estatuas. La leyenda «En el plano hay…» de cada caso lo dice con ✓ y ✕.</li>
         <li>Las pistas siempre dicen la verdad. Cada caso tiene <b>una única solución</b> y se llega sin adivinar. Los móviles no dan pistas: todos tenían motivos.</li>
         <li>El asesino es <b>la única persona que estaba a solas con la víctima</b> en su zona (habitación).</li>
+        <li>Algunos casos traen <b>reglas propias</b>, en un recuadro junto a la historia y en el rótulo de la zona: «solo los Stark podían estar en la Cripta», «en el Salón había exactamente tres personas», «había exactamente una zona vacía»… Valen para todo el reparto.</li>
       </ul>
       <h3>Qué significan las pistas</h3>
       <ul className="rules__keys">
@@ -687,27 +696,32 @@ export function WebPage({ page }: { page?: number }) {
   );
 }
 
-export function BookIndex({ page, solPage, finalPage }: { page?: number; solPage: (k: number) => number; finalPage: number }) {
+export function BookIndex({ page, solPage, finalPage }: { page: number; solPage: (k: number) => number; finalPage: number }) {
+  const entries = (levels: typeof LEVELS) => levels.map((l) => (
+    <section key={l.level} className="book-index__level" style={{ ['--lvl' as string]: l.color }}>
+      <h2><span className="lvl-dot" />{l.season} · {l.name}</h2>
+      <ol>
+        {PUZZLES.map((q, k) => (q.level === l.level ? (
+          <li key={q.id}>
+            <span className="book-index__num">Nº {num(q)}</span>
+            <span className="book-index__name">{q.title} <i>· {q.franchise}</i></span>
+            <span className="book-index__dots" />
+            <span className="book-index__page">{bookCasePage(k)}</span>
+            <span className="book-index__sol">sol. {solPage(k)}</span>
+          </li>
+        ) : null))}
+      </ol>
+    </section>
+  ));
   return (
+    <>
     <Page className="book-index" page={page}>
       <h1>Índice</h1>
       <p className="book-index__front">Cómo se juega · 3 &nbsp;·&nbsp; Un ejemplo resuelto · 4 &nbsp;·&nbsp; Escuela de detectives · 5 &nbsp;·&nbsp; Juega también en la web · {5 + SCHOOL_PAGES}</p>
-      {LEVELS.map((l) => (
-        <section key={l.level} className="book-index__level" style={{ ['--lvl' as string]: l.color }}>
-          <h2><span className="lvl-dot" />{l.season} · {l.name}</h2>
-          <ol>
-            {PUZZLES.map((q, k) => (q.level === l.level ? (
-              <li key={q.id}>
-                <span className="book-index__num">Nº {num(q)}</span>
-                <span className="book-index__name">{q.title} <i>· {q.franchise}</i></span>
-                <span className="book-index__dots" />
-                <span className="book-index__page">{bookCasePage(k)}</span>
-                <span className="book-index__sol">sol. {solPage(k)}</span>
-              </li>
-            ) : null))}
-          </ol>
-        </section>
-      ))}
+      {entries(LEVELS.slice(0, 3))}
+    </Page>
+    <Page className="book-index" page={page + 1}>
+      {entries(LEVELS.slice(3))}
       <section className="book-index__level is-final">
         <h2><span className="lvl-dot" />Caso final · Exclusivo del libro</h2>
         <ol>
@@ -722,6 +736,7 @@ export function BookIndex({ page, solPage, finalPage }: { page?: number; solPage
       </section>
       <p className="book-index__solh">Soluciones <span className="book-index__dots" /> {solPage(0)}</p>
     </Page>
+    </>
   );
 }
 
@@ -743,7 +758,7 @@ export function BookBack({ page }: { page?: number }) {
         {LEVELS.map((l) => (
           <li key={l.level} style={{ borderColor: l.color }}>
             <strong>{l.season} · {l.name}</strong>
-            <span>{PUZZLES.filter((q) => q.level === l.level).map((q) => q.franchise).join(' · ')}</span>
+            <span>{[...new Set(PUZZLES.filter((q) => q.level === l.level).map((q) => q.franchise))].join(' · ')}</span>
           </li>
         ))}
       </ul>

@@ -1,0 +1,1228 @@
+[
+ {
+  "id": "monstruos",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Su",
+   "Mi",
+   "Bo",
+   "Ce",
+   "Rz",
+   "Wa",
+   "Fu",
+   "Ye",
+   "Ra"
+  ],
+  "names": [
+   "Sulley",
+   "Mike",
+   "Boo",
+   "Celia",
+   "Roz",
+   "Sr. Waternoose",
+   "Fungus",
+   "Yeti",
+   "Randall"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Sulley (James P. Sullivan) from Monsters, Inc.: huge, friendly furry monster with teal-blue fur covered in big purple spots, two small horns on his head, a wide pinkish-purple nose, broad shoulders and big clawed hands, a warm gentle smile. Next tile: Mike Wazowski from Monsters, Inc.: small round bright green monster that is basically a ball with one huge central eye, a wide toothy grin, two tiny horns, thin little arms and legs, no neck. Next tile: Boo from Monsters, Inc.: a cute toddler girl of about three years old, tousled dark brown hair in two small pigtails, big brown eyes, rosy cheeks, a happy gap-toothed smile, wearing a simple pink-and-purple top; strictly harmless, cheerful and cartoony. Next tile: Celia Mae from Monsters, Inc.: a friendly CYCLOPS monster with bright pink skin and exactly ONE single big round eye in the middle of her face (no second eye, never winking), long lashes and purple eyeshadow on that one eye, a head full of small purple-lilac snakes in place of hair, pink lips, a big sweet smile, a simple green dress. Next tile: Roz from Monsters, Inc.: a large yellow-green slug-like monster with a flat, wide face, small tuft of white-grey pointed hair on top, black horn-rimmed glasses, maroon sweater, a dry, no-nonsense stare, as a clerk behind a desk. Next tile: Mr. Waternoose (Henry J. Waternoose III) from Monsters, Inc.: tall crab-like monster with a dark purple-brown shell, several thin legs, bushy greying brows, a stern distinguished face, pointing claw-like hands, wearing a tidy dark business look. Next tile: Fungus from Monsters, Inc.: Randall's assistant, a lanky red-orange monster with three eyes on stalks, a wide thin-lipped mouth and thin limbs, a nervous worried look. Next tile: The Abominable Snowman (Yeti) from Monsters, Inc.: a big white shaggy furry monster with a big round pink nose, small dark eyes, a round belly and a friendly, grumpy face, holding a snow cone in a cold snowy setting. Next tile: Randall Boggs from Monsters, Inc.: a lanky purple-and-grey lizard-like monster with six limbs, a long slender tail, a ridged crest above narrow yellow eyes and a sneering grin, with colour-changing camouflage skin.",
+  "cover": "The bright, busy scare floor of a monster factory with rows of colourful bedroom doors on a conveyor track, a glowing yellow scream canister in the foreground and a pink door with a tiny child's drawing, in a cheerful cartoon style."
+ },
+ {
+  "id": "ratatouille",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Re",
+   "Li",
+   "Co",
+   "AE",
+   "Dj",
+   "Em",
+   "Ho",
+   "Gu",
+   "Sk"
+  ],
+  "names": [
+   "Remy",
+   "Linguini",
+   "Colette",
+   "Anton Ego",
+   "Django",
+   "Emile",
+   "Horst",
+   "Gusteau",
+   "Skinner"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Remy from Ratatouille: small blue-grey rat with a pointed snout, big dark eyes, whiskers, pink ears, tiny hands, wearing a white mini chef's toque and a tiny apron. Next tile: Linguini from Ratatouille: tall, gangly young man with messy reddish-brown hair, wide-eyed clumsy look, wearing an oversized white chef's jacket and a white apron. Next tile: Colette from Ratatouille: young woman with a dark ponytail, sharp determined eyes, wearing a white double-breasted chef's jacket, a red neckerchief and a white apron, a stern but warm look. Next tile: Anton Ego from Ratatouille: very thin tall man with gaunt pale face, deep-set eyes, thin black hair combed back, wearing a long black coat and a high collar, holding a pen and notebook. Next tile: Django from Ratatouille: stocky old grey-brown rat with a thick body, grey whiskers and a stern face, wearing a faded dark scarf, the head of the rat colony. Next tile: Emile from Ratatouille: plump chubby light-brown rat with a round belly, a goofy cheerful expression, big ears and a hungry look, holding a piece of food. Next tile: Horst from Ratatouille: tall broad-shouldered man with a stern stubbled face, cropped hair, wearing a white chef's jacket and a dark apron, a menacing look in his eyes. Next tile: Gusteau from Ratatouille: very tall plump jovial man with a thin moustache and combed-back brown hair, wearing a white chef's jacket, tall toque and apron, a big warm smile, as a translucent imaginary figure. Next tile: Skinner from Ratatouille: tiny, wiry, angry little man with a pointed nose, narrow eyes and a small bushy dark moustache, wearing a white double-breasted chef's jacket and a very tall white toque, a scowl.",
+  "cover": "A warm Parisian restaurant kitchen at night, with a steaming copper pot of ratatouille on a stove, a poster of a smiling chef on the wall, and the lights of the Eiffel Tower glimmering through a window, in a cozy cartoon style."
+ },
+ {
+  "id": "reyleon",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Si",
+   "Na",
+   "Ti",
+   "Pu",
+   "Ra",
+   "Za",
+   "Sh",
+   "Ba",
+   "Sc"
+  ],
+  "names": [
+   "Simba",
+   "Nala",
+   "Timón",
+   "Pumba",
+   "Rafiki",
+   "Zazú",
+   "Shenzi",
+   "Banzai",
+   "Scar"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Simba from The Lion King, an adult male lion with golden tawny fur, a full thick dark-red-brown mane, warm amber eyes and a proud regal bearing, no clothes. Next tile: Nala from The Lion King, an adult lioness with sleek cream-beige fur, a pale muzzle, big blue-green eyes, a slim athletic build, no mane and no clothes. Next tile: Timon from The Lion King, a small meerkat standing upright with sandy tan fur, a cream face and belly, a pointed snout with a dark nose, big dark eyes and tiny hands, no clothes. Next tile: Pumbaa from The Lion King, a stocky warthog with greyish-brown bristly fur, a wide flat snout with two long curved yellow tusks, a stiff tufted mane and small round warts, no clothes. Next tile: Rafiki from The Lion King, an old mandrill shaman with a blue and red striped face, a white tuft beard, grey-brown shaggy fur, a wooden staff with a gourd tied to it and a red-orange fur patch on the nape. Next tile: Zazu from The Lion King, a red-billed hornbill with a long curved bright red beak, blue feathered head and neck, white belly, grey wings and a tall tuft of feathers on the head, a fussy proud stance. Next tile: Shenzi from The Lion King: a cunning spotted hyena with a long dark muzzle, sloping neck, grey-purple fur with dark spots, a strip of black shaggy mane running from her head down her neck, narrow yellow eyes, a wide toothy sneer showing sharp teeth. Next tile: Banzai from The Lion King: a goofy spotted hyena with a long dark muzzle, grey-brown fur with dark spots, a strip of black shaggy mane on his head and neck, one big black nose, sharp teeth and a hungry open-mouthed grin. Next tile: Scar from The Lion King, a lean adult male lion with dark brown-tawny fur, a jet-black thin mane, bright green eyes, a long jagged scar across the left eye, sharp cheekbones and a sly sneering expression.",
+  "cover": "Pride Rock rising over the African savanna at sunset, a golden rocky outcrop with a long ledge, acacia trees and a distant dark cave below, a bone cage in the foreground, no characters and no text."
+ },
+ {
+  "id": "gru",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Gr",
+   "Ma",
+   "Ed",
+   "Ag",
+   "Ne",
+   "Ke",
+   "St",
+   "Bo",
+   "Ve"
+  ],
+  "names": [
+   "Gru",
+   "Margo",
+   "Edith",
+   "Agnes",
+   "Dr. Nefario",
+   "Kevin",
+   "Stuart",
+   "Bob",
+   "Vector"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Gru from Despicable Me: tall man with a very long pointed nose, a completely bald egg-shaped head, a long black and grey striped scarf, a black coat, a grumpy but charming look. Next tile: Margo from Despicable Me: tween girl with long dark brown hair in a high ponytail, big round dark-framed glasses, an olive green jacket over a striped top, a serious big-sister expression. Next tile: Edith from Despicable Me: tween girl with short blonde hair with a straight fringe, a pink knit beanie with ear flaps, a pink and grey striped top, empty hands, no toys, a cheeky mischievous grin. Next tile: Agnes from Despicable Me: tiny girl with big round dark eyes, black hair with a straight fringe tied in one single high ponytail on the very top of her head, blue denim overalls over a yellow and black striped t-shirt, a sweet innocent smile, hugging a fluffy pink unicorn toy with both arms. Next tile: Dr. Nefario from Despicable Me: elderly bald scientist with white hair on the sides, round thick glasses, a long grey lab coat, a hearing aid and a stooped posture. Next tile: Kevin from Despicable Me: tall yellow minion with two eyes under a pair of round goggles, one tuft of hair, blue denim overalls and black gloves, cheerful look. Next tile: Stuart from Despicable Me: medium yellow minion with one big eye under a round goggle, a messy tuft of hair, blue denim overalls, black gloves and a ukulele or guitar. Next tile: Bob from Despicable Me: small chubby yellow minion with mismatched eyes (one green one brown), no hair, round goggles, denim overalls, hugging a teddy bear. Next tile: Vector from Despicable Me: nerdy pear-shaped young man with a black bowl haircut, thick black square glasses, an orange tracksuit jacket with a white stripe down the front, smug expression, holding a squid gun.",
+  "cover": "A secret villain laboratory lair under a quiet suburban house, with a glowing green shrink ray on a metal workbench, banana crates and a small rocket in the background, no characters and no text."
+ },
+ {
+  "id": "pokemon",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "As",
+   "Pi",
+   "Mi",
+   "Br",
+   "Je",
+   "Ja",
+   "Me",
+   "Oa",
+   "Gi"
+  ],
+  "names": [
+   "Ash",
+   "Pikachu",
+   "Misty",
+   "Brock",
+   "Jessie",
+   "James",
+   "Meowth",
+   "Profesor Oak",
+   "Giovanni"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Ash Ketchum from the Pokémon anime: cheerful 10-year-old boy, messy black hair, two small lightning-bolt marks on each cheek, wearing a red-and-white Poké Ball cap, a blue-and-white jacket over a black shirt, blue jeans, fingerless gloves and red sneakers. Next tile: Pikachu from Pokémon: small round yellow mouse Pokémon with long pointed black-tipped ears, red electric cheek pouches, brown stripes on its back and a lightning-bolt shaped tail, a big friendly grin. Next tile: Misty from the Pokémon anime: young girl around 10-12 years old, bright orange hair tied in a short side ponytail, wearing a yellow sleeveless crop top, red suspenders, light blue shorts and sneakers, a spirited expression. Next tile: Brock from the Pokémon anime: tall teenage boy with tanned skin, spiky brown hair and permanently squinting narrow eyes, wearing a green vest over an orange shirt, brown trousers, a kind goofy smile. Next tile: Jessie from Pokémon, Team Rocket member: young woman with very long magenta-red hair curved into a large loop, wearing a white uniform with a big red R, white crop top and mini skirt, black gloves and boots, a smug smirk. Next tile: James from Pokémon, Team Rocket member: slim young man with lavender-blue hair swept into side bangs, wearing a white uniform with a big red R on the chest, black gloves and boots, a theatrical smug look. Next tile: Meowth from Pokémon: cream-coloured cat Pokémon standing upright on two legs, a gold oval coin on its forehead, long whiskers, black pointed ears and a curled tail with a bent tip, a sly toothy grin. Next tile: Professor Samuel Oak from Pokémon: elderly man with spiky grey hair, kind wise eyes and a calm smile, wearing a long white lab coat over a purple shirt and brown trousers. Next tile: Giovanni from Pokémon, boss of Team Rocket: a stern man in his forties with slicked-back dark brown hair, a hard cold gaze and a calm menacing expression, wearing a dark brown tailored suit.",
+  "cover": "A warm, tidy Pokémon professor's laboratory with a glowing red-and-white Poké Ball on a pedestal, tall bookshelves, a table full of research papers and a window showing the green fields and small houses of a quiet little town, in a cozy cartoon style."
+ },
+ {
+  "id": "zootropolis",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Ju",
+   "Ni",
+   "Bg",
+   "Ga",
+   "Fl",
+   "Li",
+   "SB",
+   "Fi",
+   "Be"
+  ],
+  "names": [
+   "Judy Hopps",
+   "Nick Wilde",
+   "Jefe Bogo",
+   "Garraza",
+   "Flash",
+   "Alcalde Lionheart",
+   "Sr. Big",
+   "Finnick",
+   "Vicealcaldesa Bellwether"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Judy Hopps from Zootopia: small grey rabbit with long upright ears, big purple-lilac eyes, wearing a blue ZPD police uniform with a badge, holding a carrot-shaped pen, determined smile. Next tile: Nick Wilde from Zootopia: red fox with green eyes and a sly half-lidded smirk, wearing a green Hawaiian-style shirt and a loosened tie, cream muzzle and black-tipped ears. Next tile: Chief Bogo from Zootopia: large Cape buffalo with thick dark horns, stern frown, wearing a blue ZPD police chief uniform with a badge, broad shoulders. Next tile: Clawhauser from Zootopia: chubby smiling cheetah with big round spots and big eyes, wearing a blue ZPD uniform with a badge, holding a pink-frosted donut, cheerful expression. Next tile: Flash Slothmore from Zootopia: slow smiling sloth with long grey-brown fur, dark eye patches, sleepy half-closed eyes and long claws, wearing a short-sleeved beige shirt and a tie like a Department of Mammal Vehicles clerk. Next tile: Mayor Lionheart from Zootopia: large male lion with a full golden-brown mane, wearing a brown suit with a yellow tie and a small round pin, proud and slightly smug expression. Next tile: Mr. Big from Zootopia: tiny arctic shrew mob boss with white-gray fur, big round ears, very small black eyes, thick grey eyebrows, a black tuxedo with a bow tie and a red rose in the lapel, serious expression. Next tile: Finnick from Zootopia: small fennec fox with huge pointed ears, cream-coloured fur, tiny round green eyes, wearing a dark green shirt and a short tie, grumpy expression. Next tile: Dawn Bellwether from Zootopia: small sheep with a big round poof of fluffy pale-cream wool on her head, long floppy grey-brown ears, huge round red-framed glasses, a coral-orange dress, gentle and a little nervous smile.",
+  "cover": "Zootopia's city hall: a grand marble lobby with a large round window, an oversized mayor's desk, green plants and blue flowers on a pedestal, with warm golden light."
+ },
+ {
+  "id": "surf",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Co",
+   "La",
+   "Ge",
+   "PP",
+   "Re",
+   "Mi",
+   "Ar",
+   "Gl",
+   "Ta"
+  ],
+  "names": [
+   "Cody Maverick",
+   "Lani",
+   "Geek",
+   "Pepe el Pollo",
+   "Reggie Belafonte",
+   "Mikey",
+   "Arnold",
+   "Glen Maverick",
+   "Tank Evans"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Cody Maverick from Surf's Up: young rockhopper penguin with a spiky yellow crest, red eyes, a small orange beak, black and white feathers, holding a surfboard, an eager determined look. Next tile: Lani from Surf's Up: young gentoo penguin with a white patch above her eyes, bright orange beak and feet, wearing a red lifeguard whistle and a flower in her head feathers, a friendly confident look. Next tile: Geek (Big Z) from Surf's Up: an old chubby penguin with classic black and white feathers, a white belly and an orange beak, tired kind eyes, a worn faded straw hat, a shell necklace and an open faded Hawaiian shirt, a quirky look. Next tile: Chicken Joe (Pepe el Pollo) from Surf's Up: lanky white rooster with a red comb and wattle, wide goofy eyes, wearing a loud Hawaiian shirt and holding a surfboard, a laid-back surfer look. Next tile: Reggie Belafonte from Surf's Up: short-tempered brown sea otter with sleek wet fur, a big round nose, small ears, a loud floral shirt, a gold chain and a cocky scowl, holding a clipboard. Next tile: Mikey Abromowitz from Surf's Up: small grey shorebird talent scout with a thin long beak, thin legs, a flashy bright shirt, sunglasses and a nervous showman grin. Next tile: Arnold from Surf's Up: young small penguin with a slightly scruffy head crest, wide hopeful eyes, an orange beak and a bright swimming ring, an eager goofy look. Next tile: Glen Maverick from Surf's Up: older rockhopper penguin with a spiky yellow crest, red eyes, a long worried face, stocky body, wearing a plain beach shirt, a protective big-brother look. Next tile: Tank Evans from Surf's Up: tall muscular king penguin with an orange neck patch, sleek black and white feathers, a cocky smirk, sunglasses pushed on his head and a championship medal around his neck.",
+  "cover": "A sunny tropical island surf contest scene: a sandy beach with a stone statue of a legendary surfer, a thatched beach bar, a smoking volcano in the distance and big blue waves breaking over a reef, with a pier and a few surfboards stuck in the sand, no characters and no text."
+ },
+ {
+  "id": "serrano",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Di",
+   "Lu",
+   "Fi",
+   "Ma",
+   "Ev",
+   "Gu",
+   "Te",
+   "Ra",
+   "Sa"
+  ],
+  "names": [
+   "Diego",
+   "Lucía",
+   "Fiti",
+   "Marcos",
+   "Eva",
+   "Guille",
+   "Teté",
+   "Raúl",
+   "Santiago"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Diego Serrano from the Spanish TV series Los Serrano: stocky man about 50, bald on top with short dark-brown hair at the sides, a short brown beard and moustache, small kind tired eyes, a dark navy polo shirt with a small tavern logo. Next tile: Lucía from the Spanish TV series Los Serrano: elegant woman about 40, wavy shoulder-length golden-blonde hair, warm confident smile, a light blouse and a cardigan. Next tile: Fiti from the Spanish TV series Los Serrano: slim man about 40, short black hair, dark stubble, long face with a goofy friendly grin, red and blue mechanic's overalls. Next tile: Marcos Serrano from the Spanish TV series Los Serrano: young man about 20, tousled short dark hair with a fringe, thick dark eyebrows, small dark brown eyes, a shy smile, a casual t-shirt under an open shirt. Next tile: Eva from the Spanish TV series Los Serrano: young woman about 20, long straight dark-brown hair with a fringe, big expressive eyes, a wide smile, a casual top. Next tile: Guille Serrano from the Spanish TV series Los Serrano: teenage boy about fourteen, short spiky dark-brown hair, big mischievous smile, a blue hooded sweatshirt. Next tile: Teté from the Spanish TV series Los Serrano: teenage girl about fourteen, long straight light-brown hair, big bright eyes, a cheeky expression, a colourful hoodie. Next tile: Raúl from the Spanish TV series Los Serrano: tall young man about 20, floppy dark hair over the forehead, small dark brown eyes, an easy laid-back grin, a checked shirt over a t-shirt. Next tile: Santiago (Santi) Serrano from the Spanish TV series Los Serrano: heavyset man about 50, short dark hair combed back with a receding hairline, broad round jowly face, thick dark eyebrows, clean-shaven, small scheming eyes, a dark navy polo shirt with a small tavern logo.",
+  "cover": "A lively old Madrid neighbourhood tavern seen from the street at dusk: a long wooden bar with a plate of patatas bravas and a couple of tapas, red stools, a string of football pennants of a local team above the counter, and a small neighbourhood plaza with a streetlamp outside."
+ },
+ {
+  "id": "prada",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "An",
+   "Em",
+   "Ni",
+   "Ch",
+   "Na",
+   "Ly",
+   "Ir",
+   "Ja",
+   "Mi"
+  ],
+  "names": [
+   "Andy",
+   "Emily",
+   "Nigel",
+   "Christian Thompson",
+   "Nate",
+   "Lily",
+   "Irv Ravitz",
+   "Jacqueline Follet",
+   "Miranda Priestly"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Andy Sachs from The Devil Wears Prada: young woman in her mid twenties, long wavy brown hair, big brown eyes, a warm smile, wearing a chic belted trench coat, a sleek high-fashion outfit and knee-high boots. Next tile: Emily Charlton from The Devil Wears Prada: very thin young woman with short sleek copper-red hair with a fringe, heavy mascara and red lips, sharp bored expression, a black high-fashion dress, a phone in her hand. Next tile: Nigel from The Devil Wears Prada: stylish man in his late forties, shaved bald head, round dark-rimmed glasses, clean-shaven, a warm sly smile, a sharp tailored waistcoat and suit with a patterned tie. Next tile: Christian Thompson from The Devil Wears Prada: charming man in his early thirties, tousled sandy blond hair, light stubble, a confident roguish smile, wearing a dark blazer over an open-collar shirt. Next tile: Nate from The Devil Wears Prada: young man in his late twenties, tousled dark brown hair, light stubble, a relaxed gentle look, wearing a casual grey hoodie and jeans with a kitchen towel over his shoulder. Next tile: Lily from The Devil Wears Prada: young Black woman in her late twenties with short curly dark hair, big bold earrings, expressive eyes and a wide grin, a colourful artsy jacket. Next tile: Irv Ravitz from The Devil Wears Prada: stern publishing magnate in his fifties, short dark combed hair, thin rectangular glasses, heavy brows, an expensive dark suit and a silk tie. Next tile: Jacqueline Follet from The Devil Wears Prada: elegant Parisian woman about 40, short dark brown hair with a fringe, red lipstick, refined sharp features, a black couture jacket with a silk scarf. Next tile: Miranda Priestly from The Devil Wears Prada: elegant ice-cold woman in her fifties, short silver-white bob with a side fringe, pale skin, stern expression, wearing a luxurious white high-collar coat, a pencil skirt and dark heels, big designer sunglasses.",
+  "cover": "A glass-walled high-fashion magazine office in New York with a long white designer desk, racks of couture dresses, a bright cerulean sweater hanging on a rail and a skyline behind the windows."
+ },
+ {
+  "id": "shrek2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "RH",
+   "RL",
+   "PE",
+   "-"
+  ],
+  "names": [
+   "Rey Harold",
+   "Reina Lillian",
+   "Príncipe Encantador"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: King Harold from Shrek 2 in his human form: short plump elderly king with a round face and a big nose, short grey hair and a small neat grey goatee, a golden crown, a royal blue tunic with gold fleur-de-lis and a white ermine collar, a nervous smile. Next tile: Queen Lillian from Shrek 2: tall elegant mature queen with ash-blonde hair in an updo under a golden crown, a rose-red long-sleeved medieval gown, a warm gentle smile. Next tile: Prince Charming from Shrek 2: handsome smug young man with long wavy blond hair, a perfect white smile, a fitted royal blue jacket with gold trim and white tights, a sword at his side, vain pose. Next tile: a plain pastel background with no character.",
+  "cover": "The grand royal ballroom of Far Far Away castle with a polished marble floor, chandeliers, purple banners and a golden throne at the back, a bubbling pink potion cauldron in a corner, no characters and no text."
+ },
+ {
+  "id": "toystory2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "Pg",
+   "Pe",
+   "Zu",
+   "Al"
+  ],
+  "names": [
+   "Perdigón",
+   "Apestoso Pete",
+   "Emperador Zurg",
+   "Al"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Bullseye from Toy Story 2: a cartoon toy horse with a chestnut-brown body, cream-white muzzle and white mane, big round dark eyes, a toy stitched look with a red and white saddle blanket, friendly dopey expression. Next tile: Stinky Pete the Prospector from Toy Story 2: an elderly toy miner doll with a long grey beard and moustache, wrinkled kindly face, brown cowboy hat, blue shirt, brown-red vest and a pick-axe, standing as if still in mint condition. Next tile: Emperor Zurg from Toy Story 2: a big robot-like toy villain in bulky dark purple and black armour, a tall horned helmet-head with a pointed chin, glowing red eyes and jagged teeth, a high collar and a long dark purple cape, an ion blaster on one arm, menacing but cartoonish. Next tile: Al McWhiggin from Toy Story 2: a chubby middle-aged man, balding on top with short black hair at the sides, thick black square glasses, a black moustache joined to a goatee, a rust-red short-sleeved button shirt, a smug greedy grin, a cell phone in his hand.",
+  "cover": "The cluttered toy-collector world of Al's Toy Barn: a giant white-and-yellow chicken statue above a toy shop aisle packed with shelves of toys, with a glass display case with wooden barrels and a cactus from a vintage western TV show, flat illustrated style, warm lighting, no characters, no text."
+ },
+ {
+  "id": "simpson2",
+  "rows": 2,
+  "cols": 3,
+  "ratio": "3:2",
+  "ids": [
+   "Kr",
+   "Mi",
+   "Ap",
+   "Wi",
+   "Bo",
+   "-"
+  ],
+  "names": [
+   "Krusty",
+   "Milhouse",
+   "Apu",
+   "Jefe Wiggum",
+   "Actor Secundario Bob"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Krusty the Clown from The Simpsons: yellow-skinned middle-aged clown with a white face-paint area around the mouth and eyes, a big red nose, heavy bags under the eyes, thick red lips, messy green curly hair at the sides with a bald top, a baggy clown costume with a big white ruffled collar. Next tile: Milhouse Van Houten from The Simpsons: nerdy yellow-skinned boy of about ten, messy blue hair, big thick round glasses, short-sleeved shirt, trousers, an anxious shy look. Next tile: Apu Nahasapeemapetilon from The Simpsons: adult Indian shopkeeper with brown skin, thin black moustache, short black hair, a Kwik-E-Mart shirt with a name tag, a friendly worried smile. Next tile: Chief Wiggum from The Simpsons: heavy overweight yellow-skinned police chief with a big round belly, drooping jowls, a dark blue police uniform, a police cap with badge, a lazy dim-witted expression, a donut in his hand. Next tile: Sideshow Bob from The Simpsons: close-up of the head and shoulders, the big head filling the tile: yellow skin, long thin face, heavy eyelids, big lips, a huge spiky fan of red hair like a palm tree, a purple shirt with a green collar, a sinister theatrical smile. Next tile: a plain pastel background with no character.",
+  "cover": "The backstage of a chaotic children's TV studio with a bright yellow set, a TV camera, a clown-face cream pie on a table and a tiny clown car parked beside the stage, no characters and no text."
+ },
+ {
+  "id": "piratas2",
+  "rows": 1,
+  "cols": 2,
+  "ratio": "16:9",
+  "ids": [
+   "BB",
+   "LB"
+  ],
+  "names": [
+   "Bill el Botas",
+   "Lord Beckett"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 1 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Bootstrap Bill Turner from Pirates of the Caribbean: a gaunt middle-aged sailor with long dark tangled hair and a short dark beard, pale weathered skin covered in barnacles, coral, seashells and seaweed fused into his face and body, tattered old brown sailor clothes, sorrowful eyes. Next tile: Lord Cutler Beckett from Pirates of the Caribbean: a thin, pale, clean-shaven man in his early forties, tall powdered white wig with curled sides tied at the back, immaculate long dark blue frock coat with gold embroidery and buttons, white lace cravat, cold calculating expression.",
+  "cover": "The weathered deck and great hall of the Flying Dutchman at night: barnacle-crusted wooden planks, a huge pipe organ with glowing teeth, a ship's wheel wrapped in seaweed, glowing green lanterns and, in the background, a small sandy island with a chest and a rowing boat in the dark sea."
+ },
+ {
+  "id": "aquinohay",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "JC",
+   "Em",
+   "Vi",
+   "Ma",
+   "Co",
+   "Pa",
+   "Be",
+   "Mu",
+   "Ro"
+  ],
+  "names": [
+   "Juan Cuesta",
+   "Emilio",
+   "Vicenta",
+   "Marisa",
+   "Concha",
+   "Paloma",
+   "Belén",
+   "Mauri",
+   "Roberto"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Juan Cuesta from the Spanish sitcom Aquí no hay quien viva: slim man about 50, long thin face, high forehead with receding dark hair, a short full dark beard joined to the moustache with some grey, V-neck grey sweater over a shirt and tie, patient worried look. Next tile: Emilio the young doorman from Aquí no hay quien viva: man about 30, floppy dark brown hair with a centre fringe, strong dark eyebrows, small dark brown eyes, clean-shaven, cheeky wide grin, light blue work shirt. Next tile: Vicenta from Aquí no hay quien viva: sweet elderly woman, short fluffy blonde hair, soft round face, timid smile, pale cardigan over a flowery blouse. Next tile: Marisa from Aquí no hay quien viva: thin sharp-faced elderly woman, short curly reddish hair, raised eyebrow, sarcastic expression, plain dark cardigan with a brooch. Next tile: Concha from Aquí no hay quien viva: stout elderly woman, big set grey-white hair, double chin, nosy satisfied smirk, dark patterned dress with a pearl necklace. Next tile: Paloma from Aquí no hay quien viva: plump middle-aged Spanish woman, voluminous black hair with a fringe, bright red lipstick, big hoop earrings, flashy black top with a white trim, bossy expression. Next tile: Belén from Aquí no hay quien viva: young woman about 30, long straight brown hair with a fringe, shy clumsy smile, casual striped jumper. Next tile: Mauri from Aquí no hay quien viva: slim elegant man about 40, short neat dark hair, clean-shaven, amused raised eyebrows, fitted dark shirt with the top button open. Next tile: Roberto from Aquí no hay quien viva: young man about 30, short tousled brown hair, clean-shaven, boyish cheerful smile with dimples, small dark brown eyes, a casual purple t-shirt.",
+  "cover": "The cutaway of a shabby old Madrid apartment block seen from the street: a narrow front entrance with a mailbox panel and a doorman's lodge, a long wooden table set up in the hallway for a residents' meeting, laundry strung across a central light well, and a lone rooftop terrace with antennas under a grey sky."
+ },
+ {
+  "id": "cobrakai",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Jo",
+   "Da",
+   "Mi",
+   "Ro",
+   "Sa",
+   "To",
+   "Ha",
+   "Ch",
+   "Kr"
+  ],
+  "names": [
+   "Johnny Lawrence",
+   "Daniel LaRusso",
+   "Miguel",
+   "Robby",
+   "Sam",
+   "Tory",
+   "Halcón",
+   "Chozen",
+   "John Kreese"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Johnny Lawrence from Cobra Kai: rugged man in his late 50s, shaggy dirty-blond feathered hair, a grumpy tough expression, a plain black t-shirt with no print at all under a worn denim jacket. Next tile: Daniel LaRusso from Cobra Kai: fit man in his 50s, short dark brown hair with a little grey at the temples, clean-shaven, friendly slightly intense face, small dark eyes, a white karate gi with a black belt. Next tile: Miguel Diaz from Cobra Kai: a young Latino man in his late teens, short neat dark hair, athletic build, serious determined face, wearing a black karate gi or a dark t-shirt and jeans. Next tile: Robby Keene from Cobra Kai: a lean young man in his late teens, short dirty-blond hair, fine stubble, a stern troubled look, a dark hoodie. Next tile: Samantha LaRusso from Cobra Kai: a teenage girl, long wavy light-brown hair, a determined friendly face, a white karate gi with a belt. Next tile: Tory Nichols from Cobra Kai: a teenage girl, long dark hair, hard intense eyes, dark eyeliner, a black leather jacket over a black top. Next tile: Hawk (Eli Moskowitz) from Cobra Kai: a teenage boy with a tall bright blue mohawk, a thin scar on his upper lip, intense eyes, a black Cobra Kai karate gi. Next tile: Chozen Toguchi from Karate Kid II and Cobra Kai: fit Japanese man in his 50s, short black hair, small dark eyes, serious dignified face, a plain dark karate gi. Next tile: John Kreese from Cobra Kai: a stern tanned man in his late 70s, slicked-back silver-blond hair, clean-shaven, deep lines on his face, a hard cold stare, a black Cobra Kai karate gi with yellow trim.",
+  "cover": "A traditional karate dojo with a polished wooden floor, a black banner with a coiled cobra on the wall, a glass trophy case with a cracked pane, and a small bonsai tree on a stone ledge near an open sliding door to a Japanese garden at dusk."
+ },
+ {
+  "id": "bigbang",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Le",
+   "Pe",
+   "Ho",
+   "Ra",
+   "Am",
+   "Be",
+   "St",
+   "Kr",
+   "Sh"
+  ],
+  "names": [
+   "Leonard",
+   "Penny",
+   "Howard",
+   "Raj",
+   "Amy",
+   "Bernadette",
+   "Stuart",
+   "Barry Kripke",
+   "Sheldon"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Leonard Hofstadter from The Big Bang Theory: a slim man in his early thirties, short dark brown hair, large rectangular dark-rimmed glasses, friendly slightly nervous face, wearing a hoodie or zip-up sweater over a plain T-shirt and jeans. Next tile: Penny from The Big Bang Theory: a young woman in her mid-twenties, shoulder-length wavy blonde hair, bright blue eyes, warm friendly smile, wearing a casual tank top or cardigan with jeans. Next tile: Howard Wolowitz from The Big Bang Theory: a thin young man in his thirties with a dark Beatles-style mop haircut, big expressive eyes, wearing a brightly coloured fitted turtleneck or striped shirt with a large belt buckle. Next tile: Raj Koothrappali from The Big Bang Theory: a young man of Indian descent in his thirties, short dark hair, warm brown eyes, soft shy expression, wearing a neat blazer or stylish sweater over a button-up shirt. Next tile: Amy Farrah Fowler from The Big Bang Theory: a young woman in her thirties with a straight brown bob and thick bangs, round glasses, wearing a modest cardigan over a button-up blouse and a long plain skirt. Next tile: Bernadette Rostenkowski from The Big Bang Theory: a very petite young woman in her thirties, wavy strawberry-blonde hair with bangs, round glasses, large blue eyes, a sweet smile, a neat cardigan over a colourful dress. Next tile: Stuart Bloom from The Big Bang Theory: a lanky man in his thirties with messy dark brown hair, light stubble and a gentle, slightly defeated expression, wearing a plaid shirt or hoodie and a worn jacket. Next tile: Barry Kripke from The Big Bang Theory: a slim man in his thirties with short messy dark-brown hair, clean-shaven, no glasses, a smug raised-eyebrow grin, a red check shirt over a t-shirt. Next tile: Sheldon Cooper from The Big Bang Theory: a very tall thin man in his early thirties, short neat dark brown hair, clean-shaven, no glasses, an arrogant raised-eyebrow expression, wearing a graphic superhero T-shirt layered over a long-sleeve shirt and plain trousers.",
+  "cover": "A cutaway of a Pasadena apartment building: a cosy living room with a worn blue sofa with one dented cushion at its left end, a cello in the corner and a bedroom upstairs, a stairwell with a broken elevator cage, and a comic book shop and a cheesecake diner at street level, with a university laboratory in the basement."
+ },
+ {
+  "id": "regreso",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Ma",
+   "Do",
+   "Ge",
+   "Lo",
+   "Je",
+   "St",
+   "Go",
+   "Ei",
+   "Bi"
+  ],
+  "names": [
+   "Marty McFly",
+   "Doc Brown",
+   "George McFly",
+   "Lorraine",
+   "Jennifer",
+   "Sr. Strickland",
+   "Goldie Wilson",
+   "Einstein",
+   "Biff Tannen"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Marty McFly from Back to the Future: 17-year-old boy with short feathered brown hair, wearing an orange-red puffy life-preserver style vest over a light denim shirt, jeans and white sneakers, wide-eyed and cheeky. Next tile: Doc Emmett Brown from Back to the Future: middle-aged scientist with wild untamed white hair, bushy eyebrows, wide excited eyes, no glasses and no goggles, a white lab coat over a shirt and tie. Next tile: George McFly in 1955: 17-year-old tall, skinny, awkward boy with slicked dark hair, big square glasses, a plaid shirt tucked into high-waisted trousers, nervous timid smile. Next tile: Teenage Lorraine Baines from Back to the Future in 1955: a teenage girl with medium brown hair in a 1950s style, a light pastel pink high-school dance dress with a modest collar, a curious friendly expression. Next tile: Jennifer Parker from Back to the Future: a teenage girl with long wavy dark-brown hair, a 1980s denim jacket over a light blouse, a sweet worried expression. Next tile: Mr. Strickland from Back to the Future: a stern bald man in his fifties, sharp narrow face, a dark suit and a bow tie, a scowling disapproving look. Next tile: Goldie Wilson in 1955: young Black man of about 20 with short hair and a bright smile, wearing a white apron and a small paper busboy cap, holding a mop or broom, hopeful look. Next tile: Einstein from Back to the Future: Doc's scruffy shaggy Catalan sheepdog, grey and white long fur, two big round friendly dark eyes clearly visible, floppy ears, tongue out, a small collar. Next tile: Biff Tannen in 1955: huge broad-shouldered tall bully of 17 with slicked-back ducktail dark hair, heavy brow and scowl, wearing a dark jacket over a white t-shirt and jeans.",
+  "cover": "Hill Valley town square in 1955 at night: a tall clock tower, a silver stainless-steel sports car with gull-wing doors parked beneath it, and a blue banner with sea-wave decorations hanging over the school gym doors."
+ },
+ {
+  "id": "dragonball2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "Tr",
+   "MS",
+   "Ce",
+   "-"
+  ],
+  "names": [
+   "Trunks",
+   "Mr. Satán",
+   "Célula"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Future Trunks from Dragon Ball Z (Cell Saga): young adult with chin-length straight light lavender-purple hair, blue eyes, serious determined expression, wearing a light blue jacket with a Capsule Corporation logo over a black shirt and a sword strapped on his back. Next tile: Mr. Satan (Hercule) from Dragon Ball Z: large muscular middle-aged man with a huge round black afro and thick black mustache, big confident grin, wearing a white martial-arts gi with a black belt and red boots, flexing proudly. Next tile: Cell from Dragon Ball Z in his perfect form: tall humanoid bio-android with green skin covered in black spots, black and cream-yellow armored plates on his chest and shoulders, folded insect-like wings, a pale pinkish face with a black crest on his head, a smug grin. Next tile: a plain pastel background with no character.",
+  "cover": "A square stone martial-arts ring in the middle of a rocky desert, with cracked tiles, empty wooden stands around it, a golden champion trophy on a pedestal and a distant tall temple on the horizon, warm late-afternoon light."
+ },
+ {
+  "id": "friends2",
+  "rows": 1,
+  "cols": 1,
+  "ratio": "1:1",
+  "ids": [
+   "Mk"
+  ],
+  "names": [
+   "Mike"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 1 rows x 1 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Mike Hannigan from Friends: a tall man in his late thirties, short dark brown hair with a slightly receding hairline, light stubble, warm easy-going smile, wearing a casual button-up shirt or sweater over a T-shirt and jeans.",
+  "cover": "A cutaway of a New York apartment building on Thanksgiving: a bright kitchen with a roast turkey on the counter, a purple-door living room, a hallway with mailboxes, a coffee house with a big orange sofa, a rooftop terrace and a basement laundry room with washing machines."
+ },
+ {
+  "id": "jurassicw",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Ow",
+   "Cl",
+   "Za",
+   "Gr",
+   "Ma",
+   "Wu",
+   "Ba",
+   "Bl",
+   "Ho"
+  ],
+  "names": [
+   "Owen",
+   "Claire",
+   "Zach",
+   "Gray",
+   "Masrani",
+   "Dr. Wu",
+   "Barry",
+   "Blue",
+   "Hoskins"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Owen Grady from Jurassic World: rugged man in his mid-thirties, short dark brown hair, light stubble, tan khaki button-up shirt with rolled sleeves, a brown utility vest over it, dusty trousers and a confident wary look. Next tile: Claire Dearing from Jurassic World: elegant woman in her late thirties, sleek chin-length auburn bob, a crisp white sleeveless blouse, white trousers and nude high heels, holding a tablet, tense businesslike expression. Next tile: Zach Mitchell from Jurassic World: lanky teenage boy of about sixteen, tousled brown hair, a casual grey t-shirt over jeans, earphones around his neck, a smartphone in hand and a bored but curious look. Next tile: Gray Mitchell from Jurassic World: boy of about eleven, short brown hair, big wide-open curious eyes, a casual t-shirt and shorts, enthusiastic expression, clutching a dinosaur guide. Next tile: Simon Masrani from Jurassic World: charming South Asian billionaire in his fifties, short black hair, a trimmed moustache, light button-up shirt with open collar and sleeves rolled, relaxed friendly smile. Next tile: Dr. Henry Wu from Jurassic World: middle-aged East Asian scientist with short dark hair, neat clean-shaven face, a white lab coat over a dark shirt, calm calculating expression. Next tile: Barry from Jurassic World: tall friendly Black man in his thirties, very short black hair, light stubble, a khaki field shirt with rolled sleeves, a warm cheerful expression. Next tile: Blue from Jurassic World: an agile velociraptor, sleek blue-grey skin with a pale stripe along the side of her body, sharp teeth, alert yellow eyes, a curved sickle claw on each foot. Next tile: Vic Hoskins from Jurassic World: stocky man in his fifties, short dark hair, a dark goatee, a beige short-sleeved uniform shirt with epaulettes, an arrogant smirk.",
+  "cover": "Aerial view of the Jurassic World theme park gate with its big arched entrance, a blue gyrosphere rolling on a green valley path and a lagoon in the background, no characters, no text."
+ },
+ {
+  "id": "office2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "St",
+   "Ph",
+   "TP",
+   "-"
+  ],
+  "names": [
+   "Stanley",
+   "Phyllis",
+   "Todd Packer"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Stanley Hudson from The Office (US): a heavyset Black man in his late fifties, short greying hair, thin moustache, tired unimpressed expression, wearing a plain button-up shirt, tie and a dull office sweater or suit jacket, reading glasses on his collar. Next tile: Phyllis Vance from The Office (US): a plump friendly woman in her late fifties, short curled light-brown hair, rosy cheeks, warm smile, wearing a pastel cardigan over a floral blouse with a modest necklace. Next tile: Todd Packer from The Office (US): a stocky loud man in his forties, thin combed-back light-brown hair with a strongly receding hairline, broad heavy clean-shaven face, a smug grin, a dark suit, a blue shirt and a loud yellow patterned tie. Next tile: a plain pastel background with no character.",
+  "cover": "Top-down view of a Dunder Mifflin paper-company office decorated for a Christmas party: a lit tree with paper garlands, red and green desks, a table with a punch bowl, a snowy parking lot visible beyond, and a golden Dundie award on a desk, no characters, no text."
+ },
+ {
+  "id": "peaky2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "Ab",
+   "Li",
+   "Lu",
+   "-"
+  ],
+  "names": [
+   "Aberama Gold",
+   "Lizzie",
+   "Luca Changretta"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Aberama Gold from Peaky Blinders: lean, wiry Romani man in his late 50s with short grizzled dark-grey hair, rough stubble, sharp pale eyes and a sly smirk; wears a battered flat cap, a dark worn tweed jacket over a waistcoat and a knotted neckerchief. Next tile: Lizzie Stark from Peaky Blinders: woman in her early 30s with wavy dark-brown hair pinned up neatly, pale skin and a determined expression; wears a 1920s high-collared blouse with a long cardigan, a simple long skirt and a thin gold chain. Next tile: Luca Changretta from Peaky Blinders: Italian-American mobster in his mid 40s with slicked-back black hair, a strong prominent nose, dark deep-set eyes and a clean-shaven face; wears an immaculate black three-piece suit, a long black overcoat, a white shirt with a dark tie and a black fedora. Next tile: a plain pastel background with no character.",
+  "cover": "A rainy 1920s Birmingham canal-side street at dusk in Small Heath, with the brick facade of The Garrison pub lit from within, a narrowboat moored at the cobbled quay and a single black-handprint note pinned to the pub door."
+ },
+ {
+  "id": "indiana",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "In",
+   "Ma",
+   "Sa",
+   "MB",
+   "He",
+   "Ta",
+   "Wi",
+   "To",
+   "Be"
+  ],
+  "names": [
+   "Indiana Jones",
+   "Marion",
+   "Sallah",
+   "Marcus Brody",
+   "Henry Jones",
+   "Tapón",
+   "Willie",
+   "Mayor Toht",
+   "Belloq"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Indiana Jones from Raiders of the Lost Ark: rugged man in his late thirties, short dark brown hair, stubble, brown leather jacket, tan shirt, brown fedora hat, a coiled whip at his belt and a satchel across his chest. Next tile: Marion Ravenwood from Raiders of the Lost Ark: confident young woman in her thirties with wavy dark brown hair, a simple white dress, a defiant smirk and a frying pan in her hand. Next tile: Sallah from Raiders of the Lost Ark: stout cheerful Egyptian man in his forties with a full black beard and moustache, a red fez, a light brown work shirt, a broad warm smile. Next tile: Marcus Brody from Raiders of the Lost Ark: elderly museum curator with thinning grey hair and a trimmed grey moustache, a grey three-piece suit with a bow tie, kind and slightly flustered look. Next tile: Henry Jones Senior from Indiana Jones and the Last Crusade: elderly professor with thin white hair, a short full white beard, round glasses, a tweed jacket with a waistcoat and bow tie, a Grail diary in his hand. Next tile: Short Round from Indiana Jones and the Temple of Doom: a ten year old Chinese boy with short black hair under a white baseball cap, a light jacket over a shirt, big cheerful eyes and a mischievous grin. Next tile: Willie Scott from Indiana Jones and the Temple of Doom: glamorous young woman with curly blonde hair, a sparkling champagne evening gown, long gloves and a frightened but fierce expression. Next tile: Major Toht from Raiders of the Lost Ark: thin pale man with round wire glasses, slicked-back black hair, a long black leather coat and black gloves, a sinister thin smile, one hand slightly scarred. Next tile: Rene Belloq from Raiders of the Lost Ark: elegant French archaeologist in his forties, dark neatly combed hair, light stubble, a cream colonial suit with a loosened tie, a white panama hat and a self-satisfied smile.",
+  "cover": "A dusty archaeological dig in the Egyptian desert at sunset, with an open stone pit full of coiled snakes, a golden ornate chest with poles in the foreground and a lonely tent in the distance, no characters and no text."
+ },
+ {
+  "id": "punales",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "BB",
+   "Ma",
+   "Ra",
+   "Li",
+   "Ri",
+   "Wa",
+   "Jo",
+   "Me",
+   "Ha"
+  ],
+  "names": [
+   "Benoit Blanc",
+   "Marta",
+   "Ransom",
+   "Linda",
+   "Richard",
+   "Walt",
+   "Joni",
+   "Meg",
+   "Harlan Thrombey"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Benoit Blanc from Knives Out: tall lean man in his fifties with short sandy-blond greying hair, blue eyes, a charming confident look, a grey-brown three-piece suit with a loose tie, polished Southern-gentleman manner. Next tile: Marta Cabrera from Knives Out: gentle young Latina woman in her early 20s with long dark brown hair tied back, kind brown eyes, a soft knitted cardigan over a simple blouse, a nurse's quiet and worried air. Next tile: Ransom Drysdale from Knives Out: handsome young man in his late 20s with swept-back light brown hair and a smug smile, a thick cream cable-knit wool sweater over a collared shirt, a stylish patterned scarf, careless rich-kid swagger. Next tile: Linda Drysdale from Knives Out: confident woman in her 60s with short cropped platinum-silver hair, dark-rimmed glasses, a sharp solid pink power suit and chunky gold jewelry, brisk businesswoman look. Next tile: Richard Drysdale from Knives Out: smug tanned man in his 60s with swept-back silver hair, short grey stubble, a navy blazer over an open-collar shirt, a self-satisfied smirk. Next tile: Walt Thrombey from Knives Out: tall long-faced man in his 40s with short thinning dark hair and a receding hairline, a blazer and shirt, a cane in hand, a perpetually irritated expression. Next tile: Joni Thrombey from Knives Out: slim woman in her 50s with long wavy blonde hair, frosted pink lipstick, soft flowing pastel clothes and a lifestyle-influencer glow, a serene fake smile. Next tile: Meg Thrombey from Knives Out: college student girl with long wavy dirty-blonde hair, a casual oversized sweater, an idealistic and sarcastic expression. Next tile: Harlan Thrombey from Knives Out: elderly man of 85 with white hair and a trimmed white beard, a thick cardigan or tweed jacket over a shirt, the warm tired look of a famous mystery novelist, a faint twinkle in his eyes.",
+  "cover": "The grand gothic Thrombey mansion at night with warm lit windows, a front lawn and in the foreground a huge spiky throne made of hundreds of kitchen knives, no characters and no text."
+ },
+ {
+  "id": "titanic",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Ja",
+   "Ro",
+   "Ru",
+   "Mo",
+   "Lo",
+   "An",
+   "Sm",
+   "Fa",
+   "Ca"
+  ],
+  "names": [
+   "Jack Dawson",
+   "Rose",
+   "Ruth",
+   "Molly Brown",
+   "Lovejoy",
+   "Thomas Andrews",
+   "Capitán Smith",
+   "Fabrizio",
+   "Cal Hockley"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Jack Dawson from Titanic: lanky young man in his early twenties, tousled sandy-blond hair, clean-shaven, warm open smile, a worn brown wool coat or rolled-up sleeves over a plain vest with suspenders, a flat cap tucked in his pocket, a sketchbook under his arm. Next tile: Rose DeWitt Bukater from Titanic: young woman with long wavy copper-red hair pinned up loosely, pale skin, bright determined eyes, an elegant ivory Edwardian dress and a wide-brimmed hat with ribbons. Next tile: Ruth DeWitt Bukater from Titanic: stern upper-class woman in her late forties, reddish-brown hair swept into a high Edwardian updo under a large feathered hat, a dark gown, jewellery at her throat, a disapproving pinched expression. Next tile: Molly Brown from Titanic: cheerful stout woman in her forties, curly light-brown hair, big warm smile, a rich Edwardian dress with a fur stole and a large feathered hat, frank and friendly look. Next tile: Spicer Lovejoy from Titanic: tall thin man in his fifties with a hollow severe face, slicked-back greying dark hair, no beard, cold watchful eyes, a charcoal frock suit with a waistcoat, black derby hat and gloves. Next tile: Thomas Andrews from Titanic: kind earnest man of about forty, slightly greying dark hair, a neat moustache, a dark three-piece suit with a watch chain, rolled ship blueprints under his arm and a worried look. Next tile: Captain Edward Smith from Titanic: dignified elderly sea captain, neat white beard, kind but weary eyes, navy double-breasted uniform with gold braid on the sleeves and a white-topped captain's cap. Next tile: Fabrizio from Titanic: cheerful young Italian man in his twenties, dark curly hair, clean-shaven, big grin, worn wool jacket and flat cap, a scarf at his neck, third-class traveller's clothes. Next tile: Cal Hockley from Titanic: arrogant wealthy man of about thirty, slicked-back black hair with a side parting, clean-shaven sharp face, a black Edwardian tuxedo with white bow tie and a gold watch chain.",
+  "cover": "A white Edwardian ocean liner's grand staircase and promenade deck at night: a polished wooden clock above a sweeping carpeted staircase, with a large blue diamond necklace glittering on a velvet cushion in the foreground, starry sky through the glass dome, no people and no text."
+ },
+ {
+  "id": "bridgerton",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "Da",
+   "Si",
+   "An",
+   "El",
+   "Pe",
+   "Co",
+   "LD",
+   "RC",
+   "Cr"
+  ],
+  "names": [
+   "Daphne",
+   "Simon",
+   "Anthony",
+   "Eloise",
+   "Penelope",
+   "Colin",
+   "Lady Danbury",
+   "Reina Charlotte",
+   "Cressida Cowper"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Daphne Bridgerton from Bridgerton: a young woman in her early twenties with light brown hair in an elegant Regency updo with loose curls, soft pastel empire-waist gown, pearl necklace, graceful and kind-looking. Next tile: Simon Basset, Duke of Hastings from Bridgerton: a tall man in his early thirties with very short dark hair, dark skin, no facial hair, wearing a tailored dark navy Regency tailcoat, white cravat and waistcoat, brooding and elegant. Next tile: Anthony Bridgerton from Bridgerton: a man in his thirties with short dark brown hair and neat side whiskers, strong jaw, wearing a dark Regency tailcoat, high cravat and waistcoat, serious and commanding. Next tile: Eloise Bridgerton from Bridgerton: a young woman in her early twenties with brown hair in a simple low updo, sharp curious expression, plain blue-green Regency gown without much frill, a book or quill in hand. Next tile: Penelope Featherington from Bridgerton: a young woman in her early twenties with auburn red curly hair pinned up, freckled soft face, warm smile, wearing a frilly yellow-green Regency gown with a modest neckline. Next tile: Colin Bridgerton from Bridgerton: a charming man in his late twenties with tousled wavy light brown hair and a cheerful smile, wearing a fashionable Regency tailcoat in rich colors with a loose cravat. Next tile: Lady Agatha Danbury from Bridgerton: an elderly Black noblewoman with dark hair in an elaborate updo under a tall feathered dark hat, an ornate black and gold gown, many rings and necklaces, a walking cane, a sharp witty look. Next tile: Queen Charlotte from Bridgerton: a Black queen in her fifties with an enormous tall white powdered wig decorated with ornaments, a lavish royal gown with pearls and a jeweled necklace, a regal and imperious expression. Next tile: Cressida Cowper from Bridgerton: a haughty young woman in her early twenties with blonde elaborate ringlets decorated with feathers and ribbons, bright fashionable Regency gown in pink and green, a folding fan, mocking expression.",
+  "cover": "A grand Regency ballroom at night in London: a huge crystal chandelier, marble floor with a gold carpet, tall windows, a table with a lemonade pitcher and glasses, one folded fan lying on the floor, a single dropped gossip pamphlet, no people and no text."
+ },
+ {
+  "id": "orgullo",
+  "rows": 3,
+  "cols": 3,
+  "ratio": "1:1",
+  "ids": [
+   "El",
+   "Da",
+   "Ja",
+   "Bi",
+   "Ly",
+   "Ca",
+   "Co",
+   "LC",
+   "Wi"
+  ],
+  "names": [
+   "Elizabeth Bennet",
+   "Sr. Darcy",
+   "Jane Bennet",
+   "Sr. Bingley",
+   "Lydia Bennet",
+   "Caroline Bingley",
+   "Sr. Collins",
+   "Lady Catherine",
+   "Sr. Wickham"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 3 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Elizabeth Bennet from Pride and Prejudice: young woman in her early twenties with dark brown hair pinned up in a loose Regency updo with a few curls, bright intelligent eyes and a teasing half-smile, wearing a simple cream Regency empire-waist dress with a sage-green spencer jacket. Next tile: Mr. Darcy from Pride and Prejudice: tall man in his thirties with dark brown wavy hair and long sideburns, no beard, a serious proud expression, wearing a Regency dark tailcoat, high white cravat, cream waistcoat and dark trousers. Next tile: Jane Bennet from Pride and Prejudice: young woman in her early twenties, the beautiful eldest sister, with light blonde hair in a soft Regency updo, gentle sweet face and a serene smile, wearing a pale blue or white empire-waist ball gown. Next tile: Mr. Bingley from Pride and Prejudice: cheerful young man in his late twenties with light reddish-blond tousled hair and sideburns, a boyish friendly open smile, wearing a Regency tailcoat in blue, a buff waistcoat and a white cravat. Next tile: Lydia Bennet from Pride and Prejudice: giddy teenage girl with curly light brown hair partly pinned up, rosy cheeks, a mischievous grin, a frilly pink-and-white Regency dress with a high neckline, ribbons and a bonnet. Next tile: Caroline Bingley from Pride and Prejudice: elegant woman in her late twenties with sleek dark hair in an elaborate Regency updo with a feather ornament, a haughty raised-chin look, wearing a stylish deep-red or emerald empire-waist silk ball gown with long gloves. Next tile: Mr. Collins from Pride and Prejudice: awkward clergyman in his late twenties, plump and tall, with a round pale face, thinning slicked-down brown hair, an eager smug smile, wearing a black clerical Regency tailcoat, white bands at the neck, black breeches and buckled shoes. Next tile: Lady Catherine de Bourgh from Pride and Prejudice: imperious elderly aristocratic woman in her sixties with grey hair under a tall feathered headdress, a stern disdainful face, wearing a lavish dark purple Regency gown with jewels, a fur-trimmed shawl and a cane. Next tile: Mr. Wickham from Pride and Prejudice: charming handsome man in his late twenties with wavy light brown hair and sideburns, a roguish smile, wearing a scarlet Regency militia officer's coat with gold buttons and white breeches and a black high collar.",
+  "cover": "A grand Regency country-house ballroom at Netherfield Park lit by crystal chandeliers, with a polished parquet floor, tall arched windows with drapes, and a pianoforte and a punch bowl on a table in the corner, no characters and no text."
+ },
+ {
+  "id": "breaking2",
+  "rows": 1,
+  "cols": 1,
+  "ratio": "1:1",
+  "ids": [
+   "Tu"
+  ],
+  "names": [
+   "Tuco Salamanca"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 1 rows x 1 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Tuco Salamanca from Breaking Bad: a muscular, wiry Mexican-American man in his late 30s, shaved head, thin black goatee, wild bloodshot intense eyes, a gold or metal-capped front tooth, tattooed arms, a gold chain, wearing a sleeveless dark tank top or an open loose shirt, an unhinged manic grin.",
+  "cover": "A sun-baked New Mexico desert at dusk with a weathered cinderblock shack with a rusty tin roof, a dented old RV beside it, a tall saguaro cactus, a faint blue glow of crystals spilling from an open wooden crate, and distant mesas on the horizon."
+ },
+ {
+  "id": "miercoles2",
+  "rows": 2,
+  "cols": 3,
+  "ratio": "3:2",
+  "ids": [
+   "Pu",
+   "Mo",
+   "Go",
+   "Ag",
+   "Do",
+   "-"
+  ],
+  "names": [
+   "Pugsley",
+   "Morticia",
+   "Gómez",
+   "Agnes",
+   "Director Dort"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Pugsley Addams from Wednesday (Netflix): teenage boy, around 15, dark messy short hair, pale skin, a black and white striped sweater or dark school jacket, round chubby face and a mischievous grin. Next tile: Morticia Addams from Wednesday (Netflix): elegant tall adult woman, long straight jet-black hair parted in the middle, pale skin, dark lips, a long black gown and a calm, glamorous gothic expression. Next tile: Gomez Addams from Wednesday (Netflix): short stocky man in his sixties with tufty dark curly hair and a thin pencil moustache, a dark pinstriped double-breasted suit, a theatrical, passionate and cheerful expression. Next tile: Agnes DeMille from Wednesday (Netflix): teenage girl, pale, with straight copper-red hair with a fringe and two low braids, big pale eyes, a striped navy and white Nevermore blazer with a tie, a shy admiring look with slightly transparent edges. Next tile: Principal Barry Dort from Wednesday (Netflix): thin man around 65 with bulging eyes, thinning receding hair and a narrow crooked smile, a tailored grey suit with a tie, polished but slightly nervous look. Next tile: a plain pastel background with no character.",
+  "cover": "A principal's office in a gothic boarding school with dark wood panelling, a big desk covered in glossy merchandising brochures, a tall window with a stormy sky and a stuffed raven on the shelf, no characters and no text."
+ },
+ {
+  "id": "vikingos2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "Ju",
+   "Ae",
+   "Kw",
+   "-"
+  ],
+  "names": [
+   "Judith",
+   "Aethelwulf",
+   "Kwenthrith"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Judith from the TV series Vikings: Anglo-Saxon princess of Wessex in her early 30s, pale skin, long wavy dark-brown hair partly pinned back under a thin veil and circlet, a calm intelligent expression; wears a long layered medieval gown in deep blue and brown with embroidered trim. Next tile: Aethelwulf from the TV series Vikings: Anglo-Saxon king of Wessex in his late 30s, short brown hair, a neatly trimmed short beard, a stern worried expression; wears a dark tunic with a studded leather belt, a long fur-trimmed red cloak and a small gold crown. Next tile: Kwenthrith from the TV series Vikings: young Mercian queen in her mid 20s, long wild wavy dark hair, pale skin with intense eyes and a restless, scheming smile; wears a heavy fur-lined dress in dark red and gold with a tarnished gold crown. Next tile: a plain pastel background with no character.",
+  "cover": "A sunlit Anglo-Saxon royal villa of Wessex with a Roman-style bathhouse of steaming turquoise water, a stone chapel with a cross in the background and a gold throne glimpsed through an open doorway, no characters and no text."
+ },
+ {
+  "id": "potter2",
+  "rows": 2,
+  "cols": 3,
+  "ratio": "3:2",
+  "ids": [
+   "Lu",
+   "Ne",
+   "Si",
+   "LM",
+   "Um",
+   "-"
+  ],
+  "names": [
+   "Luna",
+   "Neville",
+   "Sirius",
+   "Lucius Malfoy",
+   "Dolores Umbridge"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Luna Lovegood from Harry Potter: a dreamy teenage girl with very long waist-length dirty-blonde hair, wide pale silvery eyes, radish earrings, a butterbeer-cork necklace, and slightly crooked Ravenclaw school robes. Next tile: Neville Longbottom from Harry Potter: a shy teenage boy with a round, soft face, short light-brown hair, big hopeful eyes, and slightly baggy Gryffindor school robes. Next tile: Sirius Black from Harry Potter: a tall, thin man in his thirties with long, messy dark hair to his shoulders, a stubbly, gaunt but handsome face, tired grey eyes, and a long worn black coat over dark clothes. Next tile: Lucius Malfoy from Harry Potter: a tall, cold-looking man with long straight platinum-blond hair, a pale narrow face, grey eyes, a black high-collared cloak, and a silver snake-headed cane. Next tile: Dolores Umbridge from Harry Potter: a short, plump middle-aged woman with a toad-like face, a bob of short curly mousy-brown hair topped with a small black velvet bow, a sugary tight smile, a fluffy bright-pink cardigan over a pink skirt-suit and a tiny pink handbag. Next tile: a plain pastel background with no character.",
+  "cover": "A wide, shiny dark-floored atrium of a wizarding ministry, lined with golden fireplaces on both walls, a tall gilded fountain with statues in the centre, brass lifts at one end and a peacock-blue vaulted ceiling with glowing signs, without any characters or text."
+ },
+ {
+  "id": "marvel2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "BE",
+   "Qs",
+   "Vi",
+   "Ul"
+  ],
+  "names": [
+   "Bruja Escarlata",
+   "Mercurio",
+   "Visión",
+   "Ultrón"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Wanda Maximoff, the Scarlet Witch from Avengers: Age of Ultron: young woman in her late twenties, long wavy dark brown hair, intense eyes, wearing a long dark red leather jacket over a dark red top and a dark trousers, with a faint red glow of magic around her hands. Next tile: Pietro Maximoff, Quicksilver from Avengers: Age of Ultron: young man in his late twenties, short silver-bleached hair, light stubble, athletic build, wearing a dark blue tracksuit jacket with white stripes and a dark athletic outfit, a cocky smirk. Next tile: Vision from Avengers: Age of Ultron: tall android man with a smooth red synthetic face with no hair, a yellow glowing gem on his forehead, a green and yellow suit with a long flowing gold cape, hands relaxed, calm expression. Next tile: Ultron from Avengers: Age of Ultron: tall menacing robot with a silver-grey metal body, glowing red eyes, a metallic face with a thin mouth slit, hollow dark head like a skull mask, with exposed cables and a battle-damaged armour.",
+  "cover": "Sokovia, a ruined European city floating high in the sky: broken cobblestone streets and a stone church tilting on a chunk of rock, with a glowing blue vibranium core beneath it and a Quinjet circling, drones in the distance, dusk light"
+ },
+ {
+  "id": "hobbit",
+  "rows": 2,
+  "cols": 4,
+  "ratio": "16:9",
+  "ids": [
+   "Bi",
+   "Th",
+   "Ba",
+   "Ki",
+   "Br",
+   "Ta",
+   "Tr",
+   "Sm"
+  ],
+  "names": [
+   "Bilbo",
+   "Thorin",
+   "Balin",
+   "Kili",
+   "Bardo",
+   "Tauriel",
+   "Thranduil",
+   "Smaug"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 4 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Bilbo Baggins from The Hobbit: small young-looking hobbit with curly sandy-brown hair, big bare furry feet, a muted green and brown traveller's coat over a cream shirt, a small sword at his belt, a mischievous worried expression. Next tile: Thorin Oakenshield from The Hobbit: proud stern dwarf king with long dark hair streaked with grey, a short braided beard, a dark blue tunic under a heavy fur-trimmed coat, a runed sword at his side. Next tile: Balin from The Hobbit: kind elderly dwarf, short and stout, bald on top with a ring of white hair, a big bulbous nose, rosy cheeks, a wide white forked beard, a red and brown coat with a thick fur collar, a gentle wise smile, not a wizard, no hat. Next tile: Kili from The Hobbit: young handsome dwarf with shoulder-length dark hair and light stubble, no long beard, a brown hooded coat, a bow on his back, a cheeky grin. Next tile: Bard the Bowman from The Hobbit: weary grim man in his forties with messy shoulder-length dark hair and a stubble beard, a long worn dark coat, a big black bow in his hands. Next tile: Tauriel from The Hobbit: young female wood-elf with long red hair partly braided back, pointed ears, green and brown leather armour, a bow and twin daggers, a fierce but gentle look. Next tile: Thranduil from The Hobbit: tall regal elf king with long straight pale-blond hair, a crown of twisting antlers and twigs, shimmering silver-gold robes and a cold proud stare. Next tile: Smaug from The Hobbit: gigantic red-gold dragon with a long serpentine neck, a horned crest, huge leathery wings, scales like jewelled armour and glowing golden eyes, coiled over a heap of gold.",
+  "cover": "The great treasure hall of the Lonely Mountain, a vast cavern of towering stone pillars with endless dunes of gold coins, goblets and jewels, a glowing white gem on a stone pedestal, no characters and no text."
+ },
+ {
+  "id": "killbill",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "No",
+   "OR",
+   "El",
+   "Bu",
+   "Ve",
+   "Go",
+   "HH",
+   "PM",
+   "So",
+   "Bi"
+  ],
+  "names": [
+   "La Novia",
+   "O-Ren Ishii",
+   "Elle Driver",
+   "Budd",
+   "Vernita Green",
+   "Gogo Yubari",
+   "Hattori Hanzo",
+   "Pai Mei",
+   "Sofie Fatale",
+   "Bill"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: The Bride (Beatrix Kiddo) from Kill Bill: a determined woman in her mid thirties with long blonde hair, wearing a yellow motorcycle jumpsuit with black stripes down the sides, holding a katana, a cold focused stare. Next tile: O-Ren Ishii from Kill Bill: an elegant East Asian woman in her thirties with long straight black hair, a white silk kimono, a calm and icy expression, a katana at her side. Next tile: Elle Driver from Kill Bill: a slim blonde woman in her late thirties with a black eye patch over her right eye, a white nurse uniform, and a cold amused smile. Next tile: Budd from Kill Bill: a lean weathered man in his fifties with a lined face, slicked-back dark hair, stubble, a black cowboy hat, a black western shirt, jeans and boots, a tired sneer. Next tile: Vernita Green from Kill Bill: a Black woman in her thirties with short dark hair, wearing casual suburban clothes and a kitchen apron, a wary friendly smile. Next tile: Gogo Yubari from Kill Bill: a Japanese teenage bodyguard with long straight black hair and straight bangs, a dark school blazer over a white shirt with a tie, a ball on a chain in her hand, a cold mischievous grin. Next tile: Hattori Hanzo from Kill Bill: an elderly Japanese man with thin grey hair, a kind wrinkled face, wearing a white sushi chef uniform with a headband, a gentle humorous expression. Next tile: Pai Mei from Kill Bill: an ancient Chinese kung fu master with a long white beard and very long white eyebrows, white hair, wearing a grey-white traditional robe, a stern disdainful look. Next tile: Sofie Fatale from Kill Bill: an elegant woman in her thirties with dark hair neatly styled, wearing a sharp black business suit and white blouse, a poised lawyer-like expression. Next tile: Bill from Kill Bill: a weathered charming man in his sixties with long straight greying hair, a lined face, a dark shirt under a dark jacket, a bamboo flute in his hand, a knowing amused smile.",
+  "cover": "A sunlit Mexican hacienda courtyard with whitewashed adobe walls and a terracotta roof, a tall pedestal holding a katana in the foreground, a yellow camper trailer and a tiny white chapel in the desert background, no characters, no text."
+ },
+ {
+  "id": "hambre",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Ka",
+   "Pe",
+   "Ga",
+   "Ha",
+   "Ef",
+   "Ci",
+   "Fi",
+   "Jo",
+   "Co",
+   "Sn"
+  ],
+  "names": [
+   "Katniss",
+   "Peeta",
+   "Gale",
+   "Haymitch",
+   "Effie",
+   "Cinna",
+   "Finnick",
+   "Johanna",
+   "Presidenta Coin",
+   "Presidente Snow"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Katniss Everdeen from The Hunger Games: a young woman in her late teens, olive skin, grey eyes, long dark brown hair in a thick side braid over her left shoulder, determined serious face, wearing a dark hunting jacket or a black fireproof combat suit with a small golden mockingjay pin. Next tile: Peeta Mellark from The Hunger Games: a stocky young man in his late teens, wavy ash-blond hair, kind blue eyes, a gentle tired smile, wearing a simple dark jacket over a plain shirt, flour-dusted hands optional. Next tile: Gale Hawthorne from The Hunger Games: a tall, strong young man in his early twenties, short dark brown hair, grey eyes, a serious stubborn look, wearing a worn dark hunting jacket and boots, a bow slung over his shoulder. Next tile: Haymitch Abernathy from The Hunger Games: a scruffy man in his late 40s, messy shoulder-length blond hair, unshaven stubble, red weary eyes, a crumpled shirt and an old dark jacket, a flask in his hand. Next tile: Effie Trinket from The Hunger Games: a flamboyant woman in her 40s, a towering pastel pink wig, thick bright makeup with gold eyeshadow, glittering extravagant dress with huge sculpted shoulders and high heels, a bright theatrical smile. Next tile: Cinna from The Hunger Games: a calm, elegant Black man in his 30s, short dark cropped hair, subtle gold metallic eyeliner, warm serene brown eyes, a simple fitted black tailored jacket with a measuring tape around his neck. Next tile: Finnick Odair from The Hunger Games: a strikingly handsome man in his late 20s, tousled bronze hair, bright sea-green eyes, a tanned athletic build, a confident charming smirk, wearing a casual open shirt or a sleek dark Capitol outfit, a golden trident close by. Next tile: Johanna Mason from The Hunger Games: a wiry sharp young woman in her mid 20s, short dark brown hair cropped messy, dark intense mocking eyes, a thin scar on her cheek, wearing a dark combat jacket or a rough outfit with an axe at her side. Next tile: President Alma Coin from The Hunger Games: a severe woman in her late 50s, straight shoulder-length grey hair, cold pale eyes, a stern unsmiling face, wearing a plain tailored grey military-style uniform jacket. Next tile: President Coriolanus Snow from The Hunger Games: an elderly man in his 70s, thin white hair and a neat white beard, cold pale eyes and a faint cruel smile, wearing an immaculate dark formal suit with a fresh white rose pinned to the lapel.",
+  "cover": "A moonlit rose garden in the Capitol of Panem, rows of pristine white rose bushes around a stone fountain, with the lit glass towers of a futuristic city and a golden mockingjay-shaped ornament on a pedestal in the background."
+ },
+ {
+  "id": "theboys",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Bu",
+   "Hu",
+   "Ki",
+   "Fr",
+   "MM",
+   "LE",
+   "RM",
+   "Pr",
+   "TA",
+   "Pa"
+  ],
+  "names": [
+   "Butcher",
+   "Hughie",
+   "Kimiko",
+   "Frenchie",
+   "M. M.",
+   "Luz Estelar",
+   "Reina Maeve",
+   "Profundo",
+   "Tren-A",
+   "Patriota"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Billy Butcher from The Boys: a rough man in his 40s, short dark hair, scruffy dark stubble beard, a hard sarcastic smirk, a long dark trench coat over a dark shirt. Next tile: Hughie Campbell from The Boys: a slim young man in his late 20s, messy dark brown hair, a boyish worried face with light stubble, wearing a casual zip jacket over a plain t-shirt. Next tile: Kimiko from The Boys: a young Japanese woman in her 20s, chin-length black hair with bangs, a calm intense stare, a dark practical jacket. Next tile: Frenchie from The Boys: a lean Frenchman in his 40s, shoulder-length dark messy hair, stubble, a thin mischievous face, wearing a patterned shirt under a loose jacket. Next tile: Marvin 'M. M.' Milk from The Boys: a tall serious Black man in his 40s, short hair and a neat trimmed beard, a careful worried look, wearing a clean dark jacket over a plain shirt. Next tile: Starlight (Annie January) from The Boys: a young woman in her 20s, long wavy blonde hair, a bright friendly face, wearing a white and gold star-themed superhero costume with a star emblem on the chest. Next tile: Queen Maeve from The Boys: a woman in her 40s, wavy dark auburn shoulder-length hair, a weary sharp-eyed expression, a golden warrior-style superhero costume with a tiara. Next tile: The Deep from The Boys: a handsome man in his 30s, tousled brown hair, light stubble, an insecure smile, a teal-green scale-patterned aquatic superhero suit with a gold belt, gills on both sides of his neck. Next tile: A-Train from The Boys: a slim athletic Black man in his late 20s, closely cropped hair, a cocky confident look, wearing a sleek aerodynamic racing-style superhero suit with a lightning bolt motif. Next tile: Homelander (Patriota) from The Boys: a handsome muscular man in his 30s, slicked-back blond hair, a gleaming too-perfect smile, wearing a dark blue superhero costume with a big golden eagle on the chest, white stars on the shoulders and a long red and white striped cape.",
+  "cover": "A gleaming glass skyscraper rooftop at dusk with a helipad, a tall flagpole flying a star-spangled blue and white cape, a glowing blue vial on a small pedestal, and a single glass of milk on a ledge, with a city skyline behind."
+ },
+ {
+  "id": "oceans",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Da",
+   "Ru",
+   "Li",
+   "Ba",
+   "Sa",
+   "Ye",
+   "Lv",
+   "Fr",
+   "Te",
+   "TB"
+  ],
+  "names": [
+   "Danny Ocean",
+   "Rusty",
+   "Linus",
+   "Basher",
+   "Saul",
+   "Yen",
+   "Livingston",
+   "Frank",
+   "Tess",
+   "Terry Benedict"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Danny Ocean from Ocean's Eleven (2001): charming man in his forties, short dark hair with a touch of grey, clean shaven, a dark tailored suit with an open-collar shirt and a confident half-smile. Next tile: Rusty Ryan from Ocean's Eleven (2001): handsome man in his late thirties, tousled light brown hair, stubble, a relaxed blazer over an open shirt, casually eating something from his hand. Next tile: Linus Caldwell from Ocean's Eleven (2001): young man in his twenties, neatly combed short brown hair, fresh boyish face, clean shaven, an eager expression, an ordinary casual jacket over a collared shirt. Next tile: Basher Tarr from Ocean's Eleven (2001): slim Black man in his thirties, short dark hair, small goatee, a scruffy casual jacket, a cheeky look and a small detonator in his hand. Next tile: Saul Bloom from Ocean's Eleven (2001): elderly man in his seventies, thinning white hair, white moustache and short white beard, small round glasses, a smart grey suit with a bow tie, dignified and slightly mischievous. Next tile: Yen from Ocean's Eleven (2001): compact and wiry Chinese acrobat in his thirties, short black hair, clean shaven, a tight dark sports top and trousers, springy and playful posture. Next tile: Livingston Dell from Ocean's Eleven (2001): thin nervous man in his thirties, short messy light brown hair, patchy stubble, wide worried eyes, a rumpled shirt and tie, headphones around his neck. Next tile: Frank Catton from Ocean's Eleven (2001): tall lean Black man in his forties, short hair, a thin moustache, a black casino dealer vest over a white shirt with a bow tie, a deck of cards in one hand, a cheerful grin. Next tile: Tess Ocean from Ocean's Eleven (2001): elegant woman in her thirties, long wavy auburn hair, warm wide smile, a sleek cream evening dress and delicate jewellery, graceful and poised. Next tile: Terry Benedict from Ocean's Eleven (2001): sleek casino owner in his forties, slicked-back black hair, a thin neat moustache and goatee, an immaculate dark Italian suit with a silk tie, cold calculating stare.",
+  "cover": "The glittering lobby of a luxury Las Vegas casino at night with dancing water fountains outside, a gleaming round steel vault door half open in the foreground and stacks of casino chips on a green roulette table, no characters and no text."
+ },
+ {
+  "id": "dragon",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Rh",
+   "Da",
+   "Ry",
+   "Co",
+   "Al",
+   "Ot",
+   "Ae",
+   "Am",
+   "He",
+   "Cr"
+  ],
+  "names": [
+   "Rhaenyra",
+   "Daemon",
+   "Rhaenys",
+   "Corlys",
+   "Alicent",
+   "Otto Hightower",
+   "Aegon",
+   "Aemond",
+   "Helaena",
+   "Ser Criston Cole"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Rhaenyra Targaryen from House of the Dragon: a woman in her 30s, long silver-white braided hair, violet eyes, regal and tired expression, wearing a black dress with red dragon embroidery and a slender silver circlet. Next tile: Daemon Targaryen from House of the Dragon: a man in his 40s, long straight silver-blond hair, violet eyes, a sly smirk, short stubble, wearing black leather and a dark cloak with a sword at his hip. Next tile: Rhaenys Targaryen, the Queen Who Never Was, from House of the Dragon: a dignified woman in her 50s, silver-white hair in an elaborate braid, violet eyes, stern composed face, wearing a long dark teal gown with silver dragon details. Next tile: Lord Corlys Velaryon, the Sea Snake, from House of the Dragon: a stern Black man in his 60s, long silver-white braids, a trimmed white beard, a teal and silver embroidered tunic with a sea-horse emblem. Next tile: Queen Alicent Hightower from House of the Dragon: a woman in her 30s, long dark brown hair pulled back under a green crown, pale serious face, wearing a high-collared emerald green gown with gold details. Next tile: Ser Otto Hightower from House of the Dragon: a tall thin man in his 50s, short grey hair, a short pointed grey beard, dark brown eyes (not violet), a shrewd calculating look, a long dark robe and the gold chain of the Hand of the King. Next tile: King Aegon II Targaryen from House of the Dragon: a sullen man in his 20s, long silver-blond hair, violet eyes, a tired dissolute expression, wearing a green and black velvet doublet and a golden crown. Next tile: Prince Aemond Targaryen from House of the Dragon: a lean man in his 20s, long silver-blond hair, one violet eye and a black eyepatch over the other with a scar across it, wearing black leather and green accents. Next tile: Queen Helaena Targaryen from House of the Dragon: a pale delicate woman in her 20s, long silver-blond hair worn loose, dreamy distant violet eyes, wearing a flowing pale green gown with a small crown. Next tile: Ser Criston Cole from House of the Dragon: a broad-shouldered man in his 30s, dark curly hair, dark stubble, a stern face, the white scale armour and white cloak of the Kingsguard.",
+  "cover": "A grand throne room inside a vast dark stone castle, with the Iron Throne of a thousand swords rising on its dais at the end of a long red carpet, green and black banners hanging from the pillars, and a distant glimpse of a huge round dragon pit under a stormy red sky."
+ },
+ {
+  "id": "batman2",
+  "rows": 1,
+  "cols": 2,
+  "ratio": "16:9",
+  "ids": [
+   "SF",
+   "Ba"
+  ],
+  "names": [
+   "Sr. Frío",
+   "Bane"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 1 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Mr. Freeze from Batman: bald man with pale blue-grey skin, a sleek silver and blue cryogenic suit with a domed glass helmet and a glowing blue chest unit, red-tinted goggles, a cold stern expression, a freeze gun in his hand. Next tile: Bane from Batman: enormous hulking muscular man with a bald head hidden under a brown leather wrestling mask with tubes running to his neck, bare muscular chest with straps, dark trousers and heavy boots, menacing posture.",
+  "cover": "The glamorous Iceberg Lounge nightclub: a dance floor beneath a huge carved ice sculpture shaped like an iceberg, red velvet balcony boxes, a stage with a grand piano, a bar lit in icy blue, no characters and no text."
+ },
+ {
+  "id": "titanes2",
+  "rows": 2,
+  "cols": 2,
+  "ratio": "1:1",
+  "ids": [
+   "Ze",
+   "Pi",
+   "Ha",
+   "WT"
+  ],
+  "names": [
+   "Zeke",
+   "Pieck",
+   "Hange",
+   "Willy Tybur"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 2 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Zeke Yeager from Attack on Titan: tall lanky man in his thirties, shoulder-length blond hair, scruffy blond beard, round dark-rimmed glasses, a long dark military overcoat with a white armband, a lazy crooked smile. Next tile: Pieck Finger from Attack on Titan: short slim young woman in her early twenties, chin-length straight dark brown hair with bangs, sleepy half-lidded eyes with dark circles, a dark Marleyan military uniform with a white armband. Next tile: Hange Zoe from Attack on Titan: tall slender adult, dark brown hair tied in a messy high ponytail, round glasses, a black leather eyepatch over the left eye, a green cloak over a dark uniform, wide excited grin. Next tile: Willy Tybur from Attack on Titan: well-groomed man in his late thirties, straight blond hair to the shoulders swept over the right ear, a short blond goatee, thin eyebrows, a dark formal suit with a black tie, polished black shoes, a proud solemn expression.",
+  "cover": "A Liberio festival square at dusk: a wooden stage with a speaker's podium, a banner and strings of lanterns, rooftops and a zeppelin in the background, a war hammer propped by the stage."
+ },
+ {
+  "id": "tronos2",
+  "rows": 2,
+  "cols": 3,
+  "ratio": "3:2",
+  "ids": [
+   "JN",
+   "Da",
+   "Ar",
+   "Br",
+   "Bi",
+   "Dv"
+  ],
+  "names": [
+   "Jon Nieve",
+   "Daenerys",
+   "Arya",
+   "Bran",
+   "Brienne",
+   "Ser Davos"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 3 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Jon Snow from Game of Thrones: young man in his late twenties with long dark curly hair to the shoulders, a short dark beard, grey eyes, a black fur-collared cloak over a black leather doublet, a serious brooding look. Next tile: Daenerys Targaryen from Game of Thrones: young woman with long platinum silver-blonde hair in intricate braids, pale skin, a charcoal-grey dress with dragon-scale embroidery under a heavy fur-trimmed coat, a stern regal expression. Next tile: Arya Stark from Game of Thrones: slim young woman in her early twenties with a narrow face, dark brown hair pulled back in a loose ponytail, grey eyes, a dark leather jerkin and boots, a Valyrian steel dagger at her belt, a sharp wary look. Next tile: Bran Stark from Game of Thrones: pale young man in his late teens with shoulder-length dark brown hair, a calm distant stare, dark plain clothes under a wool cloak, sitting in a wooden wheelchair. Next tile: Brienne of Tarth from Game of Thrones: very tall broad-shouldered woman with short cropped blonde hair, a plain strong freckled face, blue eyes, dark plate armour with a longsword at her hip, a stubborn honest look. Next tile: Ser Davos Seaworth from Game of Thrones: weathered man in his fifties with short grey hair and a short grey beard, a lined kind face, the fingertips of his left hand missing, a dark grey coat over a leather vest, a patient shrewd look.",
+  "cover": "The snow-dusted godswood of Winterfell at dusk, with a pale weirwood tree carved with a red weeping face beside a steaming dark pond, and the grey towers of the castle behind the bare branches, no characters and no text."
+ },
+ {
+  "id": "arcane",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Vi",
+   "Ji",
+   "Ek",
+   "Se",
+   "Vk",
+   "Ca",
+   "Ja",
+   "He",
+   "Me",
+   "Si"
+  ],
+  "names": [
+   "Vi",
+   "Jinx",
+   "Ekko",
+   "Sevika",
+   "Viktor",
+   "Caitlyn",
+   "Jayce",
+   "Heimerdinger",
+   "Mel",
+   "Silco"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Vi from Arcane: tall muscular young woman with short pink hair shaved on one side, a scarred face, tattoos on her arms, a sleeveless dark jacket and huge steel gauntlets, a tough but weary look. Next tile: Jinx from Arcane: slim young woman with extremely long blue braids that trail to the floor, pale skin, pink eyes, cloud-shaped tattoos on her arms, a ragged black and pink outfit with an ammo belt and a manic grin. Next tile: Ekko from Arcane: young Black man with white hair in short twists, protective goggles pushed up on his forehead, a worn hooded jacket with straps and a confident, scrappy look. Next tile: Sevika from Arcane: tall powerful woman with short dark hair pulled back, a stern scarred face, a chunky mechanical prosthetic arm and a dark leather outfit, hard cold stare. Next tile: Viktor from Arcane: thin pale man with short dark hair and a tired gentle face, a leg brace and a cane, a scientist's work coat over dark clothes. Next tile: Caitlyn from Arcane: young woman with long straight dark navy-blue hair, a determined expression, a tailored dark blue Piltover enforcer uniform with gold details and a small blue hat. Next tile: Jayce from Arcane: tall young man with short dark brown hair and light stubble, an inventor's white shirt and brown vest with rolled sleeves, a determined look. Next tile: Heimerdinger from Arcane: a short furry yordle with a big bushy white moustache and eyebrows, large pointed ears, a long academic coat and councilor's robe, a wise scatterbrained look. Next tile: Mel Medarda from Arcane: elegant young dark-skinned woman with thin golden tattoos on her face, dark hair adorned with gold, an ornate golden and white councilor's gown with a gilded shoulder piece, a calm calculating gaze. Next tile: Silco from Arcane: gaunt man with slicked-back dark hair, a deep scar running down one side of his face over a pale damaged eye, a long dark coat and black gloves, calm menacing smile.",
+  "cover": "The smoky bar of the Last Drop in Zaun, dim green and amber lamps, a long worn wooden counter with bottles and glowing purple shimmer vials, with the lights of Piltover shining far above through the haze, no characters and no text."
+ },
+ {
+  "id": "pulp",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Vi",
+   "Ju",
+   "Mi",
+   "Bu",
+   "Fa",
+   "Lo",
+   "La",
+   "Ca",
+   "Co",
+   "MW"
+  ],
+  "names": [
+   "Vincent Vega",
+   "Jules",
+   "Mia Wallace",
+   "Butch",
+   "Fabienne",
+   "Sr. Lobo",
+   "Lance",
+   "Calabaza",
+   "Conejita",
+   "Marsellus Wallace"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Vincent Vega from Pulp Fiction: man in his late thirties with slicked-back shoulder-length black hair, a tired heavy-lidded gaze, a black suit, a thin black tie and a white shirt, relaxed hitman look. Next tile: Jules Winnfield from Pulp Fiction: tall Black man in his forties with shoulder-length jheri curls, long sideburns and a thin moustache, a black suit with a thin black tie and a white shirt, an intense preacher-like expression. Next tile: Mia Wallace from Pulp Fiction: woman in her thirties with a sleek black bob with straight bangs, pale skin, bright red lipstick, a white men's shirt with rolled sleeves and black capri trousers, cool glamorous look. Next tile: Butch Coolidge from Pulp Fiction: tough boxer in his late thirties with short dark hair and stubble, a broken-nose face, a white t-shirt with a dark jacket, a flat stubborn stare. Next tile: Fabienne from Pulp Fiction: young French woman with a short pixie haircut of dark hair, big expressive eyes, a bathrobe or a light cotton top, a sweet dreamy look. Next tile: Mr. Wolf (Winston Wolfe) from Pulp Fiction: elegant man in his fifties with slicked-back silver-grey hair and a trimmed goatee, a perfectly fitted black tuxedo with a bow tie, polite and efficient look. Next tile: Lance from Pulp Fiction: man in his thirties with long scruffy dirty-blond hair and a goatee, a faded t-shirt and a rumpled open shirt, relaxed laid-back drug-dealer look. Next tile: Pumpkin (Ringo) from Pulp Fiction: skinny young man in his twenties with short dark brown hair and a thin moustache, a light plaid shirt and jeans, nervous restless look. Next tile: Honey Bunny (Yolanda) from Pulp Fiction: small wiry young English woman in her twenties with messy light brown hair, a white blouse and a skirt, wide anxious eyes and a feisty expression. Next tile: Marsellus Wallace from Pulp Fiction: large broad Black man in his fifties with a shaved head, a small round plaster on the back of his neck, a dark tailored suit and a stern calm look.",
+  "cover": "Retro 1950s diner with a shiny chrome counter, red leather car-shaped booths in front of a checkered black-and-white dance floor, a statue of a blonde actress and a glowing golden briefcase on a shelf, no characters and no text."
+ },
+ {
+  "id": "whitelotus",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Ar",
+   "Be",
+   "Ta",
+   "Ra",
+   "Ni",
+   "Ma",
+   "Ol",
+   "Pa",
+   "Qu",
+   "Sh"
+  ],
+  "names": [
+   "Armond",
+   "Belinda",
+   "Tanya",
+   "Rachel",
+   "Nicole",
+   "Mark",
+   "Olivia",
+   "Paula",
+   "Quinn",
+   "Shane"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Armond, the hotel manager from The White Lotus (Hawaii): a slim tanned man in his late forties with short wavy swept-back dark-brown hair and a thick brown moustache, a strained but impeccably polite smile, a pale pink linen suit over a floral shirt and a small name badge. Next tile: Belinda, the spa manager from The White Lotus (Hawaii): a warm, friendly plus-size Black woman in her early forties with a big smile, dark curly shoulder-length hair, a crisp white spa tunic with a small name badge and a calm, caring expression. Next tile: Tanya McQuoid from The White Lotus (Hawaii): a wealthy, fragile and dramatic middle-aged woman with wavy shoulder-length blonde hair, large round sunglasses pushed into her hair, gold jewellery, a flowing colourful kaftan and a slightly tearful, hopeful expression. Next tile: Rachel Patton from The White Lotus (Hawaii): a young woman in her early thirties with long wavy dark brown hair and striking pale blue eyes, a light summer dress and a worried, anxious look. Next tile: Nicole Mossbacher from The White Lotus (Hawaii): a confident woman in her fifties, long wavy reddish-blonde hair, polished resort wear with a white linen shirt, a firm executive expression. Next tile: Mark Mossbacher from The White Lotus (Hawaii): a middle-aged man in his mid forties with short salt-and-pepper hair, light stubble, a loud Hawaiian shirt and board shorts, a nervous, worried and slightly goofy expression. Next tile: Olivia Mossbacher from The White Lotus (Hawaii): a cool, disdainful college student with long straight light blonde hair, big dark sunglasses pushed up on her head, an oversized black t-shirt, a bored raised-eyebrow look. Next tile: Paula from The White Lotus (Hawaii): a young woman of about eighteen with light brown skin, long dark curly hair, bohemian outfit with beaded necklaces and a loose cotton top, a sharp, thoughtful and rebellious expression. Next tile: Quinn Mossbacher from The White Lotus (Hawaii): a tall, lanky shy teenage boy of about sixteen with messy short brown hair, a plain t-shirt and shorts, headphones around his neck, pale skin and a distracted, introverted look. Next tile: Shane Patton from The White Lotus (Hawaii): a spoiled young man in his early thirties with tousled light brown hair, sunburnt face, clean-shaven, a pastel polo shirt with the collar up, boat shoes and a permanently entitled, sulky expression.",
+  "cover": "The white-columned lobby entrance of a luxury tropical hotel in Hawaii at golden hour, with a big carved stone pineapple, palm trees, a pool and the ocean in the background."
+ },
+ {
+  "id": "odisea",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Od",
+   "Pe",
+   "Te",
+   "At",
+   "Eu",
+   "Er",
+   "Em",
+   "Ml",
+   "Ar",
+   "An"
+  ],
+  "names": [
+   "Odiseo",
+   "Penélope",
+   "Telémaco",
+   "Atenea",
+   "Eumeo",
+   "Euriclea",
+   "Eurímaco",
+   "Melantio",
+   "Argos",
+   "Antínoo"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Odysseus from the 2026 film The Odyssey: weathered tanned man in his fifties with tangled dark hair streaked with grey and a full short beard, a tired determined stare, a worn brown cloak over dark leather Greek armour. Next tile: Penelope from the 2026 film The Odyssey: dignified queen in her forties with long dark brown hair, calm sharp eyes, a deep-red ancient Greek dress with a gold brooch, holding a wooden weaving shuttle. Next tile: Telemachus from the 2026 film The Odyssey: young man in his twenties with dark curly hair and a short dark beard, a plain cream tunic and a leather strap over one shoulder, a slightly stiff determined look. Next tile: Athena, Greek goddess of wisdom, from the 2026 film The Odyssey: serene young woman with light brown skin, soft curly brown hair and a cream-white veil draped over her head, a simple cream robe, wise calm eyes with a faint golden glow. Next tile: Eumaeus the swineherd from the Odyssey: sturdy loyal man in his fifties with short grey hair and a short grey beard, tanned skin, a rough sleeveless brown leather tunic, a wooden walking stick. Next tile: Eurycleia from the Odyssey: elderly nurse with white hair tied in a bun under a simple cloth, a kind wrinkled face, a long grey dress and a ring of old keys hanging from her belt. Next tile: Eurymachus from the Odyssey: handsome smooth-talking suitor in his thirties with neatly curled dark hair, no beard, a fine white tunic with gold trim, a gold-and-amber necklace and an arrogant smile. Next tile: Melanthius the goatherd from the Odyssey: lean sly man in his forties with unkempt black hair and a patchy beard, a short dirty brown goatskin tunic, a shepherd's crook, a sneering expression. Next tile: Argos, Odysseus's old hunting dog from the Odyssey: skinny elderly dog with a short sandy coat, droopy ears, sad dark eyes and a few ticks on his back, lying on a pile of straw. Next tile: Antinous from the 2026 film The Odyssey: arrogant lead suitor in his thirties with short dark curly hair, clean-shaven pale face, a smug half smile, a dark cloak over a bronze collar and dark leather, a golden cup in one hand.",
+  "cover": "The sunlit palace of Odysseus on the island of Ithaca: a whitewashed courtyard with a wooden loom in the foreground, olive trees on the hills and a black ship moored in the little harbour below, warm golden evening light over the Aegean."
+ },
+ {
+  "id": "edaddorada",
+  "rows": 2,
+  "cols": 5,
+  "ratio": "21:9",
+  "ids": [
+   "Be",
+   "Ge",
+   "Gl",
+   "Ag",
+   "Ad",
+   "Ma",
+   "Pe",
+   "Ch",
+   "Ba",
+   "Tu"
+  ],
+  "names": [
+   "Bertha Russell",
+   "George Russell",
+   "Gladys",
+   "Agnes",
+   "Ada",
+   "Marian",
+   "Peggy",
+   "Sr. Church",
+   "Sra. Bauer",
+   "Turner"
+  ],
+  "prompt": "Use the attached image ONLY as the style reference: same cute flat cartoon style, same thin dark outlines, same simple faces with small dark eyes and rosy cheeks, same plain pastel square backgrounds and same white gutters and margin. Draw a NEW sheet: a grid of 2 rows x 5 columns of equal square tiles with NEW characters, one head-and-shoulders portrait per tile, centered and facing the viewer, each one entirely inside its own tile (hats and hair never cross into another tile). Do NOT copy any character, hat, glasses or beard from the reference. ABSOLUTELY NO TEXT anywhere: no names, no captions, no labels, no letters, no numbers. No black borders around the tiles. People have normal round human ears. Tiles in reading order, left to right and top to bottom. First tile: Bertha Russell from The Gilded Age: a tall, elegant woman in her late thirties with auburn-red hair in an elaborate 1880s updo, pale skin, a poised confident expression, wearing a rich jewel-toned gown with bold draping, lace and a pearl necklace. Next tile: George Russell from The Gilded Age: a tall, broad-shouldered man in his forties with dark swept-back hair, a short full dark beard and moustache, a stern calculating look, a dark three-piece Victorian suit with a watch chain and a high collar. Next tile: Gladys Russell from The Gilded Age: a fair, slender teenage girl of about seventeen with long dark hair partly pinned up, large wide eyes, a shy slightly fretful expression, wearing a pale pastel 1880s day dress with ruffles and a ribbon. Next tile: Agnes van Rhijn from The Gilded Age: a tall, severe elderly woman in her sixties with grey-white hair pinned in a tight updo, a haughty raised-chin expression, wearing a high-collared dress in deep purple or blue with a cameo brooch. Next tile: Ada Brook from The Gilded Age: a soft, gentle woman in her sixties with greying hair in a neat bun, kind tired eyes, a warm shy smile, wearing a modest 1880s gown in gold and orange tones with a lace collar. Next tile: Marian Brook from The Gilded Age: a slim young woman of about twenty with sleek smooth light brown hair pinned back, an open curious expression, wearing a simple pastel yellow or pale blue 1880s dress with lace trim. Next tile: Peggy Scott from The Gilded Age: a poised young Black woman in her mid-twenties with dark hair neatly pinned up, intelligent steady eyes, wearing a smart tailored 1880s day dress with a high collar, holding a notebook. Next tile: Mr. Church from The Gilded Age: a tall, rigid butler in his fifties with receding grey-brown hair, a long solemn face, wearing a black tailcoat, white shirt, white bow tie and white gloves. Next tile: Mrs. Bauer from The Gilded Age: a stout, sturdy cook in her fifties with greying hair tucked under a white cap, rosy cheeks, a no-nonsense stern face, wearing a dark dress covered by a large white apron with rolled-up sleeves. Next tile: Turner from The Gilded Age: a sharp-featured woman in her thirties with auburn-brown hair in a tidy updo, an alert knowing expression, a fashionable lilac striped 1880s day dress and a small hat.",
+  "cover": "A grand cutaway of a New York Fifth Avenue mansion at night in the 1880s: a gilded ballroom with a crystal chandelier glowing over a red carpet, a lady's boudoir with a pink dressing table, a bustling kitchen and a narrow servants' staircase, with a modest old-money townhouse across the street."
+ }
+]

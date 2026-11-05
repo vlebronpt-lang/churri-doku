@@ -178,7 +178,21 @@ export function compilePuzzle(input: PuzzleInput, opts: { draft?: boolean } = {}
     ids.add(ch.id);
     tags.add(ch.tag);
   }
-  if (input.cast.length !== s) fail(`Hay ${input.cast.length} personajes y la cuadrícula es ${s}x${s}`);
+  if (input.cast.length > s) fail(`Hay ${input.cast.length} personajes y la cuadrícula es ${s}x${s}: no caben`);
+  const groups = input.groups ?? {};
+  const rules = input.rules ?? [];
+  const checkRoom = (rk: string) => { if (!(rk in roomByKey)) fail(`Regla con una zona que no existe: '${rk}'`); };
+  const checkGroup = (g: string) => { if (!groups[g]) fail(`Grupo sin definir: '${g}'`); };
+  for (const ch of input.cast) (ch.groups ?? []).forEach(checkGroup);
+  for (const rule of rules) {
+    switch (rule.t) {
+      case 'zoneOnly': case 'zoneHasGroup': rule.rooms.forEach(checkRoom); checkGroup(rule.group); break;
+      case 'zoneCount': checkRoom(rule.room); break;
+      case 'objCount': if (!objects[rule.obj]) fail(`Regla con un objeto que no existe: '${rule.obj}'`); break;
+      case 'groupsApart': checkGroup(rule.a); checkGroup(rule.b); break;
+      default: break;
+    }
+  }
   const victims = input.cast.filter((ch) => ch.victim);
   if (victims.length !== 1) fail('Debe haber exactamente una víctima');
   const victim = victims[0].id;
@@ -188,7 +202,7 @@ export function compilePuzzle(input: PuzzleInput, opts: { draft?: boolean } = {}
   if (opts.draft && !input.solution) {
     return {
       id: input.id, num: input.num, level: input.level, franchise: input.franchise, title: input.title, size: s,
-      rooms, roomByKey, cells, objects, cast: input.cast, victim, murderer: '', solution, story: input.story,
+      rooms, roomByKey, cells, objects, cast: input.cast, groups, rules, victim, murderer: '', solution, story: input.story,
       cover: input.cover, accent: input.accent, art: input.art, meta: input.meta,
     };
   }
@@ -226,6 +240,8 @@ export function compilePuzzle(input: PuzzleInput, opts: { draft?: boolean } = {}
     cells,
     objects,
     cast,
+    groups,
+    rules,
     victim,
     murderer: withVictim[0].id,
     solution,

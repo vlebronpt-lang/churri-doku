@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "Em": "Llevaba años sin contrato, con horas extra sin cobrar y una tarea nueva en cada junta, pidiendo un poquito de por favor. Como nadie se lo dio, cerró él mismo el orden del día.",
+  "Vi": "Es un trozo de pan, pero el presidente dijo delante de todos que allí le chantajeaba hasta su perro. Y con Valentín, el amor de su vida, no se mete nadie.",
+  "Ma": "Mide las distancias en cigarros, y cuando prohibieron fumar en el edificio organizó la resistencia. Según sus cálculos, al presidente le quedaban dos.",
+  "Co": "Llevaba años gritándole «¡váyase, señor Cuesta!» en cada junta y «¡chorizo!» con cada derrama. Como él no se iba y ella no pensaba pagar otra, lo echó por su cuenta.",
+  "Pa": "Ya había sido presidenta y le tomó el gusto, y en casa la que manda es ella. Decidió ahorrarse al intermediario, y punto en boca.",
+  "Be": "Cuando hizo de portera para no quedarse en la calle, el presidente la tuvo de chica para todo. Lleva años mandando a la gente un poquito a la mierda, y a él lo mandó del todo.",
+  "Mu": "Cuando destituyeron a Juan Cuesta le tocó la presidencia en un sorteo y no le dejaron soltarla. Neurótico como es, no le perdonó aquel marrón.",
+  "Ro": "Licenciado en arquitectura, veía cómo el presidente le tumbaba todas sus ideas para el edificio por «alteración de elementos comunes». Así que decidió alterar el elemento más común de todos: el propio presidente."
+ },
+ "grudges": {
+  "Em": "Lleva años sin contrato y sin cobrar las horas extra, y el presidente le contesta con otra tarea en cada junta.",
+  "Vi": "El presidente dijo delante de todos que allí le chantajeaba hasta su perro, y con Valentín no se mete nadie.",
+  "Ma": "No le perdona al presidente que se prohibiera fumar en el edificio, y ya ha organizado la resistencia.",
+  "Co": "Le grita «¡chorizo!» en cada junta y no piensa pagar otra derrama, y menos como aquella para curar el mal de ojo.",
+  "Pa": "Sospecha que Juan le oculta algo, y le ha advertido que o lo confiesa todo o se cae muerta allí mismo.",
+  "Be": "Cuando hizo de portera para no quedarse en la calle, el presidente la tuvo de chica para todo, y aún le escuece.",
+  "Mu": "Cuando destituyeron a Juan Cuesta le tocó a él la presidencia en un sorteo, y aún no se ha recuperado del marrón.",
+  "Ro": "Cree que el presidente le tumba todas sus ideas para el edificio por «alteración de elementos comunes» y lo trata como a un crío."
+ },
+ "looks": {
+  "JC": "Juan Cuesta from the Spanish sitcom Aquí no hay quien viva: slim man about 50, long thin face, high forehead with receding dark hair, a short full dark beard joined to the moustache with some grey, V-neck grey sweater over a shirt and tie, patient worried look.",
+  "Em": "Emilio the young doorman from Aquí no hay quien viva: man about 30, floppy dark brown hair with a centre fringe, strong dark eyebrows, small dark brown eyes, clean-shaven, cheeky wide grin, light blue work shirt.",
+  "Vi": "Vicenta from Aquí no hay quien viva: sweet elderly woman, short fluffy blonde hair, soft round face, timid smile, pale cardigan over a flowery blouse",
+  "Ma": "Marisa from Aquí no hay quien viva: thin sharp-faced elderly woman, short curly reddish hair, raised eyebrow, sarcastic expression, plain dark cardigan with a brooch",
+  "Co": "Concha from Aquí no hay quien viva: stout elderly woman, big set grey-white hair, double chin, nosy satisfied smirk, dark patterned dress with a pearl necklace",
+  "Pa": "Paloma from Aquí no hay quien viva: plump middle-aged Spanish woman, voluminous black hair with a fringe, bright red lipstick, big hoop earrings, flashy black top with a white trim, bossy expression",
+  "Be": "Belén from Aquí no hay quien viva: young woman about 30, long straight brown hair with a fringe, shy clumsy smile, casual striped jumper",
+  "Mu": "Mauri from Aquí no hay quien viva: slim elegant man about 40, short neat dark hair, clean-shaven, amused raised eyebrows, fitted dark shirt with the top button open",
+  "Ro": "Roberto from Aquí no hay quien viva: young man about 30, short tousled brown hair, clean-shaven, boyish cheerful smile with dimples, small dark brown eyes, a casual purple t-shirt."
+ },
+ "cover": "The cutaway of a shabby old Madrid apartment block seen from the street: a narrow front entrance with a mailbox panel and a doorman's lodge, a long wooden table set up in the hallway for a residents' meeting, laundry strung across a central light well, and a lone rooftop terrace with antennas under a grey sky."
+}

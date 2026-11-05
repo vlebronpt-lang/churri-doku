@@ -1,4 +1,5 @@
 """Procesa retratos individuales art/singles/<id>-<char>.png → public/img/portraits/<id>/<char>.webp
+Uso: python3 scripts/singles.py [<id>-<char> ...]  (sin argumentos, todos; se saltan los de casos retirados).
 Recorta al contenido (quita márgenes blancos), luego un cuadrado centrado con un pequeño margen interior."""
 import sys
 from pathlib import Path
@@ -9,7 +10,7 @@ root = Path(__file__).resolve().parent.parent
 
 # Retratos en los que el personaje salió pequeño: se amplían para que la cabeza ocupe lo mismo que en el resto de su caso
 # (sin buscar marcos oscuros, que confundirían un traje negro con un marco).
-ZOOM = {'stranger-O': 2.2, 'piratas-A': 1.7, 'miercoles-B': 1.45, 'padrino-So': 1.4, 'office-P': 1.35}
+ZOOM = {'stranger-O': 2.2, 'piratas-A': 1.7, 'miercoles-B': 1.45, 'padrino-So': 1.4, 'office-P': 1.35, 'edaddorada-Pe': 2.0, 'dragon-Ot': 1.5}
 # Retratos sin margen interior (lo que hay junto al borde, como el dorsal de Ali, no se corta).
 NO_INSET = {'calamar-Al'}
 
@@ -33,8 +34,11 @@ def zoom_to_head(img, zoom):
     return img.crop((x0, y0, x0 + c, y0 + c))
 
 
+solo = set(sys.argv[1:])
 for f in sorted((root / 'art' / 'singles').glob('*.png')):
     pid, cid = f.stem.split('-', 1)
+    if (solo and f.stem not in solo) or not (root / 'public' / 'img' / 'portraits' / pid).is_dir():
+        continue
     img = Image.open(f).convert('RGB')
     a = np.asarray(img).astype(int)
     nonwhite = ~((a[:, :, 0] > 236) & (a[:, :, 1] > 236) & (a[:, :, 2] > 236))

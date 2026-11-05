@@ -2,6 +2,7 @@ import { DECOR } from './icons/decor';
 import { FURNITURE } from './icons/furniture';
 import { GEAR } from './icons/gear';
 import { NATURE } from './icons/nature';
+import { PROPS } from './icons/props';
 import { SEATS } from './icons/seats';
 import { VEHICLES } from './icons/vehicles';
 import { INK, R, type IconFn } from './icons/kit';
@@ -22,6 +23,7 @@ export const ICONS: Record<string, IconFn> = {
   ...GEAR,
   ...DECOR,
   ...NATURE,
+  ...PROPS,
 };
 
 /** Icono sin coincidencia: interrogante (evita casillas vacías por error). */

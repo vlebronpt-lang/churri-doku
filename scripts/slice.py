@@ -1,7 +1,7 @@
 """Recorta una hoja de retratos (cuadrícula filas x columnas) en retratos individuales WebP.
 
 Uso:
-  python3 scripts/slice.py <hoja.png|jpg|webp> <filas> <columnas> <carpeta_salida> <id1,id2,...> [--size 384]
+  python3 scripts/slice.py <hoja.png|jpg|webp> <filas> <columnas> <carpeta_salida> <id1,id2,...> [--size 384] [--inset 0.03]
 
 Detecta los canales blancos entre casillas; si no los encuentra, divide en partes iguales.
 Cada retrato se recorta cuadrado (centrado) y se guarda como <id>.webp.
@@ -47,6 +47,11 @@ def main():
         k = args.index('--size')
         size = int(args[k + 1])
         args = args[:k] + args[k + 2:]
+    inset_frac = 0.03
+    if '--inset' in args:
+        k = args.index('--inset')
+        inset_frac = float(args[k + 1])
+        args = args[:k] + args[k + 2:]
     src, rows, cols, outdir, ids = args[0], int(args[1]), int(args[2]), Path(args[3]), args[4].split(',')
     outdir.mkdir(parents=True, exist_ok=True)
     img = Image.open(src).convert('RGB')
@@ -71,7 +76,7 @@ def main():
             tile = img.crop((x0, y0, x1, y1))
             tw, th = tile.size
             s = min(tw, th)
-            inset = int(s * 0.03)
+            inset = int(s * inset_frac)
             left = (tw - s) // 2 + inset
             top = (th - s) // 2 + inset
             tile = tile.crop((left, top, left + s - 2 * inset, top + s - 2 * inset))

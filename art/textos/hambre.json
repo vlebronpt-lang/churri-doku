@@ -1,0 +1,37 @@
+{
+ "motives": {
+  "Ka": "El presidente Snow amenazó a la familia de Katniss y a Gale, y la devolvió a la arena en el Vasallaje de los Veinticinco para quitársela de en medio. Esa noche dijo basta.",
+  "Pe": "El presidente Snow secuestró y torturó a Peeta y lo volvió contra Katniss con veneno de rastrevíspula. Le costó distinguir lo real de lo implantado, pero su odio a Snow era real.",
+  "Ga": "Los agentes de la paz de Snow azotaron a Gale por cazar en el bosque, y su Capitolio arrasó a bombazos el Distrito 12. Gale no tenía ganas de perdonar.",
+  "Ha": "Cuando Haymitch ganó su Vasallaje, el presidente Snow acabó con su familia y su novia, y él lleva décadas ahogando esa pena en licor. Esa noche estaba sobrio.",
+  "Ef": "El presidente Snow hizo añicos el Capitolio en el que Effie creía a pies juntillas y la trató como a una pieza más de su tablero. Se cansó de aplaudir a quien le había mentido.",
+  "Ci": "El presidente Snow no le perdonó a Cinna que convirtiera un vestido de novia en un sinsajo delante de todo Panem, y se lo dejó bien claro. Cinna le devolvió el detalle con una última puntada.",
+  "Fi": "El presidente Snow obligó a Finnick a guardar los secretos de los poderosos del Capitolio y usó a Annie para tenerlo sujeto. Finnick estaba harto de ser su moneda de cambio.",
+  "Jo": "El presidente Snow dejó a Johanna sin los suyos, y luego sus interrogadores casi la ahogan. Ella nunca ha sabido callarse lo que piensa, y se lo cobró.",
+  "Co": "El presidente Snow era lo único que se interponía entre el gobierno de la presidenta Coin y Panem, y su sola presencia le recordaba todo lo que había que cambiar."
+ },
+ "grudges": {
+  "Ka": "Snow había amenazado a su familia y a Gale, y la había devuelto a la arena en el Vasallaje de los Veinticinco.",
+  "Pe": "Snow lo había secuestrado y le había hecho probar el veneno de rastrevíspula para volverlo contra Katniss.",
+  "Ga": "Los agentes de la paz de Snow lo habían azotado por cazar en el bosque, y su Capitolio había arrasado el Distrito 12.",
+  "Ha": "Snow había acabado con su familia y con su novia después de que ganara su Vasallaje, y él llevaba décadas ahogándolo en licor.",
+  "Ef": "Snow había hecho añicos el Capitolio en el que ella creía a pies juntillas y la había tratado como a una pieza más de su tablero.",
+  "Ci": "Snow le había dejado claro que sus diseños, y más aquel vestido de novia convertido en sinsajo, le incomodaban.",
+  "Fi": "Snow lo había obligado a guardar los secretos de los poderosos del Capitolio y había usado a Annie para tenerlo sujeto.",
+  "Jo": "Snow la había dejado sin los suyos, y luego el Capitolio la había torturado con agua hasta casi ahogarla.",
+  "Co": "Snow era el único obstáculo entre ella y la presidencia de Panem, y hasta su perfume le olía a un pasado que quería enterrar."
+ },
+ "looks": {
+  "Ka": "Katniss Everdeen from The Hunger Games: a young woman in her late teens, olive skin, grey eyes, long dark brown hair in a thick side braid over her left shoulder, determined serious face, wearing a dark hunting jacket or a black fireproof combat suit with a small golden mockingjay pin.",
+  "Pe": "Peeta Mellark from The Hunger Games: a stocky young man in his late teens, wavy ash-blond hair, kind blue eyes, a gentle tired smile, wearing a simple dark jacket over a plain shirt, flour-dusted hands optional.",
+  "Ga": "Gale Hawthorne from The Hunger Games: a tall, strong young man in his early twenties, short dark brown hair, grey eyes, a serious stubborn look, wearing a worn dark hunting jacket and boots, a bow slung over his shoulder.",
+  "Ha": "Haymitch Abernathy from The Hunger Games: a scruffy man in his late 40s, messy shoulder-length blond hair, unshaven stubble, red weary eyes, a crumpled shirt and an old dark jacket, a flask in his hand.",
+  "Ef": "Effie Trinket from The Hunger Games: a flamboyant woman in her 40s, a towering pastel pink wig, thick bright makeup with gold eyeshadow, glittering extravagant dress with huge sculpted shoulders and high heels, a bright theatrical smile.",
+  "Ci": "Cinna from The Hunger Games: a calm, elegant Black man in his 30s, short dark cropped hair, subtle gold metallic eyeliner, warm serene brown eyes, a simple fitted black tailored jacket with a measuring tape around his neck.",
+  "Fi": "Finnick Odair from The Hunger Games: a strikingly handsome man in his late 20s, tousled bronze hair, bright sea-green eyes, a tanned athletic build, a confident charming smirk, wearing a casual open shirt or a sleek dark Capitol outfit, a golden trident close by.",
+  "Jo": "Johanna Mason from The Hunger Games: a wiry sharp young woman in her mid 20s, short dark brown hair cropped messy, dark intense mocking eyes, a thin scar on her cheek, wearing a dark combat jacket or a rough outfit with an axe at her side.",
+  "Co": "President Alma Coin from The Hunger Games: a severe woman in her late 50s, straight shoulder-length grey hair, cold pale eyes, a stern unsmiling face, wearing a plain tailored grey military-style uniform jacket.",
+  "Sn": "President Coriolanus Snow from The Hunger Games: an elderly man in his 70s, thin white hair and a neat white beard, cold pale eyes and a faint cruel smile, wearing an immaculate dark formal suit with a fresh white rose pinned to the lapel."
+ },
+ "cover": "A moonlit rose garden in the Capitol of Panem, rows of pristine white rose bushes around a stone fountain, with the lit glass towers of a futuristic city and a golden mockingjay-shaped ornament on a pedestal in the background."
+}

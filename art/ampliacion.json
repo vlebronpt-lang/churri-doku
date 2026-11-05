@@ -1,0 +1,4373 @@
+[
+ {
+  "id": "monstruos",
+  "num": 5,
+  "level": 1,
+  "size": 9,
+  "franchise": "Monstruos S.A.",
+  "title": "Un susto de muerte",
+  "place": "la fábrica de sustos de Monstruos S.A.",
+  "victim": "Ra",
+  "murderer": "Rz",
+  "cast": [
+   {
+    "id": "Su",
+    "tag": "Su",
+    "name": "Sulley",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Mike",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Bo",
+    "tag": "Bo",
+    "name": "Boo",
+    "gender": "f"
+   },
+   {
+    "id": "Ce",
+    "tag": "Ce",
+    "name": "Celia",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Rz",
+    "tag": "Rz",
+    "name": "Roz",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Wa",
+    "tag": "Wa",
+    "name": "Sr. Waternoose",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true
+   },
+   {
+    "id": "Fu",
+    "tag": "Fu",
+    "name": "Fungus",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ye",
+    "tag": "Ye",
+    "name": "Yeti",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true
+   },
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Randall",
+    "gender": "m",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Planta de sustos, Cámara de puertas, Vestuarios, Recepción, Despacho de Waternoose, Habitación de Boo, Cafetería, Simulador",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Cámara de puertas>",
+    "n": 0
+   }
+  ],
+  "groups": {},
+  "note": "La Cámara de puertas está precintada por los agentes de la CDA (el 2319): por eso nadie estaba allí. Roz, la del papeleo eterno, llevaba años esperando a que Randall rellenara un impreso."
+ },
+ {
+  "id": "ratatouille",
+  "num": 6,
+  "level": 1,
+  "size": 9,
+  "franchise": "Ratatouille",
+  "title": "La última cena de Skinner",
+  "place": "la cocina de Gusteau's, en París",
+  "victim": "Sk",
+  "murderer": "Ho",
+  "cast": [
+   {
+    "id": "Re",
+    "tag": "Re",
+    "name": "Remy",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Li",
+    "tag": "Li",
+    "name": "Linguini",
+    "gender": "m"
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Colette",
+    "gender": "f"
+   },
+   {
+    "id": "AE",
+    "tag": "AE",
+    "name": "Anton Ego",
+    "gender": "m"
+   },
+   {
+    "id": "Dj",
+    "tag": "Dj",
+    "name": "Django",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Em",
+    "tag": "Em",
+    "name": "Emile",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ho",
+    "tag": "Ho",
+    "name": "Horst",
+    "gender": "m"
+   },
+   {
+    "id": "Gu",
+    "tag": "Gu",
+    "name": "Gusteau",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Sk",
+    "tag": "Sk",
+    "name": "Skinner",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Cocina, Comedor, Cámara frigorífica, Despacho de Skinner, Bodega, Callejón, Tejados de París, Orilla del Sena",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Cocina>",
+    "n": 3
+   }
+  ],
+  "groups": {},
+  "note": "Gusteau es el Gusteau imaginario que ve Remy (por eso no humano). Horst es el cocinero que da una versión distinta de por qué estuvo en la cárcel, incluida la de que mató a un hombre con el pulgar: esta vez dice la verdad."
+ },
+ {
+  "id": "reyleon",
+  "num": 7,
+  "level": 1,
+  "size": 9,
+  "franchise": "El Rey León",
+  "title": "Larga vida al rey",
+  "place": "la Roca del Rey",
+  "victim": "Sc",
+  "murderer": "Za",
+  "cast": [
+   {
+    "id": "Si",
+    "tag": "Si",
+    "name": "Simba",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Na",
+    "tag": "Na",
+    "name": "Nala",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Ti",
+    "tag": "Ti",
+    "name": "Timón",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Pu",
+    "tag": "Pu",
+    "name": "Pumba",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Rafiki",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Za",
+    "tag": "Za",
+    "name": "Zazú",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Sh",
+    "tag": "Sh",
+    "name": "Shenzi",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Ba",
+    "tag": "Ba",
+    "name": "Banzai",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Sc",
+    "tag": "Sc",
+    "name": "Scar",
+    "gender": "m",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Roca del Rey, Cueva de Scar, Cementerio de elefantes, Sabana, Oasis de Timón y Pumba, Árbol de Rafiki, Charca, Garganta",
+  "rules": [],
+  "groups": {},
+  "note": "Zazú, encerrado por Scar en una jaula de huesos y obligado a cantar, se cobra años de humillación."
+ },
+ {
+  "id": "gru",
+  "num": 8,
+  "level": 1,
+  "size": 9,
+  "franchise": "Gru, mi villano favorito",
+  "title": "Un villano menos",
+  "place": "el laboratorio secreto de Gru",
+  "victim": "Ve",
+  "murderer": "Ag",
+  "cast": [
+   {
+    "id": "Gr",
+    "tag": "Gr",
+    "name": "Gru",
+    "gender": "m"
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Margo",
+    "gender": "f"
+   },
+   {
+    "id": "Ed",
+    "tag": "Ed",
+    "name": "Edith",
+    "gender": "f"
+   },
+   {
+    "id": "Ag",
+    "tag": "Ag",
+    "name": "Agnes",
+    "gender": "f"
+   },
+   {
+    "id": "Ne",
+    "tag": "Ne",
+    "name": "Dr. Nefario",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Ke",
+    "tag": "Ke",
+    "name": "Kevin",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "St",
+    "tag": "St",
+    "name": "Stuart",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Bo",
+    "tag": "Bo",
+    "name": "Bob",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ve",
+    "tag": "Ve",
+    "name": "Vector",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Laboratorio, Salón de Gru, Cuarto de las niñas, Plataforma del cohete, Fábrica de minions, Pasillo de congelación, Jardín, Almacén de bananas",
+  "rules": [],
+  "groups": {},
+  "note": "Vector viene a robar el rayo reductor. La dulce Agnes, la del unicornio esponjoso, es la asesina: Vector le rompió su unicornio."
+ },
+ {
+  "id": "pokemon",
+  "num": 9,
+  "level": 1,
+  "size": 9,
+  "franchise": "Pokémon",
+  "title": "¡Hazte con el culpable!",
+  "place": "el laboratorio del profesor Oak, en Pueblo Paleta",
+  "victim": "Gi",
+  "murderer": "Me",
+  "cast": [
+   {
+    "id": "As",
+    "tag": "As",
+    "name": "Ash",
+    "gender": "m"
+   },
+   {
+    "id": "Pi",
+    "tag": "Pi",
+    "name": "Pikachu",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Misty",
+    "gender": "f"
+   },
+   {
+    "id": "Br",
+    "tag": "Br",
+    "name": "Brock",
+    "gender": "m"
+   },
+   {
+    "id": "Je",
+    "tag": "Je",
+    "name": "Jessie",
+    "gender": "f"
+   },
+   {
+    "id": "Ja",
+    "tag": "Ja",
+    "name": "James",
+    "gender": "m"
+   },
+   {
+    "id": "Me",
+    "tag": "Me",
+    "name": "Meowth",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Oa",
+    "tag": "Oa",
+    "name": "Profesor Oak",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Gi",
+    "tag": "Gi",
+    "name": "Giovanni",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Laboratorio, Sala de Poké Balls, Biblioteca, Invernadero, Rancho de los Pokémon, Cocina, Sala del ordenador, Jardín de Pueblo Paleta",
+  "rules": [],
+  "groups": {},
+  "note": "Giovanni, jefe del Team Rocket, ha ido a robar los Pokémon de Oak. Meowth, siempre despreciado por el jefe en favor de su Persian, se cobra la deuda."
+ },
+ {
+  "id": "zootropolis",
+  "num": 10,
+  "level": 1,
+  "size": 9,
+  "franchise": "Zootrópolis",
+  "title": "La oveja negra",
+  "place": "el ayuntamiento de Zootrópolis",
+  "victim": "Be",
+  "murderer": "Fl",
+  "cast": [
+   {
+    "id": "Ju",
+    "tag": "Ju",
+    "name": "Judy Hopps",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Ni",
+    "tag": "Ni",
+    "name": "Nick Wilde",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Bg",
+    "tag": "Bg",
+    "name": "Jefe Bogo",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true
+   },
+   {
+    "id": "Ga",
+    "tag": "Ga",
+    "name": "Garraza",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Fl",
+    "tag": "Fl",
+    "name": "Flash",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Li",
+    "tag": "Li",
+    "name": "Alcalde Lionheart",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true
+   },
+   {
+    "id": "SB",
+    "tag": "SB",
+    "name": "Sr. Big",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true
+   },
+   {
+    "id": "Fi",
+    "tag": "Fi",
+    "name": "Finnick",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Be",
+    "tag": "Be",
+    "name": "Vicealcaldesa Bellwether",
+    "gender": "f",
+    "article": "la",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Despacho del alcalde, Despacho de Bellwether, Sala de archivos, Vestíbulo, Comisaría, Sahara Square, Tundratown, Madriguera",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Sala de archivos>",
+    "n": 1
+   }
+  ],
+  "groups": {},
+  "note": "El perezoso Flash de la Jefatura de Tráfico es el asesino: tardó horas, pero nadie sospecha de él porque nadie le ha visto moverse."
+ },
+ {
+  "id": "surf",
+  "num": 11,
+  "level": 1,
+  "size": 9,
+  "franchise": "Locos por el surf",
+  "title": "La última ola de Tank Evans",
+  "place": "la isla de Pen Gu, durante el campeonato en memoria de Gran Z",
+  "victim": "Ta",
+  "murderer": "Ge",
+  "cast": [
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Cody Maverick",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "La",
+    "tag": "La",
+    "name": "Lani",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Ge",
+    "tag": "Ge",
+    "name": "Geek",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "PP",
+    "tag": "PP",
+    "name": "Pepe el Pollo",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Re",
+    "tag": "Re",
+    "name": "Reggie Belafonte",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Mikey",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ar",
+    "tag": "Ar",
+    "name": "Arnold",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Gl",
+    "tag": "Gl",
+    "name": "Glen Maverick",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ta",
+    "tag": "Ta",
+    "name": "Tank Evans",
+    "gender": "m",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Playa, Cabaña de Geek, Selva, Volcán, Chiringuito, Carpa de Reggie, Arrecife, Muelle",
+  "rules": [],
+  "groups": {},
+  "note": "Todos son pingüinos menos Pepe el Pollo (pollo), Reggie (nutria marina, el representante de Tank) y Mikey (ave limícola, el cazatalentos). Geek es Gran Z escondido: Tank le arruinó la vida y lo humilló años atrás. No reveles a qué se dedica Geek hasta el epílogo."
+ },
+ {
+  "id": "serrano",
+  "num": 12,
+  "level": 1,
+  "size": 9,
+  "franchise": "Los Serrano",
+  "title": "Una de bravas y un muerto",
+  "place": "la taberna de los Serrano, en el barrio de Santa Justa",
+  "victim": "Sa",
+  "murderer": "Fi",
+  "cast": [
+   {
+    "id": "Di",
+    "tag": "Di",
+    "name": "Diego",
+    "gender": "m"
+   },
+   {
+    "id": "Lu",
+    "tag": "Lu",
+    "name": "Lucía",
+    "gender": "f"
+   },
+   {
+    "id": "Fi",
+    "tag": "Fi",
+    "name": "Fiti",
+    "gender": "m"
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Marcos",
+    "gender": "m"
+   },
+   {
+    "id": "Ev",
+    "tag": "Ev",
+    "name": "Eva",
+    "gender": "f"
+   },
+   {
+    "id": "Gu",
+    "tag": "Gu",
+    "name": "Guille",
+    "gender": "m"
+   },
+   {
+    "id": "Te",
+    "tag": "Te",
+    "name": "Teté",
+    "gender": "f"
+   },
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Raúl",
+    "gender": "m"
+   },
+   {
+    "id": "Sa",
+    "tag": "Sa",
+    "name": "Santiago",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Taberna, Cocina de la taberna, Salón de los Serrano, Cuarto de los chicos, Taller de Fiti, Campo del Santa Justa, Instituto, Plaza del barrio",
+  "rules": [],
+  "groups": {},
+  "note": "Santiago es el hermano mayor de Diego, socio en la taberna y presidente del Santa Justa F.C. Fiti, antiguo mecánico y amigo de los dos, es el culpable. Marcos es el mayor de Diego; Eva y Teté, las hijas de Lucía; Guille, el mediano; Raúl, el amigo de Marcos. No inventes parentescos ni datos que no te consten."
+ },
+ {
+  "id": "prada",
+  "num": 13,
+  "level": 1,
+  "size": 9,
+  "franchise": "El diablo viste de Prada",
+  "title": "Eso es todo",
+  "place": "la redacción de la revista Runway",
+  "victim": "Mi",
+  "murderer": "Ni",
+  "cast": [
+   {
+    "id": "An",
+    "tag": "An",
+    "name": "Andy",
+    "gender": "f"
+   },
+   {
+    "id": "Em",
+    "tag": "Em",
+    "name": "Emily",
+    "gender": "f"
+   },
+   {
+    "id": "Ni",
+    "tag": "Ni",
+    "name": "Nigel",
+    "gender": "m"
+   },
+   {
+    "id": "Ch",
+    "tag": "Ch",
+    "name": "Christian Thompson",
+    "gender": "m"
+   },
+   {
+    "id": "Na",
+    "tag": "Na",
+    "name": "Nate",
+    "gender": "m"
+   },
+   {
+    "id": "Ly",
+    "tag": "Ly",
+    "name": "Lily",
+    "gender": "f"
+   },
+   {
+    "id": "Ir",
+    "tag": "Ir",
+    "name": "Irv Ravitz",
+    "gender": "m"
+   },
+   {
+    "id": "Ja",
+    "tag": "Ja",
+    "name": "Jacqueline Follet",
+    "gender": "f"
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Miranda Priestly",
+    "gender": "f"
+   }
+  ],
+  "roomsHint": "Despacho de Miranda, Redacción, Armario de Runway, Sala de reuniones, Sala de pruebas, Recepción, Cafetería, Terraza",
+  "rules": [],
+  "groups": {},
+  "note": "Nigel es el asesino: Miranda le quitó en París el puesto de su vida para salvar el suyo."
+ },
+ {
+  "id": "shrek2",
+  "num": 19,
+  "level": 2,
+  "size": 9,
+  "franchise": "Shrek 2",
+  "title": "Encantador hasta el final",
+  "place": "el castillo de Muy Muy Lejano",
+  "victim": "PE",
+  "murderer": "RH",
+  "cast": [
+   {
+    "id": "S",
+    "tag": "S",
+    "name": "Shrek",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "shrek/S"
+   },
+   {
+    "id": "A",
+    "tag": "A",
+    "name": "Asno",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "shrek/A"
+   },
+   {
+    "id": "F",
+    "tag": "F",
+    "name": "Fiona",
+    "gender": "f",
+    "portrait": "shrek/F"
+   },
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Gato con Botas",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true,
+    "portrait": "shrek/G"
+   },
+   {
+    "id": "H",
+    "tag": "H",
+    "name": "Hada Madrina",
+    "gender": "f",
+    "article": "el",
+    "portrait": "shrek/H"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Jengi",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "shrek/J"
+   },
+   {
+    "id": "RH",
+    "tag": "RH",
+    "name": "Rey Harold",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "RL",
+    "tag": "RL",
+    "name": "Reina Lillian",
+    "gender": "f",
+    "article": "la"
+   },
+   {
+    "id": "PE",
+    "tag": "PE",
+    "name": "Príncipe Encantador",
+    "gender": "m",
+    "article": "el"
+   }
+  ],
+  "roomsHint": "Salón de baile, Comedor real, Fábrica de pociones, Taberna de la Manzana Envenenada, Sala del trono, Establos, Bosque, Jardines",
+  "rules": [],
+  "groups": {},
+  "note": "El rey Harold, harto de que el Hada Madrina y su hijo le obliguen a todo, es el culpable. Epílogo sin revelar más de la cuenta."
+ },
+ {
+  "id": "toystory2",
+  "num": 20,
+  "level": 2,
+  "size": 9,
+  "franchise": "Toy Story 2",
+  "title": "La colección de Al",
+  "place": "la juguetería de Al y su apartamento",
+  "victim": "Al",
+  "murderer": "Pe",
+  "cast": [
+   {
+    "id": "W",
+    "tag": "W",
+    "name": "Woody",
+    "gender": "m",
+    "nonhuman": true,
+    "groups": [
+     "rodeo"
+    ],
+    "portrait": "toystory/W"
+   },
+   {
+    "id": "B",
+    "tag": "B",
+    "name": "Buzz",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "toystory/B"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Jessie",
+    "gender": "f",
+    "nonhuman": true,
+    "groups": [
+     "rodeo"
+    ],
+    "portrait": "toystory/J"
+   },
+   {
+    "id": "Pg",
+    "tag": "Pg",
+    "name": "Perdigón",
+    "gender": "m",
+    "nonhuman": true,
+    "groups": [
+     "rodeo"
+    ]
+   },
+   {
+    "id": "Pe",
+    "tag": "Pe",
+    "name": "Apestoso Pete",
+    "gender": "m",
+    "nonhuman": true,
+    "groups": [
+     "rodeo"
+    ]
+   },
+   {
+    "id": "R",
+    "tag": "R",
+    "name": "Rex",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "toystory/R"
+   },
+   {
+    "id": "P",
+    "tag": "P",
+    "name": "Sr. Potato",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true,
+    "portrait": "toystory/P"
+   },
+   {
+    "id": "Zu",
+    "tag": "Zu",
+    "name": "Emperador Zurg",
+    "gender": "m",
+    "article": "el",
+    "nonhuman": true
+   },
+   {
+    "id": "Al",
+    "tag": "Al",
+    "name": "Al",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Pasillo de la juguetería, Sección de Buzz, Vitrina del Rodeo de Woody, Salón del apartamento, Taller del restaurador, Ascensor, Aeropuerto, Cinta de equipajes",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Vitrina del Rodeo de Woody>"
+    ],
+    "group": "rodeo"
+   }
+  ],
+  "groups": {
+   "rodeo": {
+    "label": "Rodeo de Woody",
+    "one": "un juguete del Rodeo de Woody",
+    "many": "los juguetes del Rodeo de Woody",
+    "color": "#b5651d"
+   }
+  },
+  "note": "Al es el coleccionista humano: la única persona de carne y hueso. Apestoso Pete, el buscador de oro que lleva toda la vida en su caja, es el culpable."
+ },
+ {
+  "id": "simpson2",
+  "num": 21,
+  "level": 2,
+  "size": 9,
+  "franchise": "Los Simpson",
+  "title": "El último acto de Bob",
+  "place": "los estudios de televisión de Krusty",
+  "victim": "Bo",
+  "murderer": "Kr",
+  "cast": [
+   {
+    "id": "Kr",
+    "tag": "Kr",
+    "name": "Krusty",
+    "gender": "m"
+   },
+   {
+    "id": "B",
+    "tag": "B",
+    "name": "Bart",
+    "gender": "m",
+    "portrait": "simpson/B"
+   },
+   {
+    "id": "L",
+    "tag": "L",
+    "name": "Lisa",
+    "gender": "f",
+    "portrait": "simpson/L"
+   },
+   {
+    "id": "H",
+    "tag": "H",
+    "name": "Homer",
+    "gender": "m",
+    "portrait": "simpson/H"
+   },
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Marge",
+    "gender": "f",
+    "portrait": "simpson/M"
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Milhouse",
+    "gender": "m"
+   },
+   {
+    "id": "Ap",
+    "tag": "Ap",
+    "name": "Apu",
+    "gender": "m"
+   },
+   {
+    "id": "Wi",
+    "tag": "Wi",
+    "name": "Jefe Wiggum",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Bo",
+    "tag": "Bo",
+    "name": "Actor Secundario Bob",
+    "gender": "m",
+    "article": "el"
+   }
+  ],
+  "roomsHint": "Plató de Krusty, Camerino de Krusty, Plató de Rasca y Pica, Sala de guionistas, Almacén de atrezo, Cafetería, Aparcamiento, Taquilla",
+  "rules": [],
+  "groups": {},
+  "note": "En España es «Actor Secundario Bob» (nunca Bob Patiño). Krusty es el culpable: Bob le tendió aquella trampa para mandarlo a la cárcel."
+ },
+ {
+  "id": "piratas2",
+  "num": 22,
+  "level": 2,
+  "size": 9,
+  "franchise": "Piratas del Caribe",
+  "title": "El corazón de Davy Jones",
+  "place": "el Holandés Errante",
+  "victim": "D",
+  "murderer": "T",
+  "cast": [
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Jack Sparrow",
+    "gender": "m",
+    "portrait": "piratas/J"
+   },
+   {
+    "id": "W",
+    "tag": "W",
+    "name": "Will Turner",
+    "gender": "m",
+    "portrait": "piratas/W"
+   },
+   {
+    "id": "E",
+    "tag": "E",
+    "name": "Elizabeth Swann",
+    "gender": "f",
+    "portrait": "piratas/E"
+   },
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Gibbs",
+    "gender": "m",
+    "portrait": "piratas/G"
+   },
+   {
+    "id": "T",
+    "tag": "T",
+    "name": "Tía Dalma",
+    "gender": "f",
+    "portrait": "piratas/T"
+   },
+   {
+    "id": "N",
+    "tag": "N",
+    "name": "Norrington",
+    "gender": "m",
+    "portrait": "piratas/N"
+   },
+   {
+    "id": "BB",
+    "tag": "BB",
+    "name": "Bill el Botas",
+    "gender": "m"
+   },
+   {
+    "id": "LB",
+    "tag": "LB",
+    "name": "Lord Beckett",
+    "gender": "m"
+   },
+   {
+    "id": "D",
+    "tag": "D",
+    "name": "Davy Jones",
+    "gender": "m",
+    "portrait": "piratas/D"
+   }
+  ],
+  "roomsHint": "Cubierta, Camarote de Davy Jones, Sala del órgano, Bodega, Calabozo, Cofa, Isla Cruces, Bote de remos",
+  "rules": [],
+  "groups": {},
+  "note": "Tía Dalma (Calipso, su antiguo amor) es la culpable. El cofre con el corazón puede ser un objeto único."
+ },
+ {
+  "id": "aquinohay",
+  "num": 23,
+  "level": 2,
+  "size": 9,
+  "franchise": "Aquí no hay quien viva",
+  "title": "Se levanta la junta",
+  "place": "el edificio de Desengaño 21",
+  "victim": "JC",
+  "murderer": "Em",
+  "cast": [
+   {
+    "id": "JC",
+    "tag": "JC",
+    "name": "Juan Cuesta",
+    "gender": "m",
+    "groups": [
+     "exterior"
+    ]
+   },
+   {
+    "id": "Em",
+    "tag": "Em",
+    "name": "Emilio",
+    "gender": "m"
+   },
+   {
+    "id": "Vi",
+    "tag": "Vi",
+    "name": "Vicenta",
+    "gender": "f",
+    "groups": [
+     "interior"
+    ]
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Marisa",
+    "gender": "f",
+    "groups": [
+     "interior"
+    ]
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Concha",
+    "gender": "f",
+    "groups": [
+     "interior"
+    ]
+   },
+   {
+    "id": "Pa",
+    "tag": "Pa",
+    "name": "Paloma",
+    "gender": "f",
+    "groups": [
+     "exterior"
+    ]
+   },
+   {
+    "id": "Be",
+    "tag": "Be",
+    "name": "Belén",
+    "gender": "f",
+    "groups": [
+     "interior"
+    ]
+   },
+   {
+    "id": "Mu",
+    "tag": "Mu",
+    "name": "Mauri",
+    "gender": "m",
+    "groups": [
+     "exterior"
+    ]
+   },
+   {
+    "id": "Ro",
+    "tag": "Ro",
+    "name": "Roberto",
+    "gender": "m",
+    "groups": [
+     "exterior"
+    ]
+   }
+  ],
+  "roomsHint": "Portería, Patio de luces, Portal, Escalera, Rellano, Trastero, Azotea, Videoclub",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Patio de luces>"
+    ],
+    "group": "interior"
+   }
+  ],
+  "groups": {
+   "interior": {
+    "label": "Interior",
+    "only": "interiores",
+    "one": "un vecino de piso interior",
+    "many": "los vecinos de pisos interiores",
+    "color": "#7a5ea8"
+   },
+   "exterior": {
+    "label": "Exterior",
+    "one": "un vecino de piso exterior",
+    "many": "los vecinos de pisos exteriores",
+    "color": "#3f8f7f"
+   }
+  },
+  "note": "Regla pedida por Víctor: solo los pisos interiores dan al patio de luces, el «radio patio» de las cotillas. Juan Cuesta es el presidente de la comunidad y el marido de Paloma. Emilio es el portero: vive en la portería, sin etiqueta. No menciones números de piso salvo que Mauri vive en el 1.º B. Emilio, harto de horas extra, es el culpable."
+ },
+ {
+  "id": "cobrakai",
+  "num": 24,
+  "level": 2,
+  "size": 9,
+  "franchise": "Cobra Kai",
+  "title": "Sin piedad",
+  "place": "el dojo Cobra Kai y el jardín de Miyagi-Do, la víspera del All Valley",
+  "victim": "Kr",
+  "murderer": "Jo",
+  "cast": [
+   {
+    "id": "Jo",
+    "tag": "Jo",
+    "name": "Johnny Lawrence",
+    "gender": "m",
+    "groups": [
+     "eagle"
+    ]
+   },
+   {
+    "id": "Da",
+    "tag": "Da",
+    "name": "Daniel LaRusso",
+    "gender": "m",
+    "groups": [
+     "miyagi"
+    ]
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Miguel",
+    "gender": "m",
+    "groups": [
+     "eagle"
+    ]
+   },
+   {
+    "id": "Ro",
+    "tag": "Ro",
+    "name": "Robby",
+    "gender": "m",
+    "groups": [
+     "miyagi"
+    ]
+   },
+   {
+    "id": "Sa",
+    "tag": "Sa",
+    "name": "Sam",
+    "gender": "f",
+    "groups": [
+     "miyagi"
+    ]
+   },
+   {
+    "id": "To",
+    "tag": "To",
+    "name": "Tory",
+    "gender": "f",
+    "groups": [
+     "cobra"
+    ]
+   },
+   {
+    "id": "Ha",
+    "tag": "Ha",
+    "name": "Halcón",
+    "gender": "m",
+    "groups": [
+     "eagle"
+    ]
+   },
+   {
+    "id": "Ch",
+    "tag": "Ch",
+    "name": "Chozen",
+    "gender": "m",
+    "groups": [
+     "miyagi"
+    ]
+   },
+   {
+    "id": "Kr",
+    "tag": "Kr",
+    "name": "John Kreese",
+    "gender": "m",
+    "groups": [
+     "cobra"
+    ]
+   }
+  ],
+  "roomsHint": "Dojo Cobra Kai, Jardín de Miyagi-Do, Dojo de Colmillo de Águila, Pabellón del All Valley, Concesionario LaRusso, Apartamento de Johnny, Instituto, Aparcamiento",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Jardín de Miyagi-Do>"
+    ],
+    "group": "miyagi"
+   }
+  ],
+  "groups": {
+   "miyagi": {
+    "label": "Miyagi-Do",
+    "one": "alguien de Miyagi-Do",
+    "many": "los de Miyagi-Do",
+    "color": "#3c7a4f"
+   },
+   "cobra": {
+    "label": "Cobra Kai",
+    "one": "alguien de Cobra Kai",
+    "many": "los de Cobra Kai",
+    "color": "#111111"
+   },
+   "eagle": {
+    "label": "Colmillo de Águila",
+    "one": "alguien de Colmillo de Águila",
+    "many": "los de Colmillo de Águila",
+    "color": "#b23a3a"
+   }
+  },
+  "note": "Johnny, el alumno al que Kreese destrozó de joven, es el culpable."
+ },
+ {
+  "id": "bigbang",
+  "num": 25,
+  "level": 2,
+  "size": 9,
+  "franchise": "The Big Bang Theory",
+  "title": "Ese era su sitio",
+  "place": "el edificio de Sheldon y Leonard en Pasadena",
+  "victim": "Sh",
+  "murderer": "Be",
+  "cast": [
+   {
+    "id": "Le",
+    "tag": "Le",
+    "name": "Leonard",
+    "gender": "m",
+    "groups": [
+     "caltech"
+    ]
+   },
+   {
+    "id": "Pe",
+    "tag": "Pe",
+    "name": "Penny",
+    "gender": "f"
+   },
+   {
+    "id": "Ho",
+    "tag": "Ho",
+    "name": "Howard",
+    "gender": "m",
+    "groups": [
+     "caltech"
+    ]
+   },
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Raj",
+    "gender": "m",
+    "groups": [
+     "caltech"
+    ]
+   },
+   {
+    "id": "Am",
+    "tag": "Am",
+    "name": "Amy",
+    "gender": "f",
+    "groups": [
+     "caltech"
+    ]
+   },
+   {
+    "id": "Be",
+    "tag": "Be",
+    "name": "Bernadette",
+    "gender": "f"
+   },
+   {
+    "id": "St",
+    "tag": "St",
+    "name": "Stuart",
+    "gender": "m"
+   },
+   {
+    "id": "Kr",
+    "tag": "Kr",
+    "name": "Barry Kripke",
+    "gender": "m",
+    "groups": [
+     "caltech"
+    ]
+   },
+   {
+    "id": "Sh",
+    "tag": "Sh",
+    "name": "Sheldon",
+    "gender": "m",
+    "groups": [
+     "caltech"
+    ]
+   }
+  ],
+  "roomsHint": "Salón del 4A, Cuarto de Sheldon, Piso de Penny, Escalera, Ascensor averiado, Laboratorio de Caltech, Tienda de cómics, Cheesecake Factory",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Laboratorio de Caltech>"
+    ],
+    "group": "caltech"
+   }
+  ],
+  "groups": {
+   "caltech": {
+    "label": "Caltech",
+    "one": "alguien de Caltech",
+    "many": "los de Caltech",
+    "color": "#c2571a"
+   }
+  },
+  "note": "Toc, toc, toc… Bernadette, la de la voz de miedo, es la culpable. El sitio de Sheldon en el sofá, objeto único con nombre propio."
+ },
+ {
+  "id": "regreso",
+  "num": 26,
+  "level": 2,
+  "size": 9,
+  "franchise": "Regreso al futuro",
+  "title": "Biff no llega a 1985",
+  "place": "Hill Valley en 1955, la noche del baile",
+  "victim": "Bi",
+  "murderer": "Ge",
+  "cast": [
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Marty McFly",
+    "gender": "m",
+    "groups": [
+     "futuro"
+    ]
+   },
+   {
+    "id": "Do",
+    "tag": "Do",
+    "name": "Doc Brown",
+    "gender": "m",
+    "groups": [
+     "futuro"
+    ]
+   },
+   {
+    "id": "Ge",
+    "tag": "Ge",
+    "name": "George McFly",
+    "gender": "m"
+   },
+   {
+    "id": "Lo",
+    "tag": "Lo",
+    "name": "Lorraine",
+    "gender": "f"
+   },
+   {
+    "id": "Je",
+    "tag": "Je",
+    "name": "Jennifer",
+    "gender": "f",
+    "groups": [
+     "futuro"
+    ]
+   },
+   {
+    "id": "St",
+    "tag": "St",
+    "name": "Sr. Strickland",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Go",
+    "tag": "Go",
+    "name": "Goldie Wilson",
+    "gender": "m"
+   },
+   {
+    "id": "Ei",
+    "tag": "Ei",
+    "name": "Einstein",
+    "gender": "m",
+    "nonhuman": true,
+    "groups": [
+     "futuro"
+    ]
+   },
+   {
+    "id": "Bi",
+    "tag": "Bi",
+    "name": "Biff Tannen",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Gimnasio del instituto, Plaza del Ayuntamiento, Torre del reloj, Garaje de Doc, Cafetería de Lou, Casa de Lorraine, Aparcamiento, Rancho de los Dos Pinos",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Garaje de Doc>"
+    ],
+    "group": "futuro"
+   }
+  ],
+  "groups": {
+   "futuro": {
+    "label": "Del futuro",
+    "one": "alguien del futuro",
+    "many": "los que venían del futuro",
+    "color": "#2f6fb0"
+   }
+  },
+  "note": "En el garaje de Doc está el DeLorean escondido: solo entran los que vienen del futuro. Einstein es el perro. George McFly, el pusilánime al que Biff lleva años pisoteando, por fin da el golpe."
+ },
+ {
+  "id": "dragonball2",
+  "num": 30,
+  "level": 3,
+  "size": 9,
+  "franchise": "Dragon Ball",
+  "title": "Los Juegos de Célula",
+  "place": "el ring de los Juegos de Célula",
+  "victim": "Ce",
+  "murderer": "MS",
+  "cast": [
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Goku",
+    "gender": "m",
+    "portrait": "dragonball/G"
+   },
+   {
+    "id": "V",
+    "tag": "V",
+    "name": "Vegeta",
+    "gender": "m",
+    "portrait": "dragonball/V"
+   },
+   {
+    "id": "Gh",
+    "tag": "Gh",
+    "name": "Gohan",
+    "gender": "m",
+    "portrait": "dragonball/Gh"
+   },
+   {
+    "id": "P",
+    "tag": "P",
+    "name": "Piccolo",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "dragonball/P"
+   },
+   {
+    "id": "K",
+    "tag": "K",
+    "name": "Krilin",
+    "gender": "m",
+    "portrait": "dragonball/K"
+   },
+   {
+    "id": "N",
+    "tag": "N",
+    "name": "Número 18",
+    "gender": "f",
+    "portrait": "dragonball/N"
+   },
+   {
+    "id": "Tr",
+    "tag": "Tr",
+    "name": "Trunks",
+    "gender": "m"
+   },
+   {
+    "id": "MS",
+    "tag": "MS",
+    "name": "Mr. Satán",
+    "gender": "m"
+   },
+   {
+    "id": "Ce",
+    "tag": "Ce",
+    "name": "Célula",
+    "gender": "m",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Ring, Gradas, Kame House, Templo de Kami, Corporación Cápsula, Desierto rocoso, Bosque, Sala del Tiempo",
+  "rules": [],
+  "groups": {},
+  "note": "En España, Célula (nunca Cell). Mr. Satán lleva años diciendo que derrotó a Célula: esta vez es verdad y nadie le cree."
+ },
+ {
+  "id": "friends2",
+  "num": 31,
+  "level": 3,
+  "size": 9,
+  "franchise": "Friends",
+  "title": "El de la muerte de Janice",
+  "place": "la cena de Acción de Gracias en casa de Monica",
+  "victim": "Ja",
+  "murderer": "M",
+  "cast": [
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Rachel",
+    "gender": "f",
+    "portrait": "friends/Ra"
+   },
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Monica",
+    "gender": "f",
+    "portrait": "friends/M"
+   },
+   {
+    "id": "P",
+    "tag": "P",
+    "name": "Phoebe",
+    "gender": "f",
+    "portrait": "friends/P"
+   },
+   {
+    "id": "Ro",
+    "tag": "Ro",
+    "name": "Ross",
+    "gender": "m",
+    "portrait": "friends/Ro"
+   },
+   {
+    "id": "C",
+    "tag": "C",
+    "name": "Chandler",
+    "gender": "m",
+    "portrait": "friends/C"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Joey",
+    "gender": "m",
+    "portrait": "friends/J"
+   },
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Gunther",
+    "gender": "m",
+    "portrait": "friends/G"
+   },
+   {
+    "id": "Mk",
+    "tag": "Mk",
+    "name": "Mike",
+    "gender": "m"
+   },
+   {
+    "id": "Ja",
+    "tag": "Ja",
+    "name": "Janice",
+    "gender": "f",
+    "portrait": "friends/Ja"
+   }
+  ],
+  "roomsHint": "Cocina de Monica, Salón de Monica, Balcón, Apartamento de Joey y Chandler, Rellano, Terraza, Central Perk, Lavandería",
+  "rules": [
+   {
+    "t": "emptyZones",
+    "n": 1
+   }
+  ],
+  "groups": {},
+  "note": "Título al estilo de los episodios («El de…»). Monica, obsesa de su cena perfecta, es la culpable: la risa de Janice le arruinó el pavo."
+ },
+ {
+  "id": "jurassicw",
+  "num": 32,
+  "level": 3,
+  "size": 9,
+  "franchise": "Jurassic World",
+  "title": "Fuera del recinto",
+  "place": "el parque Jurassic World",
+  "victim": "Ho",
+  "murderer": "Bl",
+  "cast": [
+   {
+    "id": "Ow",
+    "tag": "Ow",
+    "name": "Owen",
+    "gender": "m"
+   },
+   {
+    "id": "Cl",
+    "tag": "Cl",
+    "name": "Claire",
+    "gender": "f"
+   },
+   {
+    "id": "Za",
+    "tag": "Za",
+    "name": "Zach",
+    "gender": "m"
+   },
+   {
+    "id": "Gr",
+    "tag": "Gr",
+    "name": "Gray",
+    "gender": "m"
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Masrani",
+    "gender": "m"
+   },
+   {
+    "id": "Wu",
+    "tag": "Wu",
+    "name": "Dr. Wu",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Ba",
+    "tag": "Ba",
+    "name": "Barry",
+    "gender": "m"
+   },
+   {
+    "id": "Bl",
+    "tag": "Bl",
+    "name": "Blue",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Ho",
+    "tag": "Ho",
+    "name": "Hoskins",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Sala de control, Recinto de la Indominus, Cercado de raptores, Valle de la girosfera, Laguna del Mosasaurio, Centro de visitantes, Laboratorio del Dr. Wu, Helipuerto",
+  "rules": [],
+  "groups": {},
+  "note": "Blue es la velocirraptor: Hoskins quería convertirla en arma."
+ },
+ {
+  "id": "office2",
+  "num": 33,
+  "level": 3,
+  "size": 9,
+  "franchise": "The Office",
+  "title": "Feliz Navidad, Packer",
+  "place": "la fiesta de Navidad de Dunder Mifflin",
+  "victim": "TP",
+  "murderer": "Ph",
+  "cast": [
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Michael",
+    "gender": "m",
+    "portrait": "office/M"
+   },
+   {
+    "id": "D",
+    "tag": "D",
+    "name": "Dwight",
+    "gender": "m",
+    "portrait": "office/D"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Jim",
+    "gender": "m",
+    "portrait": "office/J"
+   },
+   {
+    "id": "P",
+    "tag": "P",
+    "name": "Pam",
+    "gender": "f",
+    "portrait": "office/P"
+   },
+   {
+    "id": "A",
+    "tag": "A",
+    "name": "Angela",
+    "gender": "f",
+    "portrait": "office/A"
+   },
+   {
+    "id": "K",
+    "tag": "K",
+    "name": "Kevin",
+    "gender": "m",
+    "portrait": "office/K"
+   },
+   {
+    "id": "St",
+    "tag": "St",
+    "name": "Stanley",
+    "gender": "m"
+   },
+   {
+    "id": "Ph",
+    "tag": "Ph",
+    "name": "Phyllis",
+    "gender": "f"
+   },
+   {
+    "id": "TP",
+    "tag": "TP",
+    "name": "Todd Packer",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Sala de reuniones, Zona de ventas, Oficina de Michael, Cocina, Almacén, Aparcamiento, Recepción, Contabilidad",
+  "rules": [],
+  "groups": {},
+  "note": "Phyllis, la dulce Phyllis, es la culpable: Packer llevaba años soltándole barbaridades."
+ },
+ {
+  "id": "peaky2",
+  "num": 34,
+  "level": 3,
+  "size": 9,
+  "franchise": "Peaky Blinders",
+  "title": "La Mano Negra",
+  "place": "Small Heath durante la guerra con los Changretta",
+  "victim": "Lu",
+  "murderer": "P",
+  "cast": [
+   {
+    "id": "T",
+    "tag": "T",
+    "name": "Tommy Shelby",
+    "gender": "m",
+    "portrait": "peaky/T"
+   },
+   {
+    "id": "A",
+    "tag": "A",
+    "name": "Arthur Shelby",
+    "gender": "m",
+    "portrait": "peaky/A"
+   },
+   {
+    "id": "P",
+    "tag": "P",
+    "name": "Polly Gray",
+    "gender": "f",
+    "portrait": "peaky/P"
+   },
+   {
+    "id": "Ad",
+    "tag": "Ad",
+    "name": "Ada Shelby",
+    "gender": "f",
+    "portrait": "peaky/Ad"
+   },
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Michael Gray",
+    "gender": "m",
+    "portrait": "peaky/M"
+   },
+   {
+    "id": "Al",
+    "tag": "Al",
+    "name": "Alfie Solomons",
+    "gender": "m",
+    "portrait": "peaky/Al"
+   },
+   {
+    "id": "Ab",
+    "tag": "Ab",
+    "name": "Aberama Gold",
+    "gender": "m"
+   },
+   {
+    "id": "Li",
+    "tag": "Li",
+    "name": "Lizzie",
+    "gender": "f"
+   },
+   {
+    "id": "Lu",
+    "tag": "Lu",
+    "name": "Luca Changretta",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "The Garrison, Casa de apuestas, Arrow House, Destilería de Alfie, Muelle del canal, Iglesia, Fundición, Establos",
+  "rules": [],
+  "groups": {},
+  "note": "Luca Changretta manda notas con la Mano Negra a toda la familia. Polly, la que nunca se rinde, es la culpable."
+ },
+ {
+  "id": "indiana",
+  "num": 35,
+  "level": 3,
+  "size": 9,
+  "franchise": "Indiana Jones",
+  "title": "¿Por qué tenían que ser serpientes?",
+  "place": "la excavación de Tanis, en Egipto",
+  "victim": "Be",
+  "murderer": "Ma",
+  "cast": [
+   {
+    "id": "In",
+    "tag": "In",
+    "name": "Indiana Jones",
+    "gender": "m"
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Marion",
+    "gender": "f"
+   },
+   {
+    "id": "Sa",
+    "tag": "Sa",
+    "name": "Sallah",
+    "gender": "m"
+   },
+   {
+    "id": "MB",
+    "tag": "MB",
+    "name": "Marcus Brody",
+    "gender": "m"
+   },
+   {
+    "id": "He",
+    "tag": "He",
+    "name": "Henry Jones",
+    "gender": "m"
+   },
+   {
+    "id": "Ta",
+    "tag": "Ta",
+    "name": "Tapón",
+    "gender": "m"
+   },
+   {
+    "id": "Wi",
+    "tag": "Wi",
+    "name": "Willie",
+    "gender": "f"
+   },
+   {
+    "id": "To",
+    "tag": "To",
+    "name": "Mayor Toht",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Be",
+    "tag": "Be",
+    "name": "Belloq",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Pozo de las Almas, Campamento, Tienda de Belloq, Excavación, Sala del mapa, Mercado de El Cairo, Casa de Sallah, Pista de aterrizaje",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Pozo de las Almas>",
+    "n": 0
+   }
+  ],
+  "groups": {},
+  "note": "Nadie baja al Pozo de las Almas: está lleno de serpientes. Marion, a la que Belloq tuvo secuestrada, es la culpable. Tapón es Short Round en España. Sin nazis explícitos: Toht es el «mayor Toht» y basta."
+ },
+ {
+  "id": "punales",
+  "num": 36,
+  "level": 3,
+  "size": 9,
+  "franchise": "Puñales por la espalda",
+  "title": "Feliz cumpleaños, Harlan",
+  "place": "la mansión Thrombey",
+  "victim": "Ha",
+  "murderer": "Jo",
+  "cast": [
+   {
+    "id": "BB",
+    "tag": "BB",
+    "name": "Benoit Blanc",
+    "gender": "m"
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Marta",
+    "gender": "f"
+   },
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Ransom",
+    "gender": "m"
+   },
+   {
+    "id": "Li",
+    "tag": "Li",
+    "name": "Linda",
+    "gender": "f"
+   },
+   {
+    "id": "Ri",
+    "tag": "Ri",
+    "name": "Richard",
+    "gender": "m"
+   },
+   {
+    "id": "Wa",
+    "tag": "Wa",
+    "name": "Walt",
+    "gender": "m"
+   },
+   {
+    "id": "Jo",
+    "tag": "Jo",
+    "name": "Joni",
+    "gender": "f"
+   },
+   {
+    "id": "Me",
+    "tag": "Me",
+    "name": "Meg",
+    "gender": "f"
+   },
+   {
+    "id": "Ha",
+    "tag": "Ha",
+    "name": "Harlan Thrombey",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Estudio de Harlan, Salón, Biblioteca, Cocina, Invernadero, Desván, Pasadizo secreto, Jardín",
+  "rules": [],
+  "groups": {},
+  "note": "La noche de su 85 cumpleaños. No reproduzcas la solución de la película: aquí la culpable es Joni, la nuera a la que Harlan pilló cobrando dos veces la matrícula de Meg."
+ },
+ {
+  "id": "titanic",
+  "num": 37,
+  "level": 3,
+  "size": 9,
+  "franchise": "Titanic",
+  "title": "El corazón del océano",
+  "place": "el Titanic, la noche del 14 de abril de 1912",
+  "victim": "Ca",
+  "murderer": "Ro",
+  "cast": [
+   {
+    "id": "Ja",
+    "tag": "Ja",
+    "name": "Jack Dawson",
+    "gender": "m",
+    "groups": [
+     "tercera"
+    ]
+   },
+   {
+    "id": "Ro",
+    "tag": "Ro",
+    "name": "Rose",
+    "gender": "f",
+    "groups": [
+     "primera"
+    ]
+   },
+   {
+    "id": "Ru",
+    "tag": "Ru",
+    "name": "Ruth",
+    "gender": "f",
+    "groups": [
+     "primera"
+    ]
+   },
+   {
+    "id": "Mo",
+    "tag": "Mo",
+    "name": "Molly Brown",
+    "gender": "f",
+    "groups": [
+     "primera"
+    ]
+   },
+   {
+    "id": "Lo",
+    "tag": "Lo",
+    "name": "Lovejoy",
+    "gender": "m",
+    "groups": [
+     "primera"
+    ]
+   },
+   {
+    "id": "An",
+    "tag": "An",
+    "name": "Thomas Andrews",
+    "gender": "m",
+    "groups": [
+     "primera"
+    ]
+   },
+   {
+    "id": "Sm",
+    "tag": "Sm",
+    "name": "Capitán Smith",
+    "gender": "m",
+    "article": "el",
+    "groups": [
+     "tripulacion"
+    ]
+   },
+   {
+    "id": "Fa",
+    "tag": "Fa",
+    "name": "Fabrizio",
+    "gender": "m",
+    "groups": [
+     "tercera"
+    ]
+   },
+   {
+    "id": "Ca",
+    "tag": "Ca",
+    "name": "Cal Hockley",
+    "gender": "m",
+    "groups": [
+     "primera"
+    ]
+   }
+  ],
+  "roomsHint": "Cubierta de primera, Gran Escalera, Comedor de primera, Camarote de Rose, Fiesta de tercera, Bodega de los coches, Puente de mando, Cubierta de botes",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Cubierta de primera>",
+     "<Comedor de primera>"
+    ],
+    "group": "primera"
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Puente de mando>"
+    ],
+    "group": "tripulacion"
+   }
+  ],
+  "groups": {
+   "primera": {
+    "label": "1.ª clase",
+    "one": "un pasajero de primera",
+    "many": "los pasajeros de primera",
+    "color": "#a8862c"
+   },
+   "tercera": {
+    "label": "3.ª clase",
+    "one": "un pasajero de tercera",
+    "many": "los pasajeros de tercera",
+    "color": "#3f6f8f"
+   },
+   "tripulacion": {
+    "label": "Tripulación",
+    "one": "alguien de la tripulación",
+    "many": "los de la tripulación",
+    "color": "#333a5c"
+   }
+  },
+  "note": "Lovejoy es el ayuda de cámara de Cal, viaja en primera. Rose, harta de un matrimonio a la fuerza, es la culpable. Sin tono de tragedia real: nada de víctimas reales del naufragio, solo el crimen de ficción y la mesa de Cal."
+ },
+ {
+  "id": "bridgerton",
+  "num": 38,
+  "level": 3,
+  "size": 9,
+  "franchise": "Los Bridgerton",
+  "title": "Queridos lectores",
+  "place": "el baile de lady Danbury",
+  "victim": "Cr",
+  "murderer": "Pe",
+  "cast": [
+   {
+    "id": "Da",
+    "tag": "Da",
+    "name": "Daphne",
+    "gender": "f",
+    "groups": [
+     "bridgerton"
+    ]
+   },
+   {
+    "id": "Si",
+    "tag": "Si",
+    "name": "Simon",
+    "gender": "m"
+   },
+   {
+    "id": "An",
+    "tag": "An",
+    "name": "Anthony",
+    "gender": "m",
+    "groups": [
+     "bridgerton"
+    ]
+   },
+   {
+    "id": "El",
+    "tag": "El",
+    "name": "Eloise",
+    "gender": "f",
+    "groups": [
+     "bridgerton"
+    ]
+   },
+   {
+    "id": "Pe",
+    "tag": "Pe",
+    "name": "Penelope",
+    "gender": "f"
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Colin",
+    "gender": "m",
+    "groups": [
+     "bridgerton"
+    ]
+   },
+   {
+    "id": "LD",
+    "tag": "LD",
+    "name": "Lady Danbury",
+    "gender": "f"
+   },
+   {
+    "id": "RC",
+    "tag": "RC",
+    "name": "Reina Charlotte",
+    "gender": "f",
+    "article": "la"
+   },
+   {
+    "id": "Cr",
+    "tag": "Cr",
+    "name": "Cressida Cowper",
+    "gender": "f"
+   }
+  ],
+  "roomsHint": "Salón de baile, Terraza, Jardín, Biblioteca, Sala de cartas, Comedor, Invernadero, Salita de los Bridgerton",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Salón de baile>",
+    "n": 3
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Salita de los Bridgerton>"
+    ],
+    "group": "bridgerton"
+   }
+  ],
+  "groups": {
+   "bridgerton": {
+    "label": "Bridgerton",
+    "one": "un Bridgerton",
+    "many": "los Bridgerton",
+    "color": "#5b7fb8"
+   }
+  },
+  "note": "El epílogo puede estar escrito como una columna de lady Whistledown. Penelope, a la que Cressida humilló durante años, es la culpable."
+ },
+ {
+  "id": "orgullo",
+  "num": 39,
+  "level": 3,
+  "size": 9,
+  "franchise": "Orgullo y prejuicio",
+  "title": "Una verdad universalmente reconocida",
+  "place": "el baile de Netherfield",
+  "victim": "Wi",
+  "murderer": "Ly",
+  "cast": [
+   {
+    "id": "El",
+    "tag": "El",
+    "name": "Elizabeth Bennet",
+    "gender": "f"
+   },
+   {
+    "id": "Da",
+    "tag": "Da",
+    "name": "Sr. Darcy",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Ja",
+    "tag": "Ja",
+    "name": "Jane Bennet",
+    "gender": "f"
+   },
+   {
+    "id": "Bi",
+    "tag": "Bi",
+    "name": "Sr. Bingley",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Ly",
+    "tag": "Ly",
+    "name": "Lydia Bennet",
+    "gender": "f"
+   },
+   {
+    "id": "Ca",
+    "tag": "Ca",
+    "name": "Caroline Bingley",
+    "gender": "f"
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Sr. Collins",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "LC",
+    "tag": "LC",
+    "name": "Lady Catherine",
+    "gender": "f"
+   },
+   {
+    "id": "Wi",
+    "tag": "Wi",
+    "name": "Sr. Wickham",
+    "gender": "m",
+    "article": "el"
+   }
+  ],
+  "roomsHint": "Salón de baile, Biblioteca, Comedor, Sala de música, Jardines, Galería, Escalera principal, Invernadero",
+  "rules": [
+   {
+    "t": "noZoneWith",
+    "n": 1
+   }
+  ],
+  "groups": {},
+  "note": "Decoro ante todo: en ninguna zona había una sola persona. Lydia, que acaba de descubrir que Wickham solo iba a por dinero, es la culpable."
+ },
+ {
+  "id": "breaking2",
+  "num": 42,
+  "level": 4,
+  "size": 10,
+  "franchise": "Breaking Bad",
+  "title": "Tuco no vuelve a casa",
+  "place": "el escondite de Tuco en el desierto",
+  "victim": "Tu",
+  "murderer": "G",
+  "cast": [
+   {
+    "id": "W",
+    "tag": "W",
+    "name": "Walter White",
+    "gender": "m",
+    "portrait": "breaking/W"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Jesse Pinkman",
+    "gender": "m",
+    "portrait": "breaking/J"
+   },
+   {
+    "id": "Sk",
+    "tag": "Sk",
+    "name": "Skyler",
+    "gender": "f",
+    "portrait": "breaking/Sk"
+   },
+   {
+    "id": "Ha",
+    "tag": "Ha",
+    "name": "Hank",
+    "gender": "m",
+    "portrait": "breaking/Ha"
+   },
+   {
+    "id": "Sa",
+    "tag": "Sa",
+    "name": "Saul Goodman",
+    "gender": "m",
+    "portrait": "breaking/Sa"
+   },
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Mike",
+    "gender": "m",
+    "portrait": "breaking/M"
+   },
+   {
+    "id": "He",
+    "tag": "He",
+    "name": "Héctor Salamanca",
+    "gender": "m",
+    "portrait": "breaking/He"
+   },
+   {
+    "id": "Mr",
+    "tag": "Mr",
+    "name": "Marie Schrader",
+    "gender": "f",
+    "portrait": "breaking/Mr"
+   },
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Gus Fring",
+    "gender": "m",
+    "portrait": "breaking/G"
+   },
+   {
+    "id": "Tu",
+    "tag": "Tu",
+    "name": "Tuco Salamanca",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Casa de Tuco, Cobertizo, Caravana, Desierto, Autolavado A1A, Los Pollos Hermanos, Despacho de Saul, Casa de los White, Garaje de Hank",
+  "rules": [],
+  "groups": {},
+  "note": "Gus Fring, que tiene una cuenta pendiente con todos los Salamanca, es el culpable."
+ },
+ {
+  "id": "miercoles2",
+  "num": 43,
+  "level": 4,
+  "size": 10,
+  "franchise": "Miércoles",
+  "title": "El director nuevo",
+  "place": "Nevermore, en el segundo curso",
+  "victim": "Do",
+  "murderer": "Ag",
+  "cast": [
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Miércoles",
+    "gender": "f",
+    "portrait": "miercoles/M"
+   },
+   {
+    "id": "E",
+    "tag": "E",
+    "name": "Enid",
+    "gender": "f",
+    "portrait": "miercoles/E"
+   },
+   {
+    "id": "T",
+    "tag": "T",
+    "name": "Tyler",
+    "gender": "m",
+    "portrait": "miercoles/T"
+   },
+   {
+    "id": "B",
+    "tag": "B",
+    "name": "Bianca",
+    "gender": "f",
+    "portrait": "miercoles/B"
+   },
+   {
+    "id": "C",
+    "tag": "C",
+    "name": "Cosa",
+    "gender": "m",
+    "nonhuman": true,
+    "portrait": "miercoles/C"
+   },
+   {
+    "id": "Pu",
+    "tag": "Pu",
+    "name": "Pugsley",
+    "gender": "m"
+   },
+   {
+    "id": "Mo",
+    "tag": "Mo",
+    "name": "Morticia",
+    "gender": "f"
+   },
+   {
+    "id": "Go",
+    "tag": "Go",
+    "name": "Gómez",
+    "gender": "m"
+   },
+   {
+    "id": "Ag",
+    "tag": "Ag",
+    "name": "Agnes",
+    "gender": "f"
+   },
+   {
+    "id": "Do",
+    "tag": "Do",
+    "name": "Director Dort",
+    "gender": "m",
+    "article": "el"
+   }
+  ],
+  "roomsHint": "Despacho del director, Cripta, Comedor, Ophelia Hall, Biblioteca, Bosque, Cementerio, Hospital Willow Hill, Patio de Nevermore",
+  "rules": [],
+  "groups": {},
+  "note": "Barry Dort, el director que quiere convertir Nevermore en un negocio. Agnes, la admiradora de Miércoles que puede volverse invisible, es la culpable."
+ },
+ {
+  "id": "vikingos2",
+  "num": 44,
+  "level": 4,
+  "size": 10,
+  "franchise": "Vikingos",
+  "title": "La corte de Wessex",
+  "place": "la villa real de Wessex",
+  "victim": "E",
+  "murderer": "Ju",
+  "cast": [
+   {
+    "id": "R",
+    "tag": "R",
+    "name": "Ragnar",
+    "gender": "m",
+    "groups": [
+     "vikingos"
+    ],
+    "portrait": "vikingos/R"
+   },
+   {
+    "id": "L",
+    "tag": "L",
+    "name": "Lagertha",
+    "gender": "f",
+    "groups": [
+     "vikingos"
+    ],
+    "portrait": "vikingos/L"
+   },
+   {
+    "id": "Ro",
+    "tag": "Ro",
+    "name": "Rollo",
+    "gender": "m",
+    "groups": [
+     "vikingos"
+    ],
+    "portrait": "vikingos/Ro"
+   },
+   {
+    "id": "F",
+    "tag": "F",
+    "name": "Floki",
+    "gender": "m",
+    "groups": [
+     "vikingos"
+    ],
+    "portrait": "vikingos/F"
+   },
+   {
+    "id": "B",
+    "tag": "B",
+    "name": "Bjorn",
+    "gender": "m",
+    "groups": [
+     "vikingos"
+    ],
+    "portrait": "vikingos/B"
+   },
+   {
+    "id": "I",
+    "tag": "I",
+    "name": "Ivar",
+    "gender": "m",
+    "groups": [
+     "vikingos"
+    ],
+    "portrait": "vikingos/I"
+   },
+   {
+    "id": "Ju",
+    "tag": "Ju",
+    "name": "Judith",
+    "gender": "f",
+    "groups": [
+     "sajones"
+    ]
+   },
+   {
+    "id": "Ae",
+    "tag": "Ae",
+    "name": "Aethelwulf",
+    "gender": "m",
+    "groups": [
+     "sajones"
+    ]
+   },
+   {
+    "id": "Kw",
+    "tag": "Kw",
+    "name": "Kwenthrith",
+    "gender": "f",
+    "groups": [
+     "sajones"
+    ]
+   },
+   {
+    "id": "E",
+    "tag": "E",
+    "name": "Rey Ecbert",
+    "gender": "m",
+    "article": "el",
+    "groups": [
+     "sajones"
+    ],
+    "portrait": "vikingos/E"
+   }
+  ],
+  "roomsHint": "Sala del trono, Baños romanos, Scriptorium, Capilla, Jardines, Campamento vikingo, Prisión, Aposentos de Judith, Bosque",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Capilla>"
+    ],
+    "group": "sajones"
+   }
+  ],
+  "groups": {
+   "vikingos": {
+    "label": "Vikingo",
+    "one": "un vikingo",
+    "many": "los vikingos",
+    "color": "#6b4a2f"
+   },
+   "sajones": {
+    "label": "Sajón",
+    "only": "sajones",
+    "one": "un sajón",
+    "many": "los sajones",
+    "color": "#7a2f4a"
+   }
+  },
+  "note": "Judith, la nuera a la que Ecbert manipuló durante años, es la culpable."
+ },
+ {
+  "id": "potter2",
+  "num": 45,
+  "level": 4,
+  "size": 10,
+  "franchise": "Harry Potter",
+  "title": "Hem, hem",
+  "place": "el Ministerio de Magia",
+  "victim": "Um",
+  "murderer": "M",
+  "cast": [
+   {
+    "id": "H",
+    "tag": "H",
+    "name": "Harry",
+    "gender": "m",
+    "portrait": "potter/H"
+   },
+   {
+    "id": "He",
+    "tag": "He",
+    "name": "Hermione",
+    "gender": "f",
+    "portrait": "potter/He"
+   },
+   {
+    "id": "R",
+    "tag": "R",
+    "name": "Ron",
+    "gender": "m",
+    "portrait": "potter/R"
+   },
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "McGonagall",
+    "gender": "f",
+    "portrait": "potter/M"
+   },
+   {
+    "id": "Hg",
+    "tag": "Hg",
+    "name": "Hagrid",
+    "gender": "m",
+    "portrait": "potter/Hg"
+   },
+   {
+    "id": "Lu",
+    "tag": "Lu",
+    "name": "Luna",
+    "gender": "f"
+   },
+   {
+    "id": "Ne",
+    "tag": "Ne",
+    "name": "Neville",
+    "gender": "m"
+   },
+   {
+    "id": "Si",
+    "tag": "Si",
+    "name": "Sirius",
+    "gender": "m"
+   },
+   {
+    "id": "LM",
+    "tag": "LM",
+    "name": "Lucius Malfoy",
+    "gender": "m"
+   },
+   {
+    "id": "Um",
+    "tag": "Um",
+    "name": "Dolores Umbridge",
+    "gender": "f"
+   }
+  ],
+  "roomsHint": "Atrio, Despacho de Umbridge, Departamento de Misterios, Sala de las Profecías, Sala del Velo, Tribunal número 10, Sala de los cerebros, Ascensores, Chimeneas",
+  "rules": [],
+  "groups": {},
+  "note": "La profesora McGonagall, que aguantó a Umbridge todo un curso a base de ironía, es la culpable."
+ },
+ {
+  "id": "marvel2",
+  "num": 46,
+  "level": 4,
+  "size": 10,
+  "franchise": "Marvel",
+  "title": "Sin hilos",
+  "place": "Sokovia, la ciudad flotante",
+  "victim": "Ul",
+  "murderer": "BE",
+  "cast": [
+   {
+    "id": "I",
+    "tag": "I",
+    "name": "Iron Man",
+    "gender": "m",
+    "portrait": "marvel/I"
+   },
+   {
+    "id": "C",
+    "tag": "C",
+    "name": "Capitán América",
+    "gender": "m",
+    "article": "el",
+    "portrait": "marvel/C"
+   },
+   {
+    "id": "T",
+    "tag": "T",
+    "name": "Thor",
+    "gender": "m",
+    "portrait": "marvel/T"
+   },
+   {
+    "id": "H",
+    "tag": "H",
+    "name": "Hulk",
+    "gender": "m",
+    "portrait": "marvel/H"
+   },
+   {
+    "id": "V",
+    "tag": "V",
+    "name": "Viuda Negra",
+    "gender": "f",
+    "article": "la",
+    "portrait": "marvel/V"
+   },
+   {
+    "id": "O",
+    "tag": "O",
+    "name": "Ojo de Halcón",
+    "gender": "m",
+    "portrait": "marvel/O"
+   },
+   {
+    "id": "BE",
+    "tag": "BE",
+    "name": "Bruja Escarlata",
+    "gender": "f",
+    "article": "la"
+   },
+   {
+    "id": "Qs",
+    "tag": "Qs",
+    "name": "Mercurio",
+    "gender": "m"
+   },
+   {
+    "id": "Vi",
+    "tag": "Vi",
+    "name": "Visión",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "Ul",
+    "tag": "Ul",
+    "name": "Ultrón",
+    "gender": "m",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Iglesia de Sokovia, Plaza mayor, Núcleo de la ciudad, Fábrica, Calles en ruinas, Helitransporte, Puente, Búnker, Torre",
+  "rules": [],
+  "groups": {},
+  "note": "En España es Ultrón, con tilde. La Bruja Escarlata venga a su hermano y a Sokovia."
+ },
+ {
+  "id": "hobbit",
+  "num": 47,
+  "level": 4,
+  "size": 10,
+  "franchise": "El Señor de los Anillos",
+  "title": "Un tesoro sin dueño",
+  "place": "la Montaña Solitaria, en El Hobbit",
+  "victim": "Sm",
+  "murderer": "Bi",
+  "cast": [
+   {
+    "id": "Bi",
+    "tag": "Bi",
+    "name": "Bilbo",
+    "gender": "m"
+   },
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Gandalf",
+    "gender": "m",
+    "portrait": "anillos/G"
+   },
+   {
+    "id": "Th",
+    "tag": "Th",
+    "name": "Thorin",
+    "gender": "m",
+    "groups": [
+     "enanos"
+    ]
+   },
+   {
+    "id": "Ba",
+    "tag": "Ba",
+    "name": "Balin",
+    "gender": "m",
+    "groups": [
+     "enanos"
+    ]
+   },
+   {
+    "id": "Ki",
+    "tag": "Ki",
+    "name": "Kili",
+    "gender": "m",
+    "groups": [
+     "enanos"
+    ]
+   },
+   {
+    "id": "Br",
+    "tag": "Br",
+    "name": "Bardo",
+    "gender": "m"
+   },
+   {
+    "id": "Ta",
+    "tag": "Ta",
+    "name": "Tauriel",
+    "gender": "f"
+   },
+   {
+    "id": "Tr",
+    "tag": "Tr",
+    "name": "Thranduil",
+    "gender": "m"
+   },
+   {
+    "id": "L",
+    "tag": "L",
+    "name": "Legolas",
+    "gender": "m",
+    "portrait": "anillos/L"
+   },
+   {
+    "id": "Sm",
+    "tag": "Sm",
+    "name": "Smaug",
+    "gender": "m",
+    "nonhuman": true
+   }
+  ],
+  "roomsHint": "Sala del Tesoro, Sala del Trono, Forjas, Puerta de Erebor, Valle, Ciudad del Lago, Bosque Negro, Galerías, Puerta secreta",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Sala del Trono>"
+    ],
+    "group": "enanos"
+   }
+  ],
+  "groups": {
+   "enanos": {
+    "label": "Enano",
+    "only": "enanos",
+    "one": "un enano",
+    "many": "los enanos",
+    "color": "#7a5a2a"
+   }
+  },
+  "note": "Bilbo, el saqueador, es el culpable: nadie sospecha de un hobbit."
+ },
+ {
+  "id": "killbill",
+  "num": 48,
+  "level": 4,
+  "size": 10,
+  "franchise": "Kill Bill",
+  "title": "Volumen 3",
+  "place": "la hacienda de Bill en México",
+  "victim": "Bi",
+  "murderer": "El",
+  "cast": [
+   {
+    "id": "No",
+    "tag": "No",
+    "name": "La Novia",
+    "gender": "f"
+   },
+   {
+    "id": "OR",
+    "tag": "OR",
+    "name": "O-Ren Ishii",
+    "gender": "f"
+   },
+   {
+    "id": "El",
+    "tag": "El",
+    "name": "Elle Driver",
+    "gender": "f"
+   },
+   {
+    "id": "Bu",
+    "tag": "Bu",
+    "name": "Budd",
+    "gender": "m"
+   },
+   {
+    "id": "Ve",
+    "tag": "Ve",
+    "name": "Vernita Green",
+    "gender": "f"
+   },
+   {
+    "id": "Go",
+    "tag": "Go",
+    "name": "Gogo Yubari",
+    "gender": "f"
+   },
+   {
+    "id": "HH",
+    "tag": "HH",
+    "name": "Hattori Hanzo",
+    "gender": "m"
+   },
+   {
+    "id": "PM",
+    "tag": "PM",
+    "name": "Pai Mei",
+    "gender": "m"
+   },
+   {
+    "id": "So",
+    "tag": "So",
+    "name": "Sofie Fatale",
+    "gender": "f"
+   },
+   {
+    "id": "Bi",
+    "tag": "Bi",
+    "name": "Bill",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Salón de la hacienda, Terraza, Sala de las espadas, Bodega, Capilla de Two Pines, Casa de las Hojas Azules, Caravana de Budd, Templo de Pai Mei, Jardín nevado",
+  "rules": [],
+  "groups": {},
+  "note": "Sin violencia gráfica. No se menciona a la hija de la Novia. Elle Driver, a la que Bill siempre prefirió usar y dejar, es la culpable."
+ },
+ {
+  "id": "hambre",
+  "num": 49,
+  "level": 4,
+  "size": 10,
+  "franchise": "Los Juegos del Hambre",
+  "title": "Que la suerte esté de vuestra parte",
+  "place": "el Capitolio, la noche de la gran fiesta",
+  "victim": "Sn",
+  "murderer": "Ci",
+  "cast": [
+   {
+    "id": "Ka",
+    "tag": "Ka",
+    "name": "Katniss",
+    "gender": "f",
+    "groups": [
+     "d12"
+    ]
+   },
+   {
+    "id": "Pe",
+    "tag": "Pe",
+    "name": "Peeta",
+    "gender": "m",
+    "groups": [
+     "d12"
+    ]
+   },
+   {
+    "id": "Ga",
+    "tag": "Ga",
+    "name": "Gale",
+    "gender": "m",
+    "groups": [
+     "d12"
+    ]
+   },
+   {
+    "id": "Ha",
+    "tag": "Ha",
+    "name": "Haymitch",
+    "gender": "m",
+    "groups": [
+     "d12"
+    ]
+   },
+   {
+    "id": "Ef",
+    "tag": "Ef",
+    "name": "Effie",
+    "gender": "f",
+    "groups": [
+     "capitolio"
+    ]
+   },
+   {
+    "id": "Ci",
+    "tag": "Ci",
+    "name": "Cinna",
+    "gender": "m",
+    "groups": [
+     "capitolio"
+    ]
+   },
+   {
+    "id": "Fi",
+    "tag": "Fi",
+    "name": "Finnick",
+    "gender": "m"
+   },
+   {
+    "id": "Jo",
+    "tag": "Jo",
+    "name": "Johanna",
+    "gender": "f"
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Presidenta Coin",
+    "gender": "f",
+    "article": "la"
+   },
+   {
+    "id": "Sn",
+    "tag": "Sn",
+    "name": "Presidente Snow",
+    "gender": "m",
+    "article": "el",
+    "groups": [
+     "capitolio"
+    ]
+   }
+  ],
+  "roomsHint": "Planta del Distrito 12, Centro de Entrenamiento, Mansión presidencial, Rosaleda de Snow, Salón de banquetes, Plató de Caesar, Tren, Azotea, Taller de Cinna",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Planta del Distrito 12>"
+    ],
+    "group": "d12"
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Rosaleda de Snow>"
+    ],
+    "group": "capitolio"
+   }
+  ],
+  "groups": {
+   "d12": {
+    "label": "Distrito 12",
+    "one": "alguien del Distrito 12",
+    "many": "los del Distrito 12",
+    "color": "#5c5c5c"
+   },
+   "capitolio": {
+    "label": "Capitolio",
+    "one": "alguien del Capitolio",
+    "many": "los del Capitolio",
+    "color": "#a33b8a"
+   }
+  },
+  "note": "Cinna, el estilista callado, es el culpable: su vestido de sinsajo era solo el principio. Sin niños en peligro: nada de Prim ni de tributos menores."
+ },
+ {
+  "id": "theboys",
+  "num": 50,
+  "level": 4,
+  "size": 10,
+  "franchise": "The Boys",
+  "title": "Patriota, con leche",
+  "place": "la Torre Vought",
+  "victim": "Pa",
+  "murderer": "RM",
+  "cast": [
+   {
+    "id": "Bu",
+    "tag": "Bu",
+    "name": "Butcher",
+    "gender": "m",
+    "groups": [
+     "chicos"
+    ]
+   },
+   {
+    "id": "Hu",
+    "tag": "Hu",
+    "name": "Hughie",
+    "gender": "m",
+    "groups": [
+     "chicos"
+    ]
+   },
+   {
+    "id": "Ki",
+    "tag": "Ki",
+    "name": "Kimiko",
+    "gender": "f",
+    "groups": [
+     "chicos"
+    ]
+   },
+   {
+    "id": "Fr",
+    "tag": "Fr",
+    "name": "Frenchie",
+    "gender": "m",
+    "groups": [
+     "chicos"
+    ]
+   },
+   {
+    "id": "MM",
+    "tag": "MM",
+    "name": "M. M.",
+    "gender": "m",
+    "groups": [
+     "chicos"
+    ]
+   },
+   {
+    "id": "LE",
+    "tag": "LE",
+    "name": "Luz Estelar",
+    "gender": "f",
+    "groups": [
+     "siete"
+    ]
+   },
+   {
+    "id": "RM",
+    "tag": "RM",
+    "name": "Reina Maeve",
+    "gender": "f",
+    "groups": [
+     "siete"
+    ]
+   },
+   {
+    "id": "Pr",
+    "tag": "Pr",
+    "name": "Profundo",
+    "gender": "m",
+    "groups": [
+     "siete"
+    ]
+   },
+   {
+    "id": "TA",
+    "tag": "TA",
+    "name": "Tren-A",
+    "gender": "m",
+    "groups": [
+     "siete"
+    ]
+   },
+   {
+    "id": "Pa",
+    "tag": "Pa",
+    "name": "Patriota",
+    "gender": "m",
+    "groups": [
+     "siete"
+    ]
+   }
+  ],
+  "roomsHint": "Sala de los Siete, Despacho de Stan Edgar, Laboratorio del Compuesto V, Plató de Vought, Cafetería, Azotea, Escondite de los Chicos, Sala de prensa, Vestíbulo",
+  "rules": [
+   {
+    "t": "groupsApart",
+    "a": "chicos",
+    "b": "siete"
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Sala de los Siete>"
+    ],
+    "group": "siete"
+   }
+  ],
+  "groups": {
+   "chicos": {
+    "label": "Los Chicos",
+    "one": "uno de los Chicos",
+    "many": "los Chicos",
+    "color": "#3c3c3c"
+   },
+   "siete": {
+    "label": "Los Siete",
+    "one": "uno de los Siete",
+    "many": "los Siete",
+    "color": "#2b4fa8"
+   }
+  },
+  "note": "Los Chicos y los Siete nunca comparten zona. Como Patriota está a solas con su asesino, tiene que ser uno de los Siete: Reina Maeve. El móvil de Luz Estelar, Profundo y Tren-A no debe descartarlos. Humor negro sin gore."
+ },
+ {
+  "id": "oceans",
+  "num": 51,
+  "level": 4,
+  "size": 11,
+  "franchise": "Ocean's Eleven",
+  "title": "La casa siempre gana",
+  "place": "el casino Bellagio de Las Vegas",
+  "victim": "TB",
+  "murderer": "Te",
+  "cast": [
+   {
+    "id": "Da",
+    "tag": "Da",
+    "name": "Danny Ocean",
+    "gender": "m"
+   },
+   {
+    "id": "Ru",
+    "tag": "Ru",
+    "name": "Rusty",
+    "gender": "m"
+   },
+   {
+    "id": "Li",
+    "tag": "Li",
+    "name": "Linus",
+    "gender": "m"
+   },
+   {
+    "id": "Ba",
+    "tag": "Ba",
+    "name": "Basher",
+    "gender": "m"
+   },
+   {
+    "id": "Sa",
+    "tag": "Sa",
+    "name": "Saul",
+    "gender": "m"
+   },
+   {
+    "id": "Ye",
+    "tag": "Ye",
+    "name": "Yen",
+    "gender": "m"
+   },
+   {
+    "id": "Lv",
+    "tag": "Lv",
+    "name": "Livingston",
+    "gender": "m"
+   },
+   {
+    "id": "Fr",
+    "tag": "Fr",
+    "name": "Frank",
+    "gender": "m"
+   },
+   {
+    "id": "Te",
+    "tag": "Te",
+    "name": "Tess",
+    "gender": "f"
+   },
+   {
+    "id": "TB",
+    "tag": "TB",
+    "name": "Terry Benedict",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Cámara acorazada, Casino, Sala de vigilancia, Fuentes del Bellagio, Despacho de Benedict, Pozo del ascensor, Galería de arte, Suite, Ring del MGM, Restaurante",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Cámara acorazada>",
+    "n": 1
+   }
+  ],
+  "groups": {},
+  "note": "Plano de 11×11: el acróbata Yen cabe en la cámara, pero ahí solo entra una persona. Tess, la mujer a la que Benedict trata como una obra de su colección, es la culpable."
+ },
+ {
+  "id": "dragon",
+  "num": 52,
+  "level": 4,
+  "size": 10,
+  "franchise": "La casa del dragón",
+  "title": "La danza de los dragones",
+  "place": "la Fortaleza Roja, el día de la coronación",
+  "victim": "Cr",
+  "murderer": "Al",
+  "cast": [
+   {
+    "id": "Rh",
+    "tag": "Rh",
+    "name": "Rhaenyra",
+    "gender": "f",
+    "groups": [
+     "negros",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "Da",
+    "tag": "Da",
+    "name": "Daemon",
+    "gender": "m",
+    "groups": [
+     "negros",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "Ry",
+    "tag": "Ry",
+    "name": "Rhaenys",
+    "gender": "f",
+    "groups": [
+     "negros",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Corlys",
+    "gender": "m",
+    "groups": [
+     "negros"
+    ]
+   },
+   {
+    "id": "Al",
+    "tag": "Al",
+    "name": "Alicent",
+    "gender": "f",
+    "groups": [
+     "verdes"
+    ]
+   },
+   {
+    "id": "Ot",
+    "tag": "Ot",
+    "name": "Otto Hightower",
+    "gender": "m",
+    "groups": [
+     "verdes"
+    ]
+   },
+   {
+    "id": "Ae",
+    "tag": "Ae",
+    "name": "Aegon",
+    "gender": "m",
+    "groups": [
+     "verdes",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "Am",
+    "tag": "Am",
+    "name": "Aemond",
+    "gender": "m",
+    "groups": [
+     "verdes",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "He",
+    "tag": "He",
+    "name": "Helaena",
+    "gender": "f",
+    "groups": [
+     "verdes",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "Cr",
+    "tag": "Cr",
+    "name": "Ser Criston Cole",
+    "gender": "m",
+    "groups": [
+     "verdes"
+    ]
+   }
+  ],
+  "roomsHint": "Sala del Trono, Cámara del Consejo, Septo, Patio, Pozo Dragón, Bosque de dioses, Aposentos de la reina, Mazmorras, Murallas",
+  "rules": [
+   {
+    "t": "groupsApart",
+    "a": "verdes",
+    "b": "negros"
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Pozo Dragón>"
+    ],
+    "group": "targaryen"
+   }
+  ],
+  "groups": {
+   "verdes": {
+    "label": "Verdes",
+    "one": "un verde",
+    "many": "los Verdes",
+    "color": "#2f7d4f"
+   },
+   "negros": {
+    "label": "Negros",
+    "one": "un negro",
+    "many": "los Negros",
+    "color": "#222222"
+   },
+   "targaryen": {
+    "label": "Targaryen",
+    "one": "un Targaryen",
+    "many": "los Targaryen",
+    "color": "#a3282c"
+   }
+  },
+  "note": "Verdes y Negros nunca comparten zona, y al Pozo Dragón solo bajan los Targaryen. Alicent, la reina, es la culpable (y por eso es uno de los Verdes)."
+ },
+ {
+  "id": "batman2",
+  "num": 57,
+  "level": 5,
+  "size": 10,
+  "franchise": "Batman",
+  "title": "Reservado para el Pingüino",
+  "place": "el Iceberg Lounge",
+  "victim": "P",
+  "murderer": "DC",
+  "cast": [
+   {
+    "id": "B",
+    "tag": "B",
+    "name": "Batman",
+    "gender": "m",
+    "portrait": "batman/B"
+   },
+   {
+    "id": "G",
+    "tag": "G",
+    "name": "Comisario Gordon",
+    "gender": "m",
+    "article": "el",
+    "portrait": "batman/G"
+   },
+   {
+    "id": "C",
+    "tag": "C",
+    "name": "Catwoman",
+    "gender": "f",
+    "portrait": "batman/C"
+   },
+   {
+    "id": "H",
+    "tag": "H",
+    "name": "Harley Quinn",
+    "gender": "f",
+    "portrait": "batman/H"
+   },
+   {
+    "id": "E",
+    "tag": "E",
+    "name": "Enigma",
+    "gender": "m",
+    "portrait": "batman/E"
+   },
+   {
+    "id": "DC",
+    "tag": "DC",
+    "name": "Dos Caras",
+    "gender": "m",
+    "portrait": "batman/DC"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Joker",
+    "gender": "m",
+    "article": "el",
+    "portrait": "batman/J"
+   },
+   {
+    "id": "SF",
+    "tag": "SF",
+    "name": "Sr. Frío",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "Ba",
+    "tag": "Ba",
+    "name": "Bane",
+    "gender": "m"
+   },
+   {
+    "id": "P",
+    "tag": "P",
+    "name": "Pingüino",
+    "gender": "m",
+    "article": "el",
+    "portrait": "batman/P"
+   }
+  ],
+  "roomsHint": "Pista del club, Barra, Despacho del Pingüino, Cocina, Cámara frigorífica, Sala de juego, Escenario, Muelle trasero, Palcos",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Cámara frigorífica>",
+    "n": 1
+   }
+  ],
+  "groups": {},
+  "note": "En la cámara frigorífica solo aguanta una persona. Dos Caras lanzó su moneda, salió cara: es el culpable."
+ },
+ {
+  "id": "titanes2",
+  "num": 58,
+  "level": 5,
+  "size": 10,
+  "franchise": "Ataque a los Titanes",
+  "title": "La declaración de guerra",
+  "place": "el festival de Liberio",
+  "victim": "WT",
+  "murderer": "E",
+  "cast": [
+   {
+    "id": "E",
+    "tag": "E",
+    "name": "Eren",
+    "gender": "m",
+    "portrait": "titanes/E"
+   },
+   {
+    "id": "M",
+    "tag": "M",
+    "name": "Mikasa",
+    "gender": "f",
+    "portrait": "titanes/M"
+   },
+   {
+    "id": "A",
+    "tag": "A",
+    "name": "Armin",
+    "gender": "m",
+    "portrait": "titanes/A"
+   },
+   {
+    "id": "L",
+    "tag": "L",
+    "name": "Levi",
+    "gender": "m",
+    "portrait": "titanes/L"
+   },
+   {
+    "id": "R",
+    "tag": "R",
+    "name": "Reiner",
+    "gender": "m",
+    "portrait": "titanes/R"
+   },
+   {
+    "id": "Sa",
+    "tag": "Sa",
+    "name": "Sasha",
+    "gender": "f",
+    "portrait": "titanes/Sa"
+   },
+   {
+    "id": "Ze",
+    "tag": "Ze",
+    "name": "Zeke",
+    "gender": "m"
+   },
+   {
+    "id": "Pi",
+    "tag": "Pi",
+    "name": "Pieck",
+    "gender": "f"
+   },
+   {
+    "id": "Ha",
+    "tag": "Ha",
+    "name": "Hange",
+    "gender": "f"
+   },
+   {
+    "id": "WT",
+    "tag": "WT",
+    "name": "Willy Tybur",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Escenario del festival, Plaza de Liberio, Gueto, Sótano de Reiner, Tejados, Hospital, Estación, Cuartel marleyano, Calles",
+  "rules": [],
+  "groups": {},
+  "note": "Eren es el culpable. Sin gore: todo en tono de puzle."
+ },
+ {
+  "id": "tronos2",
+  "num": 59,
+  "level": 5,
+  "size": 10,
+  "franchise": "Juego de Tronos",
+  "title": "El caos es una escalera",
+  "place": "Invernalia, la víspera de la Larga Noche",
+  "victim": "Me",
+  "murderer": "S",
+  "cast": [
+   {
+    "id": "JN",
+    "tag": "JN",
+    "name": "Jon Nieve",
+    "gender": "m",
+    "groups": [
+     "stark",
+     "targaryen"
+    ]
+   },
+   {
+    "id": "Da",
+    "tag": "Da",
+    "name": "Daenerys",
+    "gender": "f",
+    "groups": [
+     "targaryen"
+    ]
+   },
+   {
+    "id": "S",
+    "tag": "S",
+    "name": "Sansa",
+    "gender": "f",
+    "groups": [
+     "stark"
+    ],
+    "portrait": "tronos/S"
+   },
+   {
+    "id": "Ar",
+    "tag": "Ar",
+    "name": "Arya",
+    "gender": "f",
+    "groups": [
+     "stark"
+    ]
+   },
+   {
+    "id": "Br",
+    "tag": "Br",
+    "name": "Bran",
+    "gender": "m",
+    "groups": [
+     "stark"
+    ]
+   },
+   {
+    "id": "T",
+    "tag": "T",
+    "name": "Tyrion",
+    "gender": "m",
+    "portrait": "tronos/T"
+   },
+   {
+    "id": "J",
+    "tag": "J",
+    "name": "Jaime",
+    "gender": "m",
+    "portrait": "tronos/J"
+   },
+   {
+    "id": "Bi",
+    "tag": "Bi",
+    "name": "Brienne",
+    "gender": "f"
+   },
+   {
+    "id": "Dv",
+    "tag": "Dv",
+    "name": "Ser Davos",
+    "gender": "m"
+   },
+   {
+    "id": "Me",
+    "tag": "Me",
+    "name": "Meñique",
+    "gender": "m",
+    "portrait": "tronos/Me"
+   }
+  ],
+  "roomsHint": "Gran Salón, Cripta, Guarida de los dragones, Bosque de dioses, Patio, Biblioteca, Forja, Torre Rota, Murallas",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Guarida de los dragones>"
+    ],
+    "group": "targaryen"
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Cripta>"
+    ],
+    "group": "stark"
+   }
+  ],
+  "groups": {
+   "stark": {
+    "label": "Stark",
+    "one": "un Stark",
+    "many": "los Stark",
+    "color": "#5d6d7e"
+   },
+   "targaryen": {
+    "label": "Targaryen",
+    "one": "un Targaryen",
+    "many": "los Targaryen",
+    "color": "#a3282c"
+   }
+  },
+  "note": "Regla pedida por Víctor: zonas solo para los Targaryen. Jon cuenta como Stark y como Targaryen: el giro de la serie entra en la regla. Sansa, manipulada por Meñique durante años, es la culpable."
+ },
+ {
+  "id": "arcane",
+  "num": 60,
+  "level": 5,
+  "size": 11,
+  "franchise": "Arcane",
+  "title": "La última gota",
+  "place": "Piltover y Zaun",
+  "victim": "Si",
+  "murderer": "Se",
+  "cast": [
+   {
+    "id": "Vi",
+    "tag": "Vi",
+    "name": "Vi",
+    "gender": "f",
+    "groups": [
+     "zaun"
+    ]
+   },
+   {
+    "id": "Ji",
+    "tag": "Ji",
+    "name": "Jinx",
+    "gender": "f",
+    "groups": [
+     "zaun"
+    ]
+   },
+   {
+    "id": "Ek",
+    "tag": "Ek",
+    "name": "Ekko",
+    "gender": "m",
+    "groups": [
+     "zaun"
+    ]
+   },
+   {
+    "id": "Se",
+    "tag": "Se",
+    "name": "Sevika",
+    "gender": "f",
+    "groups": [
+     "zaun"
+    ]
+   },
+   {
+    "id": "Vk",
+    "tag": "Vk",
+    "name": "Viktor",
+    "gender": "m",
+    "groups": [
+     "zaun"
+    ]
+   },
+   {
+    "id": "Ca",
+    "tag": "Ca",
+    "name": "Caitlyn",
+    "gender": "f",
+    "groups": [
+     "piltover"
+    ]
+   },
+   {
+    "id": "Ja",
+    "tag": "Ja",
+    "name": "Jayce",
+    "gender": "m",
+    "groups": [
+     "piltover"
+    ]
+   },
+   {
+    "id": "He",
+    "tag": "He",
+    "name": "Heimerdinger",
+    "gender": "m",
+    "nonhuman": true,
+    "groups": [
+     "piltover"
+    ]
+   },
+   {
+    "id": "Me",
+    "tag": "Me",
+    "name": "Mel",
+    "gender": "f",
+    "groups": [
+     "piltover"
+    ]
+   },
+   {
+    "id": "Si",
+    "tag": "Si",
+    "name": "Silco",
+    "gender": "m",
+    "groups": [
+     "zaun"
+    ]
+   }
+  ],
+  "roomsHint": "Sala del Consejo, Laboratorio de Jayce, Academia, Puente del Progreso, La Última Gota, Fábrica de brillo, Vertedero de Zaun, Escondite de Jinx, Mina, Calles de Piltover",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Sala del Consejo>",
+     "<Academia>"
+    ],
+    "group": "piltover"
+   },
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Fábrica de brillo>"
+    ],
+    "group": "zaun"
+   }
+  ],
+  "groups": {
+   "zaun": {
+    "label": "Zaun",
+    "one": "alguien de Zaun",
+    "many": "los de Zaun",
+    "color": "#2e8f7a"
+   },
+   "piltover": {
+    "label": "Piltover",
+    "one": "alguien de Piltover",
+    "many": "los de Piltover",
+    "color": "#b08a2e"
+   }
+  },
+  "note": "Plano de 11×11. Sevika, la mano derecha de Silco que perdió un brazo por él, es la culpable."
+ },
+ {
+  "id": "pulp",
+  "num": 61,
+  "level": 5,
+  "size": 10,
+  "franchise": "Pulp Fiction",
+  "title": "Un masaje en los pies",
+  "place": "el Jack Rabbit Slim's",
+  "victim": "MW",
+  "murderer": "Mi",
+  "cast": [
+   {
+    "id": "Vi",
+    "tag": "Vi",
+    "name": "Vincent Vega",
+    "gender": "m"
+   },
+   {
+    "id": "Ju",
+    "tag": "Ju",
+    "name": "Jules",
+    "gender": "m"
+   },
+   {
+    "id": "Mi",
+    "tag": "Mi",
+    "name": "Mia Wallace",
+    "gender": "f"
+   },
+   {
+    "id": "Bu",
+    "tag": "Bu",
+    "name": "Butch",
+    "gender": "m"
+   },
+   {
+    "id": "Fa",
+    "tag": "Fa",
+    "name": "Fabienne",
+    "gender": "f"
+   },
+   {
+    "id": "Lo",
+    "tag": "Lo",
+    "name": "Sr. Lobo",
+    "gender": "m",
+    "article": "el"
+   },
+   {
+    "id": "La",
+    "tag": "La",
+    "name": "Lance",
+    "gender": "m"
+   },
+   {
+    "id": "Ca",
+    "tag": "Ca",
+    "name": "Calabaza",
+    "gender": "m"
+   },
+   {
+    "id": "Co",
+    "tag": "Co",
+    "name": "Conejita",
+    "gender": "f"
+   },
+   {
+    "id": "MW",
+    "tag": "MW",
+    "name": "Marsellus Wallace",
+    "gender": "m"
+   }
+  ],
+  "roomsHint": "Pista de baile, Reservados de coche, Barra, Cocina, Almacén, Baños, Aparcamiento, Tienda de empeños, Cafetería",
+  "rules": [
+   {
+    "t": "emptyZones",
+    "n": 1
+   }
+  ],
+  "groups": {},
+  "note": "Mia Wallace es la culpable. Tono negro y absurdo, sin insultos ni drogas explícitas. Se mete un maletín brillante como objeto único."
+ },
+ {
+  "id": "whitelotus",
+  "num": 62,
+  "level": 5,
+  "size": 11,
+  "franchise": "The White Lotus",
+  "title": "Se ruega no molestar",
+  "place": "el hotel White Lotus de Hawái",
+  "victim": "Sh",
+  "murderer": "Ar",
+  "cast": [
+   {
+    "id": "Ar",
+    "tag": "Ar",
+    "name": "Armond",
+    "gender": "m",
+    "groups": [
+     "empleados"
+    ]
+   },
+   {
+    "id": "Be",
+    "tag": "Be",
+    "name": "Belinda",
+    "gender": "f",
+    "groups": [
+     "empleados"
+    ]
+   },
+   {
+    "id": "Ta",
+    "tag": "Ta",
+    "name": "Tanya",
+    "gender": "f",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Ra",
+    "tag": "Ra",
+    "name": "Rachel",
+    "gender": "f",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Ni",
+    "tag": "Ni",
+    "name": "Nicole",
+    "gender": "f",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Mark",
+    "gender": "m",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Ol",
+    "tag": "Ol",
+    "name": "Olivia",
+    "gender": "f",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Pa",
+    "tag": "Pa",
+    "name": "Paula",
+    "gender": "f",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Qu",
+    "tag": "Qu",
+    "name": "Quinn",
+    "gender": "m",
+    "groups": [
+     "huespedes"
+    ]
+   },
+   {
+    "id": "Sh",
+    "tag": "Sh",
+    "name": "Shane",
+    "gender": "m",
+    "groups": [
+     "huespedes"
+    ]
+   }
+  ],
+  "roomsHint": "Suite Piña, Recepción, Oficina del gerente, Spa, Restaurante, Playa, Piscina, Muelle, Bar, Jardín tropical",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Oficina del gerente>"
+    ],
+    "group": "empleados"
+   },
+   {
+    "t": "zoneCount",
+    "room": "<Suite Piña>",
+    "n": 0
+   }
+  ],
+  "groups": {
+   "empleados": {
+    "label": "Empleado",
+    "only": "empleados",
+    "one": "un empleado",
+    "many": "los empleados",
+    "color": "#2d7f7a"
+   },
+   "huespedes": {
+    "label": "Huésped",
+    "only": "huéspedes",
+    "one": "un huésped",
+    "many": "los huéspedes",
+    "color": "#c2703d"
+   }
+  },
+  "note": "Plano de 11×11. Armond, el gerente al que Shane hizo la vida imposible por una suite, es el culpable: la serie, al revés. Sin el detalle escatológico."
+ },
+ {
+  "id": "odisea",
+  "num": 63,
+  "level": 5,
+  "size": 11,
+  "franchise": "La Odisea",
+  "title": "El último pretendiente",
+  "place": "el palacio de Odiseo en Ítaca",
+  "victim": "An",
+  "murderer": "Pe",
+  "cast": [
+   {
+    "id": "Od",
+    "tag": "Od",
+    "name": "Odiseo",
+    "gender": "m"
+   },
+   {
+    "id": "Pe",
+    "tag": "Pe",
+    "name": "Penélope",
+    "gender": "f"
+   },
+   {
+    "id": "Te",
+    "tag": "Te",
+    "name": "Telémaco",
+    "gender": "m"
+   },
+   {
+    "id": "At",
+    "tag": "At",
+    "name": "Atenea",
+    "gender": "f",
+    "nonhuman": true
+   },
+   {
+    "id": "Eu",
+    "tag": "Eu",
+    "name": "Eumeo",
+    "gender": "m"
+   },
+   {
+    "id": "Er",
+    "tag": "Er",
+    "name": "Euriclea",
+    "gender": "f"
+   },
+   {
+    "id": "Em",
+    "tag": "Em",
+    "name": "Eurímaco",
+    "gender": "m",
+    "groups": [
+     "pretendientes"
+    ]
+   },
+   {
+    "id": "Ml",
+    "tag": "Ml",
+    "name": "Melantio",
+    "gender": "m"
+   },
+   {
+    "id": "Ar",
+    "tag": "Ar",
+    "name": "Argos",
+    "gender": "m",
+    "nonhuman": true
+   },
+   {
+    "id": "An",
+    "tag": "An",
+    "name": "Antínoo",
+    "gender": "m",
+    "groups": [
+     "pretendientes"
+    ]
+   }
+  ],
+  "roomsHint": "Gran Salón, Aposentos de Penélope, Telar, Patio, Cocinas, Armería, Pocilga de Eumeo, Templo de Atenea, Puerto, Olivar",
+  "rules": [
+   {
+    "t": "zoneCount",
+    "room": "<Aposentos de Penélope>",
+    "n": 1
+   }
+  ],
+  "groups": {
+   "pretendientes": {
+    "label": "Pretendiente",
+    "one": "un pretendiente",
+    "many": "los pretendientes",
+    "color": "#8f3d3d"
+   }
+  },
+  "note": "Plano de 11×11 (película de Nolan de 2026, a partir de Homero). Argos es el perro; Atenea, disfrazada de Mentor. Penélope, que lleva veinte años tejiendo y destejiendo, es la culpable. Melantio va con los pretendientes."
+ },
+ {
+  "id": "edaddorada",
+  "num": 64,
+  "level": 5,
+  "size": 10,
+  "franchise": "La edad dorada",
+  "title": "Sin invitación",
+  "place": "la mansión Russell en la Quinta Avenida",
+  "victim": "Tu",
+  "murderer": "Be",
+  "cast": [
+   {
+    "id": "Be",
+    "tag": "Be",
+    "name": "Bertha Russell",
+    "gender": "f"
+   },
+   {
+    "id": "Ge",
+    "tag": "Ge",
+    "name": "George Russell",
+    "gender": "m"
+   },
+   {
+    "id": "Gl",
+    "tag": "Gl",
+    "name": "Gladys",
+    "gender": "f"
+   },
+   {
+    "id": "Ag",
+    "tag": "Ag",
+    "name": "Agnes",
+    "gender": "f"
+   },
+   {
+    "id": "Ad",
+    "tag": "Ad",
+    "name": "Ada",
+    "gender": "f"
+   },
+   {
+    "id": "Ma",
+    "tag": "Ma",
+    "name": "Marian",
+    "gender": "f"
+   },
+   {
+    "id": "Pe",
+    "tag": "Pe",
+    "name": "Peggy",
+    "gender": "f"
+   },
+   {
+    "id": "Ch",
+    "tag": "Ch",
+    "name": "Sr. Church",
+    "gender": "m",
+    "article": "el",
+    "groups": [
+     "servicio"
+    ]
+   },
+   {
+    "id": "Ba",
+    "tag": "Ba",
+    "name": "Sra. Bauer",
+    "gender": "f",
+    "article": "la",
+    "groups": [
+     "servicio"
+    ]
+   },
+   {
+    "id": "Tu",
+    "tag": "Tu",
+    "name": "Turner",
+    "gender": "f"
+   }
+  ],
+  "roomsHint": "Salón de baile, Comedor, Cocinas, Escalera de servicio, Biblioteca, Recibidor, Invernadero, Casa de Agnes, Tocador de Bertha",
+  "rules": [
+   {
+    "t": "zoneOnly",
+    "rooms": [
+     "<Cocinas>",
+     "<Escalera de servicio>"
+    ],
+    "group": "servicio"
+   }
+  ],
+  "groups": {
+   "servicio": {
+    "label": "Servicio",
+    "one": "alguien del servicio",
+    "many": "los del servicio",
+    "color": "#55606e"
+   }
+  },
+  "note": "Turner, la antigua doncella de Bertha que volvió casada y con ganas de hundirla. Bertha Russell es la culpable. Tanto Bertha como el resto saben quién es Turner: es la invitada que nadie invitó."
+ }
+]

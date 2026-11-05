@@ -118,6 +118,7 @@ export function factsFor(p: Puzzle, k: number, pos: number[]): Fact[] {
         add([{ t: 'withGender', g: 'f' }], 2, 5, 'withGender');
         add([{ t: 'withGender', g: 'm' }], 2, 5, 'withGender');
       }
+      for (const key of Object.keys(p.groups)) add([{ t: 'withGroup', group: key }], 2, 6, 'withGroup');
       if (companions.length >= 1) add([{ t: 'roomCount', n: companions.length + 1 }], 3, 3, 'roomCount');
       for (const o of Object.keys(p.objects)) {
         add([{ t: 'withSomeoneOn', obj: o }], 3, 4, 'withSomeoneOn');
@@ -145,6 +146,8 @@ export function factsFor(p: Puzzle, k: number, pos: number[]): Fact[] {
   }
   // Habitaciones vacías (testimonio)
   p.rooms.forEach((R) => {
+    // Si la zona vacía ya la dice una regla del caso, repetirla como pista no aporta nada.
+    if (p.rules.some((rl) => rl.t === 'zoneCount' && rl.n === 0 && rl.room === R.key)) return;
     if (!pos.some((q) => p.cells[q].room === R.id)) add([{ t: 'roomEmpty', room: R.key }], 3, 2, 'roomEmpty');
   });
 

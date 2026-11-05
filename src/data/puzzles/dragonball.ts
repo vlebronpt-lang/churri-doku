@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'dragonball',
-  num: 8,
+  num: 16,
   level: 2,
   franchise: 'Dragon Ball',
   title: '¡Han matado a Krilin!',

@@ -1,0 +1,37 @@
+{
+ "motives": {
+  "Vi": "Silco se quedó con todo lo de Vander, le arrebató a su hermana pequeña y dejó que Vi se pudriera años en la cárcel. Al salir, tenía muy claro a quién pasarle la factura.",
+  "Ji": "Silco crio a Jinx, le decía que era perfecta y le encargaba los trabajos más sucios, pero ella quería una familia y no un jefe. Esta vez decidió Jinx qué le pasaba a él.",
+  "Ek": "El brillo de Silco se llevaba por delante a críos de Zaun mientras él se hacía el padre de la patria. Ekko y sus Luciérnagas estaban hartos de recoger los pedazos.",
+  "Se": "Sevika entregó un brazo y media vida a Silco, y a cambio solo recibió órdenes y pocas gracias. Hay deudas que se cobran cuando el deudor menos se lo espera.",
+  "Vk": "Viktor quería usar la ciencia para curar a la gente de Zaun, y Silco la quería de arma. Cada gota de brillo vendida era un insulto a su trabajo.",
+  "Ca": "Caitlyn llevaba meses siguiendo el rastro del brillo de Silco por Piltover sin poder echarle el guante. Un día se le agotó la paciencia de agente de la ley.",
+  "Ja": "Silco quería armar a su gente con los cristales hextech. Jayce solo pretendía inventar cosas bonitas, no verlas en manos de un mafioso.",
+  "He": "Heimerdinger llevaba décadas advirtiendo al Consejo de que Zaun acabaría explotando, y Silco era justo el peligro que había anunciado. Hay problemas que un yordle prefiere resolver a tiempo.",
+  "Me": "Mel se esforzaba en el Consejo por mantener el equilibrio entre las dos ciudades, y Silco lo tenía siempre en la cuerda floja. A veces, para cambiar el tablero, hay que quitar una pieza."
+ },
+ "grudges": {
+  "Vi": "Silco se llevó a Vander y le arrebató a su hermana pequeña mientras ella se pudría años en la cárcel.",
+  "Ji": "Silco la acogió y la crio, pero también la convirtió en su arma más temida, y ella siempre quiso ser algo más que eso.",
+  "Ek": "Su brillo estaba envenenando a la gente de Zaun, y los Luciérnagas, que cuidaban de los críos de la calle, llevaban tiempo viéndolo.",
+  "Se": "Era su mano derecha desde hacía años, había dejado un brazo por el camino y él no se lo reconocía como debía.",
+  "Vk": "Silco quería convertir la ciencia en un arma, justo lo contrario de lo que él buscaba con sus experimentos para curar a la gente.",
+  "Ca": "Llevaba tiempo siguiendo el rastro del brillo por toda Piltover, y Silco siempre se le escapaba entre los dedos.",
+  "Ja": "El rey de Zaun andaba tras los cristales hextech que él fabricaba, y no le hacía ninguna gracia ver su invento en manos de matones.",
+  "He": "Había avisado al Consejo de que Zaun acabaría estallando, y consideraba a Silco una amenaza directa para la paz entre las dos ciudades.",
+  "Me": "El negocio de Silco amenazaba el comercio y el delicado equilibrio entre Piltover y Zaun, que era justo lo que ella intentaba proteger."
+ },
+ "looks": {
+  "Vi": "Vi from Arcane: tall muscular young woman with short pink hair shaved on one side, a scarred face, tattoos on her arms, a sleeveless dark jacket and huge steel gauntlets, a tough but weary look.",
+  "Ji": "Jinx from Arcane: slim young woman with extremely long blue braids that trail to the floor, pale skin, pink eyes, cloud-shaped tattoos on her arms, a ragged black and pink outfit with an ammo belt and a manic grin.",
+  "Ek": "Ekko from Arcane: young Black man with white hair in short twists, protective goggles pushed up on his forehead, a worn hooded jacket with straps and a confident, scrappy look.",
+  "Se": "Sevika from Arcane: tall powerful woman with short dark hair pulled back, a stern scarred face, a chunky mechanical prosthetic arm and a dark leather outfit, hard cold stare.",
+  "Vk": "Viktor from Arcane: thin pale man with short dark hair and a tired gentle face, a leg brace and a cane, a scientist's work coat over dark clothes.",
+  "Ca": "Caitlyn from Arcane: young woman with long straight dark navy-blue hair, a determined expression, a tailored dark blue Piltover enforcer uniform with gold details and a small blue hat.",
+  "Ja": "Jayce from Arcane: tall young man with short dark brown hair and light stubble, an inventor's white shirt and brown vest with rolled sleeves, a determined look.",
+  "He": "Heimerdinger from Arcane: a short furry yordle with a big bushy white moustache and eyebrows, large pointed ears, a long academic coat and councilor's robe, a wise scatterbrained look.",
+  "Me": "Mel Medarda from Arcane: elegant young dark-skinned woman with thin golden tattoos on her face, dark hair adorned with gold, an ornate golden and white councilor's gown with a gilded shoulder piece, a calm calculating gaze.",
+  "Si": "Silco from Arcane: gaunt man with slicked-back dark hair, a deep scar running down one side of his face over a pale damaged eye, a long dark coat and black gloves, calm menacing smile."
+ },
+ "cover": "The smoky bar of the Last Drop in Zaun, dim green and amber lamps, a long worn wooden counter with bottles and glowing purple shimmer vials, with the lights of Piltover shining far above through the haze, no characters and no text."
+}

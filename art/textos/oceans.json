@@ -1,0 +1,37 @@
+{
+ "motives": {
+  "Da": "Mientras Danny estaba a la sombra, Benedict se quedó con Tess, su exmujer, y encima la paseaba del brazo delante de medio Las Vegas. Danny salió de la cárcel con un plan, un equipo y una cuenta pendiente.",
+  "Ru": "Benedict tenía tres casinos en Las Vegas y no sabía ni lo que es una buena partida de póker. Rusty, que enseña a jugar a estrellitas de la tele entre bocado y bocado, no soportaba a un anfitrión así.",
+  "Li": "Benedict miraba a Linus por encima del hombro, como todo el que sabe que es hijo de una leyenda del gremio. Linus quería demostrar que también sabía vaciar bolsillos, y la cartera de Benedict era la más abultada de la ciudad.",
+  "Ba": "Cableado, cerraduras, sensores: Benedict lo blindó todo, y para Basher, que vive de hacer saltar cosas por los aires, eso era una provocación. Cuando algo está tan bien guardado, le pica el dedo del detonador.",
+  "Sa": "Benedict se creía el rey de Las Vegas porque nunca se había topado con un viejo zorro como Saul, que lleva décadas estafando a gente lista y no iba a dejar que un jovenzuelo con corbata le diera lecciones.",
+  "Ye": "Benedict iba presumiendo de que a su dinero no se llegaba ni por una rendija. Yen, que se mete por donde otros ni miran, no soporta que le digan que algo es imposible.",
+  "Lv": "Benedict confiaba a ciegas en sus cámaras y monitores, y Livingston sabe de sobra lo fácil que es engañarlos. Tantas horas pegado a una pantalla por culpa de un tipo así acaban pasando factura.",
+  "Fr": "A sueldo de Benedict, Frank repartía cartas sin descanso mientras el jefe se llenaba los bolsillos con un dinero que él nunca vería. Reparte con la mejor sonrisa, pero su paciencia es limitada y Benedict la agotó.",
+  "Te": "Benedict trataba a Tess como a una pieza más de su colección: bonita, cara y siempre detrás de un cristal. Ella aguantó lo que pudo, pero no estaba hecha para adornar la pared de nadie."
+ },
+ "grudges": {
+  "Da": "Mientras él estaba en prisión, Benedict se quedó con su exmujer y la exhibía sin pudor.",
+  "Ru": "Benedict se burlaba de que se ganara la vida enseñando póker a estrellitas de la tele.",
+  "Li": "Lo trataba con desdén, como a un aprendiz que nunca llegaría al nivel de su padre, una leyenda del gremio.",
+  "Ba": "Benedict se había gastado una fortuna en sistemas de seguridad que ofendían a un experto en explosivos.",
+  "Sa": "Benedict se tomaba por el más listo de Las Vegas y le daba lecciones a un veterano de mil timos.",
+  "Ye": "Benedict presumía de que a su dinero no había forma humana de llegar, y a un acróbata eso le sonaba a reto.",
+  "Lv": "La manía de Benedict de vigilarlo todo con pantallas y cámaras ponía de los nervios a quien tenía que mirarlas.",
+  "Fr": "Lo hacía trabajar sin descanso como crupier mientras el dinero de la casa se amontonaba.",
+  "Te": "La trataba como a un objeto más de su colección, para exhibir y para guardar."
+ },
+ "looks": {
+  "Da": "Danny Ocean from Ocean's Eleven (2001): charming man in his forties, short dark hair with a touch of grey, clean shaven, a dark tailored suit with an open-collar shirt and a confident half-smile.",
+  "Ru": "Rusty Ryan from Ocean's Eleven (2001): handsome man in his late thirties, tousled light brown hair, stubble, a relaxed blazer over an open shirt, casually eating something from his hand.",
+  "Li": "Linus Caldwell from Ocean's Eleven (2001): young man in his twenties, neatly combed short brown hair, fresh boyish face, clean shaven, an eager expression, an ordinary casual jacket over a collared shirt.",
+  "Ba": "Basher Tarr from Ocean's Eleven (2001): slim Black man in his thirties, short dark hair, small goatee, a scruffy casual jacket, a cheeky look and a small detonator in his hand.",
+  "Sa": "Saul Bloom from Ocean's Eleven (2001): elderly man in his seventies, thinning white hair, white moustache and short white beard, small round glasses, a smart grey suit with a bow tie, dignified and slightly mischievous.",
+  "Ye": "Yen from Ocean's Eleven (2001): compact and wiry Chinese acrobat in his thirties, short black hair, clean shaven, a tight dark sports top and trousers, springy and playful posture.",
+  "Lv": "Livingston Dell from Ocean's Eleven (2001): thin nervous man in his thirties, short messy light brown hair, patchy stubble, wide worried eyes, a rumpled shirt and tie, headphones around his neck.",
+  "Fr": "Frank Catton from Ocean's Eleven (2001): tall lean Black man in his forties, short hair, a thin moustache, a black casino dealer vest over a white shirt with a bow tie, a deck of cards in one hand, a cheerful grin.",
+  "Te": "Tess Ocean from Ocean's Eleven (2001): elegant woman in her thirties, long wavy auburn hair, warm wide smile, a sleek cream evening dress and delicate jewellery, graceful and poised.",
+  "TB": "Terry Benedict from Ocean's Eleven (2001): sleek casino owner in his forties, slicked-back black hair, a thin neat moustache and goatee, an immaculate dark Italian suit with a silk tie, cold calculating stare."
+ },
+ "cover": "The glittering lobby of a luxury Las Vegas casino at night with dancing water fountains outside, a gleaming round steel vault door half open in the foreground and stacks of casino chips on a green roulette table, no characters and no text."
+}

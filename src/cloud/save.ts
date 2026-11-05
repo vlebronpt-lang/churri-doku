@@ -7,7 +7,7 @@ import { decodeProgress, packValue } from '../share';
 
 export interface SaveData {
   v: 1;
-  /** Progreso de cada caso (los 25, los del día, el tutorial y las lecciones). */
+  /** Progreso de cada caso (los de las temporadas, los del día, el tutorial y las lecciones). */
   p: Record<string, CaseProgress>;
   /** Logros conseguidos: id → fecha. */
   a: Record<string, number>;

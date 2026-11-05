@@ -1,0 +1,37 @@
+{
+ "motives": {
+  "Rh": "Ser Criston, su escudo juramentado, se pasó a los Verdes para apoyar la corona de Aegon, que le correspondía a Rhaenyra. No iba a dejarlo pasear por la Fortaleza Roja.",
+  "Da": "Ser Criston se puso del lado de Aegon y los Hightower para negarle el trono a Rhaenyra, y Daemon no tolera que le roben a su esposa lo que le prometió su padre.",
+  "Ry": "Rhaenys se quedó sin el trono por ser mujer, y a ser Criston le pareció natural aplaudir que volviera a irse a un varón. Toda una vida de paciencia no da para tanto.",
+  "Co": "Ser Criston mató a Joffrey Lonmouth, el amor de Laenor, delante de media corte y sin una disculpa. La Serpiente Marina no olvida un agravio a su sangre.",
+  "Al": "Ser Criston empujó a Alicent y a toda la corte a una guerra que ella no quería, y no pensaba verlo sonreír mientras sus hijos pagaban la factura.",
+  "Ot": "Ser Criston le birló a Otto el puesto de Mano del Rey con la bendición de Aegon y su resaca. Un Hightower sabe cuándo deshacerse de una pieza que se cree el jugador.",
+  "Ae": "Ser Criston trataba a Aegon como a un crío al que hay que decirle qué hacer, cuándo beber y cuándo sentarse en el Trono de Hierro. El rey estaba harto de que mandase otro.",
+  "Am": "Ser Criston se creía maestro de Aemond y no dejaba de dar órdenes a un príncipe que monta a Vhagar. Aemond prefirió el fuego a la obediencia.",
+  "He": "Ser Criston se reía de los sueños y presagios de Helaena, y luego todo lo que ella veía acababa pasando. Hay cosas que una Targaryen ve y los demás se niegan a creer."
+ },
+ "grudges": {
+  "Rh": "Criston había sido su escudo juramentado y, tras ser rechazado, se pasó a los Verdes y apoyó la corona de su hermanastro Aegon.",
+  "Da": "Criston se había puesto del lado de los Hightower para negarle el trono a su esposa Rhaenyra.",
+  "Ry": "Criston aplaudía que el trono fuera a un varón, y ella ya era la reina que nunca fue.",
+  "Co": "Criston había matado a Joffrey Lonmouth, el amor de su hijo Laenor, durante la boda y a la vista de toda la corte.",
+  "Al": "Criston la empujaba a ella y a toda la corte hacia una guerra que la reina no deseaba.",
+  "Ot": "Criston le había quitado el puesto de Mano del Rey tras años de consejos que nadie le había agradecido.",
+  "Ae": "Criston lo trataba como a un chiquillo al que hubiera que decirle cuándo beber y cuándo sentarse en el trono.",
+  "Am": "Criston se creía su maestro y no paraba de darle órdenes, aunque el príncipe montara a Vhagar.",
+  "He": "Criston se burlaba de sus sueños y presagios, que luego siempre acababan cumpliéndose."
+ },
+ "looks": {
+  "Rh": "Rhaenyra Targaryen from House of the Dragon: a woman in her 30s, long silver-white braided hair, violet eyes, regal and tired expression, wearing a black dress with red dragon embroidery and a slender silver circlet.",
+  "Da": "Daemon Targaryen from House of the Dragon: a man in his 40s, long straight silver-blond hair, violet eyes, a sly smirk, short stubble, wearing black leather and a dark cloak with a sword at his hip.",
+  "Ry": "Rhaenys Targaryen, the Queen Who Never Was, from House of the Dragon: a dignified woman in her 50s, silver-white hair in an elaborate braid, violet eyes, stern composed face, wearing a long dark teal gown with silver dragon details.",
+  "Co": "Lord Corlys Velaryon, the Sea Snake, from House of the Dragon: a stern Black man in his 60s, long silver-white braids, a trimmed white beard, a teal and silver embroidered tunic with a sea-horse emblem.",
+  "Al": "Queen Alicent Hightower from House of the Dragon: a woman in her 30s, long dark brown hair pulled back under a green crown, pale serious face, wearing a high-collared emerald green gown with gold details.",
+  "Ot": "Ser Otto Hightower from House of the Dragon: a tall thin man in his 50s, short grey hair, a short pointed grey beard, dark brown eyes (not violet), a shrewd calculating look, a long dark robe and the gold chain of the Hand of the King.",
+  "Ae": "King Aegon II Targaryen from House of the Dragon: a sullen man in his 20s, long silver-blond hair, violet eyes, a tired dissolute expression, wearing a green and black velvet doublet and a golden crown.",
+  "Am": "Prince Aemond Targaryen from House of the Dragon: a lean man in his 20s, long silver-blond hair, one violet eye and a black eyepatch over the other with a scar across it, wearing black leather and green accents.",
+  "He": "Queen Helaena Targaryen from House of the Dragon: a pale delicate woman in her 20s, long silver-blond hair worn loose, dreamy distant violet eyes, wearing a flowing pale green gown with a small crown.",
+  "Cr": "Ser Criston Cole from House of the Dragon: a broad-shouldered man in his 30s, dark curly hair, dark stubble, a stern face, the white scale armour and white cloak of the Kingsguard."
+ },
+ "cover": "A grand throne room inside a vast dark stone castle, with the Iron Throne of a thousand swords rising on its dais at the end of a long red carpet, green and black banners hanging from the pillars, and a distant glimpse of a huge round dragon pit under a stormy red sky."
+}

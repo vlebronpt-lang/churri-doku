@@ -83,7 +83,7 @@ const puzzle: PuzzleInput = {
     { id: 'G', tag: 'G', name: 'Gato con Botas', article: 'el', gender: 'm', nonhuman: true, clues: [] },
     { id: 'J', tag: 'J', name: 'Jengi', gender: 'm', nonhuman: true, clues: [] },
     { id: 'P', tag: 'P', name: 'Pinocho', gender: 'm', nonhuman: true, clues: [] },
-    { id: 'H', tag: 'H', name: 'Hada Madrina', article: 'la', gender: 'f', clues: [] },
+    { id: 'H', tag: 'H', name: 'Hada Madrina', article: 'el', gender: 'f', clues: [] },
     { id: 'LF', tag: 'LF', name: 'Lord Farquaad', gender: 'm', victim: true, clues: [] },
   ],
   // <gen> (generado por scripts/gen.ts; se puede retocar a mano y validar con scripts/validate.ts)

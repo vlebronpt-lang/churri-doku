@@ -315,7 +315,9 @@ export function renderBoard(p: Puzzle, opts: BoardOpts = {}): string {
       if (!cells.length) return [];
       const rowsOf = cells.map((i) => Math.floor(i / s));
       const minR = Math.min(...rowsOf), maxR = Math.max(...rowsOf);
-      const text = room.name.toUpperCase();
+      // Las reglas de la zona van en su rótulo: «CRIPTA · SOLO STARK», «TERRAZA · VACÍA».
+      const note = zoneNote(p, room);
+      const text = (note ? `${room.name} · ${note}` : room.name).toUpperCase();
       const out: Cand[] = [];
       const scan = (r: number, bottom: boolean) => {
         const row = cells.filter((i) => Math.floor(i / s) === r).map((i) => i % s).sort((a, b) => a - b);
@@ -339,9 +341,12 @@ export function renderBoard(p: Puzzle, opts: BoardOpts = {}): string {
               const w = Math.max(words.slice(0, q).join(' ').length, words.slice(q).join(' ').length);
               if (w < bestW) { bestW = w; bestSplit = q; }
             }
-            const two = [words.slice(0, bestSplit).join(' '), words.slice(bestSplit).join(' ')];
+            // Si la zona lleva nota, el corte va justo ahí: el nombre arriba y la nota debajo.
+            const two = note
+              ? [room.name.toUpperCase(), note.toUpperCase()]
+              : [words.slice(0, bestSplit).join(' '), words.slice(bestSplit).join(' ')];
             const size2 = Math.min(fit(two[0]), fit(two[1]));
-            if (size2 > size + 2) { lines = two; size = size2; }
+            if (size2 > size + 2 || note) { lines = two; size = size2; }
           }
           size = Math.max(11, size);
           const cx = X(c0) + (len * CELL) / 2;
@@ -410,6 +415,19 @@ export function renderBoard(p: Puzzle, opts: BoardOpts = {}): string {
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><defs>${defs.join('')}</defs>${parts.join('')}</svg>`;
+}
+
+/** Lo que dicen las reglas del caso sobre una zona, en pocas palabras (para su rótulo en el plano). */
+export function zoneNote(p: Puzzle, room: Puzzle['rooms'][number]): string {
+  const notes: string[] = [];
+  for (const rule of p.rules) {
+    if (rule.t === 'zoneOnly' && rule.rooms.includes(room.key)) notes.push(`solo ${p.groups[rule.group].only ?? p.groups[rule.group].label}`);
+    if (rule.t === 'zoneCount' && rule.room === room.key) {
+      const empty = { el: 'vacío', la: 'vacía', los: 'vacíos', las: 'vacías', '': 'vacía' }[room.article];
+      notes.push(rule.n === 0 ? empty : rule.n === 1 ? '1 persona' : `${rule.n} personas`);
+    }
+  }
+  return notes.join(' · ');
 }
 
 export function escapeXml(t: string) {

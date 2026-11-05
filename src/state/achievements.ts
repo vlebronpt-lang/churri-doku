@@ -47,10 +47,10 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: `temporada-${lv}`,
     icon: ['🌱', '🌿', '🌳', '🔥', '👑'][lv - 1],
     title: `Temporada ${lv} completa`,
-    desc: `Resuelve los 5 casos de la temporada ${lv}.`,
+    desc: `Resuelve todos los casos de la temporada ${lv}.`,
     test: (c) => c.regular.filter((r) => r.level === lv).every((r) => isSolved(r.p)),
   })),
-  { id: 'todos', icon: '🏛️', title: 'Comisaría al completo', desc: 'Resuelve los 25 casos.', test: (c) => c.regular.every((r) => isSolved(r.p)) },
+  { id: 'todos', icon: '🏛️', title: 'Comisaría al completo', desc: 'Resuelve todos los casos.', test: (c) => c.regular.every((r) => isSolved(r.p)) },
   { id: 'sin-pistas', icon: '🧠', title: 'Sin ayuda', desc: 'Resuelve un caso sin pedir ninguna pista.', test: (c) => c.solved.some((p) => p.solved && p.hints === 0) },
   { id: 'perfecto', icon: '⭐', title: 'Caso perfecto', desc: 'Consigue 3 estrellas: sin pistas, sin errores y sin revisar.', test: (c) => c.solved.some((p) => (p.stars ?? 0) >= 3) },
   { id: 'diez-perfectos', icon: '🌟', title: 'Diez de diez', desc: 'Consigue 3 estrellas en 10 casos.', test: (c) => c.solved.filter((p) => (p.stars ?? 0) >= 3).length >= 10 },
@@ -106,7 +106,7 @@ export function checkAchievements(store: Store): Achievement[] {
   const ctx: Ctx = {
     store,
     events,
-    // Solo partidas de verdad (los 25 casos y los del día): el tutorial y las lecciones no cuentan.
+    // Solo partidas de verdad (los casos y los del día): el tutorial y las lecciones no cuentan.
     solved: Object.entries(store).filter(([k, p]) => isSolved(p) && k !== 'tutorial' && !k.startsWith('lesson-')).map(([, p]) => p),
     regular: PUZZLES.map((p) => ({ level: p.level, p: store[p.id] })),
   };

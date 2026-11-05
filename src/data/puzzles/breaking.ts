@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'breaking',
-  num: 11,
+  num: 27,
   level: 3,
   franchise: 'Breaking Bad',
   title: 'La campanilla de Héctor',

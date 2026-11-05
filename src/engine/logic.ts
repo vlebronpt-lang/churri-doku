@@ -1,15 +1,16 @@
 import { besideGroups, castIndex, cellHas, isUnary, offsetOk, pairOk, unaryDomain, unaryOk } from './clues';
 import { geo, type Geo } from './puzzle';
-import { clueText, numF, objIndef, roomPhrase, withPrep } from './text';
-import type { Clue, Puzzle } from './types';
+import { anyRuleForbids, inGroup, onObject, ruleForbids, rulesHold } from './rules';
+import { clueText, numF, objIndef, roomPhrase, ruleText, withPrep } from './text';
+import type { CaseRule, Clue, Puzzle } from './types';
 
 export type TechId =
   | 'single' | 'rowSingle' | 'colSingle' | 'cellForcedRow' | 'cellForcedCol'
-  | 'pointing' | 'relation' | 'room' | 'subset' | 'trial';
+  | 'pointing' | 'relation' | 'room' | 'subset' | 'trial' | 'rule';
 
 export const TECH_LEVEL: Record<TechId, number> = {
   single: 1, rowSingle: 1, colSingle: 1, cellForcedRow: 2, cellForcedCol: 2,
-  pointing: 2, relation: 2, room: 3, subset: 4, trial: 6,
+  pointing: 2, relation: 2, room: 3, subset: 4, trial: 6, rule: 3,
 };
 
 export interface Focus {
@@ -259,7 +260,8 @@ function describeCells(ctx: Ctx, cells: number[]): string {
 }
 
 /** Por qué una casilla ya no vale para k: la fila o la columna de alguien colocado, que ya no vale para nadie u otra pista. */
-function whyNot(ctx: Ctx, st: LState, k: number, q: number): { kind: 'row' | 'col' | 'nobody' | 'other'; j: number } {
+function whyNot(ctx: Ctx, st: LState, k: number, q: number): { kind: 'row' | 'col' | 'nobody' | 'other' | 'rule'; j: number } {
+  if (anyRuleForbids(ctx.p, k, q)) return { kind: 'rule', j: -1 };
   for (let j = 0; j < ctx.n; j++) {
     if (j === k || st.placed[j] < 0) continue;
     if (ctx.rowOf(st.placed[j]) === ctx.rowOf(q)) return { kind: 'row', j };
@@ -275,12 +277,14 @@ function whyNotText(ctx: Ctx, st: LState, k: number, qs: number[]): string {
   const byCol = new Map<number, number[]>();
   const nobody: number[] = [];
   const other: number[] = [];
+  const byRule: number[] = [];
   const add = (m: Map<number, number[]>, j: number, q: number) => (m.get(j) ?? m.set(j, []).get(j)!).push(q);
   for (const q of qs) {
     const w = whyNot(ctx, st, k, q);
     if (w.kind === 'row') add(byRow, w.j, q);
     else if (w.kind === 'col') add(byCol, w.j, q);
     else if (w.kind === 'nobody') nobody.push(q);
+    else if (w.kind === 'rule') byRule.push(q);
     else other.push(q);
   }
   const are = (l: number[]) => (l.length === 1 ? 'está' : 'están');
@@ -290,6 +294,7 @@ function whyNotText(ctx: Ctx, st: LState, k: number, qs: number[]): string {
     if (inLine) parts.push(`${inLine} ${inLine === 1 ? 'está en una fila o columna que ya tiene' : 'están en filas o columnas que ya tienen'} a alguien`);
     if (nobody.length) parts.push(`${nobody.length} ya no ${nobody.length === 1 ? 'vale' : 'valen'} para nadie`);
     if (other.length) parts.push(`${other.length} ${other.length === 1 ? 'la' : 'las'} descartan otras pistas`);
+    if (byRule.length) parts.push(`${byRule.length} ${byRule.length === 1 ? 'la' : 'las'} descartan las reglas del caso`);
     return joinY(parts);
   }
   const parts: string[] = [];
@@ -297,6 +302,7 @@ function whyNotText(ctx: Ctx, st: LState, k: number, qs: number[]): string {
   for (const [j, l] of byCol) parts.push(`${ctx.enum(l)} ${are(l)} en la columna ${ctx.de(j)}`);
   if (nobody.length) parts.push(`${ctx.enum(nobody)} ya no ${nobody.length === 1 ? 'vale' : 'valen'} para nadie`);
   if (other.length) parts.push(`${ctx.enum(other)} ${other.length === 1 ? 'la' : 'las'} descartan otras pistas`);
+  if (byRule.length) parts.push(`${ctx.enum(byRule)} ${byRule.length === 1 ? 'la' : 'las'} descartan las reglas del caso`);
   return joinY(parts);
 }
 
@@ -324,6 +330,104 @@ function possibleIn(ctx: Ctx, st: LState, j: number, R: number, ex: number, cond
   return false;
 }
 
+/** Líneas (filas o columnas) en las que ya no cabe nadie y que no tienen a nadie colocado. */
+function deadLines(ctx: Ctx, st: LState, axis: 'row' | 'col'): number[] {
+  const lineOf = axis === 'row' ? ctx.rowOf : ctx.colOf;
+  const alive = new Uint8Array(ctx.s);
+  for (let k = 0; k < ctx.n; k++) {
+    if (st.placed[k] >= 0) { alive[lineOf(st.placed[k])] = 1; continue; }
+    const a = st.cand[k];
+    for (let i = 0; i < a.length; i++) if (a[i]) alive[lineOf(i)] = 1;
+  }
+  const out: number[] = [];
+  for (let l = 0; l < ctx.s; l++) if (!alive[l]) out.push(l);
+  return out;
+}
+
+/**
+ * Si el plano es más grande que el reparto, sobran filas y columnas: en una línea solo «tiene que haber alguien»
+ * cuando ya se sabe cuáles se quedan vacías. Devuelve esas líneas vacías, o null si aún no se sabe.
+ */
+function knownEmptyLines(ctx: Ctx, st: LState, axis: 'row' | 'col'): number[] | null {
+  const dead = deadLines(ctx, st, axis);
+  return dead.length === ctx.s - ctx.n ? dead : null;
+}
+
+/** Personas seguras dentro de un grupo de casillas y personas que todavía pueden estar en él. */
+function regionPeople(ctx: Ctx, st: LState, cells: number[]) {
+  const inside = new Uint8Array(ctx.s * ctx.s);
+  for (const q of cells) inside[q] = 1;
+  const certain: number[] = [];
+  const possible: number[] = [];
+  for (let k = 0; k < ctx.n; k++) {
+    const C = list(st.cand[k]);
+    if (C.some((q) => inside[q])) possible.push(k);
+    if (C.length && C.every((q) => inside[q])) certain.push(k);
+  }
+  return { certain, possible, inside };
+}
+
+const objCells = (ctx: Ctx, obj: string) => ctx.p.cells.filter((c) => onObject(ctx.p, c.i, obj)).map((c) => c.i);
+
+/** ¿El estado ya incumple esta regla? */
+function ruleContradiction(ctx: Ctx, st: LState, rule: CaseRule): string | null {
+  const { p, g, n } = ctx;
+  const roomName = (R: number) => roomPhrase(p.rooms[R], '');
+  switch (rule.t) {
+    case 'zoneCount': {
+      const R = p.roomByKey[rule.room];
+      const { certain, possible } = regionPeople(ctx, st, g.roomCells[R]);
+      if (certain.length > rule.n) return `en ${roomName(R)} habría demasiada gente`;
+      if (possible.length < rule.n) return `en ${roomName(R)} no cabría tanta gente`;
+      return null;
+    }
+    case 'objCount': {
+      const { certain, possible } = regionPeople(ctx, st, objCells(ctx, rule.obj));
+      const o = p.objects[rule.obj];
+      if (certain.length > rule.n) return `habría demasiada gente en ${o.plural}`;
+      if (possible.length < rule.n) return `no habría suficiente gente en ${o.plural}`;
+      return null;
+    }
+    case 'emptyZones': {
+      let occupied = 0, empty = 0;
+      for (const R of p.rooms) {
+        const { certain, possible } = regionPeople(ctx, st, g.roomCells[R.id]);
+        if (certain.length) occupied++;
+        if (!possible.length) empty++;
+      }
+      if (empty > rule.n) return 'habría demasiadas zonas vacías';
+      if (occupied > p.rooms.length - rule.n) return 'no quedarían zonas vacías suficientes';
+      return null;
+    }
+    case 'zoneHasGroup':
+      for (const rk of rule.rooms) {
+        const R = p.roomByKey[rk];
+        const { possible } = regionPeople(ctx, st, g.roomCells[R]);
+        if (!possible.some((k) => inGroup(p.cast[k], rule.group))) return `en ${roomName(R)} no podría haber ${p.groups[rule.group].one}`;
+      }
+      return null;
+    case 'groupsApart':
+      for (let a = 0; a < n; a++) {
+        if (!inGroup(p.cast[a], rule.a)) continue;
+        const Ra = certainRoom(ctx, st, a);
+        if (Ra < 0) continue;
+        for (let b = 0; b < n; b++) if (inGroup(p.cast[b], rule.b) && certainRoom(ctx, st, b) === Ra) return `${ctx.name(a)} y ${ctx.name(b)} compartirían zona`;
+      }
+      return null;
+    case 'noZoneWith':
+      if (rule.n !== 1) return null;
+      for (let k = 0; k < n; k++) {
+        const R = certainRoom(ctx, st, k);
+        if (R < 0) continue;
+        const { possible } = regionPeople(ctx, st, g.roomCells[R]);
+        if (possible.length === 1) return `${ctx.name(k)} estaría a solas en ${roomName(R)}`;
+      }
+      return null;
+    default:
+      return null;
+  }
+}
+
 /** Contradicción evidente en el estado: devuelve la explicación o null. */
 export function contradiction(c: Ctx | Puzzle, st: LState): string | null {
   const ctx = 'rels' in c ? c : makeCtx(c);
@@ -337,24 +441,15 @@ export function contradiction(c: Ctx | Puzzle, st: LState): string | null {
     rowsTaken[ctx.rowOf(i)] = 1;
     colsTaken[ctx.colOf(i)] = 1;
   }
-  for (let r = 0; r < s; r++) {
-    if (rowsTaken[r]) continue;
-    let any = false;
-    for (let k = 0; k < n && !any; k++) {
-      if (st.placed[k] >= 0) continue;
-      for (let c2 = 0; c2 < s; c2++) if (st.cand[k][r * s + c2]) { any = true; break; }
-    }
-    if (!any) return `nadie podría estar en la fila ${r + 1}`;
+  const spare = s - n;
+  const deadRows = deadLines(ctx, st, 'row'), deadCols = deadLines(ctx, st, 'col');
+  if (deadRows.length > spare) return spare ? 'no quedarían filas para todas las personas' : `nadie podría estar en la fila ${deadRows[0] + 1}`;
+  if (deadCols.length > spare) return spare ? 'no quedarían columnas para todas las personas' : `nadie podría estar en la columna ${deadCols[0] + 1}`;
+  for (const rule of ctx.p.rules) {
+    const why = ruleContradiction(ctx, st, rule);
+    if (why) return why;
   }
-  for (let c2 = 0; c2 < s; c2++) {
-    if (colsTaken[c2]) continue;
-    let any = false;
-    for (let k = 0; k < n && !any; k++) {
-      if (st.placed[k] >= 0) continue;
-      for (let r = 0; r < s; r++) if (st.cand[k][r * s + c2]) { any = true; break; }
-    }
-    if (!any) return `nadie podría estar en la columna ${c2 + 1}`;
-  }
+  if (ctx.p.rules.length && st.placed.every((x) => x >= 0) && !rulesHold(ctx.p, st.placed)) return 'no se cumplirían las reglas del caso';
   return null;
 }
 
@@ -398,6 +493,15 @@ function techSingle(ctx: Ctx, st: LState): Deduction | null {
   return null;
 }
 
+/** Por qué en esta línea tiene que haber alguien, y si es que no se sabe todavía, null. */
+function lineWhy(ctx: Ctx, st: LState, axis: 'row' | 'col', line: number): string | null {
+  const word = axis === 'row' ? 'fila' : 'columna';
+  if (ctx.n === ctx.s) return `En la ${word} ${line + 1} tiene que haber una persona, porque hay una en cada ${word}.`;
+  const empty = knownEmptyLines(ctx, st, axis);
+  if (!empty || empty.includes(line)) return null;
+  return `En la ${word} ${line + 1} tiene que haber una persona: las ${word}s que se quedan vacías ya se saben (${lineList(word, empty.map((l) => l + 1))}), y en todas las demás hay alguien.`;
+}
+
 function techLineSingle(ctx: Ctx, st: LState, axis: 'row' | 'col'): Deduction | null {
   const { s, n } = ctx;
   const taken = new Uint8Array(s);
@@ -426,7 +530,9 @@ function techLineSingle(ctx: Ctx, st: LState, axis: 'row' | 'col'): Deduction | 
     const ch = ctx.p.cast[k];
     const focus: Focus = { ...emptyFocus(), chars: [ch.id], cells: keep };
     if (axis === 'row') focus.rows = [line]; else focus.cols = [line];
-    const why = `En la ${word} ${line + 1} tiene que haber una persona, porque hay una en cada ${word}. De las que faltan por colocar, ${ctx.name(k)} es la única que puede estar en ella: las demás tienen todas sus casillas posibles en otras ${word}s.`;
+    const need = lineWhy(ctx, st, axis, line);
+    if (!need) continue;
+    const why = `${need} De las que faltan por colocar, ${ctx.name(k)} es la única que puede estar en ella: las demás tienen todas sus casillas posibles en otras ${word}s.`;
     const nudge = `¿Quién puede estar en la ${word} ${line + 1}? Mira sus casillas libres y las opciones de cada uno.`;
     if (keep.length === 1) {
       return {
@@ -463,10 +569,12 @@ function techCellForced(ctx: Ctx, st: LState, axis: 'row' | 'col'): Deduction | 
       }
     }
     if (cells.size !== 1) continue;
+    const need = lineWhy(ctx, st, axis, line);
+    if (!need) continue;
     const i = [...cells][0];
     const who: number[] = [];
     for (let k = 0; k < n; k++) if (st.placed[k] < 0 && st.cand[k][i]) who.push(k);
-    const why = `En la ${word} ${line + 1} tiene que haber una persona, pero solo queda una casilla de esa ${word} donde pueda estar alguien: ${ctx.label(i)}. Las demás tienen objetos en los que no se puede estar, ya no valen para nadie o caen en ${other}s que ya tienen a alguien.`;
+    const why = `${need.replace(/\.$/, '')}, pero solo queda una casilla de esa ${word} donde pueda estar alguien: ${ctx.label(i)}. Las demás tienen objetos en los que no se puede estar, ya no valen para nadie o caen en ${other}s que ya tienen a alguien.`;
     const nudge = `La ${word} ${line + 1} necesita a alguien. ¿En cuántas de sus casillas puede estar una persona?`;
     if (who.length === 1) {
       const k = who[0];
@@ -669,6 +777,7 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
     switch (clue.t) {
       case 'notAlone': need = () => true; needDesc = 'nadie más'; break;
       case 'withGender': need = (j) => p.cast[j].gender === clue.g; needDesc = clue.g === 'f' ? 'ninguna mujer' : 'ningún hombre'; break;
+      case 'withGroup': need = (j) => inGroup(p.cast[j], clue.group); needDesc = p.groups[clue.group].one; break;
       case 'withSomeoneOn': {
         const o = p.objects[clue.obj];
         const pose = o.pose === 'sit' ? 'sentado en ' : o.pose === 'lie' ? 'tumbado en ' : o.pose === 'ride' ? 'montado en ' : o.pose === 'on' ? 'sobre ' : 'en ';
@@ -716,7 +825,7 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
           else if (possible < want) { bad = true; reasons.add(`en ${roomName(R)} no cabría tanta gente`); }
           break;
         }
-        case 'notAlone': case 'withGender': case 'withSomeoneOn': case 'withSomeoneBeside': {
+        case 'notAlone': case 'withGender': case 'withGroup': case 'withSomeoneOn': case 'withSomeoneBeside': {
           let any = false;
           for (let j = 0; j < n && !any; j++) if (j !== k && possibleIn(ctx, st, j, R, i, (q) => need!(j, q))) any = true;
           if (!any) { bad = true; reasons.add(`en ${roomName(R)} no podría haber ${needDesc}`); }
@@ -817,7 +926,7 @@ function techRoom(ctx: Ctx, st: LState): Deduction | null {
         }
         break;
       }
-      case 'notAlone': case 'withGender': case 'withSomeoneOn': case 'withSomeoneBeside': {
+      case 'notAlone': case 'withGender': case 'withGroup': case 'withSomeoneOn': case 'withSomeoneBeside': {
         const possible = others.filter((j) => possibleIn(ctx, st, j, R, pk, (q) => need!(j, q)));
         if (possible.length === 1) {
           const j = possible[0];
@@ -886,7 +995,8 @@ function techSubset(ctx: Ctx, st: LState, maxSize: number): Deduction | null {
       }
       // Subconjunto "oculto": size líneas que solo pueden ocupar size personajes.
       const takenLines = new Set(free.length < n ? Array.from({ length: n }, (_, k) => k).filter((k) => st.placed[k] >= 0).map((k) => lineOf(st.placed[k])) : []);
-      const openLines = Array.from({ length: s }, (_, l) => l).filter((l) => !takenLines.has(l));
+      const emptyLines = n === s ? [] : knownEmptyLines(ctx, st, axis);
+      const openLines = emptyLines ? Array.from({ length: s }, (_, l) => l).filter((l) => !takenLines.has(l) && !emptyLines.includes(l)) : [];
       for (const lines of combos(openLines, size)) {
         const set = new Set(lines);
         const who = free.filter((k) => list(st.cand[k]).some((q) => set.has(lineOf(q))));
@@ -908,9 +1018,224 @@ function techSubset(ctx: Ctx, st: LState, maxSize: number): Deduction | null {
   return null;
 }
 
+/** Reglas que por sí solas sacan a alguien de unas casillas («solo los Stark en la Cripta», «nadie en la Terraza»). */
+function techRuleZones(ctx: Ctx, st: LState): Deduction | null {
+  const { p, n } = ctx;
+  for (const rule of p.rules) {
+    if (rule.t !== 'zoneOnly' && rule.t !== 'zoneCount' && rule.t !== 'objCount') continue;
+    const elim: [number, number][] = [];
+    for (let k = 0; k < n; k++) for (const i of list(st.cand[k])) if (ruleForbids(p, rule, k, i)) elim.push([k, i]);
+    if (!elim.length) continue;
+    const q = quote(ruleText(p, rule));
+    if (rule.t === 'zoneOnly') {
+      const rooms = rule.rooms.map((rk) => p.roomByKey[rk]);
+      const members = Array.from({ length: n }, (_, k) => k).filter((k) => inGroup(p.cast[k], rule.group));
+      const zone = joinY(rooms.map((R) => roomPhrase(p.rooms[R], '')));
+      return {
+        tech: 'rule', level: 1, elim,
+        text: `Regla del caso: ${q}. En este caso son ${joinY(members.map(ctx.name))}, así que nadie más puede estar en ${zone}.`,
+        nudge: `Lee las reglas del caso: ${q}. ¿Quién se queda fuera de ${zone}?`,
+        focus: { ...emptyFocus(), rooms, chars: members.map((k) => p.cast[k].id) },
+      };
+    }
+    if (rule.t === 'zoneCount') {
+      const R = p.roomByKey[rule.room];
+      return {
+        tech: 'rule', level: 1, elim,
+        text: `Regla del caso: ${q}. Ninguna de sus casillas vale para nadie.`,
+        nudge: `Lee las reglas del caso: ${q}. ¿Qué casillas puedes descartar?`,
+        focus: { ...emptyFocus(), rooms: [R] },
+      };
+    }
+    return {
+      tech: 'rule', level: 1, elim,
+      text: `Regla del caso: ${q}. Nadie puede estar en esas casillas.`,
+      nudge: `Lee las reglas del caso: ${q}. ¿Qué casillas puedes descartar?`,
+      focus: { ...emptyFocus(), cells: objCells(ctx, rule.obj) },
+    };
+  }
+  return null;
+}
+
+/** «Exactamente n personas en estas casillas»: si ya están todas, nadie más; si solo caben justas, tienen que estar. */
+function exactRegion(ctx: Ctx, st: LState, cells: number[], want: number, lead: string, nudge: string, where: string, rooms: number[]): Deduction | null {
+  const { certain, possible, inside } = regionPeople(ctx, st, cells);
+  const focus = (chars: number[]): Focus => ({ ...emptyFocus(), rooms, cells: rooms.length ? [] : cells, chars: chars.map((k) => ctx.p.cast[k].id) });
+  if (certain.length === want) {
+    const elim: [number, number][] = [];
+    for (const k of possible) {
+      if (certain.includes(k)) continue;
+      for (const q of cells) if (st.cand[k][q]) elim.push([k, q]);
+    }
+    if (elim.length) {
+      return {
+        tech: 'rule', level: 3, elim,
+        text: `${lead} Ya ${want === 1 ? 'está' : 'están'} ${joinY(certain.map(ctx.name))} ${where}, así que nadie más puede estar ahí.`,
+        nudge, focus: focus(certain),
+      };
+    }
+  }
+  if (possible.length === want) {
+    const elim: [number, number][] = [];
+    for (const k of possible) for (const q of list(st.cand[k])) if (!inside[q]) elim.push([k, q]);
+    if (elim.length) {
+      return {
+        tech: 'rule', level: 3, elim,
+        text: `${lead} Solo ${joinY(possible.map(ctx.name))} ${want === 1 ? 'puede' : 'pueden'} estar ${where}, así que ${want === 1 ? 'tiene' : 'tienen'} que estar ahí.`,
+        nudge, focus: focus(possible),
+      };
+    }
+  }
+  return null;
+}
+
+/** Reglas que cuentan gente: se van cerrando a medida que se sabe quién está dónde. */
+function techRuleCount(ctx: Ctx, st: LState): Deduction | null {
+  const { p, g, n } = ctx;
+  const roomName = (R: number) => roomPhrase(p.rooms[R], '');
+  for (const rule of p.rules) {
+    const q = quote(ruleText(p, rule));
+    const lead = `Regla del caso: ${q}.`;
+    const nudge = `Vuelve a las reglas del caso: ${q}. Con lo que ya sabes, ¿qué se puede decir?`;
+    switch (rule.t) {
+      case 'zoneCount': {
+        if (rule.n === 0) break;
+        const R = p.roomByKey[rule.room];
+        const d = exactRegion(ctx, st, g.roomCells[R], rule.n, lead, nudge, `en ${roomName(R)}`, [R]);
+        if (d) return d;
+        break;
+      }
+      case 'objCount': {
+        if (rule.n === 0) break;
+        const o = p.objects[rule.obj];
+        const d = exactRegion(ctx, st, objCells(ctx, rule.obj), rule.n, lead, nudge, `en ${o.plural}`, []);
+        if (d) return d;
+        break;
+      }
+      case 'emptyZones': {
+        const occupied: number[] = [], empty: number[] = [], open: number[] = [];
+        for (const R of p.rooms) {
+          const { certain, possible } = regionPeople(ctx, st, g.roomCells[R.id]);
+          if (certain.length) occupied.push(R.id);
+          else if (!possible.length) empty.push(R.id);
+          else open.push(R.id);
+        }
+        if (!open.length) break;
+        // Ya están todas las vacías: en cada zona abierta hay alguien.
+        if (empty.length === rule.n) {
+          for (const R of open) {
+            const { possible } = regionPeople(ctx, st, g.roomCells[R]);
+            if (possible.length !== 1) continue;
+            const k = possible[0];
+            const elim: [number, number][] = list(st.cand[k]).filter((c) => ctx.roomOf(c) !== R).map((c) => [k, c]);
+            if (!elim.length) continue;
+            return {
+              tech: 'rule', level: 3, elim,
+              text: `${lead} ${rule.n === 0 ? 'Así que en cada zona tiene que haber alguien.' : `Las vacías ya se saben (${joinY(empty.map(roomName))}), así que en las demás hay alguien.`} En ${roomName(R)} solo puede estar ${ctx.name(k)}.`,
+              nudge, focus: { ...emptyFocus(), rooms: [R], chars: [p.cast[k].id] },
+            };
+          }
+        }
+        // Ya hay tantas zonas ocupadas como puede haber: las demás se quedan vacías.
+        if (occupied.length === p.rooms.length - rule.n) {
+          const elim: [number, number][] = [];
+          for (const R of open) for (const c of g.roomCells[R]) for (let k = 0; k < n; k++) if (st.cand[k][c]) elim.push([k, c]);
+          if (elim.length) {
+            return {
+              tech: 'rule', level: 3, elim,
+              text: `${lead} Ya hay alguien en ${joinY(occupied.map(roomName))}, así que ${joinY(open.map(roomName))} ${open.length === 1 ? 'se queda vacía' : 'se quedan vacías'}.`,
+              nudge, focus: { ...emptyFocus(), rooms: open },
+            };
+          }
+        }
+        break;
+      }
+      case 'zoneHasGroup': {
+        for (const rk of rule.rooms) {
+          const R = p.roomByKey[rk];
+          const { certain, possible } = regionPeople(ctx, st, g.roomCells[R]);
+          if (certain.some((k) => inGroup(p.cast[k], rule.group))) continue;
+          const members = possible.filter((k) => inGroup(p.cast[k], rule.group));
+          if (members.length !== 1) continue;
+          const k = members[0];
+          const elim: [number, number][] = list(st.cand[k]).filter((c) => ctx.roomOf(c) !== R).map((c) => [k, c]);
+          if (!elim.length) continue;
+          return {
+            tech: 'rule', level: 3, elim,
+            text: `${lead} En ${roomName(R)}, ${ctx.name(k)} es la única persona que puede cumplirlo, así que tiene que estar ahí.`,
+            nudge, focus: { ...emptyFocus(), rooms: [R], chars: [p.cast[k].id] },
+          };
+        }
+        break;
+      }
+      case 'groupsApart': {
+        for (const [from, to] of [[rule.a, rule.b], [rule.b, rule.a]]) {
+          for (let a = 0; a < n; a++) {
+            if (!inGroup(p.cast[a], from)) continue;
+            const R = certainRoom(ctx, st, a);
+            if (R < 0) continue;
+            const elim: [number, number][] = [];
+            const hit = new Set<number>();
+            for (let b = 0; b < n; b++) {
+              if (b === a || !inGroup(p.cast[b], to)) continue;
+              for (const c of g.roomCells[R]) if (st.cand[b][c]) { elim.push([b, c]); hit.add(b); }
+            }
+            if (!elim.length) continue;
+            return {
+              tech: 'rule', level: 3, elim,
+              text: `${lead} ${ctx.Name(a)} está ${ctx.sure(a)} en ${roomName(R)}, así que ${joinY([...hit].map(ctx.name))} no ${hit.size === 1 ? 'puede' : 'pueden'} estar ahí.`,
+              nudge, focus: { ...emptyFocus(), rooms: [R], chars: [p.cast[a].id, ...[...hit].map((b) => p.cast[b].id)] },
+            };
+          }
+        }
+        break;
+      }
+      case 'noZoneWith': {
+        if (rule.n !== 1) break;
+        for (let k = 0; k < n; k++) {
+          // Nadie podría acompañarlo en esa zona: fuera.
+          const elim: [number, number][] = [];
+          for (const i of list(st.cand[k])) {
+            const R = ctx.roomOf(i);
+            let any = false;
+            for (let j = 0; j < n && !any; j++) if (j !== k && possibleIn(ctx, st, j, R, i)) any = true;
+            if (!any) elim.push([k, i]);
+          }
+          if (elim.length) {
+            const rooms = [...new Set(elim.map(([, i]) => ctx.roomOf(i)))];
+            return {
+              tech: 'rule', level: 3, elim,
+              text: `${lead} ${ctx.Name(k)} estaría a solas en ${joinY(rooms.map(roomName))}: nadie más podría acompañarle ahí.`,
+              nudge, focus: { ...emptyFocus(), rooms, chars: [p.cast[k].id] },
+            };
+          }
+          // Solo una persona puede acompañarlo: tiene que estar con él.
+          const R = certainRoom(ctx, st, k);
+          if (R < 0) continue;
+          const pk = st.placed[k];
+          const others = Array.from({ length: n }, (_, j) => j).filter((j) => j !== k && possibleIn(ctx, st, j, R, pk));
+          if (others.length !== 1) continue;
+          const j = others[0];
+          const e: [number, number][] = list(st.cand[j]).filter((c) => ctx.roomOf(c) !== R).map((c) => [j, c]);
+          if (!e.length) continue;
+          return {
+            tech: 'rule', level: 3, elim: e,
+            text: `${lead} ${ctx.Name(k)} está ${ctx.sure(k)} en ${roomName(R)} y la única persona que puede estar con ${p.cast[k].gender === 'f' ? 'ella' : 'él'} es ${ctx.name(j)}.`,
+            nudge, focus: { ...emptyFocus(), rooms: [R], chars: [p.cast[k].id, p.cast[j].id] },
+          };
+        }
+        break;
+      }
+      default: break;
+    }
+  }
+  return null;
+}
+
 /** Técnicas sin suposiciones, en orden de dificultad. */
 function basicDeduction(ctx: Ctx, st: LState, maxSubset = 4): Deduction | null {
   return (
+    techRuleZones(ctx, st) ??
     techSingle(ctx, st) ??
     techLineSingle(ctx, st, 'row') ??
     techLineSingle(ctx, st, 'col') ??
@@ -918,6 +1243,7 @@ function basicDeduction(ctx: Ctx, st: LState, maxSubset = 4): Deduction | null {
     techCellForced(ctx, st, 'col') ??
     techPointing(ctx, st) ??
     techRelation(ctx, st) ??
+    techRuleCount(ctx, st) ??
     techRoom(ctx, st) ??
     techSubset(ctx, st, maxSubset)
   );
@@ -994,7 +1320,7 @@ export function solveLogically(p: Puzzle, opts: { allowTrial?: boolean; maxSteps
   const ctx = makeCtx(p);
   const st = initialState(p);
   const steps: Deduction[] = [];
-  const techCount = { single: 0, rowSingle: 0, colSingle: 0, cellForcedRow: 0, cellForcedCol: 0, pointing: 0, relation: 0, room: 0, subset: 0, trial: 0 } as Record<TechId, number>;
+  const techCount = { single: 0, rowSingle: 0, colSingle: 0, cellForcedRow: 0, cellForcedCol: 0, pointing: 0, relation: 0, room: 0, subset: 0, trial: 0, rule: 0 } as Record<TechId, number>;
   const sol = p.cast.map((ch) => p.solution[ch.id]);
   let sound = sol.every((i, k) => st.cand[k][i] === 1);
   const maxSteps = opts.maxSteps ?? 400;

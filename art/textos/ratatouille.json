@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "Re": "Perseguido por medio París y metido en una jaula para que le inventara platos congelados a Skinner: a una rata con ese paladar se le puede pedir de todo, menos eso.",
+  "Li": "Skinner le ocultó a Linguini que era hijo de Gusteau para quedarse con el restaurante, y encima lo tenía sacando la basura. Al leer la carta de su madre, a Linguini se le acabó la paciencia.",
+  "Co": "Colette se ganó a codazos su sitio en una cocina de hombres, y Skinner seguía soltándole sermones sobre disciplina delante de todos. No pensaba aguantar ni uno más.",
+  "AE": "Anton Ego solo traga lo que ama, y a Skinner, que convirtió el nombre de Gusteau en burritos congelados e iba diciendo que sus críticas eran una vergüenza, no había quien lo tragara.",
+  "Dj": "Para la colonia de Django, Skinner era la peor pesadilla: veneno, trampas y hasta el inspector de sanidad. Un padre hace lo que sea por proteger a los suyos.",
+  "Em": "Justo cuando iba a comerse algo, Skinner le puso a Emile una trampa delante de las narices, y encima no dejaba en paz a su hermano. Emile se come lo que le echen, pero aquello no lo digirió.",
+  "Ho": "Skinner prometió a Horst un ascenso que nunca llegó, y Horst no está hecho para esperar. Con su pasado, no iba a dejar que le tomara el pelo otra vez.",
+  "Gu": "Ver su cara estampada en burritos congelados y a Skinner viviendo a costa de su nombre fue demasiado. Estar muerto no le impide a un chef defender su cocina, y Gusteau decidió que había llegado la hora de pasarle la cuenta."
+ },
+ "grudges": {
+  "Re": "Skinner lo persiguió por medio París y acabó metiéndolo en una jaula para que le inventara platos congelados.",
+  "Li": "Skinner le ocultó que era hijo de Gusteau para quedarse con el restaurante, y encima lo humillaba a diario.",
+  "Co": "Skinner no soportaba que ella lo corrigiera delante de la brigada y se lo hacía pagar con turnos imposibles.",
+  "AE": "Por todo París iba diciendo Skinner que sus críticas eran una vergüenza y que no le dejaría volver a pisar el restaurante.",
+  "Dj": "Skinner había sembrado veneno y trampas por toda la colonia en los últimos meses.",
+  "Em": "En cada esquina le esperaba una trampa de Skinner, que no le dejaba comer en paz ni una miga.",
+  "Ho": "Skinner le había prometido un ascenso y lo había dejado plantado una y otra vez.",
+  "Gu": "Su nombre y su cara se vendían en burritos congelados, y Skinner ni pidió permiso."
+ },
+ "looks": {
+  "Re": "Remy from Ratatouille: small blue-grey rat with a pointed snout, big dark eyes, whiskers, pink ears, tiny hands, wearing a white mini chef's toque and a tiny apron.",
+  "Li": "Linguini from Ratatouille: tall, gangly young man with messy reddish-brown hair, wide-eyed clumsy look, wearing an oversized white chef's jacket and a white apron.",
+  "Co": "Colette from Ratatouille: young woman with a dark ponytail, sharp determined eyes, wearing a white double-breasted chef's jacket, a red neckerchief and a white apron, a stern but warm look.",
+  "AE": "Anton Ego from Ratatouille: very thin tall man with gaunt pale face, deep-set eyes, thin black hair combed back, wearing a long black coat and a high collar, holding a pen and notebook.",
+  "Dj": "Django from Ratatouille: stocky old grey-brown rat with a thick body, grey whiskers and a stern face, wearing a faded dark scarf, the head of the rat colony.",
+  "Em": "Emile from Ratatouille: plump chubby light-brown rat with a round belly, a goofy cheerful expression, big ears and a hungry look, holding a piece of food.",
+  "Ho": "Horst from Ratatouille: tall broad-shouldered man with a stern stubbled face, cropped hair, wearing a white chef's jacket and a dark apron, a menacing look in his eyes.",
+  "Gu": "Gusteau from Ratatouille: very tall plump jovial man with a thin moustache and combed-back brown hair, wearing a white chef's jacket, tall toque and apron, a big warm smile, as a translucent imaginary figure.",
+  "Sk": "Skinner from Ratatouille: tiny, wiry, angry little man with a pointed nose, narrow eyes and a small bushy dark moustache, wearing a white double-breasted chef's jacket and a very tall white toque, a scowl."
+ },
+ "cover": "A warm Parisian restaurant kitchen at night, with a steaming copper pot of ratatouille on a stove, a poster of a smiling chef on the wall, and the lights of the Eiffel Tower glimmering through a window, in a cozy cartoon style."
+}

@@ -1,4 +1,4 @@
-/** Casos que se pueden jugar en pareja: los 25 de siempre y los del día («d-2026-10-21»). */
+/** Casos que se pueden jugar en pareja: los de las temporadas y los del día («d-2026-10-21»). */
 import { useEffect, useState } from 'react';
 import type { Puzzle } from '../engine/types';
 import { getPuzzle, LEVELS, PUZZLES } from '../data/puzzles';
@@ -36,7 +36,7 @@ export function useCaso(id: string | null): CasoCargado {
 export function nombreCaso(id: string): string {
   if (esDelDia(id)) return `Caso del día · ${shortDate(fechaDe(id))}`;
   const p = getPuzzle(id);
-  return p ? `Nº ${String(p.num).padStart(2, '0')} · ${p.title}` : id;
+  return p ? `Nº ${String(p.num).padStart(2, '0')} · ${p.title}` : 'Caso retirado';
 }
 
 export interface GrupoCasos { nombre: string; casos: { id: string; texto: string }[] }

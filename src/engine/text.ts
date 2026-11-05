@@ -1,4 +1,4 @@
-import type { CharacterDef, Clue, Dir, Card, ObjectDef, Puzzle, RoomDef, UnaryClue } from './types';
+import type { CaseRule, CharacterDef, Clue, Dir, Card, ObjectDef, Puzzle, RoomDef, UnaryClue } from './types';
 
 /** Fragmento de texto con información para resaltar en el tablero. */
 export interface Seg {
@@ -202,6 +202,8 @@ function clueClauses(p: Puzzle, ch: CharacterDef, clue: Clue, o: TextOpts): Clau
       return [{ verb: 'No estaba', neg: 'Estaba', body: [{ text: adj('sol', g), b: true, kw: 'alone' }] }];
     case 'withGender':
       return [{ verb: 'Estaba', body: [{ text: 'con ', b: true, kw: 'with' }, { text: clue.g === 'f' ? 'una mujer' : 'un hombre', b: true }] }];
+    case 'withGroup':
+      return [{ verb: 'Estaba', body: [{ text: 'con ', b: true, kw: 'with' }, { text: p.groups[clue.group].one, b: true }] }];
     case 'roomCount':
       return [{ verb: 'Estaba', body: [{ text: 'en una zona con ' }, { text: `exactamente ${numF(clue.n)} personas`, b: true, kw: 'count' }, { text: ` (${g === 'f' ? 'ella' : 'él'} incluid${g === 'f' ? 'a' : 'o'})` }] }];
     case 'onlyOn': {
@@ -279,6 +281,75 @@ function merge(segs: Seg[]): Seg[] {
     if (last && plain(last) && plain(s)) last.text += s.text;
     else out.push({ ...s });
   }
+  return out;
+}
+
+/** «la Cripta», «la Cripta y el Jardín» como fragmentos resaltables. */
+function roomsSegs(p: Puzzle, keys: string[], conj = 'y'): Seg[] {
+  const out: Seg[] = [];
+  keys.forEach((rk, j) => {
+    const room = p.rooms[p.roomByKey[rk]];
+    if (j > 0) out.push({ text: j === keys.length - 1 ? ` ${conj} ` : ', ' });
+    out.push({ text: roomPhrase(room, ''), b: true, room: room.id });
+  });
+  return out;
+}
+
+/** Una regla del caso como frase con fragmentos. */
+export function ruleSegs(p: Puzzle, rule: CaseRule): Seg[] {
+  const people = (n: number) => `${numF(n)} ${n === 1 ? 'persona' : 'personas'}`;
+  switch (rule.t) {
+    case 'zoneOnly':
+      return merge([{ text: 'Solo ' }, { text: p.groups[rule.group].many, b: true }, { text: ' podían estar en ' }, ...roomsSegs(p, rule.rooms), { text: '.' }]);
+    case 'zoneCount': {
+      const room = p.rooms[p.roomByKey[rule.room]];
+      const at: Seg = { text: roomPhrase(room, ''), b: true, room: room.id };
+      if (rule.n === 0) return merge([{ text: 'Nadie', b: true, kw: 'empty' }, { text: ' estaba en ' }, at, { text: '.' }]);
+      if (rule.n === 1) return merge([{ text: 'En ' }, at, { text: ' había ' }, { text: 'una sola persona', b: true, kw: 'count' }, { text: '.' }]);
+      return merge([{ text: 'En ' }, at, { text: ' había ' }, { text: `exactamente ${people(rule.n)}`, b: true, kw: 'count' }, { text: '.' }]);
+    }
+    case 'emptyZones':
+      if (rule.n === 0) return merge([{ text: 'No había ' }, { text: 'ninguna zona vacía', b: true, kw: 'empty' }, { text: '.' }]);
+      return merge([{ text: 'Había ' }, { text: rule.n === 1 ? 'exactamente una zona vacía' : `exactamente ${numF(rule.n)} zonas vacías`, b: true, kw: 'empty' }, { text: '.' }]);
+    case 'objCount': {
+      const o = p.objects[rule.obj];
+      if (rule.n === 0) return merge([{ text: 'Nadie', b: true, kw: 'empty' }, { text: ' estaba ' }, ...onSegs(o, 'm'), { text: '.' }]);
+      return merge([{ text: 'Había ' }, { text: rule.n === 1 ? 'exactamente una persona' : `exactamente ${people(rule.n)}`, b: true, kw: 'count' }, { text: ' ' }, ...onSegs(o, rule.n === 1 ? 'f' : 'f').map((x) => (rule.n > 1 && x.kw === 'on' ? { ...x, text: x.text.replace(/a en $/, 'as en ') } : x)), { text: '.' }]);
+    }
+    case 'zoneHasGroup': {
+      const one = p.groups[rule.group].one;
+      if (rule.rooms.length === 1) return merge([{ text: 'En ' }, ...roomsSegs(p, rule.rooms), { text: ' había ' }, { text: `al menos ${one}`, b: true, kw: 'count' }, { text: '.' }]);
+      return merge([{ text: 'En cada una de estas zonas (' }, ...roomsSegs(p, rule.rooms), { text: ') había ' }, { text: `al menos ${one}`, b: true, kw: 'count' }, { text: '.' }]);
+    }
+    case 'groupsApart': {
+      const many = p.groups[rule.a].many, other = p.groups[rule.b].many;
+      return merge([{ text: cap(many), b: true }, { text: ' y ' }, { text: other, b: true }, { text: ' nunca compartían ' }, { text: 'zona', b: true, kw: 'with' }, { text: '.' }]);
+    }
+    case 'noZoneWith':
+      if (rule.n === 1) return merge([{ text: 'En ninguna zona había ' }, { text: 'una sola persona', b: true, kw: 'count' }, { text: '.' }]);
+      return merge([{ text: 'En ninguna zona había ' }, { text: `exactamente ${people(rule.n)}`, b: true, kw: 'count' }, { text: '.' }]);
+  }
+}
+
+export const ruleText = (p: Puzzle, rule: CaseRule) => ruleSegs(p, rule).map((s) => s.text).join('');
+
+/** La regla que no hay que escribir: si el plano es más grande que el reparto, sobran filas y columnas. */
+export function boardRuleSegs(p: Puzzle): Seg[] | null {
+  const n = p.cast.length, extra = p.size - n;
+  if (extra <= 0) return null;
+  const word = (base: string) => (extra === 1 ? `una ${base}` : `${numF(extra)} ${base}s`);
+  return merge([
+    { text: `Plano de ${p.size}×${p.size} con ${numF(n)} personas: se quedan vacías ` },
+    { text: `${word('fila')} y ${word('columna')}`, b: true, kw: 'empty' },
+    { text: '.' },
+  ]);
+}
+
+/** Todas las reglas del caso, cada una como una frase. */
+export function caseRuleSegs(p: Puzzle): Seg[][] {
+  const out = p.rules.map((r) => ruleSegs(p, r));
+  const b = boardRuleSegs(p);
+  if (b) out.unshift(b);
   return out;
 }
 

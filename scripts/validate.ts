@@ -9,10 +9,11 @@ import { readdirSync } from 'node:fs';
 import { compilePuzzle } from '../src/engine/puzzle';
 import { solve } from '../src/engine/solver';
 import { solveLogically } from '../src/engine/logic';
-import { clueText, displayName } from '../src/engine/text';
+import { caseRuleSegs, clueText, displayName } from '../src/engine/text';
 import { assignmentValid } from '../src/engine/clues';
 import type { PuzzleInput } from '../src/engine/types';
 import { PROFILE, REFERENCE, hardSteps } from '../src/engine/difficulty';
+import { rulesNeeded } from './genlib';
 
 const LEVEL = ['', 'Muy fácil', 'Fácil', 'Medio', 'Difícil', 'Experto'];
 
@@ -64,10 +65,12 @@ async function main() {
         if (a !== b && b.startsWith(a + ' ')) warns.push(`objetos ambiguos: «${a}» y «${b}»`);
       }
       if (!input.story?.intro || !input.story?.epilogue) errs.push('falta la historia (intro/epílogo)');
+      if (p.rules.length && !rulesNeeded(p)) errs.push('sobra alguna regla del caso: sin ella sigue habiendo solución única');
       const tc = Object.entries(L.techCount).filter(([, v]) => v).map(([k, v]) => `${k}:${v}`).join(' ');
       line = `${String(p.num).padStart(2)} ${p.id.padEnd(14)} ${LEVEL[p.level].padEnd(9)} ${p.size}x${p.size}  score/pj ${(L.score / p.cast.length).toFixed(2)}  max ${L.maxLevel}  pasos ${L.steps.length}  ${tc}  asesino=${p.murderer}`;
       if (showSteps || args.length) {
         console.log(`\n=== ${p.num}. ${p.title} (${p.franchise}) ===`);
+        for (const segs of caseRuleSegs(p)) console.log(`  REGLA ${segs.map((x) => x.text).join('')}`);
         for (const ch of p.cast) console.log(`  ${ch.tag.padEnd(3)} ${displayName(ch)}: ${clueText(p, ch)}`);
         if (showSteps) L.steps.forEach((d, k) => console.log(`   ${k + 1}. [${d.tech}] ${d.text}`));
       }

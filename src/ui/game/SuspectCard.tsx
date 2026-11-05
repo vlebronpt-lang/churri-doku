@@ -3,6 +3,7 @@ import { displayName, withPrep } from '../../engine/text';
 import { Portrait } from '../Portrait';
 import { Icon } from '../Icon';
 import { ClueText, type Highlight } from './ClueText';
+import { GroupChips } from './RulesBox';
 
 export interface ZoneMark {
   /** Nombre de la habitación («Cocina»). */
@@ -66,10 +67,12 @@ export function SuspectCard({ p, ch, selected, placed, simple, genderSymbols, on
         {genderSymbols && <span className={`suspect__gender suspect__gender--${ch.gender}`} aria-label={ch.gender === 'f' ? 'mujer' : 'hombre'}>{ch.gender === 'f' ? '♀' : '♂'}</span>}
         {placed && <span className="suspect__check" aria-hidden="true">✓</span>}
         <span className="suspect__name">{displayName(ch)}</span>
+        <GroupChips p={p} ch={ch} />
       </button>
       <div className="suspect__clue" onClick={onSelect}>
         <span className="suspect__cname" aria-hidden="true">{displayName(ch)}</span>
         {ch.victim && <span className="suspect__victim">Víctima</span>}
+        <GroupChips p={p} ch={ch} />
         <ClueText p={p} ch={ch} simple={simple} onHighlight={onHighlight} />
         {zone && onClearZone && <ZoneLine zone={zone} onClear={onClearZone} />}
         {onFeedback && !ch.victim && (

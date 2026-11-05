@@ -5,6 +5,7 @@ import { Icon } from '../Icon';
 
 /** Nombre de cada técnica de deducción (pistas y paso a paso de las soluciones). */
 export const TECH_NAME: Record<string, string> = {
+  rule: 'Las reglas del caso',
   single: 'Única casilla',
   rowSingle: 'Fila con una sola opción',
   colSingle: 'Columna con una sola opción',

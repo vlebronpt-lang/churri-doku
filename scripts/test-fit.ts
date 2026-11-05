@@ -1,5 +1,5 @@
 /**
- * Comprueba que el panel de sospechosos quepa sin desplazarse en los 25 casos y en varios tamaños de pantalla.
+ * Comprueba que el panel de sospechosos quepa sin desplazarse en todos los casos y en varios tamaños de pantalla.
  *   npx tsx scripts/test-fit.ts [url]   (con el servidor de desarrollo en marcha)
  */
 import { chromium } from 'playwright-core';

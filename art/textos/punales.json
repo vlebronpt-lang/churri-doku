@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "BB": "Harlan publicó una novela con un detective sureño idéntico a Benoit Blanc sin pedirle permiso ni pagarle un duro. Un caballero tiene paciencia, pero no para ver su método convertido en folletín.",
+  "Ma": "Harlan le confió a Marta un secreto enorme y le pidió que mintiera por él. Ella no sabe mentir sin acabar vomitando, y esa noche la presión la desbordó y todo se torció.",
+  "Ra": "El abuelo le cortó el grifo a Ransom en mitad de su cumpleaños, con media familia pegando la oreja a la puerta. A Ransom nadie le quita la asignación y se queda tan ancho con su tarta.",
+  "Li": "Harlan le recordaba a Linda en cada comida que su negocio inmobiliario empezó con un préstamo suyo de un millón de dólares. Ella se hizo a sí misma y no pensaba aguantar ni una vez más aquel sermón.",
+  "Ri": "Harlan se había enterado de los escarceos de Richard y se lo restregaba con una sonrisita cada vez que lo veía. Con su mujer, y el dinero de su mujer, en juego, Richard no podía dejar que tirara de la manta.",
+  "Wa": "Harlan trataba a su hijo Walt como a un chico de los recados en la editorial de la familia y le dijo que dejaba de confiarle sus libros. Después de tantos años aguantando, Walt dijo basta.",
+  "Jo": "Joni cobraba dos veces la matrícula de Meg: Harlan la pagaba directamente a la universidad y ella se embolsaba lo mismo. Cuando él la pilló y le dijo que se acababa el chollo, prefirió cualquier cosa antes que perder ese dinero.",
+  "Me": "Harlan se pasaba las comidas riéndose de las ideas de Meg y de su manía de arreglar el mundo en la sobremesa. Aquella noche se pasó de la raya y Meg perdió los papeles."
+ },
+ "grudges": {
+  "BB": "Harlan había escrito una novela con un detective sureño muy parecido a él sin pedirle permiso ni pagarle derechos.",
+  "Ma": "Harlan le había pedido guardar un secreto enorme, y ella no sabe mentir sin descomponerse.",
+  "Ra": "Harlan le había avisado de que se acababa su asignación, con media familia pegando la oreja a la puerta.",
+  "Li": "Harlan le recordaba en cada comida que su negocio empezó con un préstamo suyo de un millón de dólares.",
+  "Ri": "Harlan estaba al tanto de sus escarceos y se lo echaba en cara con una sonrisita.",
+  "Wa": "Harlan le había dicho que dejaba de confiarle sus libros y lo trataba como a un chico de los recados.",
+  "Jo": "Harlan le había avisado de que se acababan los pagos y los favores, y de que ya era hora de que se las apañara sola.",
+  "Me": "Harlan se reía de sus ideas y de su afán por arreglar el mundo en cada sobremesa familiar."
+ },
+ "looks": {
+  "BB": "Benoit Blanc from Knives Out: tall lean man in his fifties with short sandy-blond greying hair, blue eyes, a charming confident look, a grey-brown three-piece suit with a loose tie, polished Southern-gentleman manner.",
+  "Ma": "Marta Cabrera from Knives Out: gentle young Latina woman in her early 20s with long dark brown hair tied back, kind brown eyes, a soft knitted cardigan over a simple blouse, a nurse's quiet and worried air.",
+  "Ra": "Ransom Drysdale from Knives Out: handsome young man in his late 20s with swept-back light brown hair and a smug smile, a thick cream cable-knit wool sweater over a collared shirt, a stylish patterned scarf, careless rich-kid swagger.",
+  "Li": "Linda Drysdale from Knives Out: confident woman in her 60s with short cropped platinum-silver hair, dark-rimmed glasses, a sharp solid pink power suit and chunky gold jewelry, brisk businesswoman look.",
+  "Ri": "Richard Drysdale from Knives Out: smug tanned man in his 60s with swept-back silver hair, short grey stubble, a navy blazer over an open-collar shirt, a self-satisfied smirk.",
+  "Wa": "Walt Thrombey from Knives Out: tall long-faced man in his 40s with short thinning dark hair and a receding hairline, a blazer and shirt, a cane in hand, a perpetually irritated expression.",
+  "Jo": "Joni Thrombey from Knives Out: slim woman in her 50s with long wavy blonde hair, frosted pink lipstick, soft flowing pastel clothes and a lifestyle-influencer glow, a serene fake smile.",
+  "Me": "Meg Thrombey from Knives Out: college student girl with long wavy dirty-blonde hair, a casual oversized sweater, an idealistic and sarcastic expression.",
+  "Ha": "Harlan Thrombey from Knives Out: elderly man of 85 with white hair and a trimmed white beard, a thick cardigan or tweed jacket over a shirt, the warm tired look of a famous mystery novelist, a faint twinkle in his eyes."
+ },
+ "cover": "The grand gothic Thrombey mansion at night with warm lit windows, a front lawn and in the foreground a huge spiky throne made of hundreds of kitchen knives, no characters and no text."
+}

@@ -1,0 +1,31 @@
+{
+  "motives": {
+    "E": "Willy Tybur se disponía a declarar la guerra a la isla de Eren, que había cruzado el mar con un solo plan. No pensaba dejar que Marley diera el primer paso, y menos entre farolillos y delante de medio mundo.",
+    "M": "Willy Tybur pidió al mundo entero que fuera a por Paradis, y Mikasa llevaba demasiado tiempo cuidando de los suyos para aguantarlo con la bufanda puesta. Lo hizo con la cabeza fría y sin mover una ceja.",
+    "A": "Willy Tybur quería ver arrasada Paradis, y Armin, que ya carga con el Titán Colosal en la conciencia, no soportaba más muertos. Pensó que con palabras no iba a convencerlo y, por una vez, dejó de buscar la solución pacífica.",
+    "L": "Marley llevaba años mandando titanes contra los suyos y Levi había enterrado a demasiados compañeros por culpa de gente como Willy Tybur. Encima, el festival lo estaba dejando todo perdido de polvo, y ahí se le acabó la paciencia.",
+    "R": "Willy Tybur exhibía a Reiner como a un guerrero de cartel y de su familia, con el brazalete puesto, ni se acordaba. Tras tantos años de doble vida, Reiner ya no tenía fuerzas para seguir aplaudiendo.",
+    "Sa": "Willy Tybur animaba al mundo a salir de caza contra la gente de Paradis, y Sasha, criada en el bosque, sabe de qué va eso y no iba a quedarse calladita. Un arco bien tensado hizo el resto, y luego se fue a por una patata.",
+    "Ze": "Willy Tybur siempre trató a los guerreros eldianos como carne de cañón, y Zeke llevaba años «cuidando» de su gente con su plan secreto. No pensaba permitir que un Tybur le estropease los preparativos.",
+    "Pi": "Willy Tybur obligó a Pieck a cargar con cañones y bultos de todo el festival sin dejarle ni una cabezadita en el carro. A quien lleva años arrastrando peso a cuatro patas se le acaban las ganas de ser amable.",
+    "Ha": "Willy Tybur cerró la puerta al diálogo entre Marley y Paradis y se rio de los años que Hange pasó estudiando a los titanes. Hange solo quería hablar, pero a veces hay que dar un golpe en la mesa, y aquella estaba muy a mano."
+  },
+  "grudges": {
+    "E": "Willy Tybur preparaba una declaración de guerra contra Paradis, la isla donde Eren había crecido.",
+    "M": "Willy Tybur pedía al mundo entero una guerra contra Paradis, la isla donde viven sus seres queridos.",
+    "A": "Willy Tybur quería arrasar Paradis, y Armin, que carga con el Titán Colosal en la conciencia, no soporta más muertos.",
+    "L": "Marley llevaba años mandando titanes contra Paradis y Levi había enterrado a demasiados compañeros por culpa de los Tybur.",
+    "R": "Willy Tybur lo exhibía como a un guerrero de cartel mientras su familia seguía con el brazalete puesto sin que nadie la mencionara.",
+    "Sa": "Willy Tybur hablaba de la gente de Paradis como de animales a los que cazar, y ella es cazadora de toda la vida.",
+    "Ze": "Willy Tybur trataba a los guerreros eldianos como carne de cañón, y Zeke llevaba años cuidando de ellos.",
+    "Pi": "Willy Tybur le había encargado transportar cañones y bultos de todo el festival sin darle ni un descanso.",
+    "Ha": "Willy Tybur se había negado a hablar con Paradis y se había reído de sus años de estudio de los titanes."
+  },
+  "looks": {
+    "Ze": "Zeke Yeager from Attack on Titan: tall lanky man in his thirties, shoulder-length blond hair, scruffy blond beard, round dark-rimmed glasses, a long dark military overcoat with a white armband, a lazy crooked smile.",
+    "Pi": "Pieck Finger from Attack on Titan: short slim young woman in her early twenties, chin-length straight dark brown hair with bangs, sleepy half-lidded eyes with dark circles, a dark Marleyan military uniform with a white armband.",
+    "Ha": "Hange Zoe from Attack on Titan: tall slender adult, dark brown hair tied in a messy high ponytail, round glasses, a black leather eyepatch over the left eye, a green cloak over a dark uniform, wide excited grin.",
+    "WT": "Willy Tybur from Attack on Titan: well-groomed man in his late thirties, straight blond hair to the shoulders swept over the right ear, a short blond goatee, thin eyebrows, a dark formal suit with a black tie, polished black shoes, a proud solemn expression."
+  },
+  "cover": "A Liberio festival square at dusk: a wooden stage with a speaker's podium, a banner and strings of lanterns, rooftops and a zeppelin in the background, a war hammer propped by the stage."
+}

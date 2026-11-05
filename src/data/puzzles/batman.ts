@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'batman',
-  num: 18,
+  num: 40,
   level: 4,
   franchise: 'Batman',
   title: 'Noche en Arkham',

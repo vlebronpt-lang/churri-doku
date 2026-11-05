@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'marvel',
-  num: 23,
+  num: 54,
   level: 5,
   franchise: 'Marvel',
   title: 'Endgame en la Torre',

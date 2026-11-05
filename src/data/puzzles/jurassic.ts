@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'jurassic',
-  num: 9,
+  num: 17,
   level: 2,
   franchise: 'Parque Jurásico',
   title: 'Fallo en el sistema',

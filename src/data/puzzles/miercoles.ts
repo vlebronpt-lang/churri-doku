@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'miercoles',
-  num: 13,
+  num: 29,
   level: 3,
   franchise: 'Miércoles',
   title: 'El monstruo de Nevermore',

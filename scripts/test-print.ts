@@ -1,5 +1,5 @@
 /**
- * Comprueba la versión para imprimir en formato libro: en los 25 casos (color y B/N) hay portada, doble página
+ * Comprueba la versión para imprimir en formato libro: en todos los casos (color y B/N) hay portada, doble página
  * (sospechosos con su pista y su móvil; el plano con la cuadrícula de deducción y el QR del caso) y contraportada
  * (con el QR de la web); nada se sale de su página ni de su caja y ningún nombre de objeto se corta. Cada
  * solución cabe en media página (plano resuelto, perfil del asesino y orden de colocación). El libro completo:
@@ -12,6 +12,7 @@ import { chromium } from 'playwright-core';
 import { readdirSync } from 'node:fs';
 import { compilePuzzle } from '../src/engine/puzzle';
 import type { PuzzleInput } from '../src/engine/types';
+import { LESSONS } from '../src/data/academy/lessons';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const base = process.argv[2] ?? 'http://127.0.0.1:5173/';
@@ -99,7 +100,7 @@ async function main() {
   const b = await problems();
   if (b.count % 2) bad.push(`libro: ${b.count} páginas (tiene que ser par para que la contraportada cierre el libro)`);
   if (b.qr < ids.length + 6) bad.push(`libro: ${b.qr} códigos QR`);
-  for (const [sel, n] of [['.dedication', 1], ['.rules', 1], ['.example', 1], ['.school', 3], ['.school__item', 9], ['.web', 1], ['.book-index', 1], ['.case-left.is-final', 1], ['.final-code__box', 10]] as const) {
+  for (const [sel, n] of [['.dedication', 1], ['.rules', 1], ['.example', 1], ['.school', Math.ceil(LESSONS.length / 3)], ['.school__item', LESSONS.length], ['.web', 1], ['.book-index', 2], ['.case-left.is-final', 1], ['.final-code__box', 10]] as const) {
     const c = await page.locator(sel).count();
     if (c !== n) bad.push(`libro: ${c} × ${sel} (deberían ser ${n})`);
   }

@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'titanes',
-  num: 20,
+  num: 41,
   level: 4,
   franchise: 'Ataque a los Titanes',
   title: '¿Quién mató a Marco?',

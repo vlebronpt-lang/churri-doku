@@ -1,0 +1,34 @@
+{
+ "motives": {
+  "In": "Belloq le birló el ídolo de oro a Indiana en Perú y luego lo dejó emparedado en el Pozo de las Almas. Entre arqueólogos hay reglas, y Belloq se las saltó todas.",
+  "Ma": "Belloq secuestró a Marion, la vistió de blanco y la sentó a cenar como si fueran pareja. Ella se las apaña sola desde su bar del Himalaya y no aguantó otro minuto de aquel numerito.",
+  "Sa": "Belloq y los suyos convirtieron el mercado de El Cairo en un campo de batalla y estuvieron a punto de acabar con Indy, el mejor amigo de Sallah. El mejor excavador de Egipto sabe cuándo hay que enterrar un asunto.",
+  "MB": "Belloq vendía al mejor postor lo que debía estar en un museo para disfrute de todos. Marcus Brody lleva media vida defendiendo el patrimonio y ya estaba harto de su descaro.",
+  "He": "Belloq se rio de las notas, de los estudios medievales y del diario más querido de Henry Jones, y lo llamó aficionado. Un medievalista aguanta mucho, pero no que se burlen de su letra.",
+  "Ta": "Belloq llamó «chaval» a Tapón delante de todos y se rio de su gorra. Tapón, que no se separa de esa gorra, le llenó las botas de arena y salió corriendo.",
+  "Wi": "Belloq se paseó por Tanis con aire de gran señor sin dedicar ni una mirada a Willie. Ella viene del mundo del espectáculo, y a una artista no se le hace ese vacío sin pagarlo caro.",
+  "To": "Belloq se llevó toda la gloria del hallazgo mientras el mayor Toht cargaba con la marca del medallón en la mano. Toht hizo el trabajo sucio y Belloq se quedó con la foto."
+ },
+ "grudges": {
+  "In": "Belloq le había quitado un ídolo de oro en Perú y se lo había restregado por la cara con una sonrisa.",
+  "Ma": "Belloq la había secuestrado y la había obligado a cenar con él, vestida a su gusto.",
+  "Sa": "Belloq había armado un buen lío en El Cairo y había puesto en peligro a su amigo Indy.",
+  "MB": "Belloq vendía antigüedades al mejor postor mientras el museo se quedaba con las manos vacías.",
+  "He": "Belloq se había burlado de sus estudios y lo había llamado aficionado delante de los demás.",
+  "Ta": "Belloq lo había llamado «chaval» delante de todos y se había reído de su gorra.",
+  "Wi": "Belloq la había ignorado con aire de superioridad, como si una artista no mereciera ni un saludo.",
+  "To": "Belloq se había apuntado el mérito del hallazgo mientras él cargaba con la marca en la mano."
+ },
+ "looks": {
+  "In": "Indiana Jones from Raiders of the Lost Ark: rugged man in his late thirties, short dark brown hair, stubble, brown leather jacket, tan shirt, brown fedora hat, a coiled whip at his belt and a satchel across his chest.",
+  "Ma": "Marion Ravenwood from Raiders of the Lost Ark: confident young woman in her thirties with wavy dark brown hair, a simple white dress, a defiant smirk and a frying pan in her hand.",
+  "Sa": "Sallah from Raiders of the Lost Ark: stout cheerful Egyptian man in his forties with a full black beard and moustache, a red fez, a light brown work shirt, a broad warm smile.",
+  "MB": "Marcus Brody from Raiders of the Lost Ark: elderly museum curator with thinning grey hair and a trimmed grey moustache, a grey three-piece suit with a bow tie, kind and slightly flustered look.",
+  "He": "Henry Jones Senior from Indiana Jones and the Last Crusade: elderly professor with thin white hair, a short full white beard, round glasses, a tweed jacket with a waistcoat and bow tie, a Grail diary in his hand.",
+  "Ta": "Short Round from Indiana Jones and the Temple of Doom: a ten year old Chinese boy with short black hair under a white baseball cap, a light jacket over a shirt, big cheerful eyes and a mischievous grin.",
+  "Wi": "Willie Scott from Indiana Jones and the Temple of Doom: glamorous young woman with curly blonde hair, a sparkling champagne evening gown, long gloves and a frightened but fierce expression.",
+  "To": "Major Toht from Raiders of the Lost Ark: thin pale man with round wire glasses, slicked-back black hair, a long black leather coat and black gloves, a sinister thin smile, one hand slightly scarred.",
+  "Be": "Rene Belloq from Raiders of the Lost Ark: elegant French archaeologist in his forties, dark neatly combed hair, light stubble, a cream colonial suit with a loosened tie, a white panama hat and a self-satisfied smile."
+ },
+ "cover": "A dusty archaeological dig in the Egyptian desert at sunset, with an open stone pit full of coiled snakes, a golden ornate chest with poles in the foreground and a lonely tent in the distance, no characters and no text."
+}

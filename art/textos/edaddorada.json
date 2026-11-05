@@ -1,0 +1,37 @@
+{
+ "motives": {
+  "Be": "Turner volvió con todo lo que sabía de sus años de doncella y amenazó con contárselo a la alta sociedad. Bertha, que llevaba años escalando la Quinta Avenida a pulso, no pensaba dejar que una criada resentida le arruinara el baile.",
+  "Ge": "Turner intentó camelarse a George cuando era doncella y ahora lo iba contando por ahí. George, que jamás ha perdonado un cabo suelto, decidió que nadie iba a ventilar sus asuntos entre canapés y violines.",
+  "Gl": "Turner sabía cosas de sus escapadas y de lo que de verdad pensaba de los candidatos que su madre le buscaba. A Gladys, que solo quería un poco de libertad lejos de los planes de Bertha, le entró el pánico y acabó con el problema.",
+  "Ag": "Agnes ya soportaba mal a los nuevos ricos de la acera de enfrente; que encima su antigua doncella se pasease por la Quinta Avenida como una dama fue pasarse de la raya.",
+  "Ad": "Turner la había visto llorar a escondidas por su vida a la sombra de su hermana y estaba dispuesta a contarlo a todo Nueva York. Ada, que siempre ha cedido ante todos, ni siquiera supo cómo se atrevió a hacerlo.",
+  "Ma": "Turner sabía de sus apuros de sobrina sin un centavo y de ciertos desaires que Marian quería enterrar. Con su reputación pendiendo de un hilo, perdió la compostura.",
+  "Pe": "Turner había cotilleado sobre su vida y sus sueños de escritora con quien quiso oírla, y Peggy, que se ha abierto camino contra viento y marea, no iba a permitir que un chisme desbaratara todo por lo que había luchado.",
+  "Ch": "Ver a una antigua doncella pasearse como invitada, saltándose todo el protocolo que él vigila con esmero, fue más de lo que el mayordomo podía soportar. En su casa, cada uno sabe cuál es su sitio, y Turner había olvidado el suyo.",
+  "Ba": "Turner se enteró de las deudas de cartas de la Sra. Bauer, la cocinera de Agnes, y de cierto asunto de unos candelabros, y empezó a contarlo con aires de gran señora. Fue la gota que colmó el vaso."
+ },
+ "grudges": {
+  "Be": "Turner fue su doncella, conoce de primera mano las costuras de su ascenso social y ahora se presenta sin invitación en su baile.",
+  "Ge": "Turner intentó camelárselo cuando era doncella y ahora va contándolo por ahí, y a George le disgusta que sus asuntos anden de boca en boca.",
+  "Gl": "Turner solía fisgar en sus cosas cuando era doncella de la casa, y Gladys aún le guarda rencor por cada vez que su madre acabó enterándose de lo que no debía.",
+  "Ag": "Le irrita que una antigua criada se pasee por la Quinta Avenida con aires de señora, y más aún que lo haga con tanto descaro delante de sus narices.",
+  "Ad": "Turner la dejó en evidencia más de una vez con sus comentarios y sus cotilleos, y Ada, tan reservada, aún se ruboriza al recordarlo.",
+  "Ma": "Turner cuchicheaba sobre su situación de sobrina sin dote con cualquiera que quisiera escucharla, y Marian no está para que le recuerden lo que no tiene.",
+  "Pe": "Turner habló con quien quiso de sus cuadernos y de sus aspiraciones de escritora, y a Peggy le sentó fatal que sus planes anduvieran en boca de una desconocida.",
+  "Ch": "Turner no respetaba la jerarquía del servicio, y el mayordomo no olvida que en más de una ocasión le desbarató el orden de la casa.",
+  "Ba": "Turner iba aireando sus deudas de cartas y cierto asunto de unos candelabros, y la cocinera de Agnes no soporta que nadie meta la nariz en sus cosas."
+ },
+ "looks": {
+  "Be": "Bertha Russell from The Gilded Age: a tall, elegant woman in her late thirties with auburn-red hair in an elaborate 1880s updo, pale skin, a poised confident expression, wearing a rich jewel-toned gown with bold draping, lace and a pearl necklace.",
+  "Ge": "George Russell from The Gilded Age: a tall, broad-shouldered man in his forties with dark swept-back hair, a short full dark beard and moustache, a stern calculating look, a dark three-piece Victorian suit with a watch chain and a high collar.",
+  "Gl": "Gladys Russell from The Gilded Age: a fair, slender teenage girl of about seventeen with long dark hair partly pinned up, large wide eyes, a shy slightly fretful expression, wearing a pale pastel 1880s day dress with ruffles and a ribbon.",
+  "Ag": "Agnes van Rhijn from The Gilded Age: a tall, severe elderly woman in her sixties with grey-white hair pinned in a tight updo, a haughty raised-chin expression, wearing a high-collared dress in deep purple or blue with a cameo brooch.",
+  "Ad": "Ada Brook from The Gilded Age: a soft, gentle woman in her sixties with greying hair in a neat bun, kind tired eyes, a warm shy smile, wearing a modest 1880s gown in gold and orange tones with a lace collar.",
+  "Ma": "Marian Brook from The Gilded Age: a slim young woman of about twenty with sleek smooth light brown hair pinned back, an open curious expression, wearing a simple pastel yellow or pale blue 1880s dress with lace trim.",
+  "Pe": "Peggy Scott from The Gilded Age: a poised young Black woman in her mid-twenties with dark hair neatly pinned up, intelligent steady eyes, wearing a smart tailored 1880s day dress with a high collar, holding a notebook.",
+  "Ch": "Mr. Church from The Gilded Age: a tall, rigid butler in his fifties with receding grey-brown hair, a long solemn face, wearing a black tailcoat, white shirt, white bow tie and white gloves.",
+  "Ba": "Mrs. Bauer from The Gilded Age: a stout, sturdy cook in her fifties with greying hair tucked under a white cap, rosy cheeks, a no-nonsense stern face, wearing a dark dress covered by a large white apron with rolled-up sleeves.",
+  "Tu": "Turner from The Gilded Age: a sharp-featured woman in her thirties with auburn-brown hair in a tidy updo, an alert knowing expression, a fashionable lilac striped 1880s day dress and a small hat."
+ },
+ "cover": "A grand cutaway of a New York Fifth Avenue mansion at night in the 1880s: a gilded ballroom with a crystal chandelier glowing over a red carpet, a lady's boudoir with a pink dressing table, a bustling kitchen and a narrow servants' staircase, with a modest old-money townhouse across the street."
+}

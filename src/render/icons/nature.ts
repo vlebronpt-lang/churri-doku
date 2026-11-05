@@ -100,6 +100,18 @@ export const NATURE: Record<string, IconFn> = {
     + `<path d="M48 33 Q49 22 58 17" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/><path d="M48 33 Q49 22 58 17" fill="none" stroke="#5a8a3a" stroke-width="4" stroke-linecap="round"/>`
     + leaf(56, 24, 72, 18, 5, LEAF)
     + HL('M24 48 Q28 38 36 35', 3, 0.5),
+  pineapple: () => {
+    const lines = '#a86f12';
+    const diag = [[28.4, 52.4, 61.5, 86.2], [38.5, 37.8, 71.6, 71.6], [28.4, 71.6, 46, 89.6], [52, 34.1, 71.6, 52.4]];
+    return SHE(50, 62, 24, 29)
+      + leaf(44, 42, 20, 28, 6, LEAF_L) + leaf(56, 42, 80, 28, 6, LEAF_L)
+      + leaf(46, 40, 28, 11, 7, LEAF_D) + leaf(54, 40, 72, 11, 7, LEAF_D)
+      + leaf(50, 40, 50, 4, 8, LEAF)
+      + E(50, 62, 23, 28, '#f2b92e')
+      + diag.map(([a, b, c, d]) => LN(`M${a} ${b} L${c} ${d}`, 2.2, lines) + LN(`M${100 - a} ${b} L${100 - c} ${d}`, 2.2, lines)).join('')
+      + SHADE('M58 36 Q73 46 73 62 Q73 80 58 89 Q66 62 58 36 Z', 0.13)
+      + HL('M33 52 Q35 44 41 40', 3.4, 0.5);
+  },
   beehive: () => SHE(50, 62, 29, 31)
     + L(50, 2, 50, 18, 3)
     + P('M21 85 Q14 60 25 40 Q36 18 50 18 Q64 18 75 40 Q86 60 79 85 Z', '#f3c33b')

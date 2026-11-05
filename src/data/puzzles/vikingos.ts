@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'vikingos',
-  num: 12,
+  num: 28,
   level: 3,
   franchise: 'Vikingos',
   title: 'Sangre en Kattegat',

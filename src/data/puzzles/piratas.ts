@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'piratas',
-  num: 5,
+  num: 4,
   level: 1,
   franchise: 'Piratas del Caribe',
   title: 'La maldición de la Isla de Muerta',
@@ -12,7 +12,7 @@ const puzzle: PuzzleInput = {
     L: { name: 'Laguna', article: 'la', color: '#9fc9d9', floor: 'stone' },
     O: { name: 'Holandés Errante', article: 'el', color: '#8fa9a2', floor: 'planks' },
     J: { name: 'Jungla', article: 'la', color: '#8fbf7a', floor: 'grass' },
-    S: { name: 'Choza de Tia Dalma', article: 'la', color: '#b9a1c9', floor: 'planks' },
+    S: { name: 'Choza de Tía Dalma', article: 'la', color: '#b9a1c9', floor: 'planks' },
     P: { name: 'Playa', article: 'la', color: '#f1dca3', floor: 'sand' },
     K: { name: 'Cubierta de la Perla Negra', article: 'la', color: '#b89b80', floor: 'planks' },
     H: { name: 'Cubierta del Interceptor', article: 'la', color: '#d2b48c', floor: 'planks' },
@@ -55,7 +55,7 @@ const puzzle: PuzzleInput = {
     r: 'roca',
     b: 'barca',
     X: { base: 'cofre', key: 'cofre_azteca', name: 'cofre del oro azteca', plural: 'cofres del oro azteca', unique: true, fem: false, tint: '#7a4a2c' },
-    Z: { base: 'piano', key: 'organo', name: 'órgano de Davy Jones', plural: 'órganos de Davy Jones', unique: true, fem: false, tint: '#3d5a5a' },
+    Z: { base: 'piano', key: 'organo', name: 'órgano de Davy Jones', plural: 'órganos de Davy Jones', unique: true, fem: false, tint: '#3d5a5a', icon: 'organ' },
     p: 'palmera',
     u: 'arbusto',
     k: 'barril',
@@ -74,7 +74,7 @@ const puzzle: PuzzleInput = {
     { id: 'E', tag: 'E', name: 'Elizabeth Swann', gender: 'f', clues: [] },
     { id: 'G', tag: 'G', name: 'Gibbs', gender: 'm', clues: [] },
     { id: 'N', tag: 'N', name: 'Norrington', gender: 'm', clues: [] },
-    { id: 'T', tag: 'T', name: 'Tia Dalma', gender: 'f', clues: [] },
+    { id: 'T', tag: 'T', name: 'Tía Dalma', gender: 'f', clues: [] },
     { id: 'D', tag: 'D', name: 'Davy Jones', gender: 'm', clues: [] },
     { id: 'A', tag: 'A', name: 'Angélica', gender: 'f', clues: [] },
     { id: 'B', tag: 'B', name: 'Barbossa', gender: 'm', victim: true, clues: [] },
@@ -96,7 +96,7 @@ const puzzle: PuzzleInput = {
   pins: { B: { rooms: ['C'] } },
   story: {
     intro: 'Noche de luna llena en la Isla de Muerta. En la cueva del tesoro, Barbossa espera a que la última moneda vuelva al cofre del oro azteca para romper la maldición que lo convierte en esqueleto bajo la luz de la luna. Medio Caribe le tiene ganas: hasta el Holandés Errante ha echado el ancla junto a la Perla Negra y el Interceptor. De pronto, un disparo retumba entre los montones de oro y el capitán se desploma. ¿Quién mató a Barbossa?',
-    epilogue: '¡Fue Jack Sparrow! Llevaba diez años guardando una sola bala para su antiguo primer oficial y la disparó justo cuando la maldición se rompía: Barbossa volvió a ser mortal en el peor momento posible. Mientras tanto, Will y Elizabeth se escapaban en el Interceptor, Gibbs, Tia Dalma y Davy Jones (que solo puede pisar tierra una vez cada diez años y eligió esa noche) discutían en la playa junto a la hoguera, Angélica rebuscaba entre los tarros de la choza y Norrington se había colado en el Holandés Errante, nadie sabe muy bien para qué. Al amanecer, Jack recuperó su barco.',
+    epilogue: '¡Fue Jack Sparrow! Llevaba diez años guardando una sola bala para su antiguo primer oficial y la disparó justo cuando la maldición se rompía: Barbossa volvió a ser mortal en el peor momento posible. Mientras tanto, Will y Elizabeth se escapaban en el Interceptor, Gibbs, Tía Dalma y Davy Jones (que solo puede pisar tierra una vez cada diez años y eligió esa noche) discutían en la playa junto a la hoguera, Angélica rebuscaba entre los tarros de la choza y Norrington se había colado en el Holandés Errante, nadie sabe muy bien para qué. Al amanecer, Jack recuperó su barco.',
   },
 };
 

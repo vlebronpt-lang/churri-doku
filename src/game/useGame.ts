@@ -5,7 +5,15 @@ import { getProgress, onExternalChange, updateProgress, type BoardState } from '
 export const emptyBoard = (): BoardState => ({ placed: {}, notes: {}, xs: {}, occ: {}, lines: {}, zones: {} });
 
 /** Tableros guardados por versiones anteriores no tienen todas las marcas. */
-const loadBoard = (b?: BoardState): BoardState => (b ? { ...b, occ: b.occ ?? {}, lines: b.lines ?? {}, zones: b.zones ?? {} } : emptyBoard());
+/** Tablero guardado. Un caso del día cuyo plano haya cambiado puede traer a gente que ya no está en el reparto: se descarta. */
+const loadBoard = (p: Puzzle, b?: BoardState): BoardState => {
+  if (!b) return emptyBoard();
+  const known = (id: string) => p.cast.some((c) => c.id === id);
+  const placed = Object.fromEntries(Object.entries(b.placed ?? {}).filter(([, id]) => known(id)));
+  const notes = Object.fromEntries(Object.entries(b.notes ?? {}).map(([cell, ids]) => [cell, ids.filter(known)] as const).filter(([, ids]) => ids.length));
+  const zones = Object.fromEntries(Object.entries(b.zones ?? {}).filter(([id]) => known(id)));
+  return { ...b, placed, notes, occ: b.occ ?? {}, lines: b.lines ?? {}, zones };
+};
 
 const clone = (b: BoardState): BoardState => ({
   placed: { ...b.placed },
@@ -76,7 +84,7 @@ export interface GameApi {
 
 export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean; sync?: BoardSync | null }): GameApi {
   const sync = opts.sync ?? null;
-  const [own, setBoard] = useState<BoardState>(() => (sync ? emptyBoard() : loadBoard(getProgress(p.id).board)));
+  const [own, setBoard] = useState<BoardState>(() => (sync ? emptyBoard() : loadBoard(p, getProgress(p.id).board)));
   const past = useRef<BoardState[]>([]);
   const future = useRef<BoardState[]>([]);
   const batching = useRef(false);
@@ -102,7 +110,7 @@ export function useGame(p: Puzzle, opts: { autoX: boolean; noXOnBlocked: boolean
   useEffect(() => {
     if (sync) return;
     const reload = () => {
-      setBoard(loadBoard(getProgress(p.id).board));
+      setBoard(loadBoard(p, getProgress(p.id).board));
       setSeconds(getProgress(p.id).time);
       past.current = [];
       future.current = [];

@@ -1,0 +1,29 @@
+{
+  "motives": {
+    "B": "El Pingüino le vendía pistas a cambio de que mirase para otro lado, y Batman se hartó de tragarse su sonrisa de anfitrión en el Iceberg Lounge.",
+    "G": "Gordon detenía al Pingüino por la noche y a la hora del desayuno ya estaba libre. Al comisario se le acabó la paciencia con esa puerta giratoria.",
+    "C": "El Pingüino sabía qué había sido de Annika, la amiga que Catwoman buscaba mientras servía mesas en su club, y se calló. Le debía una respuesta.",
+    "H": "El Pingüino se burlaba de Harley Quinn y de su señor J delante de todo Gotham. Ella le aguanta muchas cosas a su pastelito, pero a un pájaro de frac, ni una.",
+    "E": "El Pingüino presumía de listo en los periódicos y se llevaba el mérito que Enigma buscaba con sus acertijos. Alguien tenía que darle una lección.",
+    "DC": "Los abogados del Pingüino lo sacaron de cada juicio sin un rasguño, y Dos Caras, que fue fiscal, dejó que la moneda dictara sentencia.",
+    "J": "El Pingüino le reservó la peor mesa de su club solo por reírse de su nariz. Para el Joker, un anfitrión sin sentido del humor es un delito.",
+    "SF": "El Pingüino le encargó una máquina de hielo al Sr. Frío y no se la pagó, y ese dinero era para mantener con vida a Nora. Con Nora no se juega.",
+    "Ba": "El Pingüino contrató a Bane de matón de puerta a cambio de migajas, y quien rompió la espalda de Batman no recibe órdenes de un pájaro bajito."
+  },
+  "grudges": {
+    "B": "El Iceberg Lounge es la tapadera de media mafia de Gotham y su dueño vende pistas a cambio de impunidad, y eso le amarga cada visita.",
+    "G": "Lo ha detenido más veces de las que recuerda y a la mañana siguiente siempre lo tiene otra vez en la calle.",
+    "C": "Trabajó de camarera en su local mientras buscaba respuestas sobre su amiga Annika, y sospecha que él sabía más de lo que dijo.",
+    "H": "Se burló en público de ella y de su señor J, y eso no se lo perdona a nadie.",
+    "E": "Le irrita que un criminal de tres al cuarto se atribuyera el mérito de un acertijo suyo ante la prensa.",
+    "DC": "Desde su época de fiscal arrastra la rabia de verlo salir libre de cada juicio gracias a sus abogados.",
+    "J": "Una noche se rio de la nariz del Pingüino y desde entonces le toca la peor mesa del club.",
+    "SF": "Le encargó una máquina de hielo para el club y todavía no se la ha pagado, y ese dinero era para salvar a Nora.",
+    "Ba": "Lo contrató como portero a cambio de una miseria y lo trata como a un empleado más de su guardarropa."
+  },
+  "looks": {
+    "SF": "Mr. Freeze from Batman: bald man with pale blue-grey skin, a sleek silver and blue cryogenic suit with a domed glass helmet and a glowing blue chest unit, red-tinted goggles, a cold stern expression, a freeze gun in his hand.",
+    "Ba": "Bane from Batman: enormous hulking muscular man with a bald head hidden under a brown leather wrestling mask with tubes running to his neck, bare muscular chest with straps, dark trousers and heavy boots, menacing posture."
+  },
+  "cover": "The glamorous Iceberg Lounge nightclub: a dance floor beneath a huge carved ice sculpture shaped like an iceberg, red velvet balcony boxes, a stage with a grand piano, a bar lit in icy blue, no characters and no text."
+}

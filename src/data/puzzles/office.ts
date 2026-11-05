@@ -2,7 +2,7 @@ import type { PuzzleInput } from '../../engine/types';
 
 const puzzle: PuzzleInput = {
   id: 'office',
-  num: 7,
+  num: 15,
   level: 2,
   franchise: 'The Office',
   title: 'Asesinato en Dunder Mifflin',
